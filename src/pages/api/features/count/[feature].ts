@@ -1,0 +1,21 @@
+import { NextApiRequest, NextApiResponse } from "next";
+import { featureValidation } from "services/features/feature";
+import { getAxios } from "../../../../services/api/get";
+
+export default async function getCountFeature(
+  req: NextApiRequest,
+  res: NextApiResponse<number>
+
+  // feature: string
+): Promise<number> {
+  const feature = req.query.feature;
+
+  const check =
+    typeof feature === "string" ? featureValidation(feature) : undefined;
+  if (!check) {
+    throw new Error("featureがありません");
+  }
+  const data: number = await getAxios(`feature/count/${feature}`);
+  res.json(data);
+  return data;
+}

@@ -114,3 +114,265 @@
     flex-direction: column;
   }
 }
+
+/* searchSalonページ */
+
+.slide {
+  animation-name: slideAnime;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  opacity: 1;
+
+  /* transform: translateY(200px); */
+}
+
+@keyframes slideAnime {
+  0% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+}
+
+.fade {
+  animation-name: fadeAnime;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  opacity: 0;
+
+  /* transform: translateY(200px); */
+}
+
+@keyframes fadeAnime {
+  0% {
+    opacity: 0;
+    transform: scale(0.7, 0.7);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1, 1);
+  }
+}
+
+.showNumber {
+  /* animation-name: showBadgeAnime;
+	animation-duration: 0.5s;
+	animation-timing-function: ease-in-out;
+	animation-fill-mode: forwards; */
+  opacity: 1;
+
+  /* transform: translateY(200px); */
+}
+
+.showBadge {
+  animation-name: showBadgeAnime;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  /* opacity: 0; */
+
+  /* transform: translateY(200px); */
+}
+
+@keyframes showBadgeAnime {
+  0% {
+    transform: scale(0, 0);
+    background-color: inherit;
+    color: #edf2f7;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1, 1);
+    background-color: #111;
+    color: #edf2f7;
+  }
+}
+
+.hideBadge {
+  animation-name: hideBadgeAnime;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  opacity: 1;
+  background-color: #00188b;
+  /* transform: translateY(200px); */
+}
+
+@keyframes hideBadgeAnime {
+  0% {
+    opacity: 1;
+    transform: scale(1, 1);
+    background-color: #00188b;
+    color: #edf2f7;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0, 0);
+  }
+}
+
+.dropHeader {
+  animation-name: dropHeaderAnime;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+  /* transform: translateY(200px); */
+}
+
+@keyframes dropHeaderAnime {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+    display: block;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    background-color: rgba(247, 250, 252, 0.85);
+  }
+}
+
+.dropCloseHeader {
+  animation-name: dropCloseHeaderAnime;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+  opacity: 1;
+}
+
+@keyframes dropCloseHeaderAnime {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+    background-color: rgba(247, 250, 252, 0.85);
+  }
+  70% {
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+}
+
+.defaultDisplayNone {
+  display: none;
+}
+
+.defaultOpacity0 {
+  display: none;
+}
+
+.detailServiceClose {
+  animation-name: detailServiceCloseAnime;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  /* margin-top: 0; */
+}
+@keyframes detailServiceCloseAnime {
+  0% {
+    opacity: 1;
+  }
+  30% {
+    height: 32rem;
+    opacity: 0;
+  }
+  100% {
+    height: 0;
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+.detailServiceOpen {
+  animation-name: detailServiceOpenAnime;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  padding-top: 1rem;
+}
+@keyframes detailServiceOpenAnime {
+  0% {
+    height: 0;
+    opacity: 0;
+    display: none;
+  }
+  70% {
+    height: 32rem;
+    display: block;
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.detailServiceOpenClinic {
+  animation-name: detailServiceOpenClinicAnime;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes detailServiceOpenClinicAnime {
+  0% {
+    height: 0;
+    opacity: 0;
+    display: none;
+  }
+  70% {
+    height: 28rem;
+    display: block;
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.detailServiceCloseClinic {
+  animation-name: detailServiceCloseClinicAnime;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  padding-top: 0;
+}
+@keyframes detailServiceCloseClinicAnime {
+  0% {
+    opacity: 1;
+  }
+  30% {
+    height: 28rem;
+    opacity: 0;
+  }
+  100% {
+    height: 0;
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+.top-text {
+  position: relative;
+  max-width: 100%;
+  width: 300px;
+  height: 200px;
+}
+
+.top-text::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 200px;
+  background-image: linear-gradient(180deg, transparent 0 60%, #fff 100%);
+}
