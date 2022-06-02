@@ -2,7 +2,7 @@ import { Box, Center, Flex, HStack, Link, Text } from "@chakra-ui/react";
 import { NextPage } from "next";
 import Head from "next/head";
 
-const ForClinics: NextPage = () => {
+const ForClinics = () => {
   return (
     <>
       <Head>

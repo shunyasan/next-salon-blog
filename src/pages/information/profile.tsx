@@ -2,7 +2,7 @@ import { Flex, HStack, Stack, Text } from "@chakra-ui/react";
 import { NextPage } from "next";
 import Head from "next/head";
 
-const Profile: NextPage = () => {
+const Profile = () => {
   return (
     <Flex justifyContent={"center"} p={"2rem"} minH={"30rem"}>
       <Head>

@@ -1,7 +1,7 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { NextPage } from "next";
 
-const News: NextPage = () => {
+const News = () => {
   return (
     <Box p={"2rem"} w={"80%"} mx={"auto"}>
       <Flex justifyContent={"space-between"}>
