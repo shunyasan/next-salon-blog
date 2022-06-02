@@ -12,7 +12,7 @@ export const getFeatureString = (data: FeatureDto) => {
     datas: data.visitFee,
     title: "初診・再診料無料のクリニック",
     description: "施術以外の費用がなく、安心料金のクリニック",
-    path: "/feature/visitFee",
+    path: "/feature/visit-fee",
   };
   const installments: FeatureViewData = {
     datas: data.installments,
@@ -26,7 +26,7 @@ export const getFeatureString = (data: FeatureDto) => {
     title: "完全個室のクリニック",
     description:
       "完全なプライベート空間で、一段と落ち着いた施術を受けることができるクリニック",
-    path: "/feature/privateRoom",
+    path: "/feature/private-room",
   };
   const anesthesia: FeatureViewData = {
     datas: data.anesthesia,
@@ -38,7 +38,7 @@ export const getFeatureString = (data: FeatureDto) => {
     datas: data.sutudentDiscount,
     title: "学生料金（学割）のあるクリニック",
     description: "学生に対してお得に施術を提供しているクリニック",
-    path: "/feature/sutudentDiscount",
+    path: "/feature/sutudent-discount",
   };
 
   const feature = [

@@ -17,10 +17,10 @@ type Props = {
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const clinics: ClinicNestPriceDto[] = await fetcher(
-    `${thisURL}api/features/${Feature.anesthesia}?take=${numOfTake}&skip=0`
+    `${thisURL}api/features/${Feature.visitFee}?take=${numOfTake}&skip=0`
   );
   const count: number = await fetcher(
-    `${thisURL}api/features/count/${Feature.anesthesia}`
+    `${thisURL}api/features/count/${Feature.visitFee}`
   );
   return {
     props: {
@@ -30,7 +30,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   };
 };
 
-const AnesthesiaFeature: NextPage<Props> = ({ clinics, count }) => {
+const VisitFeeFeature: NextPage = () => {
   const [pagenationData, setPagenationData] = useState<{
     now: number;
     block: number;
@@ -39,17 +39,17 @@ const AnesthesiaFeature: NextPage<Props> = ({ clinics, count }) => {
     block: 0,
   });
 
-  const { data: clinicData = clinics, error: err_cli } = useSWR<
+  const { data: clinicData = [], error: err_cli } = useSWR<
     ClinicNestPriceDto[]
   >(
-    `/api/features/${Feature.anesthesia}?take=${numOfTake}&skip=${
+    `/api/features/${Feature.visitFee}?take=${numOfTake}&skip=${
       numOfTake * pagenationData.now
     }`,
     fetcher
   );
 
-  const { data: maxData = count, error: err_max } = useSWR<number>(
-    `/api/features/count/${Feature.anesthesia}`,
+  const { data: maxData = 0, error: err_max } = useSWR<number>(
+    `/api/features/count/${Feature.visitFee}`,
     fetcher
   );
 
@@ -68,14 +68,14 @@ const AnesthesiaFeature: NextPage<Props> = ({ clinics, count }) => {
   return (
     <>
       <Head>
-        <title>麻酔が無料のクリニック | あなたのための脱毛</title>
+        <title>初診料が無料のクリニック | あなたのための脱毛</title>
         <meta
           name="description"
-          content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」からおすすめする麻酔が無料のクリニックです。痛いのが苦手な方で少しでも安いプランをご希望の方にておすすめです。"
+          content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」からおすすめする初診料が無料のクリニックです。少しでも安いプランをご希望の方にておすすめです。"
         />
       </Head>
       <FeatureSearch
-        title="麻酔無料のクリニック"
+        title="初診・再診料無料のクリニック"
         take={numOfTake}
         clinicData={clinicData}
         maxData={maxData}
@@ -87,4 +87,4 @@ const AnesthesiaFeature: NextPage<Props> = ({ clinics, count }) => {
     </>
   );
 };
-export default AnesthesiaFeature;
+export default VisitFeeFeature;

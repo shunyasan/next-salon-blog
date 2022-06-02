@@ -40,15 +40,6 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 const Home: NextPage<Props> = ({ image, feature }) => {
-  // const { data = feature, error } = useSWR<FeatureViewData[]>(
-  //   "/api/features",
-  //   async (url) => {
-  //     const data = await fetcher(url);
-  //     return getFeatureString(data);
-  //   }
-  //   // { fallback }
-  // );
-
   const router = useRouter();
 
   const pushLink = (url: string) => {

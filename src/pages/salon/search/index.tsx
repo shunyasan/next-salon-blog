@@ -22,6 +22,7 @@ import { PlanCard } from "components/organisms/board/PlanCard";
 import { thisURL } from "services/api/config";
 import useSWR from "swr";
 import Head from "next/head";
+import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
 
 const numOfTakeData = 10;
 
@@ -38,13 +39,29 @@ const createTitle = (idName: OrderPlanIdName) => {
   return res;
 };
 
+const createOrderDataIdName = async (orderPlanData: OrderPlan) => {
+  const orderDataIdName = changeOrderPlanToOrderPlanIdName(orderPlanData);
+  const origin: IdAndNameDto = await fetcher(
+    `${thisURL}api/origin-category/id-and-name/${orderDataIdName.originParts.id}`
+  );
+  const about: IdAndNameDto = await fetcher(
+    `${thisURL}api/about-categories/id-and-name/${orderDataIdName.AboutCategory.id}`
+  );
+  const parts: IdAndNameDto = await fetcher(
+    `${thisURL}api/base-parts/id-and-name/${orderDataIdName.parts.id}`
+  );
+  orderDataIdName.originParts = origin;
+  orderDataIdName.AboutCategory = about;
+  orderDataIdName.parts = parts;
+  return orderDataIdName;
+};
+
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   const query = createQueryString(context.query);
   const orderPlanData = getQueryOrderPlanInSearch(query);
-  const orderDataIdName = changeOrderPlanToOrderPlanIdName(orderPlanData);
-
+  const orderDataIdName = await createOrderDataIdName(orderPlanData);
   const planParam = createQuery(orderPlanData);
   const title = createTitle(orderDataIdName);
   return {

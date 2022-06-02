@@ -10,36 +10,40 @@ import { Pagenation } from "../pagenation/Pagenation";
 type Props = {
   title: string;
   take: number;
-  featureName: string;
+  clinicData: ClinicNestPriceDto[];
+  maxData: number;
+  pagenationData: { now: number; block: number };
+  getPageNumber: (page: number, block?: number) => void;
 };
 
 export const FeatureSearch: FC<Props> = (props) => {
-  const { title, take, featureName } = props;
+  const { title, take, clinicData, maxData, pagenationData, getPageNumber } =
+    props;
 
   // const { getFeature, getCountFeature } = FeatureApi();
   // const [clinicData, setClinicData] = useState<ClinicNestPriceDto[]>([]);
   // const [maxData, setMaxData] = useState<number>(0);
-  const [pagenationData, setPagenationData] = useState<{
-    now: number;
-    block: number;
-  }>({
-    now: 0,
-    block: 0,
-  });
+  // const [pagenationData, setPagenationData] = useState<{
+  //   now: number;
+  //   block: number;
+  // }>({
+  //   now: 0,
+  //   block: 0,
+  // });
 
-  const { data: clinicData = [], error: err_cli } = useSWR<
-    ClinicNestPriceDto[]
-  >(
-    `/api/features/${featureName}&take=${take}&skip=${
-      take * pagenationData.now
-    }`,
-    fetcher
-  );
+  // const { data: clinicData = [], error: err_cli } = useSWR<
+  //   ClinicNestPriceDto[]
+  // >(
+  //   `/api/features/${featureName}&take=${take}&skip=${
+  //     take * pagenationData.now
+  //   }`,
+  //   fetcher
+  // );
 
-  const { data: maxData = 0, error: err_max } = useSWR<number>(
-    `/api/features/count/${featureName}`,
-    fetcher
-  );
+  // const { data: maxData = 0, error: err_max } = useSWR<number>(
+  //   `/api/features/count/${featureName}`,
+  //   fetcher
+  // );
 
   // const getFeatureFunc = useCallback(
   //   async (page: number) => {
@@ -54,17 +58,17 @@ export const FeatureSearch: FC<Props> = (props) => {
   //   setMaxData(datas);
   // }, [getCountFeature, featureName]);
 
-  const getPageNumber = useCallback(
-    async (page: number, block?: number) => {
-      // getFeatureFunc(page);
-      if (block || block === 0) {
-        setPagenationData({ now: page, block: block });
-      } else {
-        setPagenationData({ ...pagenationData, now: page });
-      }
-    },
-    [pagenationData]
-  );
+  // const getPageNumber = useCallback(
+  //   async (page: number, block?: number) => {
+  //     // getFeatureFunc(page);
+  //     if (block || block === 0) {
+  //       setPagenationData({ now: page, block: block });
+  //     } else {
+  //       setPagenationData({ ...pagenationData, now: page });
+  //     }
+  //   },
+  //   [pagenationData]
+  // );
 
   // useEffect(() => {
   //   getFeatureFunc(0);

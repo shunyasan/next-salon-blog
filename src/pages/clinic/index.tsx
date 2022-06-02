@@ -4,8 +4,6 @@ import { AreaBox } from "components/organisms/box/AreaBox";
 import { Pagenation } from "components/templete/pagenation/Pagenation";
 import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
-import getAllClinic from "pages/api/clinics";
-import getAllClinicByAreaId from "pages/api/clinics/area/[id]";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
 import { thisURL } from "services/api/config";
 import fetcher from "services/api/fetcher";
@@ -16,21 +14,22 @@ import { ClinicNestPriceDto } from "types/api/dto/ClinicNestPriceDto";
 const numOfTakeData = 10;
 const defaultMax = 349;
 
+const defaultPagenation = {
+  now: 0,
+  block: 0,
+};
+
 type Props = {
   area: ClinicArea[];
   clinics: ClinicNestPriceDto[];
-  defaultPagenation: { now: number; block: number };
+  // defaultPagenation: { now: number; block: number };
 };
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const area: ClinicArea[] = await fetcher(`${thisURL}api/clinic-areas`);
   const clinics: ClinicNestPriceDto[] = await fetcher(
-    `${thisURL}api/clinics?take=${numOfTakeData}&skip=0`
+    `${thisURL}api/clinics/prices?take=${numOfTakeData}&skip=0`
   );
-  const defaultPagenation = {
-    now: 0,
-    block: 0,
-  };
   return {
     props: {
       area,
@@ -40,7 +39,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   };
 };
 
-const Clinics: NextPage<Props> = ({ area, clinics, defaultPagenation }) => {
+const Clinics: NextPage<Props> = ({ area, clinics }) => {
   // const { getAllClinic, getAllClinicByAreaId } = ClinicApi();
   // const { getAllArea } = ClinicAreaApi();
 
@@ -48,7 +47,7 @@ const Clinics: NextPage<Props> = ({ area, clinics, defaultPagenation }) => {
   // const [areaData, setAreaData] = useState<ClinicArea[]>([]);
 
   const [clinicUrl, setClinicUrl] = useState<string>(
-    `clinics?take=${numOfTakeData}&skip=0`
+    `clinics/prices?take=${numOfTakeData}&skip=0`
   );
 
   const [areaIdState, setAreaIdState] = useState<{
@@ -84,12 +83,12 @@ const Clinics: NextPage<Props> = ({ area, clinics, defaultPagenation }) => {
     if (areaId) {
       setClinicUrl(
         `clinics/area/${areaId}?take=${numOfTakeData}&skip=${
-          numOfTakeData * numOfTakeData * page
+          numOfTakeData * page
         }`
       );
     } else {
       setClinicUrl(
-        `clinics?take=${numOfTakeData}&skip=${numOfTakeData * page}`
+        `clinics/prices?take=${numOfTakeData}&skip=${numOfTakeData * page}`
       );
     }
   }, []);
