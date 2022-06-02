@@ -5,6 +5,6 @@
 
 // local
 export const baseURL = "http://127.0.0.1:3002/";
-export const thisURL = "http://127.0.0.1:3000//";
+export const thisURL = "http://127.0.0.1:3000/";
 
 export const apiKey: string = "XL4wvdOlBnaBXfqw7555P4vFqxm1wwRi8bALfHLp";
