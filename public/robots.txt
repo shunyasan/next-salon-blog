@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.anata-epilation.com/
+
+# Sitemaps
+Sitemap: https://www.anata-epilation.com/sitemap.xml
