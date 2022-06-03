@@ -17,7 +17,7 @@ import { useLocation } from "react-router-dom";
 import {
   createQueryString,
   getQueryOrderPlan,
-} from "services/parameter/CreateParameterHooks";
+} from "services/app/parameter/CreateParameterHooks";
 import { PageQuery } from "types/app/PageQuery";
 import { QueryOrderPlan } from "types/app/QueryOrderPlan";
 import style from "../../../styles/Home.module.css";

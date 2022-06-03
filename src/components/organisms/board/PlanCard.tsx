@@ -12,8 +12,8 @@ import {
 } from "@chakra-ui/react";
 import { OpeningHoursTable } from "components/molecules/table/OpeningHoursTable";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
-import { newOptionFunc } from "services/etc/etc";
-import { getRandomImg } from "services/resources/SearchSalonHooks";
+import { newOptionFunc } from "services/app/etc/etc";
+import { getRandomImg } from "services/app/resources/SearchSalonHooks";
 import { PriceDto } from "types/api/dto/PriceDto";
 import { OptionText } from "types/app/OptionText";
 import { OrderPlanIdName } from "types/app/OrderPlanIdName";

@@ -5,7 +5,11 @@ import { Pagenation } from "components/templete/pagenation/Pagenation";
 import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
-import { thisURL } from "services/api/config";
+import getAllArea from "services/api/clinic-areas/get";
+import {
+  getAllClinicNestPrice,
+  getAllClinicNestPriceByAreaId,
+} from "services/api/clinics/get";
 import fetcher from "services/api/fetcher";
 import useSWR from "swr";
 import { ClinicArea } from "types/api/ClinicArea";
@@ -26,10 +30,16 @@ type Props = {
 };
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const area: ClinicArea[] = await fetcher(`${thisURL}api/clinic-areas`);
-  const clinics: ClinicNestPriceDto[] = await fetcher(
-    `${thisURL}api/clinics/prices?take=${numOfTakeData}&skip=0`
+  const area: ClinicArea[] = await getAllArea();
+  // const area: ClinicArea[] = await fetcher(`${thisURL}api/clinic-areas`);
+
+  const clinics: ClinicNestPriceDto[] = await getAllClinicNestPrice(
+    numOfTakeData,
+    0
   );
+  // const clinics: ClinicNestPriceDto[] = await fetcher(
+  //   `${thisURL}api/clinics/prices?take=${numOfTakeData}&skip=0`
+  // );
   return {
     props: {
       area,

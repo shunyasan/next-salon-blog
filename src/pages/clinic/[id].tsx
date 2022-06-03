@@ -6,7 +6,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
 import { useParams } from "react-router-dom";
-import { thisURL } from "services/api/config";
+import { getAllClinics, getOneClinic } from "services/api/clinics/get";
 import fetcher from "services/api/fetcher";
 import useSWR from "swr";
 import { Clinic } from "types/api/Clinic";
@@ -16,14 +16,7 @@ type Props = {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const take = 50;
-  // const datas: Clinic[] = [];
-  // for (let i = 0; i <= 7; i++) {
-  // setTimeout(async () => {
-  const datas: Clinic[] = await fetcher(`${thisURL}api/clinics`);
-  // datas.concat(result);
-  // }, 10000);
-  // }
+  const datas: Clinic[] = await getAllClinics();
   const paths = datas.map((data) => `/clinic/${data.id}`);
   return { paths: paths, fallback: false };
 };
@@ -31,7 +24,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const param = params && params.id;
   const id = param && typeof param === "string" ? param : "";
-  const clinicData: Clinic = await fetcher(`${thisURL}api/clinics/${id}`);
+  const clinicData: Clinic = await getOneClinic(id);
+  // const clinicData: Clinic = await fetcher(`${thisURL}api/clinics/${id}`);
   return {
     props: {
       // fallback: {

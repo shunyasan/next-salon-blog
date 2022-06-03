@@ -5,24 +5,26 @@ import { GetServerSideProps, NextPage } from "next";
 import { OrderPlanIdName } from "types/app/OrderPlanIdName";
 import { OrderPlan } from "types/app/OrderPlan";
 import { PriceDto } from "types/api/dto/PriceDto";
-import { createQuery } from "services/prices/price";
+import { createQuery } from "services/app/prices/price";
 import { useRouter } from "next/router";
 import fetcher from "services/api/fetcher";
-import { changeOrderPlanToOrderPlanIdName } from "services/order-plan-id-name/order-plan-id-name";
+import { changeOrderPlanToOrderPlanIdName } from "services/app/order-plan-id-name/order-plan-id-name";
 import {
   createQueryString,
   getQueryOrderPlanInSearch,
-} from "services/parameter/CreateParameterHooks";
+} from "services/app/parameter/CreateParameterHooks";
 import { IncludePartsAndCategoryPriceDto } from "types/api/dto/IncludePartsAndCategoryPriceDto";
 import getCountPrice from "pages/api/prices/max-count";
 import { SearchResultCard } from "components/organisms/box/SearchResultCard";
 import { BaseButton } from "components/atoms/button/BaseButton";
 import { Pagenation } from "components/templete/pagenation/Pagenation";
 import { PlanCard } from "components/organisms/board/PlanCard";
-import { thisURL } from "services/api/config";
 import useSWR from "swr";
 import Head from "next/head";
 import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
+import { getOriginCategoryIdAndName } from "services/api/origin-category/get";
+import { getAboutCategoryIdAndName } from "services/api/about-categories/get";
+import { getBasePartsIdAndName } from "services/api/base-parts/get";
 
 const numOfTakeData = 10;
 
@@ -41,14 +43,14 @@ const createTitle = (idName: OrderPlanIdName) => {
 
 const createOrderDataIdName = async (orderPlanData: OrderPlan) => {
   const orderDataIdName = changeOrderPlanToOrderPlanIdName(orderPlanData);
-  const origin: IdAndNameDto = await fetcher(
-    `${thisURL}api/origin-category/id-and-name/${orderDataIdName.originParts.id}`
+  const origin: IdAndNameDto = await getOriginCategoryIdAndName(
+    orderDataIdName.originParts.id
   );
-  const about: IdAndNameDto = await fetcher(
-    `${thisURL}api/about-categories/id-and-name/${orderDataIdName.AboutCategory.id}`
+  const about: IdAndNameDto = await getAboutCategoryIdAndName(
+    orderDataIdName.AboutCategory.id
   );
-  const parts: IdAndNameDto = await fetcher(
-    `${thisURL}api/base-parts/id-and-name/${orderDataIdName.parts.id}`
+  const parts: IdAndNameDto = await getBasePartsIdAndName(
+    orderDataIdName.parts.id
   );
   orderDataIdName.originParts = origin;
   orderDataIdName.AboutCategory = about;

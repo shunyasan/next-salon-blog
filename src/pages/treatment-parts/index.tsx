@@ -6,9 +6,11 @@ import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
-import { thisURL } from "services/api/config";
+import { getAboutCategoryByOriginId } from "services/api/about-categories/get";
+import { getAllBasePartsByAboutCategoryId } from "services/api/base-parts/get";
 import fetcher from "services/api/fetcher";
-import { searchForPlan } from "services/parameter/CreateParameterHooks";
+import { getAllOriginCategoryIdAndName } from "services/api/id-and-name/get";
+import { searchForPlan } from "services/app/parameter/CreateParameterHooks";
 import useSWR from "swr";
 import { AboutCategory } from "types/api/AboutCategory";
 import { BaseParts } from "types/api/BaseParts";
@@ -21,14 +23,11 @@ type Props = {
 };
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const origin: IdAndNameDto[] = await fetcher(
-    `${thisURL}api/id-and-name/origin-category`
-  );
-  const about: AboutCategory[] = await fetcher(
-    `${thisURL}api/about-categories/originId/${origin[0].id}`
-  );
-  const parts: BaseParts[] = await fetcher(
-    `${thisURL}api/base-parts/${about[0].id}?gender=女性`
+  const origin: IdAndNameDto[] = await getAllOriginCategoryIdAndName();
+  const about: AboutCategory[] = await getAboutCategoryByOriginId(origin[0].id);
+  const parts: BaseParts[] = await getAllBasePartsByAboutCategoryId(
+    about[0].id,
+    "女性"
   );
   return {
     props: {

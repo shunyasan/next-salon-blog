@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { featureValidation } from "services/features/feature";
-import { createQueryString } from "services/parameter/CreateParameterHooks";
+import { featureValidation } from "services/app/features/feature";
+import { createQueryString } from "services/app/parameter/CreateParameterHooks";
 import { ClinicNestPriceDto } from "types/api/dto/ClinicNestPriceDto";
 import { getAxios } from "../../../services/api/get";
 

@@ -7,15 +7,14 @@ import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { FC } from "react";
+import { getAllFeature } from "services/api/features/get";
 import fetcher from "services/api/fetcher";
-import { thisURL } from "services/api/config";
-import { getRandomImg } from "services/resources/SearchSalonHooks";
+import { getRandomImg } from "services/app/resources/SearchSalonHooks";
 import useSWR, { SWRConfig } from "swr";
 import { FeatureDto } from "types/api/dto/FeatureDto";
 import { TopResource } from "../../resorces/TopResource";
-import { getFeatureString } from "../services/features/feature";
+import { getFeatureString } from "../services/app/features/feature";
 import { FeatureViewData } from "../types/app/FeatureViewData";
-import getAllFeature from "./api/features";
 
 type Props = {
   // data: FeatureViewData[];
@@ -24,7 +23,7 @@ type Props = {
 };
 
 export const getAllFeatureFunc = async () => {
-  const data: FeatureDto = await fetcher(thisURL + "api/features");
+  const data: FeatureDto = await getAllFeature();
   return getFeatureString(data);
 };
 

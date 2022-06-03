@@ -17,8 +17,8 @@ import {
 import { OpeningHoursTable } from "components/molecules/table/OpeningHoursTable";
 import { useRouter } from "next/router";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
-import { newOptionFunc } from "services/etc/etc";
-import { getRandomImg } from "services/resources/SearchSalonHooks";
+import { newOptionFunc } from "services/app/etc/etc";
+import { getRandomImg } from "services/app/resources/SearchSalonHooks";
 import { ClinicNestPriceDto } from "types/api/dto/ClinicNestPriceDto";
 import { OptionText } from "types/app/OptionText";
 import { NoticeClinicDetail } from "../box/NoticeClinicDetail";

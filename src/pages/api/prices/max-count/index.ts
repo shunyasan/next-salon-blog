@@ -4,8 +4,8 @@ import {
   checkRequestQuery,
   checkRequestQueryToOrdarPlan,
 } from "services/api/validation";
-import { createQueryString } from "services/parameter/CreateParameterHooks";
-import { createQuery } from "services/prices/price";
+import { createQueryString } from "services/app/parameter/CreateParameterHooks";
+import { createQuery } from "services/app/prices/price";
 import { OrderPlan } from "types/app/OrderPlan";
 import { getAxios } from "../../../../services/api/get";
 

@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { TopResource } from "../../../resorces/TopResource";
+import { TopResource } from "../../../../resorces/TopResource";
 
 export const getRandomImg = () => {
   const img = [

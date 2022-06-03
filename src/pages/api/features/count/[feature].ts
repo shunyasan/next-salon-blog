@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { featureValidation } from "services/features/feature";
+import { featureValidation } from "services/app/features/feature";
 import { getAxios } from "../../../../services/api/get";
 
 export default async function getCountFeature(
