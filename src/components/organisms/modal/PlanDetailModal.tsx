@@ -21,8 +21,8 @@ import {
   ClinicOptionTitleValue,
   ClinicOtherTitleValue,
   ClinicPaymentTitleValue,
-} from "services/clinic/ClinicDetailHooks";
-import { getRandomImg } from "services/resources/SearchSalonHooks";
+} from "services/app/clinic/ClinicDetailHooks";
+import { getRandomImg } from "services/app/resources/SearchSalonHooks";
 import { Clinic } from "types/api/Clinic";
 import { PriceDto } from "types/api/dto/PriceDto";
 import { TitleValue } from "types/app/TitleValue";

@@ -13,8 +13,8 @@ import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
 import {
   ClinicOptionTitleValue,
   ClinicOtherTitleValue,
-} from "services/clinic/ClinicDetailHooks";
-import { getRandomImg } from "services/resources/SearchSalonHooks";
+} from "services/app/clinic/ClinicDetailHooks";
+import { getRandomImg } from "services/app/resources/SearchSalonHooks";
 import { Clinic } from "types/api/Clinic";
 import { TitleValue } from "types/app/TitleValue";
 import { NoticeClinicDetail } from "../box/NoticeClinicDetail";
