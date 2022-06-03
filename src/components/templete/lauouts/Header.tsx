@@ -93,7 +93,7 @@ export const Header: FC<Props> = (props) => {
   }, [clinicMeterTrigger, planMeterTrigger, topPage, clinicNum, planNum]);
 
   return (
-    <>
+    <Box as="header">
       <Box pos="relative" zIndex={1}>
         <Box as="header">
           <HStack
@@ -203,6 +203,6 @@ export const Header: FC<Props> = (props) => {
         onClose={onClose}
         onClick={(path: string) => onClickTransition(path)}
       />
-    </>
+    </Box>
   );
 };

@@ -54,6 +54,11 @@ const Home: NextPage<Props> = ({ image, feature }) => {
           name="description"
           content="自分に合った脱毛プランを検索できるサイトです。東京都内の医療脱毛激戦区である「渋谷・恵比寿・新宿・銀座・六本木・池袋」大手から優良小規模まで、ほぼ全てのクリニックから分析したプランをおすすめします。"
         />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2833905872269108"
+          crossOrigin="anonymous"
+        ></script>
       </Head>
       <Flex pos="relative">
         <Box

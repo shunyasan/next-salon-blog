@@ -23,26 +23,27 @@ import { QueryOrderPlan } from "types/app/QueryOrderPlan";
 import style from "../../../styles/Home.module.css";
 
 type Props = {
-  getQuery: string;
+  queryOrderPlan: QueryOrderPlan;
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   const query = createQueryString(context.query);
+  const queryOrderPlan = getQueryOrderPlan(query);
   return {
-    props: { getQuery: query },
+    props: { queryOrderPlan: queryOrderPlan },
   };
 };
 
 const SearchSalon: NextPage<Props> = (props) => {
-  const { getQuery } = props;
+  const { queryOrderPlan } = props;
   const router = useRouter();
 
   const [change, setChange] = useState<string>(style.fade);
   const [prevParamsData, setPrevParamsData] = useState<string>("?");
   const [showPage, setShowPage] = useState<number>(0);
-  const [queryOrderPlan, setQueryOrderPlan] = useState<QueryOrderPlan>();
+  // const [queryOrderPlan, setQueryOrderPlan] = useState<QueryOrderPlan>();
   const [pageQuery, setPageQuery] = useState<PageQuery>({
     1: "",
     2: "",
@@ -124,10 +125,10 @@ const SearchSalon: NextPage<Props> = (props) => {
     router.push("/salon");
   };
 
-  useEffect(() => {
-    const orderPlanViewCard = getQueryOrderPlan(getQuery);
-    setQueryOrderPlan(orderPlanViewCard);
-  }, [getQuery]);
+  // useEffect(() => {
+  //   const orderPlanViewCard = getQueryOrderPlan(getQuery);
+  //   setQueryOrderPlan(orderPlanViewCard);
+  // }, [getQuery]);
 
   return (
     <>

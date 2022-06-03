@@ -25,6 +25,7 @@ import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
 import { getOriginCategoryIdAndName } from "services/api/origin-category/get";
 import { getAboutCategoryIdAndName } from "services/api/about-categories/get";
 import { getBasePartsIdAndName } from "services/api/base-parts/get";
+import { getPrice, getPriceCount } from "services/api/prices/get";
 
 const numOfTakeData = 10;
 
@@ -33,6 +34,8 @@ type Props = {
   orderPlanData: OrderPlan;
   orderDataIdName: OrderPlanIdName;
   title: string;
+  firstPrices: IncludePartsAndCategoryPriceDto;
+  firstMaxValue: number;
 };
 
 const createTitle = (idName: OrderPlanIdName) => {
@@ -61,18 +64,39 @@ const createOrderDataIdName = async (orderPlanData: OrderPlan) => {
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
+  //クエリ作成
   const query = createQueryString(context.query);
   const orderPlanData = getQueryOrderPlanInSearch(query);
-  const orderDataIdName = await createOrderDataIdName(orderPlanData);
   const planParam = createQuery(orderPlanData);
+
+  //データ取得
+  const firstPrices = await getPrice(orderPlanData, numOfTakeData, 0);
+  const firstMaxValue = await getPriceCount(orderPlanData);
+  const orderDataIdName = await createOrderDataIdName(orderPlanData);
+
+  // タイトル作成
   const title = createTitle(orderDataIdName);
   return {
-    props: { planParam, orderPlanData, orderDataIdName, title },
+    props: {
+      planParam,
+      orderPlanData,
+      orderDataIdName,
+      title,
+      firstPrices,
+      firstMaxValue,
+    },
   };
 };
 
 const SalonList: NextPage<Props> = (props) => {
-  const { planParam, orderPlanData, orderDataIdName, title } = props;
+  const {
+    planParam,
+    orderPlanData,
+    orderDataIdName,
+    title,
+    firstPrices,
+    firstMaxValue,
+  } = props;
 
   const router = useRouter();
 
@@ -88,7 +112,7 @@ const SalonList: NextPage<Props> = (props) => {
     block: 0,
   });
 
-  const { data: price, error: err_pri } =
+  const { data: price = firstPrices, error: err_pri } =
     useSWR<IncludePartsAndCategoryPriceDto>(
       `/api/prices?${planParam}&take=${numOfTakeData}&skip=${
         numOfTakeData * pagenationData.now
@@ -96,7 +120,7 @@ const SalonList: NextPage<Props> = (props) => {
       fetcher
     );
 
-  const { data: maxValue, error: err_max } = useSWR<number>(
+  const { data: maxValue = firstMaxValue, error: err_max } = useSWR<number>(
     `/api/prices/max-count?${planParam}`,
     fetcher
   );
