@@ -1,7 +1,7 @@
 import { Box, Center, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import getPriceByAboutIdAndClinicId from "pages/api/prices/clinic/[id]";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
-import fetcher from "services/api/fetcher";
+import fetcher from "services/orm/fetcher";
 import useSWR from "swr";
 import { AboutCategory } from "types/api/AboutCategory";
 import { Clinic } from "types/api/Clinic";

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { AboutCategory } from "types/api/AboutCategory";
-import { getAxios } from "../../../../services/api/get";
+import { getAxios } from "../../../../services/orm/get";
 
 export default async function getAboutCategoryByOriginId(
   req: NextApiRequest,

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getAxios } from "services/api/get";
+import { getAxios } from "services/orm/get";
 import { AboutCategory } from "types/api/AboutCategory";
 import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
 

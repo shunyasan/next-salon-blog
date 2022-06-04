@@ -5,12 +5,12 @@ import { Pagenation } from "components/templete/pagenation/Pagenation";
 import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
-import getAllArea from "services/api/clinic-areas/get";
+import getAllArea from "services/orm/clinic-areas/get";
 import {
   getAllClinicNestPrice,
   getAllClinicNestPriceByAreaId,
-} from "services/api/clinics/get";
-import fetcher from "services/api/fetcher";
+} from "services/orm/clinics/get";
+import fetcher from "services/orm/fetcher";
 import useSWR from "swr";
 import { ClinicArea } from "types/api/ClinicArea";
 import { ClinicNestPriceDto } from "types/api/dto/ClinicNestPriceDto";

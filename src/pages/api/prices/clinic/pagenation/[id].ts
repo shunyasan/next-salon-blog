@@ -2,10 +2,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 import {
   checkEmptyRequestQueryToNumber,
   checkNumberRequestQuery,
-} from "services/api/validation";
+} from "services/orm/validation";
 import { PagenationParameter } from "types/api/dto/PagenationParameterDto";
 import { PriceDto } from "types/api/dto/PriceDto";
-import { getAxios } from "../../../../../services/api/get";
+import { getAxios } from "../../../../../services/orm/get";
 
 export default async function getPriceByClinicId(
   req: NextApiRequest,

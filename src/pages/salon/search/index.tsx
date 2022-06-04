@@ -7,7 +7,7 @@ import { OrderPlan } from "types/app/OrderPlan";
 import { PriceDto } from "types/api/dto/PriceDto";
 import { createQuery } from "services/app/prices/price";
 import { useRouter } from "next/router";
-import fetcher from "services/api/fetcher";
+import fetcher from "services/orm/fetcher";
 import { changeOrderPlanToOrderPlanIdName } from "services/app/order-plan-id-name/order-plan-id-name";
 import {
   createQueryString,
@@ -22,10 +22,10 @@ import { PlanCard } from "components/organisms/board/PlanCard";
 import useSWR from "swr";
 import Head from "next/head";
 import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
-import { getOriginCategoryIdAndName } from "services/api/origin-category/get";
-import { getAboutCategoryIdAndName } from "services/api/about-categories/get";
-import { getBasePartsIdAndName } from "services/api/base-parts/get";
-import { getPrice, getPriceCount } from "services/api/prices/get";
+import { getOriginCategoryIdAndName } from "services/orm/origin-category/get";
+import { getAboutCategoryIdAndName } from "services/orm/about-categories/get";
+import { getBasePartsIdAndName } from "services/orm/base-parts/get";
+import { getPrice, getPriceCount } from "services/orm/prices/get";
 
 const numOfTakeData = 10;
 

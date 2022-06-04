@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { PriceDto } from "types/api/dto/PriceDto";
-import { getAxios } from "../../../../services/api/get";
+import { getAxios } from "../../../../services/orm/get";
 
 export default async function getPriceByAboutIdAndClinicId(
   req: NextApiRequest,

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Clinic } from "types/api/Clinic";
-import { getAxios } from "../../../services/api/get";
+import { getAxios } from "../../../services/orm/get";
 
 export default async function getAllClinics(
   req: NextApiRequest,

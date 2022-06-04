@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import fetcher from "services/api/fetcher";
+import fetcher from "services/orm/fetcher";
 import { Clinic } from "types/api/Clinic";
 import { ClinicOption } from "types/api/ClinicOption";
 import { ClinicNestPriceDto } from "types/api/dto/ClinicNestPriceDto";

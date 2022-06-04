@@ -2,7 +2,7 @@ import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import { useCallback } from "react";
 import { ClinicArea } from "types/api/ClinicArea";
-import { getAxios } from "../../../services/api/get";
+import { getAxios } from "../../../services/orm/get";
 
 export default async function getAllArea(
   req: NextApiRequest,

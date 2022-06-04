@@ -5,7 +5,7 @@ import { NarrowImageAndTextBox } from "components/molecules/box/NarrowImageAndTe
 import { QueryKey } from "enums/QueryKey";
 import getAllOriginCategory from "pages/api/origin-category";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
-import fetcher from "services/api/fetcher";
+import fetcher from "services/orm/fetcher";
 import useSWR from "swr";
 import { OriginCategory } from "types/api/OriginCategory";
 import { QueryOrderPlan } from "types/app/QueryOrderPlan";

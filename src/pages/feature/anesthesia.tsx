@@ -3,8 +3,8 @@ import { Feature } from "enums/FeatureEnum";
 import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
-import { getCountFeature, getFeature } from "services/api/features/get";
-import fetcher from "services/api/fetcher";
+import { getCountFeature, getFeature } from "services/orm/features/get";
+import fetcher from "services/orm/fetcher";
 import useSWR from "swr";
 import { ClinicNestPriceDto } from "types/api/dto/ClinicNestPriceDto";
 

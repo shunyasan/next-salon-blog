@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { BaseParts } from "types/api/BaseParts";
-import { getAxios } from "../../../services/api/get";
+import { getAxios } from "../../../services/orm/get";
 
 export default async function getAllBasePartsByAboutCategoryId(
   req: NextApiRequest,

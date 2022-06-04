@@ -1,7 +1,7 @@
 import { Box, Text, Flex } from "@chakra-ui/layout";
 import { ClinicCard } from "components/organisms/board/ClinicCard";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
-import fetcher from "services/api/fetcher";
+import fetcher from "services/orm/fetcher";
 import useSWR from "swr";
 import { ClinicNestPriceDto } from "types/api/dto/ClinicNestPriceDto";
 import { TopResource } from "../../../../resorces/TopResource";

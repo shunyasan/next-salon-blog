@@ -4,7 +4,7 @@ import { Box, Center, HStack, Text, Wrap, WrapItem } from "@chakra-ui/layout";
 import { NarrowImageAndTextBox } from "components/molecules/box/NarrowImageAndTextBox";
 import { QueryKey } from "enums/QueryKey";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
-import fetcher from "services/api/fetcher";
+import fetcher from "services/orm/fetcher";
 import useSWR from "swr";
 import { AboutCategory } from "types/api/AboutCategory";
 import { QueryOrderPlan } from "types/app/QueryOrderPlan";

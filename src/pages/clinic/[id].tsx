@@ -6,8 +6,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
 import { useParams } from "react-router-dom";
-import { getAllClinics, getOneClinic } from "services/api/clinics/get";
-import fetcher from "services/api/fetcher";
+import { getAllClinics, getOneClinic } from "services/orm/clinics/get";
+import fetcher from "services/orm/fetcher";
 import useSWR from "swr";
 import { Clinic } from "types/api/Clinic";
 

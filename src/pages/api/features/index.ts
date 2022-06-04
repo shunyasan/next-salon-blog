@@ -2,7 +2,7 @@
 
 import { NextApiRequest, NextApiResponse } from "next";
 import { FeatureDto } from "types/api/dto/FeatureDto";
-import { getAxios } from "../../../services/api/get";
+import { getAxios } from "../../../services/orm/get";
 
 export default async function getAllFeature(
   req: NextApiRequest,

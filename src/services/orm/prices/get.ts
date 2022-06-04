@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import {
   checkEmptyRequestQueryToNumber,
   checkRequestQueryToOrdarPlan,
-} from "services/api/validation";
+} from "services/orm/validation";
 import { createQueryString } from "services/app/parameter/CreateParameterHooks";
 import { createQuery } from "services/app/prices/price";
 import { IncludePartsAndCategoryPriceDto } from "types/api/dto/IncludePartsAndCategoryPriceDto";

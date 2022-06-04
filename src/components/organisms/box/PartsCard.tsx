@@ -7,7 +7,7 @@ import useSWR from "swr";
 import { QueryKey } from "enums/QueryKey";
 import getAllBasePartsIdAndName from "pages/api/id-and-name/about-category/[aboutCategoryId]";
 import { PartsButton } from "components/atoms/button/PartsButton";
-import fetcher from "services/api/fetcher";
+import fetcher from "services/orm/fetcher";
 import { AboutCategory } from "types/api/AboutCategory";
 import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
 
