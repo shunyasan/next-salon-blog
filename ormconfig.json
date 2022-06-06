@@ -1,0 +1,18 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "postgres",
+  "password": "shunya416#",
+  "database": "salon_db",
+  "synchronize": false,
+  "logging": false,
+  "entities": ["src/common/db/*.ts"],
+  "migrations": ["src/common/migration/*.ts"],
+  "subscribers": ["src/common/subscribers/*.ts"],
+  "cli": {
+    "entitiesDir": "src/common/db",
+    "migrationsDir": "src/common/migration",
+    "subscribersDir": "src/common/subscriber"
+  }
+}

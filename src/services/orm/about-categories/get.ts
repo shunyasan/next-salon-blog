@@ -2,11 +2,40 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { AboutCategory } from "types/api/AboutCategory";
 import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
 import { getAxios } from "../get";
+import { AboutCategoryRepository } from "../repository/aboutCategoryRepository";
+
+const aboutCategoryRepository = new AboutCategoryRepository();
+
+const sortBySelectData = (
+  targetString: string,
+  datas: IdAndNameDto[]
+): IdAndNameDto[] => {
+  datas.forEach((data, int) => {
+    if (data.id === targetString) {
+      datas.splice(int, 1);
+      datas.unshift(data);
+    }
+  });
+  return datas;
+};
 
 export async function getAllAboutCategoriesIdAndName(
   originCategoryId: string,
   aboutCategoryId: string
 ): Promise<IdAndNameDto[]> {
+  // const aboutCategories = await aboutCategoryRepository.getAllIdAndNameById(
+  //   originCategoryId
+  // );
+  // if (!aboutCategoryId) {
+  //   return aboutCategories;
+  // }
+  // const sortedAboutCategory = sortBySelectData(
+  //   aboutCategoryId,
+  //   aboutCategories
+  // );
+  // return sortedAboutCategory;
+
+  // デフォルト
   const url =
     "about-category/id-and-name/sort-selected?" +
     `originCategoryId=${originCategoryId}&`;
