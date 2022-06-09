@@ -1,4 +1,4 @@
-import { Clinic } from "../api/Clinic";
+import { Clinic } from "@prisma/client";
 
 export type FeatureViewData = {
   datas: Clinic[];

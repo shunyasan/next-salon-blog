@@ -1,10 +1,13 @@
-import axios from "axios";
-import { NextApiRequest, NextApiResponse } from "next";
-import { useCallback } from "react";
-import { ClinicArea } from "types/api/ClinicArea";
-import { getAxios } from "../get";
+import { ClinicArea } from "@prisma/client";
+import { ClinicAreaRepository } from "../repository/clinicAreaRepository";
 
-export default async function getAllArea(): Promise<ClinicArea[]> {
-  const data: ClinicArea[] = await getAxios(`clinic-area`);
-  return data;
+export class ClinicAreaService {
+  constructor(
+    private readonly clinicAreaRepository = new ClinicAreaRepository()
+  ) {}
+
+  async getAllClinicArea() {
+    const areas = await this.clinicAreaRepository.getAllClinicArea();
+    return areas;
+  }
 }

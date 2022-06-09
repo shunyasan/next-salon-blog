@@ -1,6 +1,6 @@
 import { HStack } from "@chakra-ui/react";
+import { AboutCategory } from "@prisma/client";
 import { FC, memo, VFC } from "react";
-import { AboutCategory } from "types/api/AboutCategory";
 import { CategoryBox } from "../box/CategoryBox";
 type Props = {
   about: AboutCategory[];

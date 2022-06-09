@@ -1,7 +1,7 @@
 import { Box, HStack } from "@chakra-ui/react";
+import { ClinicOption } from "@prisma/client";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
 import { ClinicOptionTitleValue } from "services/app/clinic/ClinicDetailHooks";
-import { ClinicOption } from "types/api/ClinicOption";
 import { TitleValue } from "types/app/TitleValue";
 import { FreeServiceBox } from "../box/FreeServiceBox";
 type Props = {

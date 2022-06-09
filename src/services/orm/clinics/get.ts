@@ -1,40 +1,63 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { Clinic } from "types/api/Clinic";
-import { ClinicNestPriceDto } from "types/api/dto/ClinicNestPriceDto";
-import { getAxios } from "../get";
+import { Clinic } from "@prisma/client";
+import {
+  ClinicNestPriceDto,
+  ClinicToClinicNestPriceDto,
+} from "types/api/dto/ClinicNestPriceDto";
+import { PagenationParameter } from "types/api/dto/PagenationParameterDto";
+import { PriceService } from "../prices/get";
+import { ClinicRepository } from "../repository/clinicRepository";
 
-export async function getAllClinics(): Promise<Clinic[]> {
-  // clinicId: string
-  // const param = `take=${req.query.take}&skip=${req.query.skip}`;
+export class ClinicService {
+  constructor(
+    private readonly clinicRepository = new ClinicRepository(),
+    private readonly priceService = new PriceService()
+  ) {}
 
-  const data: Clinic[] = await getAxios("clinic");
-  return data;
-}
+  async getAllClinics() {
+    return this.clinicRepository.getAll();
+  }
 
-export async function getOneClinic(clinicId: string): Promise<Clinic> {
-  const data: Clinic = await getAxios("clinic/" + clinicId);
-  return data;
-}
+  async getAllClinicAndLimit(
+    pagenation: PagenationParameter
+  ): Promise<ClinicNestPriceDto[]> {
+    const clinics = await this.clinicRepository.getAllClinicAndLimit(
+      pagenation.take,
+      pagenation.skip
+    );
+    const nestPrice = await Promise.all(
+      clinics.map(async (data) => {
+        const prices = await this.priceService.getPlanByClinicId(data.id);
+        return ClinicToClinicNestPriceDto(data, prices);
+      })
+    );
+    return nestPrice;
+  }
 
-export async function getAllClinicNestPrice(
-  take: number,
-  skip: number
-): Promise<ClinicNestPriceDto[]> {
-  const query = `take=${take}&skip=${skip}`;
-  const data: ClinicNestPriceDto[] = await getAxios(
-    "clinic/clinic-nest-price/pagenation?" + query
-  );
-  return data;
-}
+  async getOneClinic(clinicId: string) {
+    const clinic = await this.clinicRepository.getOneClinic(clinicId);
+    // const prices = await this.priceService.getPlanByClinicId(clinic.id);
+    // const nestPrice = ClinicNestPriceDto.ClinicToClinicNestPriceDto(
+    //   clinic,
+    //   prices,
+    // );
+    return clinic;
+  }
 
-export async function getAllClinicNestPriceByAreaId(
-  areaId: string,
-  take: number,
-  skip: number
-): Promise<ClinicNestPriceDto[]> {
-  const query = `take=${take}&skip=${skip}`;
-  const data: ClinicNestPriceDto[] = await getAxios(
-    "clinic/clinic-nest-price/area/" + areaId + "/pagenation?" + query
-  );
-  return data;
+  async getAllClinicByAreaId(
+    areaId: string,
+    pagenation: PagenationParameter
+  ): Promise<ClinicNestPriceDto[]> {
+    const clinics = await this.clinicRepository.getAllClinicByAreaId(
+      areaId,
+      pagenation.take,
+      pagenation.skip
+    );
+    const nestPrice = await Promise.all(
+      clinics.map(async (data) => {
+        const prices = await this.priceService.getPlanByClinicId(data.id);
+        return ClinicToClinicNestPriceDto(data, prices);
+      })
+    );
+    return nestPrice;
+  }
 }

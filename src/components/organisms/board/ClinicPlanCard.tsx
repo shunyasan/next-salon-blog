@@ -1,10 +1,10 @@
 import { Box, Center, Flex, Text, useDisclosure } from "@chakra-ui/react";
+import { Clinic, ClinicOpeningHours, ClinicOption } from "@prisma/client";
 import getPriceByAboutIdAndClinicId from "pages/api/prices/clinic/[id]";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
 import fetcher from "services/orm/fetcher";
 import useSWR from "swr";
 import { AboutCategory } from "types/api/AboutCategory";
-import { Clinic } from "types/api/Clinic";
 import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
 import { PriceDto } from "types/api/dto/PriceDto";
 import { AbobutCategiryId } from "../../../enums/AbobutCategiryIdEnum";
@@ -14,7 +14,10 @@ import { AboutTreatmentParts } from "../lists/AboutTreatmentParts";
 import { PlanDetailModal } from "../modal/PlanDetailModal";
 
 type Props = {
-  clinicData: Clinic;
+  clinicData: Clinic & {
+    clinicOption: ClinicOption | null;
+    clinicOpeningHours: ClinicOpeningHours[];
+  };
 };
 
 export const ClinicPlanCard: FC<Props> = (props) => {

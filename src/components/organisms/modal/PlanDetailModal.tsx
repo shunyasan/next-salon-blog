@@ -14,6 +14,7 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
+import { Clinic, ClinicOpeningHours, ClinicOption } from "@prisma/client";
 import { OpeningHoursTable } from "components/molecules/table/OpeningHoursTable";
 import { useRouter } from "next/router";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
@@ -23,7 +24,6 @@ import {
   ClinicPaymentTitleValue,
 } from "services/app/clinic/ClinicDetailHooks";
 import { getRandomImg } from "services/app/resources/SearchSalonHooks";
-import { Clinic } from "types/api/Clinic";
 import { PriceDto } from "types/api/dto/PriceDto";
 import { TitleValue } from "types/app/TitleValue";
 import { NoticeClinicDetail } from "../box/NoticeClinicDetail";
@@ -32,7 +32,10 @@ import { PairDataRowBoxList } from "../lists/PairDataRowBoxList";
 
 type Props = {
   price: PriceDto;
-  clinic: Clinic;
+  clinic: Clinic & {
+    clinicOption: ClinicOption | null;
+    clinicOpeningHours: ClinicOpeningHours[];
+  };
   isOpen: boolean;
   onClose: () => void;
   clinicButton?: boolean;
@@ -61,7 +64,9 @@ export const PlanDetailModal: FC<Props> = (props) => {
   //
 
   useEffect(() => {
-    const data = ClinicOptionTitleValue(clinic.clinicOption);
+    const data = clinic.clinicOption
+      ? ClinicOptionTitleValue(clinic.clinicOption)
+      : undefined;
     setOptionData(data);
 
     const payment = ClinicPaymentTitleValue(clinic);
@@ -213,7 +218,7 @@ export const PlanDetailModal: FC<Props> = (props) => {
                 </Box>
                 <Box textAlign={"center"}>
                   <Link
-                    href={clinic.url}
+                    href={clinic.url || undefined}
                     _hover={{ textDecoration: "none" }}
                     _focus={{ outline: "none" }}
                     isExternal

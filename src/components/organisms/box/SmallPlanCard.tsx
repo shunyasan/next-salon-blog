@@ -1,4 +1,5 @@
 import { Box, Button, HStack, Text } from "@chakra-ui/react";
+import { ClinicOpeningHours, ClinicOption } from "@prisma/client";
 import { FC, memo, useCallback, VFC } from "react";
 import { Clinic } from "types/api/Clinic";
 import { PriceDto } from "types/api/dto/PriceDto";
@@ -8,7 +9,10 @@ import { PlanDetailModal } from "../../organisms/modal/PlanDetailModal";
 type Props = {
   price: PriceDto;
   onClick?: () => void;
-  clinic?: Clinic;
+  clinic?: Clinic & {
+    clinicOption: ClinicOption | null;
+    clinicOpeningHours: ClinicOpeningHours[];
+  };
   isOpen?: boolean;
   onClose?: () => void;
 };

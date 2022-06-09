@@ -1,7 +1,6 @@
+import { Clinic, ClinicOption } from "@prisma/client";
 import { useRouter } from "next/router";
 import fetcher from "services/orm/fetcher";
-import { Clinic } from "types/api/Clinic";
-import { ClinicOption } from "types/api/ClinicOption";
 import { ClinicNestPriceDto } from "types/api/dto/ClinicNestPriceDto";
 import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
 import { OptionText } from "types/app/OptionText";
@@ -60,45 +59,47 @@ export const getResearchCardData = async (
   };
 };
 
-export const checkNoneValue = (val: string) => {
+export const checkNoneValue = (val?: string | null) => {
   if (!val || val === "なし") {
     return "-";
   }
   return val;
 };
 
-export const newOptionFunc = (clinic: Clinic | ClinicNestPriceDto) => {
+export const newOptionFunc = (
+  clinic: (Clinic & { clinicOption: ClinicOption }) | ClinicNestPriceDto
+) => {
   const irradiation: OptionText = {
     name: "照射漏れ",
-    text: checkNoneValue(clinic.clinicOption.irradiationLeakage),
+    text: checkNoneValue(clinic.clinicOption?.irradiationLeakage),
   };
   const anesthesia: OptionText = {
     name: "麻酔",
-    text: checkNoneValue(clinic.clinicOption.anesthesia),
+    text: checkNoneValue(clinic.clinicOption?.anesthesia),
   };
   const aftercare: OptionText = {
     name: "アフターケア",
-    text: checkNoneValue(clinic.clinicOption.aftercare),
+    text: checkNoneValue(clinic.clinicOption?.aftercare),
   };
   const shaving: OptionText = {
     name: "剃毛",
-    text: checkNoneValue(clinic.clinicOption.shaving),
+    text: checkNoneValue(clinic.clinicOption?.shaving),
   };
   const trouble: OptionText = {
     name: "肌トラブル対応",
-    text: checkNoneValue(clinic.clinicOption.troubleTreatment),
+    text: checkNoneValue(clinic.clinicOption?.troubleTreatment),
   };
   const firstVisit: OptionText = {
     name: "初診料",
-    text: checkNoneValue(clinic.clinicOption.firstVisitFees),
+    text: checkNoneValue(clinic.clinicOption?.firstVisitFees),
   };
   const subsequentVisit: OptionText = {
     name: "再診料",
-    text: checkNoneValue(clinic.clinicOption.subsequentVisitFees),
+    text: checkNoneValue(clinic.clinicOption?.subsequentVisitFees),
   };
   const studentDiscount: OptionText = {
     name: "学割",
-    text: checkNoneValue(clinic.clinicOption.studentDiscount),
+    text: checkNoneValue(clinic.clinicOption?.studentDiscount),
   };
   const cardPay: OptionText = {
     name: "カード払い",
@@ -110,7 +111,7 @@ export const newOptionFunc = (clinic: Clinic | ClinicNestPriceDto) => {
   };
   const contractCancel: OptionText = {
     name: "途中解約",
-    text: checkNoneValue(clinic.clinicOption.contractCancellation),
+    text: checkNoneValue(clinic.clinicOption?.contractCancellation),
   };
   return {
     service: [irradiation, anesthesia, aftercare, shaving, trouble],

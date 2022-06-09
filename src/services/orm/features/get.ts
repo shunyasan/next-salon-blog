@@ -1,22 +1,26 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { PrismaClient } from "@prisma/client";
+import { Clinic, ClinicOpeningHours, ClinicOption } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { featureValidation } from "services/app/features/feature";
-import { ClinicNestPriceDto } from "types/api/dto/ClinicNestPriceDto";
+import {
+  ClinicNestPriceDto,
+  ClinicToClinicNestPriceDto,
+} from "types/api/dto/ClinicNestPriceDto";
 import { FeatureDto } from "types/api/dto/FeatureDto";
-import { getAxios } from "../get";
+import { PagenationParameter } from "types/api/dto/PagenationParameterDto";
+import { PriceService } from "../prices/get";
 import { ClinicRepository } from "../repository/clinicRepository";
 
 // const clinicRepository = new ClinicRepository();
 
 export class FeatureService {
   constructor(
-    // private readonly prisma = new PrismaClient(),
-    private readonly clinicRepository = new ClinicRepository()
+    private readonly clinicRepository = new ClinicRepository(),
+    private readonly priceService = new PriceService()
   ) {}
 
-  async getAllFeature(): Promise<any> {
+  async getAllFeature() {
     const anesthesia = await this.clinicRepository.getFreeAnesthesia(
       10,
       0,
@@ -35,8 +39,7 @@ export class FeatureService {
       true
     );
     const visitFee = await this.clinicRepository.getVisitFee(10, 0, true);
-    console.log(`visitFee: ${visitFee}`);
-    const feature = {
+    const feature: FeatureDto = {
       anesthesia,
       installments,
       interior,
@@ -50,32 +53,71 @@ export class FeatureService {
     // const data = await getAxios("feature");
     // return data;
   }
-}
 
-export async function getFeature(
-  feature: string,
-  take: number,
-  skip: number
-): Promise<ClinicNestPriceDto[]> {
-  const check =
-    typeof feature === "string" ? featureValidation(feature) : undefined;
-  if (!check) {
-    throw new Error("featureがありません");
+  async getFeature(
+    feature: string,
+    pagenation: PagenationParameter
+  ): Promise<ClinicNestPriceDto[]> {
+    const clinics = await this.checkFeatureFunc(
+      feature,
+      pagenation.take,
+      pagenation.skip
+    );
+    const nestPrice = await Promise.all(
+      clinics.map(async (data) => {
+        const prices = await this.priceService.getPlanByClinicId(data.id);
+        return ClinicToClinicNestPriceDto(data, prices);
+      })
+    );
+    return nestPrice;
   }
 
-  const query = `take=${take}&skip=${skip}`;
-  const data: ClinicNestPriceDto[] = await getAxios(
-    `feature/${feature}?` + query
-  );
-  return data;
-}
-
-export async function getCountFeature(feature: string): Promise<number> {
-  const check =
-    typeof feature === "string" ? featureValidation(feature) : undefined;
-  if (!check) {
-    throw new Error("featureがありません");
+  async getCountFeature(feature: string): Promise<number> {
+    const count = await this.checkCountFeatureFunc(feature);
+    return count;
   }
-  const data: number = await getAxios(`feature/count/${feature}`);
-  return data;
+
+  async checkCountFeatureFunc(feature: string): Promise<number> {
+    const func: any = {};
+    func["anesthesia"] = await this.clinicRepository.getCountFreeAnesthesia();
+    func["installments"] = await this.clinicRepository.getCountInstallments();
+    func["interior"] = await this.clinicRepository.getCountInterior();
+    func["privateRoom"] = await this.clinicRepository.getCountPrivateRoom();
+    func["sutudentDiscount"] =
+      await this.clinicRepository.getCountSutudentDiscount();
+    func["visitFee"] = await this.clinicRepository.getCountVisitFee();
+    const getFunc: number = func[feature];
+    if (!getFunc) {
+      throw new Error();
+    }
+    return getFunc;
+  }
+
+  async checkFeatureFunc(
+    feature: string,
+    take: number,
+    skip: number
+  ): Promise<
+    (Clinic & {
+      clinicOption: ClinicOption | null;
+      clinicOpeningHours: ClinicOpeningHours[];
+    })[]
+  > {
+    switch (feature) {
+      case "anesthesia":
+        return this.clinicRepository.getFreeAnesthesia(take, skip);
+      case "installments":
+        return this.clinicRepository.getInstallments(take, skip);
+      case "interior":
+        return this.clinicRepository.getInterior(take, skip);
+      case "privateRoom":
+        return this.clinicRepository.getPrivateRoom(take, skip);
+      case "sutudentDiscount":
+        return this.clinicRepository.getSutudentDiscount(take, skip);
+      case "visitFee":
+        return this.clinicRepository.getVisitFee(take, skip);
+      default:
+        throw new Error();
+    }
+  }
 }

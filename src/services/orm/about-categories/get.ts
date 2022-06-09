@@ -1,71 +1,82 @@
+import { AboutCategory } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { AboutCategory } from "types/api/AboutCategory";
 import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
-import { getAxios } from "../get";
 import { AboutCategoryRepository } from "../repository/aboutCategoryRepository";
 
-const aboutCategoryRepository = new AboutCategoryRepository();
+export class AboutCategoryService {
+  constructor(
+    private readonly aboutCategoryRepository = new AboutCategoryRepository()
+  ) {}
 
-const sortBySelectData = (
-  targetString: string,
-  datas: IdAndNameDto[]
-): IdAndNameDto[] => {
-  datas.forEach((data, int) => {
-    if (data.id === targetString) {
-      datas.splice(int, 1);
-      datas.unshift(data);
+  sortBySelectData = (
+    targetString: string,
+    datas: IdAndNameDto[]
+  ): IdAndNameDto[] => {
+    datas.forEach((data, int) => {
+      if (data.id === targetString) {
+        datas.splice(int, 1);
+        datas.unshift(data);
+      }
+    });
+    return datas;
+  };
+
+  async getAllAboutCategoriesIdAndName(
+    originCategoryId: string,
+    aboutCategoryId: string
+  ): Promise<IdAndNameDto[]> {
+    const aboutCategories =
+      await this.aboutCategoryRepository.getAllIdAndNameById(originCategoryId);
+    if (!aboutCategoryId) {
+      return aboutCategories;
     }
-  });
-  return datas;
-};
+    const sortedAboutCategory = this.sortBySelectData(
+      aboutCategoryId,
+      aboutCategories
+    );
+    return sortedAboutCategory;
+  }
 
-export async function getAllAboutCategoriesIdAndName(
-  originCategoryId: string,
-  aboutCategoryId: string
-): Promise<IdAndNameDto[]> {
-  // const aboutCategories = await aboutCategoryRepository.getAllIdAndNameById(
-  //   originCategoryId
-  // );
-  // if (!aboutCategoryId) {
-  //   return aboutCategories;
-  // }
-  // const sortedAboutCategory = sortBySelectData(
-  //   aboutCategoryId,
-  //   aboutCategories
-  // );
   // return sortedAboutCategory;
 
   // デフォルト
-  const url =
-    "about-category/id-and-name/sort-selected?" +
-    `originCategoryId=${originCategoryId}&`;
+  // const url =
+  //   "about-category/id-and-name/sort-selected?" +
+  //   `originCategoryId=${originCategoryId}&`;
 
-  const checkedUrl =
-    !aboutCategoryId || aboutCategoryId === "none"
-      ? url
-      : url + `aboutCategoryId=${aboutCategoryId}`;
+  // const checkedUrl =
+  //   !aboutCategoryId || aboutCategoryId === "none"
+  //     ? url
+  //     : url + `aboutCategoryId=${aboutCategoryId}`;
 
-  const data: IdAndNameDto[] = await getAxios(checkedUrl);
-  return data;
-}
+  // const data: IdAndNameDto[] = await getAxios(checkedUrl);
+  // return data;
 
-export async function getAboutCategoryById(id: string): Promise<AboutCategory> {
-  const data: AboutCategory = await getAxios("about-category/" + id);
-  return data;
-}
+  async getAboutCategoryById(id: string) {
+    return await this.aboutCategoryRepository.getAboutCategoryById(id);
 
-export async function getAboutCategoryByOriginId(
-  originId: string
-): Promise<AboutCategory[]> {
-  const data: AboutCategory[] = await getAxios(
-    "about-category/originId/" + originId
-  );
-  return data;
-}
+    // デフォルト
+    // const data: AboutCategory = await getAxios("about-category/" + id);
+    // return data;
+  }
 
-export async function getAboutCategoryIdAndName(
-  id: string
-): Promise<IdAndNameDto> {
-  const data: IdAndNameDto = await getAxios("about-category/id-and-name/" + id);
-  return data;
+  async getAboutCategoryByOriginId(originId: string) {
+    return await this.aboutCategoryRepository.getAllAboutCategoryByOriginId(
+      originId
+    );
+
+    // デフォルト
+    // const data: AboutCategory[] = await getAxios(
+    //   "about-category/originId/" + originId
+    //   );
+    //   return data;
+  }
+
+  async getAboutCategoryIdAndName(id: string): Promise<IdAndNameDto> {
+    return this.aboutCategoryRepository.getIdAndName(id);
+
+    //デフォルト
+    // const data: IdAndNameDto = await getAxios("about-category/id-and-name/" + id);
+    // return data;
+  }
 }

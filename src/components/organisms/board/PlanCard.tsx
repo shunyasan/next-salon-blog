@@ -235,7 +235,7 @@ export const PlanCard: FC<Props> = (props) => {
           </Flex>
           <Box>
             <Link
-              href={plan.clinic.url}
+              href={plan.clinic.url || ""}
               _hover={{ textDecoration: "none" }}
               _focus={{ outline: "none" }}
               isExternal

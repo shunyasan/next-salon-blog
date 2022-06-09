@@ -1,34 +1,66 @@
-import { BaseParts } from "types/api/BaseParts";
+import { BaseParts } from "@prisma/client";
 import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
-import { getAxios } from "../get";
+import { BasePartsRepository } from "../repository/basePartsRepository";
 
-export async function getAllBaseParts(
-  aboutCategoryId: string,
-  partsId?: string
-): Promise<IdAndNameDto[]> {
-  const url =
-    "base-parts/id-and-name/sort-selected?" +
-    `aboutCategoryId=${aboutCategoryId}&`;
+export class BasePartsService {
+  constructor(
+    private readonly basePartsRepository = new BasePartsRepository()
+  ) {}
 
-  const checkedUrl =
-    !partsId || partsId === "none" ? url : url + `partsId=${partsId}&`;
+  async getAllBaseParts() {
+    return await this.basePartsRepository.getAllBaseParts();
+  }
 
-  const data: IdAndNameDto[] = await getAxios(checkedUrl);
-  return data;
-}
+  async getBasePartsById(id: string) {
+    return await this.basePartsRepository.getBasePartsById(id);
+  }
 
-export async function getAllBasePartsByAboutCategoryId(
-  aboutCategoryId: string,
-  gender: string
-): Promise<BaseParts[]> {
-  const query = "?gender=" + gender;
-  const data: BaseParts[] = await getAxios(
-    "base-parts/aboutCategoryId/" + aboutCategoryId + query
-  );
-  return data;
-}
+  async getAllBasePartsIdAndName(
+    aboutCategoryId: string
+  ): Promise<IdAndNameDto[]> {
+    return await this.basePartsRepository.getAllBasePartsIdAndName(
+      aboutCategoryId
+    );
+  }
 
-export async function getBasePartsIdAndName(id: string): Promise<IdAndNameDto> {
-  const data: IdAndNameDto = await getAxios("base-parts/id-and-name/" + id);
-  return data;
+  async getAllBasePartsByAboutCategoryId(
+    aboutCategoryId: string,
+    gender?: string
+  ) {
+    return await this.basePartsRepository.getAllBasePartsByAboutCategoryId(
+      aboutCategoryId,
+      gender
+    );
+  }
+
+  async getBySortSelected(
+    aboutCategoryId: string,
+    partsId?: string
+  ): Promise<IdAndNameDto[]> {
+    const parts = await this.basePartsRepository.getAllIdAndNameById(
+      aboutCategoryId
+    );
+    if (!partsId) {
+      return parts;
+    }
+    const sortedAboutCategory = this.sortBySelectData(partsId, parts);
+    return sortedAboutCategory;
+  }
+
+  async getBasePartsIdAndName(id: string): Promise<IdAndNameDto> {
+    return this.basePartsRepository.getIdAndName(id);
+  }
+
+  sortBySelectData(
+    targetString: string,
+    datas: IdAndNameDto[]
+  ): IdAndNameDto[] {
+    datas.forEach((data, int) => {
+      if (data.id === targetString) {
+        datas.splice(int, 1);
+        datas.unshift(data);
+      }
+    });
+    return datas;
+  }
 }

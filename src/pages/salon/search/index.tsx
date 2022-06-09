@@ -1,6 +1,6 @@
 import { Box, Text, Flex } from "@chakra-ui/layout";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
-import { Button, Image, Select, Stack } from "@chakra-ui/react";
+import { Button, Image, Center, Stack } from "@chakra-ui/react";
 import { GetServerSideProps, NextPage } from "next";
 import { OrderPlanIdName } from "types/app/OrderPlanIdName";
 import { OrderPlan } from "types/app/OrderPlan";
@@ -12,6 +12,7 @@ import { changeOrderPlanToOrderPlanIdName } from "services/app/order-plan-id-nam
 import {
   createQueryString,
   getQueryOrderPlanInSearch,
+  OrderPlanToOrderPlan,
 } from "services/app/parameter/CreateParameterHooks";
 import { IncludePartsAndCategoryPriceDto } from "types/api/dto/IncludePartsAndCategoryPriceDto";
 import getCountPrice from "pages/api/prices/max-count";
@@ -22,19 +23,23 @@ import { PlanCard } from "components/organisms/board/PlanCard";
 import useSWR from "swr";
 import Head from "next/head";
 import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
-import { getOriginCategoryIdAndName } from "services/orm/origin-category/get";
-import { getAboutCategoryIdAndName } from "services/orm/about-categories/get";
-import { getBasePartsIdAndName } from "services/orm/base-parts/get";
-import { getPrice, getPriceCount } from "services/orm/prices/get";
+import { OriginCategoryService } from "services/orm/origin-category/get";
+import { AboutCategoryService } from "services/orm/about-categories/get";
+import { BasePartsService } from "services/orm/base-parts/get";
+import { PriceService } from "services/orm/prices/get";
 
 const numOfTakeData = 10;
+const priceService = new PriceService();
+const originService = new OriginCategoryService();
+const aboutService = new AboutCategoryService();
+const partsService = new BasePartsService();
 
 type Props = {
   planParam: string;
   orderPlanData: OrderPlan;
   orderDataIdName: OrderPlanIdName;
   title: string;
-  firstPrices: IncludePartsAndCategoryPriceDto;
+  firstPrices: PriceDto[];
   firstMaxValue: number;
 };
 
@@ -46,13 +51,13 @@ const createTitle = (idName: OrderPlanIdName) => {
 
 const createOrderDataIdName = async (orderPlanData: OrderPlan) => {
   const orderDataIdName = changeOrderPlanToOrderPlanIdName(orderPlanData);
-  const origin: IdAndNameDto = await getOriginCategoryIdAndName(
+  const origin: IdAndNameDto = await originService.getOriginCategoryIdAndName(
     orderDataIdName.originParts.id
   );
-  const about: IdAndNameDto = await getAboutCategoryIdAndName(
+  const about: IdAndNameDto = await aboutService.getAboutCategoryIdAndName(
     orderDataIdName.AboutCategory.id
   );
-  const parts: IdAndNameDto = await getBasePartsIdAndName(
+  const parts: IdAndNameDto = await partsService.getBasePartsIdAndName(
     orderDataIdName.parts.id
   );
   orderDataIdName.originParts = origin;
@@ -68,12 +73,15 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const query = createQueryString(context.query);
   const orderPlanData = getQueryOrderPlanInSearch(query);
   const planParam = createQuery(orderPlanData);
+  const reqOrder = OrderPlanToOrderPlan(orderPlanData);
 
   //データ取得
-  const firstPrices = await getPrice(orderPlanData, numOfTakeData, 0);
-  const firstMaxValue = await getPriceCount(orderPlanData);
+  const firstPrices = await priceService.getPriceOrderPlan(reqOrder, {
+    take: numOfTakeData,
+    skip: 0,
+  });
+  const firstMaxValue = await priceService.getCountMaxPlan(reqOrder);
   const orderDataIdName = await createOrderDataIdName(orderPlanData);
-
   // タイトル作成
   const title = createTitle(orderDataIdName);
   return {
@@ -112,13 +120,12 @@ const SalonList: NextPage<Props> = (props) => {
     block: 0,
   });
 
-  const { data: price = firstPrices, error: err_pri } =
-    useSWR<IncludePartsAndCategoryPriceDto>(
-      `/api/prices?${planParam}&take=${numOfTakeData}&skip=${
-        numOfTakeData * pagenationData.now
-      }`,
-      fetcher
-    );
+  const { data: price = firstPrices, error: err_pri } = useSWR<PriceDto[]>(
+    `/api/prices?${planParam}&take=${numOfTakeData}&skip=${
+      numOfTakeData * pagenationData.now
+    }`,
+    fetcher
+  );
 
   const { data: maxValue = firstMaxValue, error: err_max } = useSWR<number>(
     `/api/prices/max-count?${planParam}`,
@@ -220,8 +227,8 @@ const SalonList: NextPage<Props> = (props) => {
         </Box>
       </Box>
       {/* <Adsense /> */}
-      <Box w={{ md: "55rem", sm: "100%" }} mx={"auto !important"}>
-        {maxValue && maxValue > 0 ? (
+      <Center w={"100%"}>
+        {maxValue > 0 ? (
           <Pagenation
             max={maxValue}
             take={numOfTakeData}
@@ -231,9 +238,14 @@ const SalonList: NextPage<Props> = (props) => {
               getPageNumber(page, block)
             }
           >
-            <Stack justifyContent={"center"} spacing={"1.2em"} my={"1em"}>
+            <Stack
+              w={{ md: "55rem", sm: "100%" }}
+              justifyContent={"center"}
+              spacing={"1.2em"}
+              my={"1em"}
+            >
               {orderDataIdName &&
-                price?.prices.map((plan) => (
+                price.map((plan) => (
                   <PlanCard
                     key={plan.id}
                     plan={plan}
@@ -243,15 +255,12 @@ const SalonList: NextPage<Props> = (props) => {
             </Stack>
           </Pagenation>
         ) : (
-          ""
-        )}
-        {price?.prices.length === 0 && (
           <Box my={"3rem"}>
             <Text>こちらのプランは見つかりませんでした。</Text>
             <Text>「条件を変更」をご利用ください</Text>
           </Box>
         )}
-      </Box>
+      </Center>
       {/* <Adsense /> */}
     </Stack>
   );

@@ -21,9 +21,9 @@ type Props = {
   image: string;
   feature: FeatureViewData[];
 };
+const feature = new FeatureService();
 
-export const getAllFeatureFunc = async () => {
-  const feature = new FeatureService();
+const getAllFeatureFunc = async () => {
   const data: FeatureDto = await feature.getAllFeature();
   return getFeatureString(data);
 };

@@ -1,17 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
-import { getAxios } from "../get";
+import { OriginCategoryRepository } from "../repository/originCategoryRepository";
 
-export async function getAllOriginCategoryIdAndName(): Promise<IdAndNameDto[]> {
-  const data: IdAndNameDto[] = await getAxios(`id-and-name/origin-category`);
-  return data;
-}
+export class IdAndNameService {
+  constructor(
+    private readonly originCategoryRepository = new OriginCategoryRepository()
+  ) {}
 
-export async function getAllBasePartsIdAndName(
-  aboutCategoryId: string
-): Promise<IdAndNameDto[]> {
-  const data: IdAndNameDto[] = await getAxios(
-    "base-parts/id-and-name/aboutCategoryId/" + aboutCategoryId
-  );
-  return data;
+  async getAllOriginCategory(): Promise<IdAndNameDto[]> {
+    return this.originCategoryRepository.getAllIdAndName();
+  }
 }

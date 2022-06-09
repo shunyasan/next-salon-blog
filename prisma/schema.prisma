@@ -30,7 +30,7 @@ model AboutCategory {
   baseParts BaseParts[]
 }
 
-model BaseParts{
+model BaseParts {
   id String @id
   name String //部位名
   description String? //備考
@@ -40,8 +40,7 @@ model BaseParts{
   parts BaseParts_Parts[] 
 }
 
-
-model  BaseParts_Parts {
+model BaseParts_Parts {
   basePartsId String
   baseParts BaseParts @relation(fields: [basePartsId], references: [id])
   partsId String 
@@ -96,7 +95,7 @@ model MachineShr {
 
 model Machine {
   id String @id
-  machineName String //機器名
+  name String @default("クリニック名") //機器名
   machineHrId String?  //HR機器ID
   machineHr MachineHr? @relation(fields: [machineHrId], references: [id])
   machineShrId String?  //SHR機器ID

@@ -7,7 +7,10 @@
     "debug": "NODE_OPTIONS='--inspect' next dev -p 3000",
     "build": "next build && next-sitemap --config next-sitemap.config.js",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrate:prisma": "dotenv -e .env.production -- npx prisma migrate dev --name postgres-init",
+    "deploy:prisma": "dotenv -e .env.production -- npx prisma migrate deploy",
+    "db:prisma": "dotenv -e .env.production -- npx prisma db push"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.1.0",
@@ -19,6 +22,7 @@
     "axios": "^0.27.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
+    "dotenv-cli": "^5.1.0",
     "framer-motion": "^6.3.3",
     "next": "12.1.6",
     "next-sitemap": "^3.0.3",

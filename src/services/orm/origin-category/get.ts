@@ -1,29 +1,51 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { OriginCategory } from "@prisma/client";
 import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
-import { OriginCategory } from "types/api/OriginCategory";
-import { getAxios } from "../get";
+import { OriginCategoryRepository } from "../repository/originCategoryRepository";
 
-export async function getAllOriginCategory(): Promise<OriginCategory[]> {
-  const data: OriginCategory[] = await getAxios("origin-category");
-  return data;
-}
+export class OriginCategoryService {
+  constructor(
+    private readonly originCategoryRepository = new OriginCategoryRepository()
+  ) {}
+  async getAllIdAndName() {
+    return await this.originCategoryRepository.getAllIdAndName();
+  }
 
-export async function getAllOriginCategoriesIdAndName(
-  originCategoryId: string
-): Promise<IdAndNameDto[]> {
-  const url =
-    "origin-category/id-and-name/sort-selected?" +
-    `originCategoryId=${originCategoryId}&`;
+  async getAllOriginCategory() {
+    return await this.originCategoryRepository.getAllOriginCategory();
+  }
 
-  const data: IdAndNameDto[] = await getAxios(url);
-  return data;
-}
+  async getOriginCategoryById(id: string) {
+    return await this.originCategoryRepository.getOriginCategoryById(id);
+  }
 
-export async function getOriginCategoryIdAndName(
-  id: string
-): Promise<IdAndNameDto> {
-  const data: IdAndNameDto = await getAxios(
-    "origin-category/id-and-name/" + id
-  );
-  return data;
+  async getAllRelationParts() {
+    return await this.originCategoryRepository.getAllRelationParts();
+  }
+
+  async getBySortSelected(originCategoryId: string): Promise<IdAndNameDto[]> {
+    const originCategories =
+      await this.originCategoryRepository.getAllIdAndName();
+    const sortedAboutCategory = this.sortBySelectData(
+      originCategoryId,
+      originCategories
+    );
+    return sortedAboutCategory;
+  }
+
+  async getOriginCategoryIdAndName(id: string): Promise<IdAndNameDto> {
+    return this.originCategoryRepository.getIdAndName(id);
+  }
+
+  sortBySelectData(
+    targetString: string,
+    datas: IdAndNameDto[]
+  ): IdAndNameDto[] {
+    datas.forEach((data, int) => {
+      if (data.id === targetString) {
+        datas.splice(int, 1);
+        datas.unshift(data);
+      }
+    });
+    return datas;
+  }
 }

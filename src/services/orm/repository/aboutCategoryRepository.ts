@@ -1,20 +1,25 @@
-import { AboutCategory, PrismaClient } from "@prisma/client";
+import { prisma } from "services/prisma";
 import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
 
 export class AboutCategoryRepository {
-  constructor(private readonly prisma = new PrismaClient().aboutCategory) {}
+  // constructor(private readonly prisma = prisma.aboutCategory) {}
 
   // 例
-  // async getAll(): Promise<AboutCategory[]> {
-  //   return await this.prisma.aboutCategory.findMany();
+  // async getAll() {
+  //   return await prisma.aboutCategory.aboutCategory.findMany();
   // }
 
-  async getAllAboutCategory(): Promise<AboutCategory[]> {
-    return await this.prisma.findMany();
+  //削除予定
+  getTest() {
+    return prisma.aboutCategory;
   }
 
-  async getAboutCategoryById(id: string): Promise<AboutCategory> {
-    const ans = await this.prisma.findFirst({ where: { id: id } });
+  async getAllAboutCategory() {
+    return await prisma.aboutCategory.findMany();
+  }
+
+  async getAboutCategoryById(id: string) {
+    const ans = await prisma.aboutCategory.findFirst({ where: { id: id } });
     if (!ans) {
       throw new Error();
     }
@@ -22,7 +27,7 @@ export class AboutCategoryRepository {
   }
 
   async getPriceTableName(id: string): Promise<string> {
-    const getTableName = await this.prisma.findFirst({
+    const getTableName = await prisma.aboutCategory.findFirst({
       select: { tableName: true },
       where: { id: id },
     });
@@ -33,7 +38,7 @@ export class AboutCategoryRepository {
   }
 
   async getAllPriceTableName(originId: string): Promise<string[]> {
-    const getTableName = await this.prisma.findMany({
+    const getTableName = await prisma.aboutCategory.findMany({
       select: { tableName: true },
       where: { originId: originId },
     });
@@ -41,10 +46,8 @@ export class AboutCategoryRepository {
     return data;
   }
 
-  async getAllAboutCategoryByOriginId(
-    originId: string
-  ): Promise<AboutCategory[]> {
-    const data = await this.prisma.findMany({
+  async getAllAboutCategoryByOriginId(originId: string) {
+    const data = await prisma.aboutCategory.findMany({
       where: { originId: originId },
       orderBy: [{ id: "asc" }],
     });
@@ -52,14 +55,14 @@ export class AboutCategoryRepository {
   }
 
   async getAllIdAndNameById(id: string): Promise<IdAndNameDto[]> {
-    return await this.prisma.findMany({
+    return await prisma.aboutCategory.findMany({
       select: { id: true, name: true },
       where: { originId: id },
     });
   }
 
   async getIdAndName(id: string): Promise<IdAndNameDto> {
-    const get = await this.prisma.findFirst({
+    const get = await prisma.aboutCategory.findFirst({
       select: { id: true, name: true },
       where: { id: id },
     });

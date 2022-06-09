@@ -1,22 +1,21 @@
 import { Box, Checkbox, Flex, HStack, Text } from "@chakra-ui/react";
+import { ClinicArea } from "@prisma/client";
 import { ClinicCard } from "components/organisms/board/ClinicCard";
 import { AreaBox } from "components/organisms/box/AreaBox";
 import { Pagenation } from "components/templete/pagenation/Pagenation";
 import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
-import getAllArea from "services/orm/clinic-areas/get";
-import {
-  getAllClinicNestPrice,
-  getAllClinicNestPriceByAreaId,
-} from "services/orm/clinics/get";
+import { ClinicAreaService } from "services/orm/clinic-areas/get";
+import { ClinicService } from "services/orm/clinics/get";
 import fetcher from "services/orm/fetcher";
 import useSWR from "swr";
-import { ClinicArea } from "types/api/ClinicArea";
 import { ClinicNestPriceDto } from "types/api/dto/ClinicNestPriceDto";
 
 const numOfTakeData = 10;
 const defaultMax = 349;
+const clinicAreaService = new ClinicAreaService();
+const clinicService = new ClinicService();
 
 const defaultPagenation = {
   now: 0,
@@ -30,13 +29,11 @@ type Props = {
 };
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const area: ClinicArea[] = await getAllArea();
+  const area: ClinicArea[] = await clinicAreaService.getAllClinicArea();
   // const area: ClinicArea[] = await fetcher(`${thisURL}api/clinic-areas`);
 
-  const clinics: ClinicNestPriceDto[] = await getAllClinicNestPrice(
-    numOfTakeData,
-    0
-  );
+  const clinics: ClinicNestPriceDto[] =
+    await clinicService.getAllClinicAndLimit({ take: numOfTakeData, skip: 0 });
   // const clinics: ClinicNestPriceDto[] = await fetcher(
   //   `${thisURL}api/clinics/prices?take=${numOfTakeData}&skip=0`
   // );
@@ -166,7 +163,7 @@ const Clinics: NextPage<Props> = ({ area, clinics }) => {
           <AreaBox
             key={int}
             area={data.area}
-            description={data.description}
+            description={data.description || ""}
             arrow={areaIdState?.id === data.id ? true : false}
             onClick={() =>
               getClinicDataAndAreaId(0, data.id, data.registrationNumber)

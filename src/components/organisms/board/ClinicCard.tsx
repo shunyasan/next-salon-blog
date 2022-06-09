@@ -14,6 +14,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { ClinicOpeningHours, ClinicOption } from "@prisma/client";
 import { OpeningHoursTable } from "components/molecules/table/OpeningHoursTable";
 import { useRouter } from "next/router";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
@@ -157,7 +158,9 @@ export const ClinicCard: FC<Props> = (props) => {
                 </Text>
               </Box>
               <Flex wrap={"nowrap"} overflow={"scroll"}>
-                <FreeServiceBoxList clinicOption={clinic.clinicOption} />
+                {clinic.clinicOption && (
+                  <FreeServiceBoxList clinicOption={clinic.clinicOption} />
+                )}
               </Flex>
             </Box>
 
@@ -209,7 +212,7 @@ export const ClinicCard: FC<Props> = (props) => {
             <Flex justifyContent={"center"}>
               <Box>
                 <Link
-                  href={clinic.url}
+                  href={clinic.url || ""}
                   _hover={{ textDecoration: "none" }}
                   _focus={{ outline: "none" }}
                   isExternal

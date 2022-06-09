@@ -1,10 +1,14 @@
-import { Clinic, PrismaClient } from "@prisma/client";
+import { prisma } from "services/prisma";
 
 export class ClinicRepository {
-  constructor(private readonly prisma = new PrismaClient()) {}
+  // constructor(private readonly prisma = prisma.clinic) {}
 
-  async getAllClinicAndLimit(take: number, skip: number): Promise<Clinic[]> {
-    const query = this.prisma.clinic.findMany({
+  async getAll() {
+    return prisma.clinic.findMany();
+  }
+
+  async getAllClinicAndLimit(take: number, skip: number) {
+    const query = prisma.clinic.findMany({
       include: {
         clinicOption: true,
         clinicOpeningHours: true,
@@ -15,8 +19,8 @@ export class ClinicRepository {
     return query;
   }
 
-  async getOneClinicAndLimit(clinicId: string): Promise<Clinic> {
-    const query = await this.prisma.clinic.findFirst({
+  async getOneClinic(clinicId: string) {
+    const query = await prisma.clinic.findFirst({
       where: {
         id: clinicId,
       },
@@ -31,12 +35,8 @@ export class ClinicRepository {
     return query;
   }
 
-  async getFreeAnesthesia(
-    take: number,
-    skip: number,
-    notJoin?: boolean
-  ): Promise<Clinic[]> {
-    const query = this.prisma.clinic.findMany({
+  async getFreeAnesthesia(take: number, skip: number, notJoin?: boolean) {
+    const query = prisma.clinic.findMany({
       where: {
         clinicOption: {
           anesthesia: {
@@ -54,8 +54,8 @@ export class ClinicRepository {
     return query;
   }
 
-  async getCountFreeAnesthesia(): Promise<number> {
-    const query = this.prisma.clinic.count({
+  async getCountFreeAnesthesia() {
+    const query = prisma.clinic.count({
       where: {
         clinicOption: {
           anesthesia: {
@@ -67,12 +67,8 @@ export class ClinicRepository {
     return query;
   }
 
-  async getInstallments(
-    take: number,
-    skip: number,
-    notJoin?: boolean
-  ): Promise<Clinic[]> {
-    const query = this.prisma.clinic.findMany({
+  async getInstallments(take: number, skip: number, notJoin?: boolean) {
+    const query = prisma.clinic.findMany({
       where: {
         OR: [
           {
@@ -95,8 +91,8 @@ export class ClinicRepository {
     return query;
   }
 
-  async getCountInstallments(): Promise<number> {
-    const query = this.prisma.clinic.count({
+  async getCountInstallments() {
+    const query = prisma.clinic.count({
       where: {
         OR: [
           {
@@ -113,12 +109,8 @@ export class ClinicRepository {
     return query;
   }
 
-  async getInterior(
-    take: number,
-    skip: number,
-    notJoin?: boolean
-  ): Promise<Clinic[]> {
-    const query = this.prisma.clinic.findMany({
+  async getInterior(take: number, skip: number, notJoin?: boolean) {
+    const query = prisma.clinic.findMany({
       where: {
         interior: {
           contains: "豪華",
@@ -134,8 +126,8 @@ export class ClinicRepository {
     return query;
   }
 
-  async getCountInterior(): Promise<number> {
-    const query = this.prisma.clinic.count({
+  async getCountInterior() {
+    const query = prisma.clinic.count({
       where: {
         interior: {
           contains: "豪華",
@@ -145,12 +137,8 @@ export class ClinicRepository {
     return query;
   }
 
-  async getPrivateRoom(
-    take: number,
-    skip: number,
-    notJoin?: boolean
-  ): Promise<Clinic[]> {
-    const query = this.prisma.clinic.findMany({
+  async getPrivateRoom(take: number, skip: number, notJoin?: boolean) {
+    const query = prisma.clinic.findMany({
       where: {
         roomType: {
           contains: "完全個室",
@@ -166,8 +154,8 @@ export class ClinicRepository {
     return query;
   }
 
-  async getCountPrivateRoom(): Promise<number> {
-    const query = this.prisma.clinic.count({
+  async getCountPrivateRoom() {
+    const query = prisma.clinic.count({
       where: {
         roomType: {
           contains: "完全個室",
@@ -177,12 +165,8 @@ export class ClinicRepository {
     return query;
   }
 
-  async getSutudentDiscount(
-    take: number,
-    skip: number,
-    notJoin?: boolean
-  ): Promise<Clinic[]> {
-    const query = this.prisma.clinic.findMany({
+  async getSutudentDiscount(take: number, skip: number, notJoin?: boolean) {
+    const query = prisma.clinic.findMany({
       where: {
         clinicOption: {
           studentDiscount: {
@@ -200,8 +184,8 @@ export class ClinicRepository {
     return query;
   }
 
-  async getCountSutudentDiscount(): Promise<number> {
-    const query = this.prisma.clinic.count({
+  async getCountSutudentDiscount() {
+    const query = prisma.clinic.count({
       where: {
         clinicOption: {
           studentDiscount: {
@@ -217,12 +201,8 @@ export class ClinicRepository {
     return query;
   }
 
-  async getVisitFee(
-    take: number,
-    skip: number,
-    notJoin?: boolean
-  ): Promise<Clinic[]> {
-    const query = this.prisma.clinic.findMany({
+  async getVisitFee(take: number, skip: number, notJoin?: boolean) {
+    const query = prisma.clinic.findMany({
       where: {
         AND: [
           {
@@ -247,8 +227,8 @@ export class ClinicRepository {
     return query;
   }
 
-  async getCountVisitFee(): Promise<number> {
-    const query = this.prisma.clinic.count({
+  async getCountVisitFee() {
+    const query = prisma.clinic.count({
       where: {
         OR: [
           {
@@ -271,12 +251,8 @@ export class ClinicRepository {
     return query;
   }
 
-  async getAllClinicByAreaId(
-    areaId: string,
-    take: number,
-    skip: number
-  ): Promise<Clinic[]> {
-    const query = this.prisma.clinic.findMany({
+  async getAllClinicByAreaId(areaId: string, take: number, skip: number) {
+    const query = prisma.clinic.findMany({
       where: {
         areaId: areaId,
       },
@@ -291,7 +267,7 @@ export class ClinicRepository {
   }
 
   // selectQueryFeature(): SelectQueryBuilder<Clinic> {
-  //   return this.prisma.clinic.findMany({include:{
+  //   return prisma.clinic.findMany({include:{
   //     clinicOption:true,
   //     clinicOpeningHours:true;
   //   }}) ('clinic')

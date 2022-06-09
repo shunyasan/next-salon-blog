@@ -1,6 +1,6 @@
+import { BaseParts } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { BaseParts } from "types/api/BaseParts";
-import { getAxios } from "../../../services/orm/get";
+import { BasePartsService } from "services/orm/base-parts/get";
 
 export default async function getAllBasePartsByAboutCategoryId(
   req: NextApiRequest,
@@ -8,13 +8,18 @@ export default async function getAllBasePartsByAboutCategoryId(
   // aboutCategoryId: string,
   // gender: string
 ): Promise<BaseParts[]> {
-  const aboutCategoryId = req.query.aboutCategoryId;
-  const gender = req.query.gender;
-
-  const query = "?gender=" + gender;
-  const data: BaseParts[] = await getAxios(
-    "base-parts/aboutCategoryId/" + aboutCategoryId + query
+  const aboutCategoryId = req.query.aboutCategoryId as string;
+  const gender = req.query.gender as string;
+  const basePartsService = new BasePartsService();
+  const data = await basePartsService.getAllBasePartsByAboutCategoryId(
+    aboutCategoryId,
+    gender
   );
+
+  // const query = "?gender=" + gender;
+  // const data: BaseParts[] = await getAxios(
+  //   "base-parts/aboutCategoryId/" + aboutCategoryId + query
+  // );
   res.json(data);
   return data;
 }
