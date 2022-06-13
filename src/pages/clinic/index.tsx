@@ -75,7 +75,6 @@ const Clinics: NextPage<Props> = ({ area, clinics }) => {
   const { data: clinicData = clinics, error: err_cli } = useSWR<
     ClinicNestPriceDto[]
   >(`/api/${clinicUrl}`, fetcher);
-
   // const { data: areaData = [], error: err_ori } = useSWR<ClinicArea[]>(
   //   `/api/clinics?take=${numOfTakeData}&skip=${numOfTakeData * pagenationData.now}`,
   //   fetcher
@@ -126,7 +125,7 @@ const Clinics: NextPage<Props> = ({ area, clinics }) => {
   // useEffect(() => {
   //   setPagenationData({ now: 0, block: 0 });
   // }, [areaIdState]);
-
+  if (!clinicData) return <Box>loading....</Box>;
   return (
     <Box my={"3rem"} mx={{ md: "3rem", sm: "1rem" }} textAlign={"center"}>
       <Head>
