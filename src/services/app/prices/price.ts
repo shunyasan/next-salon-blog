@@ -25,9 +25,9 @@ export const createQuery = (
 ) => {
   const gender = `gender=${orderPlan.gender}&`;
   const paySystem = `paySystem=${orderPlan.paySystem}&`;
-  const originCategoryId = `originCategoryId=${orderPlan.originParts}&`;
-  const aboutCategoryId = `aboutCategoryId=${orderPlan.AboutCategory}&`;
-  const partsId = orderPlan.parts ? `partsId=${orderPlan.parts}&` : "";
+  const originCategoryId = `originParts=${orderPlan.originParts}&`;
+  const aboutCategoryId = `AboutCategory=${orderPlan.AboutCategory}&`;
+  const partsId = orderPlan.parts ? `parts=${orderPlan.parts}&` : "";
   const skinCollor = isExistQueryData(orderPlan.skinCollor)
     ? `skinCollor=${orderPlan.skinCollor}&`
     : "";

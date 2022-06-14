@@ -55,7 +55,7 @@ export const HeaderDrawer: FC<Props> = (props) => {
                   py={"0.1rem"}
                   mx={2}
                   cursor="pointer"
-                  onClick={() => onClick("/salon")}
+                  onClick={() => onClick("/plan")}
                   _hover={{
                     transition: "0.5s",
                     backgroundColor: "rgba(220,220,220,0.2)",

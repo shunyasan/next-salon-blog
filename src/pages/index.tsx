@@ -7,8 +7,8 @@ import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { FC } from "react";
-import { getAllFeature } from "services/api/features/get";
-import fetcher from "services/api/fetcher";
+import { FeatureService } from "services/orm/features/get";
+import fetcher from "services/orm/fetcher";
 import { getRandomImg } from "services/app/resources/SearchSalonHooks";
 import useSWR, { SWRConfig } from "swr";
 import { FeatureDto } from "types/api/dto/FeatureDto";
@@ -21,9 +21,10 @@ type Props = {
   image: string;
   feature: FeatureViewData[];
 };
+const feature = new FeatureService();
 
-export const getAllFeatureFunc = async () => {
-  const data: FeatureDto = await getAllFeature();
+const getAllFeatureFunc = async () => {
+  const data: FeatureDto = await feature.getAllFeature();
   return getFeatureString(data);
 };
 
@@ -54,11 +55,6 @@ const Home: NextPage<Props> = ({ image, feature }) => {
           name="description"
           content="自分に合った脱毛プランを検索できるサイトです。東京都内の医療脱毛激戦区である「渋谷・恵比寿・新宿・銀座・六本木・池袋」大手から優良小規模まで、ほぼ全てのクリニックから分析したプランをおすすめします。"
         />
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2833905872269108"
-          crossOrigin="anonymous"
-        ></script>
       </Head>
       <Flex pos="relative">
         <Box

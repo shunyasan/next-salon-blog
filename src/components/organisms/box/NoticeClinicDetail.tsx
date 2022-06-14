@@ -1,7 +1,7 @@
 import { Box, Flex } from "@chakra-ui/react";
+import { Clinic } from "@prisma/client";
 import { PlanConditionBox } from "components/molecules/box/PlanConditionBox";
 import { FC, memo, VFC } from "react";
-import { Clinic } from "types/api/Clinic";
 
 type Props = {
   clinic: Clinic;
@@ -28,7 +28,7 @@ export const NoticeClinicDetail: FC<Props> = (props) => {
         <PlanConditionBox
           key={clinic.name}
           title={"予約"}
-          text={clinic.reserve}
+          text={clinic.reserve || "不明"}
           first={"優良"}
           second={"良好"}
           other={"不明"}
@@ -38,7 +38,7 @@ export const NoticeClinicDetail: FC<Props> = (props) => {
         <PlanConditionBox
           key={clinic.name}
           title={"内装"}
-          text={clinic.interior}
+          text={clinic.interior || "不明"}
           first={"豪華"}
           second={"綺麗"}
           other={"不明"}
@@ -48,7 +48,7 @@ export const NoticeClinicDetail: FC<Props> = (props) => {
         <PlanConditionBox
           key={clinic.name}
           title={"施術室"}
-          text={clinic.roomType}
+          text={clinic.roomType || "不明"}
           first={"完全個室"}
           second={"個室"}
           other={"不明"}

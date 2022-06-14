@@ -1,10 +1,11 @@
+import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import { FeatureSearch } from "components/templete/feature/FeatureSearch.tsx";
 import { Feature } from "enums/FeatureEnum";
 import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
-import { getCountFeature, getFeature } from "services/api/features/get";
-import fetcher from "services/api/fetcher";
+import { FeatureService } from "services/orm/features/get";
+import fetcher from "services/orm/fetcher";
 import useSWR from "swr";
 import { ClinicNestPriceDto } from "types/api/dto/ClinicNestPriceDto";
 
@@ -16,12 +17,19 @@ type Props = {
 };
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const clinics: ClinicNestPriceDto[] = await getFeature(
-    Feature.privateRoom,
-    numOfTake,
-    0
-  );
-  const count: number = await getCountFeature(Feature.privateRoom);
+  const feature = new FeatureService();
+  const clinics = await feature.getFeature(Feature.privateRoom, {
+    take: numOfTake,
+    skip: 0,
+  });
+  const count = await feature.getCountFeature(Feature.privateRoom);
+
+  // const clinics: ClinicNestPriceDto[] = await getFeature(
+  //   Feature.privateRoom,
+  //   numOfTake,
+  //   0
+  // );
+  // const count: number = await getCountFeature(Feature.privateRoom);
   return {
     props: {
       clinics,
@@ -29,8 +37,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     },
   };
 };
-
-const PrivateRoomFeature: NextPage = () => {
+const PrivateRoomFeature: NextPage<Props> = ({ clinics, count }) => {
   const [pagenationData, setPagenationData] = useState<{
     now: number;
     block: number;
@@ -45,12 +52,14 @@ const PrivateRoomFeature: NextPage = () => {
     `/api/features/${Feature.privateRoom}?take=${numOfTake}&skip=${
       numOfTake * pagenationData.now
     }`,
-    fetcher
+    fetcher,
+    { fallbackData: clinics }
   );
 
   const { data: maxData = 0, error: err_max } = useSWR<number>(
     `/api/features/count/${Feature.privateRoom}`,
-    fetcher
+    fetcher,
+    { fallbackData: count }
   );
 
   const getPageNumber = useCallback(
@@ -65,6 +74,7 @@ const PrivateRoomFeature: NextPage = () => {
     [pagenationData]
   );
 
+  if (!clinicData || !maxData) return <LoadingIcon />;
   return (
     <>
       <Head>

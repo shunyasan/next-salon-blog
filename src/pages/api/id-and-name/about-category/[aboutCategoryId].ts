@@ -1,15 +1,17 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { BasePartsService } from "services/orm/base-parts/get";
 import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
-import { getAxios } from "../../../../services/api/get";
 
 export default async function getAllBasePartsIdAndName(
   req: NextApiRequest,
   res: NextApiResponse<IdAndNameDto[]>
-): Promise<IdAndNameDto[]> {
-  const aboutCategoryId = req.query.aboutCategoryId;
-  const data: IdAndNameDto[] = await getAxios(
-    "base-parts/id-and-name/aboutCategoryId/" + aboutCategoryId
-  );
+) {
+  const aboutCategoryId = req.query.aboutCategoryId as string;
+  const basePartsService = new BasePartsService();
+  const data = await basePartsService.getAllBasePartsIdAndName(aboutCategoryId);
+
+  // const data: IdAndNameDto[] = await getAxios(
+  //   "base-parts/id-and-name/aboutCategoryId/" + aboutCategoryId
+  // );
   res.json(data);
-  return data;
 }

@@ -1,4 +1,5 @@
 import { QueryKey } from "enums/QueryKey";
+import { NextApiRequest } from "next";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 import { OrderPlan } from "types/app/OrderPlan";
@@ -60,6 +61,14 @@ const checkParam = (key: string, value: string) => {
   }
 };
 
+const checkNone = (value: string) => {
+  if (value && value !== "") {
+    if (value !== "none") {
+      return value;
+    }
+  }
+};
+
 export const createParameter = (orderData: OrderPlanIdName) => {
   let newParams: string = "";
   newParams += checkParam(QueryKey.gender, orderData.gender.id);
@@ -100,4 +109,46 @@ export const searchForPlan = (
   const parts = partsId ? `${QueryKey.parts}=${partsId}&` : "";
   const param = genderParam + originCategory + aboutCategory + parts;
   return param;
+};
+
+//削除予定
+export const requestToOrderPlan = (req: NextApiRequest): OrderPlan => {
+  const orderPlan: OrderPlan = {
+    originParts: req.query.originParts as string,
+    AboutCategory: req.query.AboutCategory as string,
+    gender: checkNone(req.query.gender as string) || "",
+    paySystem: checkNone(req.query.paySystem as string) || "",
+    parts: checkNone(req.query.parts as string) || "",
+    skinCollor: checkNone(req.query.skinCollor as string) || "",
+    hair: checkNone(req.query.hair as string) || "",
+    roomType: checkNone(req.query.roomType as string) || "",
+    interior: checkNone(req.query.interior as string) || "",
+    staff: Number(req.query.staff),
+    card: checkNone(req.query.card as string) || "",
+    loan: checkNone(req.query.loan as string) || "",
+    contract: checkNone(req.query.contract as string) || "",
+    option: checkNone(req.query.option as string) || "",
+  };
+  return orderPlan;
+};
+
+//削除予定
+export const OrderPlanToOrderPlan = (orderParams: OrderPlan): OrderPlan => {
+  const orderPlan: OrderPlan = {
+    originParts: orderParams.originParts as string,
+    AboutCategory: orderParams.AboutCategory as string,
+    gender: checkNone(orderParams.gender as string) || "",
+    paySystem: checkNone(orderParams.paySystem as string) || "",
+    parts: checkNone(orderParams.parts as string) || "",
+    skinCollor: checkNone(orderParams.skinCollor as string) || "",
+    hair: checkNone(orderParams.hair as string) || "",
+    roomType: checkNone(orderParams.roomType as string) || "",
+    interior: checkNone(orderParams.interior as string) || "",
+    staff: Number(orderParams.staff),
+    card: checkNone(orderParams.card as string) || "",
+    loan: checkNone(orderParams.loan as string) || "",
+    contract: checkNone(orderParams.contract as string) || "",
+    option: checkNone(orderParams.option as string) || "",
+  };
+  return orderPlan;
 };

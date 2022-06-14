@@ -1,6 +1,6 @@
 import { Box, Button, Text } from "@chakra-ui/react";
+import { BaseParts } from "@prisma/client";
 import { FC, memo, VFC } from "react";
-import { BaseParts } from "types/api/BaseParts";
 
 type Props = {
   parts: BaseParts;

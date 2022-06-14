@@ -1,8 +1,8 @@
 import { Box, Flex, HStack, Image, Stack, Text } from "@chakra-ui/react";
+import { Clinic } from "@prisma/client";
 import { CopyrightImageBox } from "components/molecules/box/CopyrightImageBox";
 import { GetStaticProps } from "next";
 import { FC, useEffect, useState } from "react";
-import { Clinic } from "types/api/Clinic";
 
 type Props = {
   clinics: Clinic[];

@@ -6,15 +6,15 @@ import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
-import { getAboutCategoryByOriginId } from "services/api/about-categories/get";
-import { getAllBasePartsByAboutCategoryId } from "services/api/base-parts/get";
-import fetcher from "services/api/fetcher";
-import { getAllOriginCategoryIdAndName } from "services/api/id-and-name/get";
+import fetcher from "services/orm/fetcher";
 import { searchForPlan } from "services/app/parameter/CreateParameterHooks";
 import useSWR from "swr";
-import { AboutCategory } from "types/api/AboutCategory";
-import { BaseParts } from "types/api/BaseParts";
 import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
+import { OriginCategoryService } from "services/orm/origin-category/get";
+import { AboutCategoryService } from "services/orm/about-categories/get";
+import { BasePartsService } from "services/orm/base-parts/get";
+import { AboutCategory, BaseParts } from "@prisma/client";
+import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 
 type Props = {
   origin: IdAndNameDto[];
@@ -22,13 +22,17 @@ type Props = {
   parts: BaseParts[];
 };
 
+const originService = new OriginCategoryService();
+const aboutService = new AboutCategoryService();
+const partsService = new BasePartsService();
+
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const origin: IdAndNameDto[] = await getAllOriginCategoryIdAndName();
-  const about: AboutCategory[] = await getAboutCategoryByOriginId(origin[0].id);
-  const parts: BaseParts[] = await getAllBasePartsByAboutCategoryId(
-    about[0].id,
-    "女性"
+  const origin: IdAndNameDto[] = await originService.getAllIdAndName();
+  const about: AboutCategory[] = await aboutService.getAboutCategoryByOriginId(
+    origin[0].id
   );
+  const parts: BaseParts[] =
+    await partsService.getAllBasePartsByAboutCategoryId(about[0].id, "女性");
   return {
     props: {
       origin,
@@ -52,15 +56,15 @@ const TreatmentParts: NextPage<Props> = ({ origin, about, parts }) => {
   ) => {
     const param = searchForPlan(gender, originId, aboutCategoryId, partsId);
     router.push({
-      pathname: "/salon/search",
+      pathname: "/plan/search",
       search: param,
     });
   };
 
   const { data: originData = origin, error: err_ori } = useSWR<IdAndNameDto[]>(
     `/api/id-and-name/origin-category`,
-    fetcher
-    // { fallback: origin }
+    fetcher,
+    { fallbackData: origin }
   );
 
   const { data: viewAboutCategory = about, error: err_abo } = useSWR<
@@ -71,14 +75,14 @@ const TreatmentParts: NextPage<Props> = ({ origin, about, parts }) => {
       const data: AboutCategory[] = await fetcher(url);
       setAboutId(data[0].id);
       return data;
-    }
-    // { fallback: about }
+    },
+    { fallbackData: about }
   );
 
   const { data: viewBaseParts = parts, error: err_base } = useSWR<BaseParts[]>(
     `/api/base-parts/${aboutId}?gender=${gender}`,
-    fetcher
-    // { fallback: parts }
+    fetcher,
+    { fallbackData: parts }
   );
 
   const changeGenderState = useCallback(
@@ -90,6 +94,8 @@ const TreatmentParts: NextPage<Props> = ({ origin, about, parts }) => {
     [gender]
   );
 
+  if (!originData || !viewAboutCategory || !viewBaseParts)
+    return <LoadingIcon />;
   return (
     <Box
       my={"3rem"}

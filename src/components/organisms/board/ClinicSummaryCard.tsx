@@ -8,6 +8,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { Clinic, ClinicOpeningHours, ClinicOption } from "@prisma/client";
 import { OpeningHoursTable } from "components/molecules/table/OpeningHoursTable";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
 import {
@@ -15,14 +16,16 @@ import {
   ClinicOtherTitleValue,
 } from "services/app/clinic/ClinicDetailHooks";
 import { getRandomImg } from "services/app/resources/SearchSalonHooks";
-import { Clinic } from "types/api/Clinic";
 import { TitleValue } from "types/app/TitleValue";
 import { NoticeClinicDetail } from "../box/NoticeClinicDetail";
 import { PairDataBoxList } from "../lists/PairDataBoxList";
 import { PairDataRowBoxList } from "../lists/PairDataRowBoxList";
 
 type Props = {
-  clinicData: Clinic;
+  clinicData: Clinic & {
+    clinicOption: ClinicOption | null;
+    clinicOpeningHours: ClinicOpeningHours[];
+  };
 };
 
 export const ClinicSummaryCard: FC<Props> = (props) => {
@@ -44,10 +47,10 @@ export const ClinicSummaryCard: FC<Props> = (props) => {
   //
 
   const payDatas: TitleValue[] = [
-    { title: "カード払い", value: clinicData.cardPay },
+    { title: "カード払い", value: clinicData.cardPay || "不明" },
     {
       title: "医療ローン",
-      value: clinicData.medhicalLoan,
+      value: clinicData.medhicalLoan || "不明",
     },
     // {
     //   title: "URL",
@@ -55,12 +58,14 @@ export const ClinicSummaryCard: FC<Props> = (props) => {
     // },
     {
       title: "途中解約",
-      value: clinicData.clinicOption.contractCancellation,
+      value: clinicData.clinicOption?.contractCancellation || "不明",
     },
   ];
 
   useEffect(() => {
-    const option = ClinicOptionTitleValue(clinicData.clinicOption);
+    const option = clinicData.clinicOption
+      ? ClinicOptionTitleValue(clinicData.clinicOption)
+      : undefined;
     setOptionData(option);
 
     const other = ClinicOtherTitleValue(clinicData);
@@ -174,7 +179,7 @@ export const ClinicSummaryCard: FC<Props> = (props) => {
         </Box>
         <Box>
           <Link
-            href={clinicData.url}
+            href={clinicData.url || "#"}
             _hover={{ textDecoration: "none" }}
             _focus={{ outline: "none" }}
             isExternal

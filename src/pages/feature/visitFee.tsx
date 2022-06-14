@@ -1,10 +1,11 @@
+import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import { FeatureSearch } from "components/templete/feature/FeatureSearch.tsx";
 import { Feature } from "enums/FeatureEnum";
 import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
-import { getCountFeature, getFeature } from "services/api/features/get";
-import fetcher from "services/api/fetcher";
+import { FeatureService } from "services/orm/features/get";
+import fetcher from "services/orm/fetcher";
 import useSWR from "swr";
 import { ClinicNestPriceDto } from "types/api/dto/ClinicNestPriceDto";
 
@@ -16,12 +17,19 @@ type Props = {
 };
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const clinics: ClinicNestPriceDto[] = await getFeature(
-    Feature.visitFee,
-    numOfTake,
-    0
-  );
-  const count: number = await getCountFeature(Feature.visitFee);
+  const feature = new FeatureService();
+  const clinics = await feature.getFeature(Feature.visitFee, {
+    take: numOfTake,
+    skip: 0,
+  });
+  const count = await feature.getCountFeature(Feature.visitFee);
+
+  // const clinics: ClinicNestPriceDto[] = await getFeature(
+  //   Feature.visitFee,
+  //   numOfTake,
+  //   0
+  // );
+  // const count: number = await getCountFeature(Feature.visitFee);
   return {
     props: {
       clinics,
@@ -30,7 +38,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   };
 };
 
-const VisitFeeFeature: NextPage = () => {
+const VisitFeeFeature: NextPage<Props> = ({ clinics, count }) => {
   const [pagenationData, setPagenationData] = useState<{
     now: number;
     block: number;
@@ -45,12 +53,14 @@ const VisitFeeFeature: NextPage = () => {
     `/api/features/${Feature.visitFee}?take=${numOfTake}&skip=${
       numOfTake * pagenationData.now
     }`,
-    fetcher
+    fetcher,
+    { fallbackData: clinics }
   );
 
   const { data: maxData = 0, error: err_max } = useSWR<number>(
     `/api/features/count/${Feature.visitFee}`,
-    fetcher
+    fetcher,
+    { fallbackData: count }
   );
 
   const getPageNumber = useCallback(
@@ -65,6 +75,7 @@ const VisitFeeFeature: NextPage = () => {
     [pagenationData]
   );
 
+  if (!clinicData || !maxData) return <LoadingIcon />;
   return (
     <>
       <Head>

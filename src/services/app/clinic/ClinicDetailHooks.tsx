@@ -1,6 +1,5 @@
+import { Clinic, ClinicOption } from "@prisma/client";
 import { useCallback } from "react";
-import { Clinic } from "types/api/Clinic";
-import { ClinicOption } from "types/api/ClinicOption";
 import { TitleValue } from "types/app/TitleValue";
 
 export const ClinicDetailTab = () => {
@@ -21,7 +20,7 @@ export const ClinicDetailTab = () => {
   return tab;
 };
 
-export const checkNoneValue = (val: string) => {
+export const checkNoneValue = (val?: string | null) => {
   if (!val || val === "なし") {
     return "-";
   }
@@ -55,17 +54,21 @@ export const ClinicOptionTitleValue = (
   return datas;
 };
 
-export const ClinicPaymentTitleValue = (clinic: Clinic) => {
+export const ClinicPaymentTitleValue = (
+  clinic: Clinic & {
+    clinicOption: ClinicOption | null;
+  }
+) => {
   const datas: TitleValue[] = [
     {
       title: "学割",
-      value: checkNoneValue(clinic.clinicOption.studentDiscount),
+      value: checkNoneValue(clinic.clinicOption?.studentDiscount),
     },
     { title: "カード払い", value: checkNoneValue(clinic.cardPay) },
     { title: "医療ローン", value: checkNoneValue(clinic.medhicalLoan) },
     {
       title: "途中解約",
-      value: checkNoneValue(clinic.clinicOption.contractCancellation),
+      value: checkNoneValue(clinic.clinicOption?.contractCancellation),
     },
   ];
 
@@ -85,7 +88,7 @@ export const ClinicOtherTitleValue = (clinic: Clinic) => {
     // },
     {
       title: "電話番号",
-      value: clinic.tel,
+      value: clinic.tel || "",
     },
   ];
   return datas;

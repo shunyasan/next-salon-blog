@@ -1,22 +1,27 @@
 import { Box, Checkbox, Flex, HStack, Stack, Text } from "@chakra-ui/react";
+import { Clinic, ClinicOpeningHours, ClinicOption } from "@prisma/client";
 import { ClinicPlanCard } from "components/organisms/board/ClinicPlanCard";
 import { ClinicSummaryCard } from "components/organisms/board/ClinicSummaryCard";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { memo, useCallback, useEffect, useState, VFC } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getAllClinics, getOneClinic } from "services/api/clinics/get";
-import fetcher from "services/api/fetcher";
+import { ClinicService } from "services/orm/clinics/get";
+import fetcher from "services/orm/fetcher";
 import useSWR from "swr";
-import { Clinic } from "types/api/Clinic";
 
 type Props = {
-  clinicData: Clinic;
+  clinicData: Clinic & {
+    clinicOption: ClinicOption | null;
+    clinicOpeningHours: ClinicOpeningHours[];
+  };
 };
 
+const clinicService = new ClinicService();
+
 export const getStaticPaths: GetStaticPaths = async () => {
-  const datas: Clinic[] = await getAllClinics();
+  const datas: Clinic[] = await clinicService.getAllClinics();
   const paths = datas.map((data) => `/clinic/${data.id}`);
   return { paths: paths, fallback: false };
 };
@@ -24,7 +29,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const param = params && params.id;
   const id = param && typeof param === "string" ? param : "";
-  const clinicData: Clinic = await getOneClinic(id);
+  const clinicData = await clinicService.getOneClinic(id);
   // const clinicData: Clinic = await fetcher(`${thisURL}api/clinics/${id}`);
   return {
     props: {

@@ -1,7 +1,7 @@
 import { Box, Text, Flex } from "@chakra-ui/layout";
 import { ClinicCard } from "components/organisms/board/ClinicCard";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
-import fetcher from "services/api/fetcher";
+import fetcher from "services/orm/fetcher";
 import useSWR from "swr";
 import { ClinicNestPriceDto } from "types/api/dto/ClinicNestPriceDto";
 import { TopResource } from "../../../../resorces/TopResource";
@@ -19,61 +19,6 @@ type Props = {
 export const FeatureSearch: FC<Props> = (props) => {
   const { title, take, clinicData, maxData, pagenationData, getPageNumber } =
     props;
-
-  // const { getFeature, getCountFeature } = FeatureApi();
-  // const [clinicData, setClinicData] = useState<ClinicNestPriceDto[]>([]);
-  // const [maxData, setMaxData] = useState<number>(0);
-  // const [pagenationData, setPagenationData] = useState<{
-  //   now: number;
-  //   block: number;
-  // }>({
-  //   now: 0,
-  //   block: 0,
-  // });
-
-  // const { data: clinicData = [], error: err_cli } = useSWR<
-  //   ClinicNestPriceDto[]
-  // >(
-  //   `/api/features/${featureName}&take=${take}&skip=${
-  //     take * pagenationData.now
-  //   }`,
-  //   fetcher
-  // );
-
-  // const { data: maxData = 0, error: err_max } = useSWR<number>(
-  //   `/api/features/count/${featureName}`,
-  //   fetcher
-  // );
-
-  // const getFeatureFunc = useCallback(
-  //   async (page: number) => {
-  //     const datas = await getFeature(featureName, take, page * take);
-  //     setClinicData(datas);
-  //   },
-  //   [getFeature, featureName, take]
-  // );
-
-  // const getCountFeatureFunc = useCallback(async () => {
-  //   const datas = await getCountFeature(featureName);
-  //   setMaxData(datas);
-  // }, [getCountFeature, featureName]);
-
-  // const getPageNumber = useCallback(
-  //   async (page: number, block?: number) => {
-  //     // getFeatureFunc(page);
-  //     if (block || block === 0) {
-  //       setPagenationData({ now: page, block: block });
-  //     } else {
-  //       setPagenationData({ ...pagenationData, now: page });
-  //     }
-  //   },
-  //   [pagenationData]
-  // );
-
-  // useEffect(() => {
-  //   getFeatureFunc(0);
-  //   getCountFeatureFunc();
-  // }, [getFeatureFunc, getCountFeatureFunc]);
 
   return (
     <Box textAlign={"center"}>

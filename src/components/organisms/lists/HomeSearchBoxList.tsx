@@ -10,7 +10,7 @@ export const HomeSearchBoxList: FC = () => {
     text: "プランを探す",
     description:
       "自身の特徴や施術に求めることを選択し、あなたのための脱毛プランを検索します",
-    path: "/salon",
+    path: "/plan",
   };
   // const clinic: HomeFeatureText = {
   //   img: planImg,

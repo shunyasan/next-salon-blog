@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { BasePartsService } from "services/orm/base-parts/get";
 import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
-import { getAxios } from "../../../services/api/get";
 
 export default async function getBaseParts(
   req: NextApiRequest,
@@ -8,18 +8,22 @@ export default async function getBaseParts(
 
   // aboutCategoryId: string,
   // partsId?: string
-): Promise<IdAndNameDto[]> {
-  const aboutCategoryId = req.query.aboutCategoryId;
-  const partsId = req.query.partsId;
+) {
+  const aboutCategoryId = req.query.aboutCategoryId as string;
+  const partsId = req.query.partsId as string;
+  const basePartsService = new BasePartsService();
+  const data = await basePartsService.getBySortSelected(
+    aboutCategoryId,
+    partsId
+  );
 
-  const url =
-    "base-parts/id-and-name/sort-selected?" +
-    `aboutCategoryId=${aboutCategoryId}&`;
+  // const url =
+  //   "base-parts/id-and-name/sort-selected?" +
+  //   `aboutCategoryId=${aboutCategoryId}&`;
 
-  const checkedUrl =
-    !partsId || partsId === "none" ? url : url + `partsId=${partsId}&`;
+  // const checkedUrl =
+  //   !partsId || partsId === "none" ? url : url + `partsId=${partsId}&`;
 
-  const data: IdAndNameDto[] = await getAxios(checkedUrl);
+  // const data: IdAndNameDto[] = await getAxios(checkedUrl);
   res.json(data);
-  return data;
 }

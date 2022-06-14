@@ -1,6 +1,6 @@
 import { Box, Button, Image, Text } from "@chakra-ui/react";
+import { AboutCategory } from "@prisma/client";
 import { FC, memo, VFC } from "react";
-import { AboutCategory } from "types/api/AboutCategory";
 
 type Props = {
   category: AboutCategory;
