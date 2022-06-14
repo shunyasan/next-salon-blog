@@ -1,3 +1,4 @@
+import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import { FeatureSearch } from "components/templete/feature/FeatureSearch.tsx";
 import { Feature } from "enums/FeatureEnum";
 import { GetStaticProps, NextPage } from "next";
@@ -37,7 +38,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   };
 };
 
-const InstallmentsFeature: NextPage = () => {
+const InstallmentsFeature: NextPage<Props> = ({ clinics, count }) => {
   const [pagenationData, setPagenationData] = useState<{
     now: number;
     block: number;
@@ -46,18 +47,18 @@ const InstallmentsFeature: NextPage = () => {
     block: 0,
   });
 
-  const { data: clinicData = [], error: err_cli } = useSWR<
-    ClinicNestPriceDto[]
-  >(
+  const { data: clinicData, error: err_cli } = useSWR<ClinicNestPriceDto[]>(
     `/api/features/${Feature.installments}?take=${numOfTake}&skip=${
       numOfTake * pagenationData.now
     }`,
-    fetcher
+    fetcher,
+    { fallbackData: clinics }
   );
 
-  const { data: maxData = 0, error: err_max } = useSWR<number>(
+  const { data: maxData, error: err_max } = useSWR<number>(
     `/api/features/count/${Feature.installments}`,
-    fetcher
+    fetcher,
+    { fallbackData: count }
   );
 
   const getPageNumber = useCallback(
@@ -72,6 +73,7 @@ const InstallmentsFeature: NextPage = () => {
     [pagenationData]
   );
 
+  if (!clinicData || !maxData) return <LoadingIcon />;
   return (
     <>
       <Head>

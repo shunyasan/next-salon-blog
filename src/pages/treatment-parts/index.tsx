@@ -14,6 +14,7 @@ import { OriginCategoryService } from "services/orm/origin-category/get";
 import { AboutCategoryService } from "services/orm/about-categories/get";
 import { BasePartsService } from "services/orm/base-parts/get";
 import { AboutCategory, BaseParts } from "@prisma/client";
+import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 
 type Props = {
   origin: IdAndNameDto[];
@@ -55,15 +56,15 @@ const TreatmentParts: NextPage<Props> = ({ origin, about, parts }) => {
   ) => {
     const param = searchForPlan(gender, originId, aboutCategoryId, partsId);
     router.push({
-      pathname: "/salon/search",
+      pathname: "/plan/search",
       search: param,
     });
   };
 
   const { data: originData = origin, error: err_ori } = useSWR<IdAndNameDto[]>(
     `/api/id-and-name/origin-category`,
-    fetcher
-    // { fallback: origin }
+    fetcher,
+    { fallbackData: origin }
   );
 
   const { data: viewAboutCategory = about, error: err_abo } = useSWR<
@@ -74,14 +75,14 @@ const TreatmentParts: NextPage<Props> = ({ origin, about, parts }) => {
       const data: AboutCategory[] = await fetcher(url);
       setAboutId(data[0].id);
       return data;
-    }
-    // { fallback: about }
+    },
+    { fallbackData: about }
   );
 
   const { data: viewBaseParts = parts, error: err_base } = useSWR<BaseParts[]>(
     `/api/base-parts/${aboutId}?gender=${gender}`,
-    fetcher
-    // { fallback: parts }
+    fetcher,
+    { fallbackData: parts }
   );
 
   const changeGenderState = useCallback(
@@ -93,6 +94,8 @@ const TreatmentParts: NextPage<Props> = ({ origin, about, parts }) => {
     [gender]
   );
 
+  if (!originData || !viewAboutCategory || !viewBaseParts)
+    return <LoadingIcon />;
   return (
     <Box
       my={"3rem"}

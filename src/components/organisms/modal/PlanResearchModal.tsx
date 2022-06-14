@@ -117,7 +117,7 @@ export const PlanResearchModal: FC<Props> = (props) => {
       onClose();
       resetPages();
       router.push({
-        pathname: "/salon/search",
+        pathname: "/plan/search",
         search: `?${param}`,
       });
     }

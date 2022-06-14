@@ -1,6 +1,7 @@
 import { Button } from "@chakra-ui/button";
 import { Image } from "@chakra-ui/image";
 import { Box, Center, HStack, Text, Wrap, WrapItem } from "@chakra-ui/layout";
+import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import { NarrowImageAndTextBox } from "components/molecules/box/NarrowImageAndTextBox";
 import { QueryKey } from "enums/QueryKey";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
@@ -48,6 +49,7 @@ export const AboutPartsSelectCard: FC<Props> = (props) => {
   //   console.log(aboutParts);
   // }, [orderPlan, aboutParts]);
 
+  if (!aboutParts) return <LoadingIcon />;
   return (
     <div className={change}>
       <Box m={6} textAlign="center">

@@ -72,7 +72,7 @@ const SearchSalon: NextPage<Props> = (props) => {
     setShowPage(page || 0);
 
     router.push({
-      pathname: "/salon",
+      pathname: "/plan/origin",
       search: encode,
     });
   };
@@ -93,7 +93,7 @@ const SearchSalon: NextPage<Props> = (props) => {
     setChange("");
     setShowPage(page < 0 ? 0 : page);
     router.push({
-      pathname: "/salon",
+      pathname: "/plan",
       search: query,
     });
     // 編集前
@@ -105,7 +105,7 @@ const SearchSalon: NextPage<Props> = (props) => {
     const queryString = createQueryString(router.query);
     const decode = decodeURI(queryString);
     router.push({
-      pathname: "/salon/search",
+      pathname: "/plan/search",
       search: decode + query,
     });
   };
@@ -114,7 +114,7 @@ const SearchSalon: NextPage<Props> = (props) => {
   // const findPlan = async () => {
   //   const queryString = createQueryString(router.query);
   //   router.push({
-  //     pathname: "/salon/search",
+  //     pathname: "/plan/search",
   //     search: queryString,
   //   });
   // };
@@ -122,7 +122,7 @@ const SearchSalon: NextPage<Props> = (props) => {
   const transitionTop = () => {
     setShowPage(0);
     setChange(style.fade);
-    router.push("/salon");
+    router.push("/plan");
   };
 
   // useEffect(() => {

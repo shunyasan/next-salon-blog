@@ -27,6 +27,7 @@ import { OriginCategoryService } from "services/orm/origin-category/get";
 import { AboutCategoryService } from "services/orm/about-categories/get";
 import { BasePartsService } from "services/orm/base-parts/get";
 import { PriceService } from "services/orm/prices/get";
+import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 
 const numOfTakeData = 10;
 const priceService = new PriceService();
@@ -120,16 +121,22 @@ const SalonList: NextPage<Props> = (props) => {
     block: 0,
   });
 
-  const { data: price = firstPrices, error: err_pri } = useSWR<PriceDto[]>(
+  const { data: price, error: err_pri } = useSWR<PriceDto[]>(
     `/api/prices?${planParam}&take=${numOfTakeData}&skip=${
       numOfTakeData * pagenationData.now
     }`,
-    fetcher
+    fetcher,
+    {
+      fallbackData: firstPrices,
+    }
   );
 
-  const { data: maxValue = firstMaxValue, error: err_max } = useSWR<number>(
+  const { data: maxValue, error: err_max } = useSWR<number>(
     `/api/prices/max-count?${planParam}`,
-    fetcher
+    fetcher,
+    {
+      fallbackData: firstMaxValue,
+    }
   );
 
   const serPagenationDefault = () => {
@@ -197,6 +204,7 @@ const SalonList: NextPage<Props> = (props) => {
   //   }
   // }, [orderPlanData, getMaxDataCount]);
 
+  if (!price || !maxValue) return <LoadingIcon />;
   return (
     <Stack
       m={"2rem"}
@@ -220,7 +228,7 @@ const SalonList: NextPage<Props> = (props) => {
         <Box my={"1rem"}>
           <BaseButton
             text={"最初からやり直す"}
-            path={"/salon"}
+            path={"/plan"}
             size={undefined}
             base={"secBase"}
           />

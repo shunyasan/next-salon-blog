@@ -1,6 +1,7 @@
 import { Button } from "@chakra-ui/button";
 import { Image } from "@chakra-ui/image";
 import { Box, Center, HStack, Text, Wrap, WrapItem } from "@chakra-ui/layout";
+import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import { NarrowImageAndTextBox } from "components/molecules/box/NarrowImageAndTextBox";
 import { QueryKey } from "enums/QueryKey";
 import getAllOriginCategory from "pages/api/origin-category";
@@ -42,6 +43,7 @@ export const OriginPartsSelectCard: FC<Props> = (props) => {
   //   getOriginParts();
   // }, [getOriginParts]);
 
+  if (!originParts) return <LoadingIcon />;
   return (
     <div className={change}>
       <Box m={6} textAlign="center">

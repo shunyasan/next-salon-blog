@@ -12,7 +12,7 @@ export const Footer: FC = () => {
       text: "TOP",
     },
     {
-      path: "/salon",
+      path: "/plan",
       text: "プランを探す",
     },
     {

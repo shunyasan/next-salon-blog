@@ -2,20 +2,35 @@ import { Button } from "@chakra-ui/button";
 import { Box, Center, Flex, HStack, Text } from "@chakra-ui/layout";
 import { CompleteBadge } from "components/atoms/badge/CompleteBadge";
 import { useRouter } from "next/router";
-import React, { FC, ReactNode } from "react";
+import React, { FC, ReactNode, useEffect, useState } from "react";
+import { createQueryString } from "services/app/parameter/CreateParameterHooks";
+import { PageQuery } from "types/app/PageQuery";
+import style from "../../../../styles/Home.module.css";
 
 type Props = {
-  showPage: number;
   children: ReactNode;
+  showPage: number;
+  // prePage: string;
+  // query?: string;
 };
 
-const SearchSalon: FC<Props> = (props) => {
+const OrderSalonPage: FC<Props> = (props) => {
   const { showPage, children } = props;
+
   const router = useRouter();
 
-  const transitionTop = () => {
-    router.push("/salon");
-  };
+  const [query, setQuery] = useState<string>();
+
+  // const getQuery = () => {
+  //   const queryString = createQueryString(router.query);
+  //   const decode = decodeURI(queryString);
+  //   return decode;
+  // };
+
+  useEffect(() => {
+    const queryString = createQueryString(router.query);
+    setQuery(queryString);
+  }, [router]);
 
   return (
     <Box>
@@ -37,7 +52,15 @@ const SearchSalon: FC<Props> = (props) => {
       </Box>
       {children}
       <Center m="2em">
-        <Button variant={"secBase"} onClick={transitionTop}>
+        {/* <Button
+          as="a"
+          mx="7"
+          href={`/plan/${prePage}?${query}`}
+          variant={"secBase"}
+        >
+          戻る
+        </Button> */}
+        <Button as="a" variant={"secBase"} href="/plan">
           最初からやり直す
         </Button>
       </Center>
@@ -45,4 +68,4 @@ const SearchSalon: FC<Props> = (props) => {
     </Box>
   );
 };
-export default SearchSalon;
+export default OrderSalonPage;

@@ -1,5 +1,6 @@
 import { Box, Checkbox, Flex, HStack, Text } from "@chakra-ui/react";
 import { ClinicArea } from "@prisma/client";
+import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import { ClinicCard } from "components/organisms/board/ClinicCard";
 import { AreaBox } from "components/organisms/box/AreaBox";
 import { Pagenation } from "components/templete/pagenation/Pagenation";
@@ -72,9 +73,13 @@ const Clinics: NextPage<Props> = ({ area, clinics }) => {
     fetcher
   );
 
-  const { data: clinicData = clinics, error: err_cli } = useSWR<
-    ClinicNestPriceDto[]
-  >(`/api/${clinicUrl}`, fetcher);
+  const { data: clinicData, error: err_cli } = useSWR<ClinicNestPriceDto[]>(
+    `/api/${clinicUrl}`,
+    fetcher,
+    {
+      fallbackData: clinics,
+    }
+  );
   // const { data: areaData = [], error: err_ori } = useSWR<ClinicArea[]>(
   //   `/api/clinics?take=${numOfTakeData}&skip=${numOfTakeData * pagenationData.now}`,
   //   fetcher
@@ -125,7 +130,7 @@ const Clinics: NextPage<Props> = ({ area, clinics }) => {
   // useEffect(() => {
   //   setPagenationData({ now: 0, block: 0 });
   // }, [areaIdState]);
-  if (!clinicData) return <Box>loading....</Box>;
+  if (!clinicData) return <LoadingIcon />;
   return (
     <Box my={"3rem"} mx={{ md: "3rem", sm: "1rem" }} textAlign={"center"}>
       <Head>
