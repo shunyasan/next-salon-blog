@@ -4,8 +4,8 @@ import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
 import fetcher from "services/orm/fetcher";
 import useSWR from "swr";
 import { ClinicNestPriceDto } from "types/api/dto/ClinicNestPriceDto";
-import { TopResource } from "../../../../resorces/TopResource";
-import { Pagenation } from "../pagenation/Pagenation";
+import { TopResource } from "../../../../../resorces/TopResource";
+import { Pagenation } from "../../pagenation/Pagenation";
 
 type Props = {
   title: string;

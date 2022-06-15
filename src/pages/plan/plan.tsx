@@ -9,7 +9,7 @@ import { OriginPartsSelectCard } from "components/organisms/box/OriginPartsSelec
 import { PartsCard } from "components/organisms/box/PartsCard";
 import { PlanSearchCard } from "components/organisms/box/PlanSearchCard";
 import { YourselfCard } from "components/organisms/box/YourselfCard";
-import OrderSalonPage from "components/templete/plan/OrderSalonPage";
+import OrderSalonPage from "components/templete/pages/plan/OrderSalonPage";
 import { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";

@@ -174,6 +174,9 @@ export class PriceService {
     // ↓に変更する可能性
     // pagenationOrderPlan: PagenationOrderPlan
   ) {
+    if (!orderPlan) {
+      return [];
+    }
     const sortPrice = orderPlan.paySystem === "総額" ? "price" : "oncePrice";
 
     const getPrices = await this.getAllPrices(
@@ -182,47 +185,6 @@ export class PriceService {
       pagenation.take,
       pagenation.skip
     );
-    // query += ` ORDER BY "${tableName}"."${sortPrice}" ASC`;
-    // query += ` LIMIT ${pagenation.take} OFFSET ${pagenation.skip};`;
-
-    // const data = this.selectPriceClass(tableName);
-    // // const getPrices = await data.findMany(query);
-    // const originCategory: IdAndNameDto | null =
-    //   await this.originCategoryRepository.getTest().findFirst({
-    //     select: {
-    //       id: true,
-    //       name: true,
-    //     },
-    //     where: { id: orderPlan.originParts },
-    //   });
-    // const aboutCategory: IdAndNameDto | null =
-    //   await this.aboutCategoryRepository.getTest().findFirst({
-    //     select: {
-    //       id: true,
-    //       name: true,
-    //     },
-    //     where: { id: orderPlan.AboutCategory },
-    //   });
-    // const parts: IdAndNameDto | null = orderPlan.parts
-    //   ? await this.basePartsRepository.getTest().findFirst({
-    //       select: {
-    //         id: true,
-    //         name: true,
-    //       },
-    //       where: { id: orderPlan.parts },
-    //     })
-    //   : null;
-
-    // const test: IdAndNameDto = {
-    //   id: "test",
-    //   name: "test",
-    // };
-    // const ans: IncludePartsAndCategoryPriceDto = {
-    //   originCategory: originCategory || test,
-    //   aboutCategory: aboutCategory || test,
-    //   baseParts: parts || test,
-    //   prices: getPrices as PriceDto[],
-    // };
     return getPrices as PriceDto[];
   }
 

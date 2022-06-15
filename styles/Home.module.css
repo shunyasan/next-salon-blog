@@ -169,6 +169,11 @@
   /* transform: translateY(200px); */
 }
 
+.badgeDesign {
+  background-color: #111;
+  color: #edf2f7;
+}
+
 .showBadge {
   animation-name: showBadgeAnime;
   animation-duration: 0.5s;

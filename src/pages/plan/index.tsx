@@ -8,6 +8,7 @@ import { OriginPartsSelectCard } from "components/organisms/box/OriginPartsSelec
 import { PartsCard } from "components/organisms/box/PartsCard";
 import { PlanSearchCard } from "components/organisms/box/PlanSearchCard";
 import { YourselfCard } from "components/organisms/box/YourselfCard";
+import OrderSalonPage from "components/templete/pages/plan/OrderSalonPage";
 import { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -132,29 +133,19 @@ const SearchSalon: NextPage<Props> = (props) => {
 
   return (
     <>
-      <Box textAlign="center" m={8}>
-        <Head>
-          <title>条件を選択 | あなたのための脱毛</title>
-          <meta
-            name="description"
-            content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」からおすすめのプランを検索します。安い/痛くないと言った要望や、顔/全身/VIOの中でも、クリニックにごとの施術範囲の違いを指定して検索できます。"
-          />
-        </Head>
-        <Center my={"1rem"} fontSize={"1.5rem"}>
-          プランを探す
-        </Center>
-        <HStack justifyContent={"center"} wrap={"wrap"}>
-          {[...Array(7)].map((_, i) => (
-            <CompleteBadge
-              key={i}
-              number={i + 1}
-              selected={showPage >= i}
-              mx={"5px"}
-              circle={{ md: "2.5rem", sm: "2rem" }}
-            />
-          ))}
-        </HStack>
-      </Box>
+      <Head>
+        <title>条件を選択 | あなたのための脱毛</title>
+        <meta
+          name="description"
+          content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」からおすすめのプランを検索します。安い/痛くないと言った要望や、顔/全身/VIOの中でも、クリニックにごとの施術範囲の違いを指定して検索できます。"
+        />
+      </Head>
+      <OrderSalonPage showPage={0}>
+        <GenderCard
+          setGenderData={(query) => selectParamsData(query, 1)}
+          setAnimation={change}
+        />
+      </OrderSalonPage>
       {/* 毛量を選択
       {showPage === 5 && queryOrderPlan ? (
         <HairCard setHairData={(query) => FindPlanLastCondition(query)} />
@@ -167,75 +158,43 @@ const SearchSalon: NextPage<Props> = (props) => {
       ) : null}  */}
 
       {/* プラン情報を選択 */}
-      {showPage === 6 && queryOrderPlan ? (
+      {/* {showPage === 6 && queryOrderPlan ? (
         <PlanSearchCard
           setQueryData={(query) => FindPlanLastCondition(query)}
         />
-      ) : null}
+      ) : null} */}
       {/* クリニック情報を選択 */}
-      {showPage === 5 && queryOrderPlan ? (
+      {/* {showPage === 5 && queryOrderPlan ? (
         <ClinicSearchCard
           setQueryData={(query) => selectParamsData(query, 6)}
         />
-      ) : null}
+      ) : null} */}
       {/* 自身の情報を選択 */}
-      {showPage === 4 && queryOrderPlan ? (
+      {/* {showPage === 4 && queryOrderPlan ? (
         <YourselfCard setQueryData={(query) => selectParamsData(query, 5)} />
-      ) : null}
+      ) : null} */}
       {/* 部位別を選択 */}
-      {showPage === 3 && queryOrderPlan ? (
+      {/* {showPage === 3 && queryOrderPlan ? (
         <PartsCard
           setPartsData={(query) => selectParamsData(query, 4)}
           orderPlan={queryOrderPlan}
         />
-      ) : null}
+      ) : null} */}
       {/* 大まかな部位を選ぶ */}
-      {showPage === 2 && queryOrderPlan ? (
+      {/* {showPage === 2 && queryOrderPlan ? (
         <AboutPartsSelectCard
           setAboutPartsSelectData={(query) => selectParamsData(query, 3)}
           orderPlan={queryOrderPlan}
         />
-      ) : null}
+      ) : null} */}
       {/* カテゴリを選ぶ */}
-      {showPage === 1 && queryOrderPlan ? (
+      {/* {showPage === 1 && queryOrderPlan ? (
         <OriginPartsSelectCard
           setOriginPartsSelectData={(query) => selectParamsData(query, 2)}
           orderPlan={queryOrderPlan}
         />
-      ) : null}
+      ) : null} */}
       {/* 性別を選択する */}
-      {showPage === 0 ? (
-        <GenderCard
-          setGenderData={(query) => selectParamsData(query, 1)}
-          setAnimation={change}
-        />
-      ) : null}
-      <Box m="2em" textAlign="center">
-        {showPage === 0 || (
-          <Button mx="7" onClick={prevClick} variant={"secBase"}>
-            戻る
-          </Button>
-        )}
-      </Box>
-      {/* {showPage > 2 && (
-        <Box>
-          <Center m="2em" textAlign="center">
-            <Button
-              mx="7"
-              onClick={findPlan}
-              // disabled={newParams === ""}
-              variant={"base"}
-            >
-              検索
-            </Button>
-          </Center>
-        </Box>
-      )} */}
-      <Center m="2em">
-        <Button variant={"secBase"} onClick={transitionTop}>
-          最初からやり直す
-        </Button>
-      </Center>
       {/* <Adsense /> */}
     </>
   );

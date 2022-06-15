@@ -20,6 +20,7 @@ type Props = {
   // data: FeatureViewData[];
   image: string;
   feature: FeatureViewData[];
+  topImg: string;
 };
 const feature = new FeatureService();
 
@@ -28,18 +29,20 @@ const getAllFeatureFunc = async () => {
   return getFeatureString(data);
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps<Props> = async () => {
   const feature = await getAllFeatureFunc();
   const img = getRandomImg();
+  const topImg = TopResource.topImg;
   return {
     props: {
       feature: feature,
       image: img,
+      topImg,
     },
   };
 };
 
-const Home: NextPage<Props> = ({ image, feature }) => {
+const Home: NextPage<Props> = ({ image, feature, topImg }) => {
   const router = useRouter();
 
   const pushLink = (url: string) => {
@@ -77,7 +80,7 @@ const Home: NextPage<Props> = ({ image, feature }) => {
           </Stack>
         </Box>
         <Image
-          src={TopResource.topImg}
+          src={topImg}
           w={{ md: "100%", sm: "90rem" }}
           h={{ md: "100%", sm: "18rem" }}
           objectFit={"cover"}

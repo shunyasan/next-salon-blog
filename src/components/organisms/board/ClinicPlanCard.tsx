@@ -1,10 +1,15 @@
 import { Box, Center, Flex, Text, useDisclosure } from "@chakra-ui/react";
-import { Clinic, ClinicOpeningHours, ClinicOption } from "@prisma/client";
+import {
+  AboutCategory,
+  Clinic,
+  ClinicOpeningHours,
+  ClinicOption,
+} from "@prisma/client";
+import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import getPriceByAboutIdAndClinicId from "pages/api/prices/clinic/[id]";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
 import fetcher from "services/orm/fetcher";
 import useSWR from "swr";
-import { AboutCategory } from "types/api/AboutCategory";
 import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
 import { PriceDto } from "types/api/dto/PriceDto";
 import { AbobutCategiryId } from "../../../enums/AbobutCategiryIdEnum";
@@ -18,10 +23,13 @@ type Props = {
     clinicOption: ClinicOption | null;
     clinicOpeningHours: ClinicOpeningHours[];
   };
+  originData: IdAndNameDto[];
+  aboutCategoryData: AboutCategory[];
+  priceData: PriceDto[];
 };
 
 export const ClinicPlanCard: FC<Props> = (props) => {
-  const { clinicData } = props;
+  const { clinicData, originData, aboutCategoryData, priceData } = props;
   // const { getAboutCategoryByOriginId } = AboutCategoryApi();
   // const { getAllOriginCategoryIdAndName } = IdAndNameApi();
   // const { getPriceByAboutIdAndClinicId } = PriceApi();
@@ -40,19 +48,31 @@ export const ClinicPlanCard: FC<Props> = (props) => {
 
   const [originId, setOriginId] = useState<string>();
 
-  const { data: originData = [], error: err_ori } = useSWR<IdAndNameDto[]>(
-    `/api/id-and-name/origin-category`,
-    fetcher
-  );
+  // const { data: originData, error: err_ori } = useSWR<IdAndNameDto[]>(
+  //   `/api/id-and-name/origin-category`,
+  //   fetcher,
+  //   {
+  //     fallbackData: origin,
+  //   }
+  // );
 
-  const { data: aboutCategoryData = [], error: err_abo } = useSWR<
-    AboutCategory[]
-  >(`/api/about-categories/originId/${originId}`, fetcher);
+  // const { data: aboutCategoryData, error: err_abo } = useSWR<AboutCategory[]>(
+  //   `/api/about-categories/originId/${originId}`,
+  //   fetcher,
+  //   {
+  //     fallbackData: aboutCategory,
+  //   }
+  // );
 
-  const { data: priceData = [], error: err_pri } = useSWR<PriceDto[]>(
-    `/api/prices/clinic/${clinicData.id}?aboutId=${aboutCategoryData[0].id}`,
-    fetcher
-  );
+  // const { data: priceData, error: err_pri } = useSWR<PriceDto[]>(
+  //   `/api/prices/clinic/${clinicData.id}?aboutId=${
+  //     aboutCategoryData ? aboutCategoryData[0].id : aboutCategory[0].id
+  //   }`,
+  //   fetcher,
+  //   {
+  //     fallbackData: price,
+  //   }
+  // );
 
   // const getOriginCategory = useCallback(async () => {
   //   const data = await getAllOriginCategoryIdAndName();
@@ -108,6 +128,7 @@ export const ClinicPlanCard: FC<Props> = (props) => {
   //   getFirstPartsDatas();
   // }, [getFirstPartsDatas]);
 
+  if (!originData || !aboutCategoryData || !priceData) return <LoadingIcon />;
   return (
     <Box>
       <Flex justifyContent={"space-evenly"} wrap={"wrap"}>
