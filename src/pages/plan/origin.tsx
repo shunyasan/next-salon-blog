@@ -9,7 +9,7 @@ import { OriginPartsSelectCard } from "components/organisms/box/OriginPartsSelec
 import { PartsCard } from "components/organisms/box/PartsCard";
 import { PlanSearchCard } from "components/organisms/box/PlanSearchCard";
 import { YourselfCard } from "components/organisms/box/YourselfCard";
-import OrderSalonPage from "components/templete/plan/OrderSalonPage";
+import OrderSalonPage from "components/templete/pages/plan/OrderSalonPage";
 import { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -122,7 +122,7 @@ const SearchSalon: NextPage<Props> = (props) => {
           content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」からおすすめのプランを検索します。安い/痛くないと言った要望や、顔/全身/VIOの中でも、クリニックにごとの施術範囲の違いを指定して検索できます。"
         />
       </Head>
-      <OrderSalonPage showPage={2}>
+      <OrderSalonPage showPage={1}>
         <OriginPartsSelectCard
           setOriginPartsSelectData={(query) => selectParamsData(query, 2)}
           orderPlan={queryOrderPlan}

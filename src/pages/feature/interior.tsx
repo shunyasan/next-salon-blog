@@ -1,5 +1,5 @@
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
-import { FeatureSearch } from "components/templete/feature/FeatureSearch.tsx";
+import { FeatureSearch } from "components/templete/pages/feature/FeatureSearch.tsx";
 import { Feature } from "enums/FeatureEnum";
 import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";

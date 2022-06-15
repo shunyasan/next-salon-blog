@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import React, { FC, ReactNode, useEffect, useState } from "react";
 import { createQueryString } from "services/app/parameter/CreateParameterHooks";
 import { PageQuery } from "types/app/PageQuery";
-import style from "../../../../styles/Home.module.css";
+import style from "../../../../../styles/Home.module.css";
 
 type Props = {
   children: ReactNode;
@@ -46,6 +46,7 @@ const OrderSalonPage: FC<Props> = (props) => {
               selected={showPage >= i}
               mx={"5px"}
               circle={{ md: "2.5rem", sm: "2rem" }}
+              anime={i === showPage ? style.showBadge : style.badgeDesign}
             />
           ))}
         </HStack>

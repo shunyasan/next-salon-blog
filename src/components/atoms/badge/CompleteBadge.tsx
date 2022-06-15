@@ -7,19 +7,21 @@ type Props = {
   selected: boolean;
   mx: string;
   circle: { md: string; sm: string };
+  anime: string;
 };
 
 export const CompleteBadge: FC<Props> = (props) => {
-  const { number, selected, mx, circle } = props;
-  const [anime, setAnime] = useState<string>();
+  const { number, selected, mx, circle, anime } = props;
+  // const [anime, setAnime] = useState<string>();
 
-  useEffect(() => {
-    if (selected) {
-      setAnime(style.showBadge);
-    } else if (!selected) {
-      setAnime("");
-    }
-  }, [selected]);
+  // useEffect(() => {
+  //   if (selected) {
+  //     setAnime(style.showBadge);
+  //   } else if (!selected) {
+  //     setAnime("");
+  //   }
+  // }, [selected]);
+
   return (
     <Center
       className={anime}

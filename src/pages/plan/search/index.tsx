@@ -45,8 +45,10 @@ type Props = {
 };
 
 const createTitle = (idName: OrderPlanIdName) => {
-  const data = Object.entries(idName).map(([key, value]) => value.name);
-  const res = data.reduce((a, b) => a + "," + b);
+  const data = Object.entries(idName).map(([key, value]) => {
+    return value ? value.name : undefined;
+  });
+  const res = data.reduce((a, b) => (b ? a + "," + b : ""));
   return res;
 };
 
@@ -71,6 +73,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   //クエリ作成
+
   const query = createQueryString(context.query);
   const orderPlanData = getQueryOrderPlanInSearch(query);
   const planParam = createQuery(orderPlanData);
@@ -84,7 +87,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const firstMaxValue = await priceService.getCountMaxPlan(reqOrder);
   const orderDataIdName = await createOrderDataIdName(orderPlanData);
   // タイトル作成
-  const title = createTitle(orderDataIdName);
+  const title = createTitle(orderDataIdName) || "";
   return {
     props: {
       planParam,
@@ -203,8 +206,7 @@ const SalonList: NextPage<Props> = (props) => {
   //     getMaxDataCount(orderPlanData);
   //   }
   // }, [orderPlanData, getMaxDataCount]);
-
-  if (!price || !maxValue) return <LoadingIcon />;
+  if (!price || (!maxValue && maxValue !== 0)) return <LoadingIcon />;
   return (
     <Stack
       m={"2rem"}
@@ -236,7 +238,7 @@ const SalonList: NextPage<Props> = (props) => {
       </Box>
       {/* <Adsense /> */}
       <Center w={"100%"}>
-        {maxValue > 0 ? (
+        {maxValue > 0 && (
           <Pagenation
             max={maxValue}
             take={numOfTakeData}
@@ -262,12 +264,13 @@ const SalonList: NextPage<Props> = (props) => {
                 ))}
             </Stack>
           </Pagenation>
-        ) : (
+        )}
+        {
           <Box my={"3rem"}>
             <Text>こちらのプランは見つかりませんでした。</Text>
             <Text>「条件を変更」をご利用ください</Text>
           </Box>
-        )}
+        }
       </Center>
       {/* <Adsense /> */}
     </Stack>
