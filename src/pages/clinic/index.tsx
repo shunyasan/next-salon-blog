@@ -1,6 +1,7 @@
-import { Box, Checkbox, Flex, HStack, Text } from "@chakra-ui/react";
+import { Box, Checkbox, Flex, HStack, Stack, Text } from "@chakra-ui/react";
 import { ClinicArea } from "@prisma/client";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
+import { HeadingBox } from "components/molecules/box/HeadingBox";
 import { ClinicCard } from "components/organisms/board/ClinicCard";
 import { AreaBox } from "components/organisms/box/AreaBox";
 import { Pagenation } from "components/templete/pagenation/Pagenation";
@@ -10,6 +11,7 @@ import { memo, useCallback, useEffect, useState, VFC } from "react";
 import { ClinicAreaService } from "services/orm/clinic-areas/get";
 import { ClinicService } from "services/orm/clinics/get";
 import fetcher from "services/orm/fetcher";
+import { tweet } from "services/tweet";
 import useSWR from "swr";
 import { ClinicNestPriceDto } from "types/api/dto/ClinicNestPriceDto";
 
@@ -132,15 +134,20 @@ const Clinics: NextPage<Props> = ({ area, clinics }) => {
   // }, [areaIdState]);
   if (!clinicData) return <LoadingIcon />;
   return (
-    <Box my={"3rem"} mx={{ md: "3rem", sm: "1rem" }} textAlign={"center"}>
+    <Box textAlign={"center"}>
       <Head>
         <title>クリニック一覧 | あなたのための脱毛</title>
         <meta
           name="description"
           content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」にあるクリニック一覧です"
         />
+        <script
+          async
+          src="https://platform.twitter.com/widgets.js"
+          charSet="utf-8"
+        ></script>
       </Head>
-      <Text fontSize={"1.5rem"}>クリニック一覧</Text>
+      <HeadingBox title="クリニック一覧" />
       <HStack
         justifyContent={"space-evenly"}
         wrap={"wrap"}
@@ -189,11 +196,30 @@ const Clinics: NextPage<Props> = ({ area, clinics }) => {
         {/* <Box mt={"2rem"}>
           <Checkbox colorScheme="yellow" value={}>系列クリニックをまとめる</Checkbox>
         </Box> */}
-        <Box maxW={{ md: "55rem", sm: "100%" }} m="auto">
-          {clinicData.map((data, int) => (
-            <ClinicCard clinic={data} key={int} />
-          ))}
-        </Box>
+        <Flex
+          my="3rem"
+          alignItems={"flex-start"}
+          justifyContent={"space-evenly"}
+        >
+          <Stack maxW={{ md: "55rem", sm: "100%" }} spacing={"3rem"}>
+            {clinicData.map((data, int) => (
+              <ClinicCard clinic={data} key={int} />
+            ))}
+          </Stack>
+          <Stack spacing={"3rem"}>
+            {tweet.map((account) => (
+              <Box key={account}>
+                <a
+                  className="twitter-timeline"
+                  data-height="600"
+                  href={`https://twitter.com/${account}?ref_src=twsrc%5Etfw`}
+                >
+                  Tweets by {account}
+                </a>
+              </Box>
+            ))}
+          </Stack>
+        </Flex>
       </Pagenation>
       {/* <Adsense /> */}
     </Box>

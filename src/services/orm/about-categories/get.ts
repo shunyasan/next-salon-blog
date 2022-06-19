@@ -72,6 +72,14 @@ export class AboutCategoryService {
     //   return data;
   }
 
+  async getJoinBasicPartsd(originId: string, excludeGender: number) {
+    // const excludeGender: number = gender === "男性" ? 1 : 2;
+    return await this.aboutCategoryRepository.getJoinBasicParts(
+      originId,
+      excludeGender
+    );
+  }
+
   async getAboutCategoryIdAndName(id: string): Promise<IdAndNameDto> {
     return this.aboutCategoryRepository.getIdAndName(id);
 

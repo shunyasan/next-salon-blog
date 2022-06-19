@@ -1,33 +1,44 @@
-import { Flex, HStack, Stack, Text } from "@chakra-ui/react";
+import { Box, Flex, HStack, Stack, Text } from "@chakra-ui/react";
+import { Logo } from "components/atoms/logos/Logo";
+import { HeadingBox } from "components/molecules/box/HeadingBox";
+import TitleAndValueBox from "components/molecules/box/TitleAndValueBox";
 import { NextPage } from "next";
 import Head from "next/head";
 
 const Profile = () => {
   return (
-    <Flex justifyContent={"center"} p={"2rem"} minH={"30rem"}>
+    <Box>
       <Head>
-        <title>プロフィール | あなたのための脱毛</title>
+        <title>運営者情報・お問い合わせ | あなたのための脱毛</title>
       </Head>
-      <Stack textAlign={"center"} w={"23rem"} spacing={"1rem"}>
-        <Text fontSize={"1.3rem"} mb={"2rem"}>
-          運営者情報・問い合わせ先
-        </Text>
-        <HStack spacing={"0"} w="100%">
-          <Text w="35%" bg={"originBlack"} color={"originWhite"} border={"1px"}>
-            運営者
-          </Text>
-          <Text w="65%" border={"1px"}>
-            高橋 駿也
-          </Text>
-        </HStack>
-        <HStack spacing={"0"} w="100%">
-          <Text w="35%" bg={"originBlack"} color={"originWhite"} border={"1px"}>
-            お問合せ
-          </Text>
-          <Text w="65%" border={"1px"}>
-            email
-          </Text>
-        </HStack>
+      <Box textAlign={"center"}>
+        <HeadingBox title="運営者情報・お問い合わせ" />
+        <Box my="3rem">
+          <Logo fontSize={{ md: "3rem", sm: "3rem" }} color={"originBlack"} />
+        </Box>
+      </Box>
+      <Stack
+        p={"2rem"}
+        textAlign={"center"}
+        mx="auto"
+        w={"40rem"}
+        spacing={"1rem"}
+      >
+        <TitleAndValueBox
+          title={"運営元"}
+          value={"あなたのための脱毛 運営事務局"}
+        />
+        <TitleAndValueBox title={"配信内容"} value={"脱毛プラン検索サービス"} />
+        <TitleAndValueBox
+          title={"お問合せ"}
+          value={"こちら"}
+          link={"/information/form"}
+        />
+        <TitleAndValueBox
+          title={"プライバシーポリシー"}
+          value={"こちら"}
+          link={"/information/policy"}
+        />
         {/* <Link href="#" fontSize={"0.8rem"}>
           <Text>プライバシーポリシーはこちら</Text>
         </Link>
@@ -35,7 +46,7 @@ const Profile = () => {
           <Text>掲載クリニック様へはこちら</Text>
         </Link> */}
       </Stack>
-    </Flex>
+    </Box>
   );
 };
 

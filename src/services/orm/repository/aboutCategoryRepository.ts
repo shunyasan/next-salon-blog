@@ -54,6 +54,23 @@ export class AboutCategoryRepository {
     return data;
   }
 
+  async getJoinBasicParts(originId: string, excludeGender: number) {
+    const data = await prisma.aboutCategory.findMany({
+      include: {
+        baseParts: {
+          where: {
+            gender: {
+              not: excludeGender,
+            },
+          },
+        },
+      },
+      where: { originId: originId },
+      orderBy: [{ id: "asc" }],
+    });
+    return data;
+  }
+
   async getAllIdAndNameById(id: string): Promise<IdAndNameDto[]> {
     return await prisma.aboutCategory.findMany({
       select: { id: true, name: true },

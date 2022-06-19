@@ -30,13 +30,17 @@ export const Footer: FC = () => {
     //   path: "#",
     //   text: "掲載クリニック様へ",
     // },
-    // {
-    //   path: "#",
-    //   text: "プライバシーポリシー",
-    // },
     {
       path: "/information/profile",
-      text: "運営者情報・問い合わせ先",
+      text: "運営者情報",
+    },
+    {
+      path: "/information/form",
+      text: "お問い合わせ",
+    },
+    {
+      path: "/information/policy",
+      text: "プライバシーポリシー",
     },
   ];
 
@@ -95,7 +99,7 @@ export const Footer: FC = () => {
           {profiles.map((data, i) => (
             <Box
               key={i}
-              // w={{ md: "15%", sm: "60%" }}
+              w={{ md: "15%", sm: "60%" }}
               cursor="pointer"
               _hover={{
                 transition: "0.5s",

@@ -17,7 +17,7 @@ export const CategoryBox: FC<Props> = (props) => {
   return (
     // <Box>
     <Box
-      m={"1rem !important"}
+      m={"1rem"}
       pb={"0.5em"}
       w={width}
       h={search ? { md: "12em", sm: "10em" } : ""}
@@ -36,7 +36,7 @@ export const CategoryBox: FC<Props> = (props) => {
       <Text py={"0.7rem"} fontSize={{ md: "1em", sm: "0.8em" }}>
         {category.name}
       </Text>
-      {arrow && search ? (
+      {/* {arrow && search ? (
         <Box>
           <Button
             variant={"whiteNotSpace"}
@@ -49,7 +49,7 @@ export const CategoryBox: FC<Props> = (props) => {
         </Box>
       ) : (
         ""
-      )}
+      )} */}
     </Box>
     // {arrow && <Box fontSize={"1.3rem"}>▼</Box>}
     // </Box>

@@ -29,9 +29,11 @@ yarn-error.log*
 # local env files
 .env*
 _env*
+sendgrid
 
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
+sendgrid.env

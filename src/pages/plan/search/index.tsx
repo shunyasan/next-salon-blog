@@ -28,6 +28,8 @@ import { AboutCategoryService } from "services/orm/about-categories/get";
 import { BasePartsService } from "services/orm/base-parts/get";
 import { PriceService } from "services/orm/prices/get";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
+import { HeadingBox } from "components/molecules/box/HeadingBox";
+import { tweet } from "services/tweet";
 
 const numOfTakeData = 10;
 const priceService = new PriceService();
@@ -161,98 +163,40 @@ const SalonList: NextPage<Props> = (props) => {
     [pagenationData]
   );
 
-  // const createTitle = useCallback(
-  //   (idName: OrderPlanIdName) => {
-  //     const data = Object.entries(idName).map(([key, value]) => value.name);
-  //     const res = data.reduce((a, b) => a + "," + b);
-  //     title(res);
-  //   },
-  //   [title]
-  // );
-
-  // const getTreatmentPrice = async (
-  //   orderParams: OrderPlan,
-  //   take: number,
-  //   skip: number
-  // ) => {
-  //   const params = createQuery(orderParams, take, skip);
-  //   const data = await fetcher(params);
-  //   return data;
-  // };
-
-  // const getTreatmentPriceFunc = async (
-  //   orderParams: OrderPlan,
-  //   take: number,
-  //   skip: number
-  // ) => {
-  //   // const data = await getTreatmentPrice(orderParams, take, skip);
-  //   const idName = changeOrderPlanToOrderPlanIdName(orderParams);
-  //   // idName.originParts = price.originCategory;
-  //   // idName.AboutCategory = price.aboutCategory;
-  //   // idName.parts = price.baseParts;
-  //   // createTitle(idName);
-  //   setOrderDataIdName(idName);
-  //   // setPlanData(price.prices);
-  // };
-
-  // useEffect(() => {
-  // const param = getQueryOrderPlanInSearch(search);
-  //   getTreatmentPriceFunc(param, numOfTakeData, 0);
-  //   setOrderPlanData(param);
-  // }, [search, getTreatmentPriceFunc, getQueryOrderPlanInSearch]);
-
-  // useEffect(() => {
-  //   if (orderPlanData) {
-  //     getMaxDataCount(orderPlanData);
-  //   }
-  // }, [orderPlanData, getMaxDataCount]);
   if (!price || (!maxValue && maxValue !== 0)) return <LoadingIcon />;
   return (
     <Stack
-      m={"2rem"}
+      mb={"2rem"}
       spacing={"0"}
       textAlign="center"
       wrap={"wrap"}
       justifyContent={"center"}
     >
+      <HeadingBox title="検索結果" />
       <Head>
         <title>{`【${title}"】`} | あなたのための脱毛</title>
         <meta name="description" content={`【${title}】のプランを検索`} />
       </Head>
-      <Box w={{ md: "24rem", sm: "20rem" }} mx={"auto"}>
-        <Text>検索結果</Text>
-        {orderDataIdName && (
-          <SearchResultCard
-            orderPlan={orderDataIdName}
-            resetPages={serPagenationDefault}
-          />
-        )}
-        <Box my={"1rem"}>
-          <BaseButton
-            text={"最初からやり直す"}
-            path={"/plan"}
-            size={undefined}
-            base={"secBase"}
-          />
-        </Box>
-      </Box>
       {/* <Adsense /> */}
-      <Center w={"100%"}>
-        {maxValue > 0 && (
-          <Pagenation
-            max={maxValue}
-            take={numOfTakeData}
-            nowPage={pagenationData.now}
-            pageBlock={pagenationData.block}
-            onClickNumber={(page: number, block?: number) =>
-              getPageNumber(page, block)
-            }
+      {maxValue > 0 ? (
+        <Pagenation
+          max={maxValue}
+          take={numOfTakeData}
+          nowPage={pagenationData.now}
+          pageBlock={pagenationData.block}
+          onClickNumber={(page: number, block?: number) =>
+            getPageNumber(page, block)
+          }
+        >
+          <Flex
+            my="3rem"
+            alignItems={"flex-start"}
+            justifyContent={"space-evenly"}
           >
             <Stack
               w={{ md: "55rem", sm: "100%" }}
               justifyContent={"center"}
               spacing={"1.2em"}
-              my={"1em"}
             >
               {orderDataIdName &&
                 price.map((plan) => (
@@ -263,15 +207,49 @@ const SalonList: NextPage<Props> = (props) => {
                   />
                 ))}
             </Stack>
-          </Pagenation>
-        )}
-        {
-          <Box my={"3rem"}>
-            <Text>こちらのプランは見つかりませんでした。</Text>
-            <Text>「条件を変更」をご利用ください</Text>
-          </Box>
-        }
-      </Center>
+            <Stack spacing={"3rem"} ml={"2rem"}>
+              <Box w={{ md: "24rem", sm: "20rem" }} mx={"auto"}>
+                <Text>詳細条件</Text>
+                {orderDataIdName && (
+                  <SearchResultCard
+                    orderPlan={orderDataIdName}
+                    resetPages={serPagenationDefault}
+                  />
+                )}
+                <Box my={"1rem"}>
+                  <BaseButton
+                    text={"最初からやり直す"}
+                    path={"/plan"}
+                    size={undefined}
+                    base={"secBase"}
+                  />
+                </Box>
+              </Box>
+              {tweet.map((account) => (
+                <Box key={account}>
+                  <a
+                    className="twitter-timeline"
+                    data-height="600"
+                    href={`https://twitter.com/${account}?ref_src=twsrc%5Etfw`}
+                  >
+                    Tweets by ${account}
+                  </a>
+                  <script
+                    async
+                    src="https://platform.twitter.com/widgets.js"
+                    charSet="utf-8"
+                  ></script>
+                </Box>
+              ))}
+            </Stack>
+          </Flex>
+        </Pagenation>
+      ) : (
+        <Box my={"3rem"}>
+          <Text>こちらのプランは見つかりませんでした。</Text>
+          <Text>「条件を変更」をご利用ください</Text>
+        </Box>
+      )}
       {/* <Adsense /> */}
     </Stack>
   );

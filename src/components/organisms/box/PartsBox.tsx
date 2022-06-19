@@ -1,4 +1,4 @@
-import { Box, Button, Text } from "@chakra-ui/react";
+import { Box, Button, Stack, Text } from "@chakra-ui/react";
 import { BaseParts } from "@prisma/client";
 import { FC, memo, VFC } from "react";
 
@@ -11,20 +11,28 @@ type Props = {
 export const PartsBox: FC<Props> = (props) => {
   const { parts, width, search } = props;
   return (
-    <Box
+    <Stack
       w={width}
       px={"8px"}
+      spacing="0.7rem"
       // onClick={() => getId(category.id)}
     >
       <Text pt={"0.7rem"}>{parts.name}</Text>
-      <Button
-        variant={"whiteNotSpace"}
-        p={"3px"}
-        fontSize={"0.5em"}
-        onClick={search}
-      >
-        このプランを探す
-      </Button>
-    </Box>
+      <Box>
+        <Button
+          variant={"whiteNotSpace"}
+          p={"3px"}
+          fontSize={"0.5em"}
+          onClick={search}
+        >
+          詳細
+        </Button>
+      </Box>
+      <Box>
+        <Text p={"3px"} fontSize={"0.5em"} onClick={search} cursor={"pointer"}>
+          このプランを探す
+        </Text>
+      </Box>
+    </Stack>
   );
 };

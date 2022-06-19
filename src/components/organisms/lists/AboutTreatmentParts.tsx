@@ -1,4 +1,4 @@
-import { HStack } from "@chakra-ui/react";
+import { Flex, HStack } from "@chakra-ui/react";
 import { AboutCategory } from "@prisma/client";
 import { FC, memo, VFC } from "react";
 import { CategoryBox } from "../box/CategoryBox";
@@ -13,10 +13,9 @@ type Props = {
 export const AboutTreatmentParts: FC<Props> = (props) => {
   const { about, gender, selectedId, onClick, search } = props;
   return (
-    <HStack
+    <Flex
       // w={"80%"}
       // mx="auto"
-      spacing={"0"}
       wrap={"wrap"}
       justifyContent={"space-evenly"}
     >
@@ -31,6 +30,6 @@ export const AboutTreatmentParts: FC<Props> = (props) => {
           search={search && (() => search(data.originId, data.id))}
         />
       ))}
-    </HStack>
+    </Flex>
   );
 };

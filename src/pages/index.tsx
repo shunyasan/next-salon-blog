@@ -74,7 +74,6 @@ const Home: NextPage<Props> = ({ image, feature, topImg }) => {
             // bg={"rgba(170,170,170,0.5)"}
             textShadow={"1px 1px 2px #000"}
           >
-            <Text>東京都の激戦5区からほぼ全てのクリニックを分析。</Text>
             <Text>決して安くはない経験だからこそ、</Text>
             <Text>あなたのための正しい脱毛を。</Text>
           </Stack>
@@ -112,7 +111,7 @@ const Home: NextPage<Props> = ({ image, feature, topImg }) => {
           </Text>
         </Box>
         <HomeSearchBoxList />
-        <Box mt={"4rem"} borderBottom={"1px"}></Box>
+        {/* <Box mt={"4rem"} borderBottom={"1px"}></Box> 
         <Box display={"inline-block"} ml={"3rem"}>
           <Box w={"100%"} borderTop={"4px"} borderColor={"#000"}></Box>
           <Text fontSize={"1.5rem"} display={"inline-block"}>
@@ -121,7 +120,7 @@ const Home: NextPage<Props> = ({ image, feature, topImg }) => {
         </Box>
         <Box w="80%" m={"auto"}>
           <Box>リリースしました</Box>
-        </Box>
+        </Box> */}
         <Box mt={"4rem"} borderBottom={"1px"}></Box>
         {/* <Adsense /> */}
         <Box display={"inline-block"} ml={"3rem"}>

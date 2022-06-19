@@ -92,7 +92,6 @@ export const ClinicCard: FC<Props> = (props) => {
     clinic && (
       <Box
         p={"1rem"}
-        my={"3rem"}
         borderRadius={8}
         shadow={"0 4px 8px 2px rgb(180,180,180)"}
         color={"#333"}
