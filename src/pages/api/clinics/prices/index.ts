@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { ClinicService } from "services/orm/clinics/get";
-import { ClinicNestPriceDto } from "types/api/dto/ClinicNestPriceDto";
+import { clinicService } from "services/service";
+import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
 
 export default async function getAllClinic(
   req: NextApiRequest,
@@ -10,7 +10,6 @@ export default async function getAllClinic(
 ): Promise<ClinicNestPriceDto[]> {
   const take = Number(req.query.take);
   const skip = Number(req.query.skip);
-  const clinicService = new ClinicService();
   const data = await clinicService.getAllClinicAndLimit({ take, skip });
 
   // const query = `take=${take}&skip=${skip}`;

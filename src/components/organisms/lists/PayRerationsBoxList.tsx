@@ -1,4 +1,5 @@
 import { Box, Flex, HStack, Stack, Text } from "@chakra-ui/react";
+import { StatusText } from "components/atoms/text/StatusText";
 import { FC, memo, useCallback, VFC } from "react";
 import { OptionText } from "types/app/OptionText";
 import { FreeServiceBox } from "../box/FreeServiceBox";
@@ -9,18 +10,37 @@ type Props = {
 export const PayRerationsBoxList: FC<Props> = (props) => {
   const { payments } = props;
   return (
-    <HStack spacing={"0"} wrap={"wrap"} justifyContent={"center"}>
+    <Flex wrap={"wrap"} justifyContent={"left"}>
       {payments.map((data, i) => (
-        <FreeServiceBox
-          title={data.name}
-          value={data.text}
-          fontSize={{ true: "0.75em", false: "0.6em" }}
-          height={"6em"}
-          width={"7.5em"}
-          changeVal={"OK"}
+        <Flex
           key={i}
-        />
+          w={"50%"}
+          my="0.2rem"
+          // h={"4rem"}
+          justifyContent={"left"}
+          // spacing={"3px"}
+          fontSize={data.text !== "-" ? "0.8em" : "0.8em"}
+          // onClick={onClick}
+          // mx={"auto !important"}
+          // cursor={"pointer"}
+        >
+          <Text fontWeight={data.text !== "-" ? "bold" : ""}>{data.name}</Text>
+          {/* <Box
+          borderBottom={"1px"}
+          borderColor={"black"}
+          w={"80%"}
+          mx={"auto !important"}
+         ></Box> */}
+          <Box ml="1rem" display={"inline-block"}>
+            <StatusText
+              text={data.text}
+              first={""}
+              second={"無料"}
+              other={"-"}
+            />
+          </Box>
+        </Flex>
       ))}
-    </HStack>
+    </Flex>
   );
 };

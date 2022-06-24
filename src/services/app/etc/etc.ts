@@ -1,8 +1,8 @@
 import { Clinic, ClinicOption } from "@prisma/client";
 import { useRouter } from "next/router";
-import fetcher from "services/orm/fetcher";
-import { ClinicNestPriceDto } from "types/api/dto/ClinicNestPriceDto";
-import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
+import fetcher from "services/fetcher";
+import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
+import { IdAndNameDto } from "types/IdAndNameDto";
 import { OptionText } from "types/app/OptionText";
 
 const noneValuePush = (): IdAndNameDto => {

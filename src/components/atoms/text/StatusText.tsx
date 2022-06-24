@@ -13,15 +13,26 @@ export const StatusText: FC<Props> = (props) => {
   const [statusColor, setStatusColor] = useState<string>();
 
   useEffect(() => {
-    const func: any = {};
-    func[first] = "SeeThroughGold";
-    func[second] = "SeeThroughBlue";
-    const bg = func[text];
-    if (bg) {
-      setStatusColor(bg);
-    } else {
-      setStatusColor("");
+    switch (text) {
+      case first:
+        setStatusColor("SeeThroughGold");
+        break;
+      case second:
+        setStatusColor("SeeThroughBlue");
+        break;
+      default:
+        setStatusColor("");
+        break;
     }
+    // const func: any = {};
+    // func[first] = "SeeThroughGold";
+    // func[second] = "SeeThroughBlue";
+    // const bg = func[text];
+    // if (bg) {
+    //   setStatusColor(bg);
+    // } else {
+    //   setStatusColor("");
+    // }
   }, [first, second, text]);
 
   return (

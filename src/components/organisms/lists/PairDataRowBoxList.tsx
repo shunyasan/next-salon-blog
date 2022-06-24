@@ -1,9 +1,10 @@
 import { Box, Flex, HStack, Stack, Text } from "@chakra-ui/react";
+import { StatusText } from "components/atoms/text/StatusText";
 import { FC, memo, useCallback, VFC } from "react";
 import { TitleValue } from "types/app/TitleValue";
 type Props = {
   datas: TitleValue[];
-  width: string | { md: string; sm: string };
+  // width: string | { md: string; sm: string };
   fontSize?: string;
   bg?: string;
   my?: { md: string; sm: string };
@@ -12,20 +13,20 @@ type Props = {
 };
 
 export const PairDataRowBoxList: FC<Props> = (props) => {
-  const { datas, bg, fontSize, width, my, fontWeight, justifyContent } = props;
+  const { datas, bg, fontSize, my, fontWeight, justifyContent } = props;
 
   return (
     <Flex
       bg={bg || ""}
-      wrap={"wrap"}
       w={"100%"}
+      wrap={"wrap"}
       justifyContent={justifyContent || ""}
     >
       {datas.map((data, i) => (
         <Flex
           key={i}
           fontSize={fontSize}
-          w={width}
+          w={"50%"}
           my={my || { md: "1em !important", sm: "0.5em !important" }}
           wrap={"wrap"}
           justifyContent={"space-between"}
@@ -38,9 +39,14 @@ export const PairDataRowBoxList: FC<Props> = (props) => {
           >
             {data.title}
           </Text>
-          <Text w="60%" textAlign={"left"} fontSize={{ md: "1em", sm: ".9em" }}>
-            {data.value}
-          </Text>
+          <Box w="60%" textAlign={"left"} fontSize={{ md: "1em", sm: ".9em" }}>
+            <StatusText
+              text={data.value}
+              first={"無料"}
+              second={data.value === "-" ? "" : data.value}
+              other={"-"}
+            />
+          </Box>
         </Flex>
       ))}
     </Flex>

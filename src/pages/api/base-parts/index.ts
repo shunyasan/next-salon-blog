@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { BasePartsService } from "services/orm/base-parts/get";
-import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
+import { basePartsService } from "services/service";
+import { IdAndNameDto } from "types/IdAndNameDto";
 
 export default async function getBaseParts(
   req: NextApiRequest,
@@ -11,7 +11,6 @@ export default async function getBaseParts(
 ) {
   const aboutCategoryId = req.query.aboutCategoryId as string;
   const partsId = req.query.partsId as string;
-  const basePartsService = new BasePartsService();
   const data = await basePartsService.getBySortSelected(
     aboutCategoryId,
     partsId

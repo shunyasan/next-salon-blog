@@ -72,7 +72,7 @@ const ClinicTemplate: FC<Props> = ({
                     bg: selectTab !== data.text ? "#aaa" : "",
                     transition: "0.5s",
                   }}
-                  href={`/clinic/${clinicId}${data.uri}`}
+                  href={`/clinic/detail/${clinicId}${data.uri}`}
                   // onClick={() => changeTab(data.text)}
                 >
                   {data.text}

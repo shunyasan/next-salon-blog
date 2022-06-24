@@ -14,11 +14,12 @@ export const Logo: FC<Props> = (props) => {
       color={color}
       display={"inline-block"}
       my={4}
+      fontFamily="'Zen Kaku Gothic New', sans-serif"
       fontWeight={"bold"}
       fontSize={fontSize}
       textAlign={"center"}
     >
-      <Text>あなたのための脱毛</Text>
+      <Text>脱毛コンサルタント</Text>
       <Text fontSize="0.35em">東京都</Text>
     </Box>
   );

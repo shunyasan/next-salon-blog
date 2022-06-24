@@ -12,11 +12,10 @@ export const PairDataBoxList: FC<Props> = (props) => {
   const { datas, bg, fontSize, justifyContent } = props;
 
   return (
-    <Stack bg={bg || ""} fontSize={fontSize}>
+    <Stack bg={bg || ""} fontSize={fontSize} spacing="1rem" py="1.3em">
       {datas.map((data, i) => (
         <Flex
           key={i}
-          my={"1em !important"}
           wrap={"wrap"}
           justifyContent={justifyContent || "space-between"}
         >

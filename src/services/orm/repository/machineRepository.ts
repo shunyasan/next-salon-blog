@@ -1,5 +1,5 @@
 import { prisma } from "services/prisma";
-import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
+import { IdAndNameDto } from "types/IdAndNameDto";
 
 export class MachineRepository {
   // constructor(private readonly prisma = prisma.machine) {}

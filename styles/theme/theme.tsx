@@ -30,7 +30,7 @@ const theme = extendTheme({
     },
   },
   fonts: {
-    body: "Noto Serif JP, serif",
+    body: "'Zen Kaku Gothic New', sans-serif",
   },
   colors: {
     transparent: "transparent",

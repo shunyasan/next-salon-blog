@@ -9,144 +9,181 @@ import {
   Button,
   IconButton,
   Center,
+  Stack,
 } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { useRouter } from "next/router";
 import { Logo } from "../../atoms/logos/Logo";
 import { HamburgerIcon } from "../../atoms/icons/HamburgerIcon";
 import { HeaderDrawer } from "../../molecules/drawers/HeaderDrawer";
+import { GenderPlateBox } from "components/molecules/box/GenderPlateBox";
 
 type Props = {
-  children?: ReactNode;
-  topPage?: boolean;
+  // children?: ReactNode;
+  // topPage?: boolean;
+  // getGender: (gender: string) => void;
 };
 
 const clinicDefoultNum = "349";
 const planDefoultNum = "32442";
 
 export const Header: FC<Props> = (props) => {
-  const { children, topPage } = props;
-  const [clinicMeterTrigger, setClinicMeterTrigger] = useState<boolean>(false);
-  const [planMeterTrigger, setPlanMeterTrigger] = useState<boolean>(false);
-  const [clinicNum, setClinicNum] = useState<string>(clinicDefoultNum);
-  const [planNum, setPlanNum] = useState<string>(planDefoultNum);
+  const {
+    // getGender,
+    // children, topPage,
+  } = props;
+  // const [clinicMeterTrigger, setClinicMeterTrigger] = useState<boolean>(false);
+  // const [planMeterTrigger, setPlanMeterTrigger] = useState<boolean>(false);
+  // const [clinicNum, setClinicNum] = useState<string>(clinicDefoultNum);
+  // const [planNum, setPlanNum] = useState<string>(planDefoultNum);
+  const [gender, setGender] = useState<string>("女性");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
 
   const datas = [
     {
-      path: "/",
+      path: "",
       text: "TOP",
     },
     {
-      path: "/plan",
+      path: "plan",
       text: "プランを探す",
     },
     {
-      path: "/treatment-parts",
+      path: "treatment-parts",
       text: "部位一覧",
     },
     {
-      path: "/clinic",
+      path: "clinic/1",
       text: "クリニック一覧",
     },
   ];
 
   const onClickTransition = (path: string) => {
     onClose();
-    router.push(path);
+    router.push(`/${path}`);
   };
 
-  useEffect(() => {
-    if (topPage) {
-      setClinicMeterTrigger(true);
-      setPlanMeterTrigger(true);
-      setTimeout(() => {
-        setClinicMeterTrigger(false);
-      }, 2000);
-      setTimeout(() => {
-        setPlanMeterTrigger(false);
-      }, 3000);
-    }
-  }, [topPage]);
+  const changeGenderState = useCallback(
+    (genderParam: string) => {
+      if (gender !== genderParam) {
+        // getGender(genderParam);
+        // setGender(genderParam);
+        router.push({
+          pathname: router.pathname,
+          query: { ...router.query, ge: genderParam },
+        });
+      }
+    },
+    [gender, router]
+  );
 
   useEffect(() => {
-    if (topPage) {
-      const random = [...Array(5)].map(() =>
-        Math.floor(Math.random() * 10).toString()
-      );
-      const clinicRandom = random.slice(0, 3);
-      const planRandom = random.slice(0, 5);
+    const gender: string = router.query.ge as string;
+    setGender(gender || "女性");
+  }, [router]);
 
-      if (clinicMeterTrigger) {
-        setClinicNum(clinicRandom.join(""));
-      } else {
-        setClinicNum(clinicDefoultNum);
-      }
-      if (planMeterTrigger) {
-        setPlanNum(planRandom.join(""));
-      } else {
-        setPlanNum(planDefoultNum);
-      }
-    }
-  }, [clinicMeterTrigger, planMeterTrigger, topPage, clinicNum, planNum]);
+  // クリニック数のカウンター
+  // useEffect(() => {
+  //   if (topPage) {
+  //     setClinicMeterTrigger(true);
+  //     setPlanMeterTrigger(true);
+  //     setTimeout(() => {
+  //       setClinicMeterTrigger(false);
+  //     }, 2000);
+  //     setTimeout(() => {
+  //       setPlanMeterTrigger(false);
+  //     }, 3000);
+  //   }
+  // }, [topPage]);
+
+  // useEffect(() => {
+  //   if (topPage) {
+  //     const random = [...Array(5)].map(() =>
+  //       Math.floor(Math.random() * 10).toString()
+  //     );
+  //     const clinicRandom = random.slice(0, 3);
+  //     const planRandom = random.slice(0, 5);
+
+  //     if (clinicMeterTrigger) {
+  //       setClinicNum(clinicRandom.join(""));
+  //     } else {
+  //       setClinicNum(clinicDefoultNum);
+  //     }
+  //     if (planMeterTrigger) {
+  //       setPlanNum(planRandom.join(""));
+  //     } else {
+  //       setPlanNum(planDefoultNum);
+  //     }
+  //   }
+  // }, [clinicMeterTrigger, planMeterTrigger, topPage, clinicNum, planNum]);
 
   return (
     <Box as="header">
       <Box pos="relative" zIndex={1}>
-        <Box as="header">
+        <Box>
           <HStack
-            wrap={"wrap"}
-            justifyContent={{ md: "space-between" }}
+            // wrap={"wrap"}
+            justifyContent={"space-between"}
             alignItems={"center"}
             spacing={"0"}
+            w={{ md: "inherit", sm: "100%" }}
           >
             <Link
               href="/"
               textDecoration={"none !important"}
-              w={{ md: "inherit", sm: "100%" }}
-              my={{ md: "inherit", sm: "1rem" }}
-              mx={"2rem"}
+              // w={{ md: "inherit", sm: "100%" }}
+              minW="10rem "
+              // my={{ md: "1rem", sm: "0" }}
+              mx={{ md: "2rem", sm: "1rem" }}
               _focus={{ outline: "none" }}
             >
               <Flex justifyContent={"center"}>
                 <Logo
-                  fontSize={{ md: "2.4rem", sm: "2.0rem" }}
+                  fontSize={{ md: "2.4rem", sm: "1rem" }}
                   color={"originBlack"}
                 />
               </Flex>
             </Link>
             <Box
+              // spacing={"0"}
+              // justifySelf={"center"}
               textAlign="center"
               bg={"#eee"}
-              p={"1rem 2rem"}
+              p={{ md: "1rem 2rem", sm: ".5rem" }}
               h="100%"
-              w={{ md: "inherit", sm: "100%" }}
+              fontSize={{ md: "0.6rem", sm: "0.4rem" }}
               // marginInlineStart={"unset !important"}
             >
-              <Text fontSize="0.7rem" mb={"0.5rem"} color={"originGold"}>
-                東京都激戦５区のクリニックからほぼ全てのプランを分析
-              </Text>
+              <Flex
+                justifyContent={"center"}
+                wrap={"wrap"}
+                mb={"0.5rem"}
+                color={"originGold"}
+              >
+                <Text>東京都激戦５区のクリニックから</Text>
+                <Text>ほぼ全てのプランを分析</Text>
+              </Flex>
               <HStack
                 justifyContent={"center"}
                 alignItems={"center"}
                 spacing={"2rem"}
               >
-                <Text>現在</Text>
+                <Text fontSize={{ md: "1rem", sm: "0.7rem" }}>現在</Text>
                 <Box>
-                  <Text fontSize="0.6rem">クリニック数</Text>
-                  <Text fontSize="1.6rem" mx={"3px"}>
-                    {clinicNum}
+                  <Text>クリニック数</Text>
+                  <Text fontSize={{ md: "1.6rem", sm: "1rem" }} mx={"3px"}>
+                    {clinicDefoultNum}
                     <Text as="span" fontSize={"0.6rem"} ml={"5px"}>
                       件
                     </Text>
                   </Text>
                 </Box>
                 <Box>
-                  <Text fontSize="0.6rem">プラン数</Text>
-                  <Text fontSize="1.6rem" mx={"3px"}>
-                    {planNum}
+                  <Text>プラン数</Text>
+                  <Text fontSize={{ md: "1.6rem", sm: "1rem" }} mx={"3px"}>
+                    {planDefoultNum}
                     <Text as="span" fontSize={"0.6rem"} ml={"5px"}>
                       件
                     </Text>
@@ -155,46 +192,55 @@ export const Header: FC<Props> = (props) => {
               </HStack>
             </Box>
           </HStack>
+          {/* <Box py={"0.5em"} display={{ md: "none", sm: "block" }}>
+            <GenderPlateBox
+              gender={gender}
+              onClick={(gender: string) => changeGenderState(gender)}
+            />
+          </Box> */}
           <Box as="nav" w={"100%"}>
-            <Box display={{ md: "block", sm: "none" }}>
-              <HStack
-                alignItems={"center"}
-                py={"1.3rem"}
-                fontSize="0.8rem"
-                bg="originBlack"
-                color="originWhite"
-                pl={"1rem"}
-              >
-                {datas.map((data, i) => (
-                  <Box
-                    textAlign="center"
-                    px={"1.3rem"}
-                    py={"0.1rem"}
-                    cursor="pointer"
-                    onClick={() => onClickTransition(data.path)}
-                    _hover={{
-                      transition: "0.5s",
-                      backgroundColor: "rgba(220,220,220,0.2)",
-                    }}
-                    key={i}
-                  >
-                    {data.text}
-                  </Box>
-                ))}
-              </HStack>
-            </Box>
-            <Flex
-              justifyContent={"center"}
-              cursor={"pointer"}
+            <HStack
+              alignItems={"center"}
+              py={"1.3rem"}
+              fontSize="0.8rem"
               bg="originBlack"
-              _hover={{ transition: "1s", opacity: 0.8 }}
-              // _hover={{ transition: "1s", bg: "originLiteBlack" }}
-              display={{ md: "none", sm: "block" }}
-              onClick={onOpen}
+              color="originWhite"
+              pl={"1rem"}
+              display={{ md: "flex", sm: "none" }}
             >
-              <HamburgerIcon />
-            </Flex>
+              {datas.map((data, i) => (
+                <Text
+                  as="a"
+                  textAlign="center"
+                  px={"1.3rem"}
+                  py={"0.1rem"}
+                  cursor="pointer"
+                  href={`/${data.path}`}
+                  // onClick={() => onClickTransition(data.path)}
+                  _hover={{
+                    transition: "0.5s",
+                    backgroundColor: "rgba(220,220,220,0.2)",
+                  }}
+                  key={i}
+                >
+                  {data.text}
+                </Text>
+              ))}
+            </HStack>
           </Box>
+        </Box>
+        <Box
+          // justifyContent={"center"}
+          cursor={"pointer"}
+          bg="originBlack"
+          _hover={{ transition: "1s", opacity: 0.8 }}
+          // _hover={{ transition: "1s", bg: "originLiteBlack" }}
+          display={{ md: "none", sm: "block" }}
+          onClick={onOpen}
+        >
+          <Flex justifyContent={"center"}>
+            <HamburgerIcon />
+          </Flex>
         </Box>
         {/* <DropHeader anime={dropHeader} /> */}
       </Box>

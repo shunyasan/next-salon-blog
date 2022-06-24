@@ -35,10 +35,10 @@ export const OriginCategoryBox: FC<Props> = (props) => {
     <Box
       width={width}
       py={"1em"}
-      color={arrow ? "originGold" : ""}
+      color={arrow ? "originBlack" : ""}
       fontWeight={arrow ? "bold" : ""}
       borderBottom={arrow ? "2px" : ""}
-      borderColor={arrow ? "originGold" : ""}
+      borderColor={arrow ? "originBlack" : ""}
       transition={"0.5s"}
       cursor={"pointer"}
       _hover={{

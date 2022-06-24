@@ -6,15 +6,18 @@ import { HomeSearchBoxList } from "components/organisms/lists/HomeSearchBoxList"
 import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { FC } from "react";
-import { FeatureService } from "services/orm/features/get";
-import fetcher from "services/orm/fetcher";
+import { FC, useState } from "react";
+import { FeatureService } from "services/orm/feature-service";
+import fetcher from "services/fetcher";
 import { getRandomImg } from "services/app/resources/SearchSalonHooks";
 import useSWR, { SWRConfig } from "swr";
-import { FeatureDto } from "types/api/dto/FeatureDto";
+import { FeatureDto } from "types/FeatureDto";
 import { TopResource } from "../../resorces/TopResource";
 import { getFeatureString } from "../services/app/features/feature";
 import { FeatureViewData } from "../types/app/FeatureViewData";
+import { UnderLineText } from "components/atoms/text/UnderLineText";
+import { Layout } from "components/templete/lauouts/Layout";
+import { featureService } from "services/service";
 
 type Props = {
   // data: FeatureViewData[];
@@ -22,10 +25,9 @@ type Props = {
   feature: FeatureViewData[];
   topImg: string;
 };
-const feature = new FeatureService();
 
 const getAllFeatureFunc = async () => {
-  const data: FeatureDto = await feature.getAllFeature();
+  const data: FeatureDto = await featureService.getAllFeature();
   return getFeatureString(data);
 };
 
@@ -44,13 +46,13 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
 const Home: NextPage<Props> = ({ image, feature, topImg }) => {
   const router = useRouter();
+  const [gender, setGender] = useState<string>();
 
   const pushLink = (url: string) => {
     router.push(`/${url}`);
   };
 
   return (
-    // <SWRConfig value={{ fallback }}>
     <Box>
       <Head>
         <title>あなたのための脱毛</title>
@@ -103,14 +105,14 @@ const Home: NextPage<Props> = ({ image, feature, topImg }) => {
             </Stack>
           </Flex>
         </Box>
-        <Box mt={"4rem"} borderBottom={"1px"}></Box>
-        <Box display={"inline-block"} ml={"3rem"}>
-          <Box w={"100%"} borderTop={"4px"} borderColor={"#000"}></Box>
-          <Text fontSize={"1.5rem"} display={"inline-block"}>
-            検索
-          </Text>
+        <Box mt="4rem">
+          <UnderLineText
+            fontSize={{ md: "1.5rem", sm: "1.5rem" }}
+            as="h2"
+            title={"検索"}
+          />
+          <HomeSearchBoxList />
         </Box>
-        <HomeSearchBoxList />
         {/* <Box mt={"4rem"} borderBottom={"1px"}></Box> 
         <Box display={"inline-block"} ml={"3rem"}>
           <Box w={"100%"} borderTop={"4px"} borderColor={"#000"}></Box>
@@ -121,33 +123,31 @@ const Home: NextPage<Props> = ({ image, feature, topImg }) => {
         <Box w="80%" m={"auto"}>
           <Box>リリースしました</Box>
         </Box> */}
-        <Box mt={"4rem"} borderBottom={"1px"}></Box>
-        {/* <Adsense /> */}
-        <Box display={"inline-block"} ml={"3rem"}>
-          <Box w={"100%"} borderTop={"4px"} borderColor={"#000"}></Box>
-          <Text fontSize={"1.5rem"} display={"inline-block"}>
-            特集
-          </Text>
-        </Box>
-        <Box w={"80%"} mx={"auto"}>
-          {feature.map((feature, i) => (
-            <Box key={i}>
-              <Text fontSize={"1.2rem"} fontWeight={"bold"} m={"0.5rem"}>
-                {feature.title}
-              </Text>
-              <FeatureBoxList
-                clinics={feature.datas}
-                onClick={() => pushLink(feature.path)}
-                itemWidth={"15rem"}
-                image={image}
-              />
-            </Box>
-          ))}
+        <Box mt="4rem">
+          <UnderLineText
+            fontSize={{ md: "1.5rem", sm: "1.5rem" }}
+            as="h2"
+            title={"特集"}
+          />
+          <Box w={"80%"} mx={"auto"}>
+            {feature.map((feature, i) => (
+              <Box key={i}>
+                <Text fontSize={"1.2rem"} fontWeight={"bold"} m={"0.5rem"}>
+                  {feature.title}
+                </Text>
+                <FeatureBoxList
+                  clinics={feature.datas}
+                  onClick={() => pushLink(feature.path)}
+                  itemWidth={"15rem"}
+                  image={image}
+                />
+              </Box>
+            ))}
+          </Box>
         </Box>
         {/* <Adsense /> */}
       </Box>
     </Box>
-    // </SWRConfig>
   );
 };
 export default Home;

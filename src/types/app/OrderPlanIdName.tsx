@@ -1,4 +1,4 @@
-import { IdAndNameDto } from "../api/dto/IdAndNameDto";
+import { IdAndNameDto } from "../IdAndNameDto";
 
 export type OrderPlanIdName = {
   gender: IdAndNameDto;

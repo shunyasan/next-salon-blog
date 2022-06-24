@@ -2,14 +2,15 @@ import { Box, Flex, HStack, Text } from "@chakra-ui/react";
 import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
-import fetcher from "services/orm/fetcher";
+import fetcher from "services/fetcher";
 import useSWR from "swr";
-import { AboutCategoryService } from "services/orm/about-categories/get";
+import { AboutCategoryService } from "services/orm/aboutCategoryService";
 import { AboutCategory, BaseParts } from "@prisma/client";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
-import { HeadingBox } from "components/molecules/box/HeadingBox";
+import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import { OriginCategiryId } from "enums/OriginCategiryIdEnum";
 import TreatmentTemplete from "components/templete/pages/treatment/TreatmentTemplete";
+import { aboutCategoryService } from "services/service";
 
 type Props = {
   about: (AboutCategory & {
@@ -18,10 +19,9 @@ type Props = {
 };
 
 const originId = OriginCategiryId.limb;
-const aboutService = new AboutCategoryService();
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const about = await aboutService.getJoinBasicPartsd(originId, 2);
+  const about = await aboutCategoryService.getJoinBasicPartsd(originId, 2);
   return {
     props: {
       about,
@@ -70,7 +70,7 @@ const TreatmentLimbParts: NextPage<Props> = ({ about }) => {
           content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」大手から優良小規模で脱毛可能な部位です。おすすめの部位から意外な部位まで掲載しています。"
         />
       </Head>
-      <HeadingBox title="四肢の脱毛可能な部位" />
+      <BgImgH1 title="四肢の脱毛可能な部位" />
       <HStack mt="2rem" justifyContent={"center"}>
         <Box
           cursor={"pointer"}

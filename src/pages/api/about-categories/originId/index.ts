@@ -1,6 +1,6 @@
 import { AboutCategory } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { AboutCategoryService } from "services/orm/about-categories/get";
+import { aboutCategoryService } from "services/service";
 
 export default async function getAboutCategoryByOriginId(
   req: NextApiRequest,
@@ -12,8 +12,10 @@ export default async function getAboutCategoryByOriginId(
   // 女性:1 男性:2
   const excludeGender = gender === "男性" ? 2 : 1;
 
-  const aboutService = new AboutCategoryService();
-  const data = await aboutService.getJoinBasicPartsd(originId, excludeGender);
+  const data = await aboutCategoryService.getJoinBasicPartsd(
+    originId,
+    excludeGender
+  );
   // デフォルト
   // const data: AboutCategory[] = await getAxios(
   //   "about-category/originId/" + originId

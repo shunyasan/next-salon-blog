@@ -8,7 +8,7 @@ import {
   UnorderedList,
 } from "@chakra-ui/react";
 import { Logo } from "components/atoms/logos/Logo";
-import { HeadingBox } from "components/molecules/box/HeadingBox";
+import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import PolicyBox from "components/molecules/box/PolicyBox";
 import TitleAndValueBox from "components/molecules/box/TitleAndValueBox";
 import { NextPage } from "next";
@@ -21,7 +21,7 @@ const Privacy = () => {
         <title>プライバシーポリシー | あなたのための脱毛</title>
       </Head>
       <Box>
-        <HeadingBox title="プライバシーポリシー" />
+        <BgImgH1 title="プライバシーポリシー" />
         <Stack spacing={"1.5rem"} w="60%" mx="auto" mt="4rem" p={"2rem"}>
           <PolicyBox title="基本方針">
             <Text>

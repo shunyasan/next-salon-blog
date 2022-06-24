@@ -20,7 +20,7 @@ export const Footer: FC = () => {
       text: "部位一覧",
     },
     {
-      path: "/clinic",
+      path: "/clinic/1",
       text: "クリニック一覧",
     },
   ];

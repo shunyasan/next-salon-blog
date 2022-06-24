@@ -2,11 +2,13 @@ import { FC, VFC } from "react";
 import { IconButton, Box, Flex, Stack, Text } from "@chakra-ui/react";
 import { StaffGenderText } from "components/atoms/text/StaffGenderText";
 import { StatusText } from "components/atoms/text/StatusText";
+import { Icon } from "@chakra-ui/icons";
 
 type Props = {
   title: string;
   text: string | number;
   fontWeight: boolean;
+  icon: any;
   first?: string;
   second?: string;
   fontSize?: { md: string; sm: string };
@@ -18,22 +20,42 @@ type Props = {
 };
 
 export const PlanConditionBox: FC<Props> = (props) => {
-  const { title, text, first, second, fontSize, other, gender, fontWeight } =
-    props;
+  const {
+    title,
+    text,
+    first,
+    second,
+    fontSize,
+    other,
+    gender,
+    fontWeight,
+    icon,
+  } = props;
   return (
     <Flex
+      // justifyContent={"space-around"}
       justifyContent={"space-around"}
       alignItems={"center"}
       // textAlign={"left"}
     >
-      <Text
-        color={"originLiteBlack"}
-        fontWeight={fontWeight ? "bold" : ""}
-        // w={"3.5rem"}
-        fontSize={fontSize || "0.8em"}
-      >
-        {title}
-      </Text>
+      <Flex>
+        <Icon
+          fontWeight={"bold"}
+          fontSize={"1.3em"}
+          my="auto"
+          mr="3px"
+          as={icon}
+        />
+        <Text
+          color={"originLiteBlack"}
+          fontWeight={fontWeight ? "bold" : ""}
+          // w={"3.5rem"}
+          fontSize={fontSize || "0.8em"}
+        >
+          {title}
+        </Text>
+      </Flex>
+
       {gender && typeof text === "number" ? (
         <StaffGenderText staffGender={text} />
       ) : (

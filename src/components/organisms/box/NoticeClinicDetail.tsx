@@ -1,7 +1,13 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { Clinic } from "@prisma/client";
 import { PlanConditionBox } from "components/molecules/box/PlanConditionBox";
-import { FC, memo, VFC } from "react";
+import { TbNurse } from "react-icons/tb";
+import {
+  MdOutlineBookmarkAdded,
+  MdOutlineDoorBack,
+  MdOutlineKingBed,
+} from "react-icons/md";
+import { FC } from "react";
 
 type Props = {
   clinic: Clinic;
@@ -20,6 +26,7 @@ export const NoticeClinicDetail: FC<Props> = (props) => {
         <PlanConditionBox
           key={clinic.name}
           title={"施術者"}
+          icon={TbNurse}
           text={clinic.staffGender}
           gender={true}
           fontSize={fontSize}
@@ -28,6 +35,7 @@ export const NoticeClinicDetail: FC<Props> = (props) => {
         <PlanConditionBox
           key={clinic.name}
           title={"予約"}
+          icon={MdOutlineBookmarkAdded}
           text={clinic.reserve || "不明"}
           first={"優良"}
           second={"良好"}
@@ -38,6 +46,7 @@ export const NoticeClinicDetail: FC<Props> = (props) => {
         <PlanConditionBox
           key={clinic.name}
           title={"内装"}
+          icon={MdOutlineKingBed}
           text={clinic.interior || "不明"}
           first={"豪華"}
           second={"綺麗"}
@@ -48,6 +57,7 @@ export const NoticeClinicDetail: FC<Props> = (props) => {
         <PlanConditionBox
           key={clinic.name}
           title={"施術室"}
+          icon={MdOutlineDoorBack}
           text={clinic.roomType || "不明"}
           first={"完全個室"}
           second={"個室"}

@@ -1,6 +1,6 @@
 import { Box, Center, Flex, Select, Text } from "@chakra-ui/react";
 import { ChangeEvent, FC, memo, useCallback, VFC } from "react";
-import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
+import { IdAndNameDto } from "types/IdAndNameDto";
 
 type Props = {
   title: string;

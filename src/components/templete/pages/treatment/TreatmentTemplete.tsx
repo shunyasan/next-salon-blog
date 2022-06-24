@@ -1,14 +1,15 @@
-import { Box, Flex, HStack, Text } from "@chakra-ui/react";
+import { Box, Flex, HStack, Text, useDisclosure } from "@chakra-ui/react";
 import { OriginCategoryBox } from "components/organisms/box/OriginCategoryBox";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { FC, ReactNode, useCallback, useState } from "react";
-import { HeadingBox } from "components/molecules/box/HeadingBox";
+import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import { AboutTreatmentParts } from "components/organisms/lists/AboutTreatmentParts";
 import { PartsBox } from "components/organisms/box/PartsBox";
 import { AboutCategory, BaseParts } from "@prisma/client";
 import { searchForPlan } from "services/app/parameter/CreateParameterHooks";
 import { CategoryBox } from "components/organisms/box/CategoryBox";
+import { TreatmentPartsModal } from "components/organisms/modal/TreatmentPartsModal";
 
 type Props = {
   // title: string;
@@ -30,8 +31,10 @@ const TreatmentTemplete: FC<Props> = ({
   gender,
 }) => {
   const router = useRouter();
-  // const [originId, setOriginId] = useState<string>(selectOriginId);
+  const [partsId, setPartsId] = useState<string>("B000001");
   const [aboutArray, setAboutArray] = useState<number>(0);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const [originId, setOriginId] = useState<string>(selectOriginId);
   // const [gender, setGender] = useState<string>("女性");
 
   const origin = [
@@ -55,6 +58,14 @@ const TreatmentTemplete: FC<Props> = ({
       search: param,
     });
   };
+
+  const onClickParts = useCallback(
+    (id: string) => {
+      setPartsId(id);
+      onOpen();
+    },
+    [onOpen]
+  );
 
   //   const changeGenderState = useCallback(
   //   (genderParam: string) => {
@@ -105,8 +116,8 @@ const TreatmentTemplete: FC<Props> = ({
           ))}
         </Flex>
         <Flex
-          // w={"80%"}
-          // mx="auto"
+          w={"80%"}
+          mx="auto"
           mt="2rem"
           wrap={"wrap"}
           justifyContent={"space-evenly"}
@@ -126,25 +137,50 @@ const TreatmentTemplete: FC<Props> = ({
           w={{ md: "80%", sm: "95%" }}
           mx="auto"
           spacing={"0"}
-          // mt="1rem"
+          mt="2rem"
           wrap={"wrap"}
           justifyContent={"space-evenly"}
         >
-          {about[aboutArray].baseParts.map((parts, i) => (
-            <PartsBox
+          {about.map((abo, i) => (
+            <HStack
               key={i}
-              parts={parts}
-              width={"10rem"}
-              search={() =>
-                searchForPlanFunc(
-                  gender,
-                  about[0].originId,
-                  parts.aboutCategoryId,
-                  parts.id
-                )
-              }
-            />
+              w={{ md: "80%", sm: "95%" }}
+              mx="auto"
+              spacing={"0"}
+              textAlign="center"
+              // mt="1rem"
+              wrap={"wrap"}
+              justifyContent={"left"}
+              display={aboutArray === i ? "flex" : "none"}
+              // visibility={aboutArray === i ? "visible" : "hidden"}
+            >
+              {abo.baseParts.map((parts, i) => (
+                // ここをクリックでmodal？いや、下に表示させたほうがスクロールできて見栄えがいい？
+                // 含む系の表記は無しにして、modal時に含む系の情報を載せる
+                // そこからプランを探すに遷移
+                // 画像も用意？
+                <PartsBox
+                  key={i}
+                  parts={parts}
+                  width={"33.3%"}
+                  onOpen={() => onClickParts(parts.id)}
+                  search={() =>
+                    searchForPlanFunc(
+                      gender,
+                      about[0].originId,
+                      parts.aboutCategoryId,
+                      parts.id
+                    )
+                  }
+                />
+              ))}
+            </HStack>
           ))}
+          {/* <TreatmentPartsModal
+            partsId={partsId}
+            isOpen={isOpen}
+            onClose={onClose}
+          /> */}
         </HStack>
       </Box>
     </Box>

@@ -1,6 +1,6 @@
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { ClinicOption } from "@prisma/client";
 import { FC, memo, VFC } from "react";
-import { ClinicOption } from "types/api/ClinicOption";
 
 type Props = {
   datas: ClinicOption;

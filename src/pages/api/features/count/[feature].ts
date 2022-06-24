@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { featureValidation } from "services/app/features/feature";
-import { FeatureService } from "services/orm/features/get";
+import { featureService } from "services/service";
 
 export default async function getCountFeature(
   req: NextApiRequest,
@@ -15,7 +15,6 @@ export default async function getCountFeature(
   if (!check) {
     throw new Error("featureがありません");
   }
-  const featureService = new FeatureService();
   const data = await featureService.getCountFeature(feature);
 
   // const data: number = await getAxios(`feature/count/${feature}`);

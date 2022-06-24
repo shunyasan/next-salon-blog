@@ -1,9 +1,9 @@
 import { Box, Text, Flex } from "@chakra-ui/layout";
-import { ClinicCard } from "components/organisms/board/ClinicCard";
+import { PlanCard } from "components/organisms/board/PlanCard";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
-import fetcher from "services/orm/fetcher";
+import fetcher from "services/fetcher";
 import useSWR from "swr";
-import { ClinicNestPriceDto } from "types/api/dto/ClinicNestPriceDto";
+import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
 import { TopResource } from "../../../../../resorces/TopResource";
 import { Pagenation } from "../../pagenation/Pagenation";
 
@@ -56,7 +56,7 @@ export const FeatureSearch: FC<Props> = (props) => {
         </Box> */}
         <Box w={{ md: "80%", sm: "95%" }} m="auto">
           {clinicData.map((data, int) => (
-            <ClinicCard clinic={data} key={int} />
+            <PlanCard clinic={data} key={int} />
           ))}
         </Box>
       </Pagenation>

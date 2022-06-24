@@ -4,38 +4,37 @@ import { Button, Image, Center, Stack } from "@chakra-ui/react";
 import { GetServerSideProps, NextPage } from "next";
 import { OrderPlanIdName } from "types/app/OrderPlanIdName";
 import { OrderPlan } from "types/app/OrderPlan";
-import { PriceDto } from "types/api/dto/PriceDto";
+import { PriceDto } from "types/PriceDto";
 import { createQuery } from "services/app/prices/price";
 import { useRouter } from "next/router";
-import fetcher from "services/orm/fetcher";
+import fetcher from "services/fetcher";
 import { changeOrderPlanToOrderPlanIdName } from "services/app/order-plan-id-name/order-plan-id-name";
 import {
   createQueryString,
   getQueryOrderPlanInSearch,
   OrderPlanToOrderPlan,
 } from "services/app/parameter/CreateParameterHooks";
-import { IncludePartsAndCategoryPriceDto } from "types/api/dto/IncludePartsAndCategoryPriceDto";
+import { IncludePartsAndCategoryPriceDto } from "types/IncludePartsAndCategoryPriceDto";
 import getCountPrice from "pages/api/prices/max-count";
 import { SearchResultCard } from "components/organisms/box/SearchResultCard";
 import { BaseButton } from "components/atoms/button/BaseButton";
 import { Pagenation } from "components/templete/pagenation/Pagenation";
-import { PlanCard } from "components/organisms/board/PlanCard";
 import useSWR from "swr";
 import Head from "next/head";
-import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
-import { OriginCategoryService } from "services/orm/origin-category/get";
-import { AboutCategoryService } from "services/orm/about-categories/get";
-import { BasePartsService } from "services/orm/base-parts/get";
-import { PriceService } from "services/orm/prices/get";
+import { IdAndNameDto } from "types/IdAndNameDto";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
-import { HeadingBox } from "components/molecules/box/HeadingBox";
+import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import { tweet } from "services/tweet";
+import { PricePlanCard } from "components/organisms/board/PricePlanCard";
+import Script from "next/script";
+import {
+  aboutCategoryService,
+  basePartsService,
+  originCategoryService,
+  priceService,
+} from "services/service";
 
 const numOfTakeData = 10;
-const priceService = new PriceService();
-const originService = new OriginCategoryService();
-const aboutService = new AboutCategoryService();
-const partsService = new BasePartsService();
 
 type Props = {
   planParam: string;
@@ -56,13 +55,15 @@ const createTitle = (idName: OrderPlanIdName) => {
 
 const createOrderDataIdName = async (orderPlanData: OrderPlan) => {
   const orderDataIdName = changeOrderPlanToOrderPlanIdName(orderPlanData);
-  const origin: IdAndNameDto = await originService.getOriginCategoryIdAndName(
-    orderDataIdName.originParts.id
-  );
-  const about: IdAndNameDto = await aboutService.getAboutCategoryIdAndName(
-    orderDataIdName.AboutCategory.id
-  );
-  const parts: IdAndNameDto = await partsService.getBasePartsIdAndName(
+  const origin: IdAndNameDto =
+    await originCategoryService.getOriginCategoryIdAndName(
+      orderDataIdName.originParts.id
+    );
+  const about: IdAndNameDto =
+    await aboutCategoryService.getAboutCategoryIdAndName(
+      orderDataIdName.AboutCategory.id
+    );
+  const parts: IdAndNameDto = await basePartsService.getBasePartsIdAndName(
     orderDataIdName.parts.id
   );
   orderDataIdName.originParts = origin;
@@ -163,6 +164,16 @@ const SalonList: NextPage<Props> = (props) => {
     [pagenationData]
   );
 
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://platform.twitter.com/widgets.js";
+    document.body.appendChild(script);
+    // アンマウント時に一応scriptタグを消しておく
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   if (!price || (!maxValue && maxValue !== 0)) return <LoadingIcon />;
   return (
     <Stack
@@ -172,7 +183,7 @@ const SalonList: NextPage<Props> = (props) => {
       wrap={"wrap"}
       justifyContent={"center"}
     >
-      <HeadingBox title="検索結果" />
+      <BgImgH1 title="検索結果" />
       <Head>
         <title>{`【${title}"】`} | あなたのための脱毛</title>
         <meta name="description" content={`【${title}】のプランを検索`} />
@@ -200,9 +211,9 @@ const SalonList: NextPage<Props> = (props) => {
             >
               {orderDataIdName &&
                 price.map((plan) => (
-                  <PlanCard
+                  <PricePlanCard
                     key={plan.id}
-                    plan={plan}
+                    price={plan}
                     orderDataIdName={orderDataIdName}
                   />
                 ))}
@@ -234,11 +245,6 @@ const SalonList: NextPage<Props> = (props) => {
                   >
                     Tweets by ${account}
                   </a>
-                  <script
-                    async
-                    src="https://platform.twitter.com/widgets.js"
-                    charSet="utf-8"
-                  ></script>
                 </Box>
               ))}
             </Stack>

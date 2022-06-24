@@ -1,6 +1,6 @@
 import { Box, Flex, HStack, Stack, Text } from "@chakra-ui/react";
 import { Logo } from "components/atoms/logos/Logo";
-import { HeadingBox } from "components/molecules/box/HeadingBox";
+import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import TitleAndValueBox from "components/molecules/box/TitleAndValueBox";
 import { NextPage } from "next";
 import Head from "next/head";
@@ -12,7 +12,7 @@ const Profile = () => {
         <title>運営者情報・お問い合わせ | あなたのための脱毛</title>
       </Head>
       <Box textAlign={"center"}>
-        <HeadingBox title="運営者情報・お問い合わせ" />
+        <BgImgH1 title="運営者情報・お問い合わせ" />
         <Box my="3rem">
           <Logo fontSize={{ md: "3rem", sm: "3rem" }} color={"originBlack"} />
         </Box>

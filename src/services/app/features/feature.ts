@@ -1,5 +1,5 @@
 import { Feature } from "enums/FeatureEnum";
-import { FeatureDto } from "types/api/dto/FeatureDto";
+import { FeatureDto } from "types/FeatureDto";
 import { FeatureViewData } from "types/app/FeatureViewData";
 export const getFeatureString = (data: FeatureDto) => {
   const interior: FeatureViewData = {

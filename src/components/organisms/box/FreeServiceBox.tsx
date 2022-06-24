@@ -22,23 +22,23 @@ export const FreeServiceBox: FC<Props> = (props) => {
     }
   }, [fontSize, value]);
   return (
-    <Stack
+    <Flex
       w={width || "5.5rem"}
       h={height || "4rem"}
       justifyContent={"center"}
-      spacing={"3px"}
+      // spacing={"3px"}
       fontSize={{ md: fontSizeData, sm: value !== "-" ? "0.7em" : "0.5em" }}
       // onClick={onClick}
       // mx={"auto !important"}
       // cursor={"pointer"}
     >
       <Text fontWeight={value !== "-" ? "bold" : ""}>{title}</Text>
-      <Box
+      {/* <Box
         borderBottom={"1px"}
         borderColor={"black"}
         w={"80%"}
         mx={"auto !important"}
-      ></Box>
+      ></Box> */}
       <Box display={"inline-block"}>
         <StatusText
           text={value}
@@ -47,6 +47,6 @@ export const FreeServiceBox: FC<Props> = (props) => {
           other={"-"}
         />
       </Box>
-    </Stack>
+    </Flex>
   );
 };

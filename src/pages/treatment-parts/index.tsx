@@ -1,22 +1,18 @@
-import { Box, Flex, HStack, Text } from "@chakra-ui/react";
-import { OriginCategoryBox } from "components/organisms/box/OriginCategoryBox";
+import { Box, Button, Flex, HStack, Text } from "@chakra-ui/react";
 import { AboutTreatmentParts } from "components/organisms/lists/AboutTreatmentParts";
-import { GetStaticProps, NextPage } from "next";
+import { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
-import fetcher from "services/orm/fetcher";
+import fetcher from "services/fetcher";
 import { searchForPlan } from "services/app/parameter/CreateParameterHooks";
 import useSWR from "swr";
-import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
-import { OriginCategoryService } from "services/orm/origin-category/get";
-import { AboutCategoryService } from "services/orm/about-categories/get";
-import { BasePartsService } from "services/orm/base-parts/get";
 import { AboutCategory, BaseParts } from "@prisma/client";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
-import { HeadingBox } from "components/molecules/box/HeadingBox";
+import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import { OriginCategiryId } from "enums/OriginCategiryIdEnum";
 import TreatmentTemplete from "components/templete/pages/treatment/TreatmentTemplete";
+import { aboutCategoryService } from "services/service";
 
 type Props = {
   // origin: IdAndNameDto[];
@@ -26,11 +22,9 @@ type Props = {
 };
 
 const originId = OriginCategiryId.face;
-// const originService = new OriginCategoryService();
-const aboutService = new AboutCategoryService();
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const about = await aboutService.getJoinBasicPartsd(originId, 2);
+  const about = await aboutCategoryService.getJoinBasicPartsd(originId, 2);
   return {
     props: {
       about,
@@ -41,7 +35,8 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 const TreatmentFaceParts: NextPage<Props> = ({ about }) => {
   // const [aboutId, setAboutId] = useState<string>(about[0].id);
   const [gender, setGender] = useState<string>("女性");
-
+  const [aboutString, setAboutString] = useState<string>("test");
+  const router = useRouter();
   const { data: aboutCategories, error: err_abo } = useSWR<
     (AboutCategory & {
       baseParts: BaseParts[];
@@ -79,7 +74,7 @@ const TreatmentFaceParts: NextPage<Props> = ({ about }) => {
           content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」大手から優良小規模で脱毛可能な部位です。おすすめの部位から意外な部位まで掲載しています。"
         />
       </Head>
-      <HeadingBox title="顔の脱毛可能な部位" />
+      <BgImgH1 title="顔の脱毛可能な部位" />
       <HStack mt="2rem" justifyContent={"center"}>
         <Box
           cursor={"pointer"}
@@ -107,4 +102,5 @@ const TreatmentFaceParts: NextPage<Props> = ({ about }) => {
     </TreatmentTemplete>
   );
 };
+
 export default TreatmentFaceParts;

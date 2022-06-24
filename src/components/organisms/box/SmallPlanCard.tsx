@@ -1,8 +1,7 @@
 import { Box, Button, HStack, Text } from "@chakra-ui/react";
-import { ClinicOpeningHours, ClinicOption } from "@prisma/client";
+import { Clinic, ClinicOpeningHours, ClinicOption } from "@prisma/client";
 import { FC, memo, useCallback, VFC } from "react";
-import { Clinic } from "types/api/Clinic";
-import { PriceDto } from "types/api/dto/PriceDto";
+import { PriceDto } from "types/PriceDto";
 import { InlineTitleBadge } from "../../atoms/badge/InlineTitleBadge";
 import { PlanDetailModal } from "../../organisms/modal/PlanDetailModal";
 

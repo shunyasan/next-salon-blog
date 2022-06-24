@@ -1,5 +1,5 @@
 import { prisma } from "services/prisma";
-import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
+import { IdAndNameDto } from "types/IdAndNameDto";
 
 export class OriginCategoryRepository {
   // constructor(private readonly prisma = prisma.originCategory) {}
@@ -43,6 +43,16 @@ export class OriginCategoryRepository {
   async getAllIdAndName(): Promise<IdAndNameDto[]> {
     const get = await prisma.originCategory.findMany({
       select: { id: true, name: true },
+      orderBy: { id: "asc" },
+    });
+    return get;
+  }
+
+  async getAllJoinAboutCategory() {
+    const get = await prisma.originCategory.findMany({
+      include: {
+        aboutCategory: true,
+      },
       orderBy: { id: "asc" },
     });
     return get;

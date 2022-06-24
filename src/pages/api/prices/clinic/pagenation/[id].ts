@@ -1,11 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PriceService } from "services/orm/prices/get";
-import {
-  checkEmptyRequestQueryToNumber,
-  checkNumberRequestQuery,
-} from "services/orm/validation";
-import { PagenationParameter } from "types/api/dto/PagenationParameterDto";
-import { PriceDto } from "types/api/dto/PriceDto";
+import { priceService } from "services/service";
+import { PriceDto } from "types/PriceDto";
 
 export default async function getPriceByClinicId(
   req: NextApiRequest,
@@ -20,7 +15,6 @@ export default async function getPriceByClinicId(
   if (req.query.take !== "" && req.query.skip !== "") {
     pagenation = { take: Number(req.query.take), skip: Number(req.query.skip) };
   }
-  const priceService = new PriceService();
   const data = await priceService.getPlanByClinicId(clinicId, pagenation);
 
   // const takeCheck = checkEmptyRequestQueryToNumber(req.query.take);

@@ -6,12 +6,11 @@ import {
   ClinicOption,
 } from "@prisma/client";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
-import getPriceByAboutIdAndClinicId from "pages/api/prices/clinic/[id]";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
-import fetcher from "services/orm/fetcher";
+import fetcher from "services/fetcher";
 import useSWR from "swr";
-import { IdAndNameDto } from "types/api/dto/IdAndNameDto";
-import { PriceDto } from "types/api/dto/PriceDto";
+import { IdAndNameDto } from "types/IdAndNameDto";
+import { PriceDto } from "types/PriceDto";
 import { AbobutCategiryId } from "../../../enums/AbobutCategiryIdEnum";
 import { OriginCategiryId } from "../../../enums/OriginCategiryIdEnum";
 import { SmallPlanCard } from "../box/SmallPlanCard";
@@ -137,10 +136,10 @@ export const ClinicPlanCard: FC<Props> = (props) => {
             key={i}
             width={{ md: "16.6%", sm: "33.3%" }}
             py={"1em"}
-            color={selectTab === data.id ? "originGold" : ""}
+            color={selectTab === data.id ? "originBlack" : ""}
             fontWeight={selectTab === data.id ? "bold" : ""}
             borderBottom={selectTab === data.id ? "2px" : ""}
-            borderColor={selectTab === data.id ? "originGold" : ""}
+            borderColor={selectTab === data.id ? "originBlack" : ""}
             transition={"0.5s"}
             cursor={"pointer"}
             _hover={{
@@ -164,18 +163,16 @@ export const ClinicPlanCard: FC<Props> = (props) => {
         <>
           <Flex wrap={"wrap"} justifyContent={"space-evenly"}>
             {priceData.map((data, i) => (
-              <>
-                <Box
-                  w={{ md: "40%", sm: "30em" }}
-                  m={{ md: "0.5rem", sm: "0.3rem 0" }}
-                  key={i}
-                >
-                  <SmallPlanCard
-                    price={data}
-                    onClick={() => openPlanDetailModal(data)}
-                  />
-                </Box>
-              </>
+              <Box
+                key={i}
+                w={{ md: "45%", sm: "30em" }}
+                m={{ md: "0.5rem", sm: "0.3rem 0" }}
+              >
+                <SmallPlanCard
+                  price={data}
+                  onClick={() => openPlanDetailModal(data)}
+                />
+              </Box>
             ))}
           </Flex>
           {modalPrice && (

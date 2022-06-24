@@ -7,7 +7,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { HeadingBox } from "components/molecules/box/HeadingBox";
+import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import { Formik } from "formik";
 import {
   InputControl,
@@ -80,7 +80,7 @@ const Form = () => {
           <Head>
             <title>お問合せ | あなたのための脱毛</title>
           </Head>
-          <HeadingBox title="お問合せ" />
+          <BgImgH1 title="お問合せ" />
           <Stack mt="1.5rem" spacing={"1rem"}>
             <Text textAlign="center">
               掲載に関して何かございましたら、お気軽にお問合せください。

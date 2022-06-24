@@ -1,4 +1,4 @@
-import { Box, Stack, Text } from "@chakra-ui/react";
+import { Box, Flex, Stack, Text } from "@chakra-ui/react";
 import { FC, memo, VFC } from "react";
 
 type Props = {
@@ -13,13 +13,14 @@ type Props = {
 export const AreaBox: FC<Props> = (props) => {
   const { area, arrow, description, onClick, fontSize } = props;
   return (
-    <Stack
+    <Flex
+      as="a"
       fontSize={fontSize || undefined}
       cursor={"pointer"}
       border={arrow ? "4px" : "1px"}
       w={"8rem"}
-      h={"8rem"}
-      m={"1rem !important"}
+      h={"5rem"}
+      m={"1rem"}
       alignItems={"center"}
       justifyContent={"center"}
       onClick={onClick}
@@ -29,14 +30,14 @@ export const AreaBox: FC<Props> = (props) => {
       // color={arrow ? "originWhite" : ""}
     >
       <Text>{area}</Text>
-      <Box
+      {/* <Box
         borderBottom={"1px"}
         borderColor={"black"}
         my={"0.5rem"}
         w={"80%"}
       ></Box>
-      <Text fontSize={"0.6em"}>{description}</Text>
-    </Stack>
+      <Text fontSize={"0.6em"}>{description}</Text> */}
+    </Flex>
     //  {arrow && <Box fontSize={"1.3rem"}>▼</Box>}
   );
 };
