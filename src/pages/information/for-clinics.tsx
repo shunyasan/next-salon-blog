@@ -6,7 +6,7 @@ const ForClinics = () => {
   return (
     <>
       <Head>
-        <title>クリニック様へ | あなたのための脱毛</title>
+        <title>クリニック様へ | 脱毛コンサルタント</title>
       </Head>
       <Flex justifyContent={"center"} p={"2rem"} minH={"20rem"}>
         <Text>掲載クリニック様へ</Text>

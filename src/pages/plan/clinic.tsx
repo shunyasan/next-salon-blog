@@ -76,7 +76,7 @@ const SearchSalon: NextPage<Props> = (props) => {
   return (
     <>
       <Head>
-        <title>条件を選択 | あなたのための脱毛</title>
+        <title>条件を選択 | 脱毛コンサルタント</title>
         <meta
           name="description"
           content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」からおすすめのプランを検索します。安い/痛くないと言った要望や、顔/全身/VIOの中でも、クリニックにごとの施術範囲の違いを指定して検索できます。"

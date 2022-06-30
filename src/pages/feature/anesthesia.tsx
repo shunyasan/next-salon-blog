@@ -83,7 +83,7 @@ const AnesthesiaFeature: NextPage<Props> = ({ clinics, count }) => {
   return (
     <>
       <Head>
-        <title>麻酔が無料のクリニック | あなたのための脱毛</title>
+        <title>麻酔が無料のクリニック | 脱毛コンサルタント</title>
         <meta
           name="description"
           content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」からおすすめする麻酔が無料のクリニックです。痛いのが苦手な方で少しでも安いプランをご希望の方にておすすめです。"

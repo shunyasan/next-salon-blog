@@ -38,7 +38,7 @@ const ClinicTemplate: FC<Props> = ({
   return (
     <>
       <Head>
-        <title>{clinicName} | あなたのための脱毛</title>
+        <title>{clinicName} | 脱毛コンサルタント</title>
         <meta name="description" content={clinicName + "の詳細です"} />
       </Head>
       <Stack

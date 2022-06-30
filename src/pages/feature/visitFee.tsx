@@ -79,7 +79,7 @@ const VisitFeeFeature: NextPage<Props> = ({ clinics, count }) => {
   return (
     <>
       <Head>
-        <title>初診料が無料のクリニック | あなたのための脱毛</title>
+        <title>初診料が無料のクリニック | 脱毛コンサルタント</title>
         <meta
           name="description"
           content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」からおすすめする初診料が無料のクリニックです。少しでも安いプランをご希望の方にておすすめです。"

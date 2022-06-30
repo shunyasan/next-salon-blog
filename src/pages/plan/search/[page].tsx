@@ -231,7 +231,7 @@ const SalonList: NextPage<Props> = (props) => {
       <Head>
         <title>
           {`【${orderDataIdName.AboutCategory.name || "体"}】の脱毛`} |
-          あなたのための脱毛
+          脱毛コンサルタント
         </title>
         <meta name="description" content={`【${title}】のプランを検索`} />
       </Head>

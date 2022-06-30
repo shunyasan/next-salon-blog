@@ -92,7 +92,7 @@ const ClinicsAll: NextPage<Props> = ({ area, clinics }) => {
   return (
     <>
       <Head>
-        <title>医療脱毛クリニック一覧 | あなたのための脱毛</title>
+        <title>医療脱毛クリニック一覧 | 脱毛コンサルタント</title>
         <meta
           name="description"
           content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」にあるクリニック一覧です"

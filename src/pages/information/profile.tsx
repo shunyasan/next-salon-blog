@@ -9,7 +9,7 @@ const Profile = () => {
   return (
     <Box>
       <Head>
-        <title>運営者情報・お問い合わせ | あなたのための脱毛</title>
+        <title>運営者情報・お問い合わせ | 脱毛コンサルタント</title>
       </Head>
       <Box textAlign={"center"}>
         <BgImgH1 title="運営者情報・お問い合わせ" />
@@ -26,7 +26,7 @@ const Profile = () => {
       >
         <TitleAndValueBox
           title={"運営元"}
-          value={"あなたのための脱毛 運営事務局"}
+          value={"脱毛コンサルタント 運営事務局"}
         />
         <TitleAndValueBox title={"配信内容"} value={"脱毛プラン検索サービス"} />
         <TitleAndValueBox

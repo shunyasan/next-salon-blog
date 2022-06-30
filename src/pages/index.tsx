@@ -57,7 +57,7 @@ const Home: NextPage<Props> = ({ image, feature, topImg }) => {
   return (
     <Box>
       <Head>
-        <title>あなたのための脱毛</title>
+        <title>脱毛コンサルタント</title>
         <meta
           name="description"
           content="自分に合った脱毛プランを検索できるサイトです。東京都内の医療脱毛激戦区である「渋谷・恵比寿・新宿・銀座・六本木・池袋」大手から優良小規模まで、ほぼ全てのクリニックから分析したプランをおすすめします。"

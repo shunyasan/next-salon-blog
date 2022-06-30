@@ -184,7 +184,7 @@ const ClinicDetail: NextPage<Props> = ({
   return (
     <>
       <Head>
-        <title>{clinicData.name} | あなたのための脱毛</title>
+        <title>{clinicData.name} | 脱毛コンサルタント</title>
         <meta name="description" content={clinicData.name + "の詳細です"} />
       </Head>
       <Box

@@ -18,7 +18,7 @@ const Privacy = () => {
   return (
     <>
       <Head>
-        <title>プライバシーポリシー | あなたのための脱毛</title>
+        <title>プライバシーポリシー | 脱毛コンサルタント</title>
       </Head>
       <Box>
         <BgImgH1 title="プライバシーポリシー" />

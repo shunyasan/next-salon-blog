@@ -78,7 +78,7 @@ const Form = () => {
       {({ handleSubmit, values, errors }) => (
         <Box>
           <Head>
-            <title>お問合せ | あなたのための脱毛</title>
+            <title>お問合せ | 脱毛コンサルタント</title>
           </Head>
           <BgImgH1 title="お問合せ" />
           <Stack mt="1.5rem" spacing={"1rem"}>

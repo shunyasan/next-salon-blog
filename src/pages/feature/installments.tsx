@@ -77,7 +77,7 @@ const InstallmentsFeature: NextPage<Props> = ({ clinics, count }) => {
   return (
     <>
       <Head>
-        <title>分割払い可能なクリニック | あなたのための脱毛</title>
+        <title>分割払い可能なクリニック | 脱毛コンサルタント</title>
         <meta
           name="description"
           content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」からおすすめする分割払い可能なクリニックです。カード、ローンが利用できます。"
