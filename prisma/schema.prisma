@@ -127,7 +127,7 @@ model Clinic {
   staffGender Int  @default(0) //'0:不明 1:女性 2:男性 3:女性男性',
   tax String?
   tel String?
-  url String?
+  url String
   areaId String
   area ClinicArea @relation(fields: [areaId], references: [id])
   clinicGroupId String?
