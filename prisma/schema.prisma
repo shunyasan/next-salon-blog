@@ -158,7 +158,7 @@ priceVio PriceVio[]
 model ClinicArea {
   id String @id
   area String //地区名
-  url String
+  url String @default("#")
   description String? //説明
   registrationNumber Int @default(0) //地区に登録されているクリニック数
   clinic Clinic[]
