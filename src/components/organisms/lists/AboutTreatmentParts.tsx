@@ -3,7 +3,7 @@ import { AboutCategory } from "@prisma/client";
 import { FC, memo, VFC } from "react";
 import { CategoryBox } from "../box/CategoryBox";
 type Props = {
-  about: AboutCategory[];
+  about: AboutCategory;
   gender: string;
   selectedId: string;
   onClick: (id: string) => void;
@@ -19,17 +19,14 @@ export const AboutTreatmentParts: FC<Props> = (props) => {
       wrap={"wrap"}
       justifyContent={"space-evenly"}
     >
-      {about.map((data, i) => (
-        <CategoryBox
-          key={i}
-          category={data}
-          gender={gender}
-          width={{ md: "10rem", sm: "7.5rem" }}
-          arrow={selectedId === data.id}
-          onClick={() => onClick(data.id)}
-          search={search && (() => search(data.originId, data.id))}
-        />
-      ))}
+      <CategoryBox
+        category={about}
+        gender={gender}
+        width={{ md: "10rem", sm: "7.5rem" }}
+        arrow={selectedId === about.id}
+        onClick={() => onClick(about.id)}
+        search={search && (() => search(about.originId, about.id))}
+      />
     </Flex>
   );
 };

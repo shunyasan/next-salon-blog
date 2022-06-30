@@ -29,7 +29,7 @@ export const HomeSearchBoxList: FC = () => {
     img: TopResource.clinicImg,
     text: "クリニック一覧",
     description: "東京都の中でも、激戦区である主要５区ほぼ全てのクリニック一覧",
-    path: "/clinic",
+    path: "/clinic/1",
   };
   const datas: HomeFeatureText[] = [plan, partsList, clinicList];
 
@@ -39,7 +39,7 @@ export const HomeSearchBoxList: FC = () => {
         <ImageBox
           homeFeature={data}
           width={{ md: "19rem", sm: "17rem" }}
-          height={{ md: "2rem", sm: "inherit" }}
+          // height={{ md: "2rem", sm: "inherit" }}
           key={i}
         />
       ))}

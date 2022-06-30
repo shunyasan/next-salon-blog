@@ -27,14 +27,18 @@ import { OriginCategiryId } from "enums/OriginCategiryIdEnum";
 import { AbobutCategiryId } from "enums/AbobutCategiryIdEnum";
 import fetcher from "services/fetcher";
 import Head from "next/head";
-import { ClinicPlanCard } from "components/organisms/board/ClinicPlanCard";
 import { Layout } from "components/templete/lauouts/Layout";
 import {
   aboutCategoryService,
   clinicService,
   idAndNameService,
+  originCategoryService,
+  priceByAboutCategoryService,
   priceService,
 } from "services/service";
+import { PriceByAboutCategory } from "types/PriceByAboutCategory";
+import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
+import { ChangeBgTab } from "components/atoms/tab/ChangeBgTab";
 
 type Props = {
   clinicData: Clinic & {
@@ -42,8 +46,9 @@ type Props = {
     clinicOpeningHours: ClinicOpeningHours[];
   };
   origin: IdAndNameDto[];
-  aboutCategory: AboutCategory[];
-  price: PriceDto[];
+  // aboutCategory: AboutCategory[];
+  // price: PriceDto[];
+  prices?: PriceByAboutCategory[];
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -58,11 +63,15 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const clinicData = await clinicService.getOneClinic(id);
 
   const origin: IdAndNameDto[] = await idAndNameService.getAllOriginCategory();
-  const aboutCategory: AboutCategory[] =
-    await aboutCategoryService.getAboutCategoryByOriginId(origin[0].id);
-  const price: PriceDto[] = await priceService.getPriceByClinic(
-    id,
-    aboutCategory[0].id
+  // const aboutCategory: AboutCategory[] =
+  //   await aboutCategoryService.getAboutCategoryByOriginId(origin[0].id);
+  // const price: PriceDto[] = await priceService.getPriceByClinic(
+  //   id,
+  //   aboutCategory[0].id
+  // );
+  const prices = await priceByAboutCategoryService.getAllByClinic(
+    "Z000001",
+    id
   );
 
   // const clinicData: Clinic = await fetcher(`${thisURL}api/clinics/${id}`);
@@ -70,8 +79,9 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     props: {
       clinicData: clinicData,
       origin,
-      aboutCategory,
-      price,
+      // aboutCategory,
+      // price,
+      prices,
     },
   };
 };
@@ -79,15 +89,10 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 const ClinicDetail: NextPage<Props> = ({
   clinicData,
   origin,
-  aboutCategory,
-  price,
+  // aboutCategory,
+  // price,
+  prices,
 }) => {
-  // const [selectTab, setSelectTab] = useState<string>("クリニック概要");
-
-  // const changeTab = (tab: string) => {
-  //   setSelectTab(tab);
-  // };
-
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [selectTab, setSelectTab] = useState<string>("TOP");
@@ -100,40 +105,66 @@ const ClinicDetail: NextPage<Props> = ({
   // );
   const [originId, setOriginId] = useState<string>(OriginCategiryId.face);
 
-  const { data: aboutCategoryData, error: err_abo } = useSWR<AboutCategory[]>(
-    `/api/about-categories/originId/${originId}`,
+  const { data: priceData, error: err_pri } = useSWR<PriceByAboutCategory[]>(
+    `/api/price-by-about-category?originId=${originId}&clinicId=${clinicData.id}`,
     fetcher,
     {
-      fallbackData: aboutCategory,
+      fallbackData: prices,
     }
   );
 
-  const { data: priceData, error: err_pri } = useSWR<PriceDto[]>(
-    `/api/prices/clinic/${clinicData.id}?aboutId=${
-      aboutCategoryData?.length ? aboutCategoryData[0].id : aboutCategory[0].id
-    }`,
-    fetcher,
-    {
-      fallbackData: price,
-    }
-  );
-
+  //以降追加したい項目
+  //・施術の流れ
+  //・施術についての詳細
+  //・SNS
+  // wrap対策
+  const tab1: { text: string; url: string }[] = [
+    { text: "TOP", url: "#top" },
+    { text: "オプションサービス", url: "#option" },
+    { text: "契約・支払い", url: "#payment" },
+    { text: "アクセス", url: "#access" },
+  ];
+  const tab2: { text: string; url: string }[] = [
+    { text: "料金", url: "#fee" },
+    { text: "予約情報・SNS", url: "#sns" },
+    { text: "Youtube", url: "#youtube" },
+  ];
   const tab: { text: string; url: string }[] = [
     { text: "TOP", url: "#top" },
     { text: "オプションサービス", url: "#option" },
     { text: "契約・支払い", url: "#payment" },
     { text: "アクセス", url: "#access" },
     { text: "料金", url: "#fee" },
-    { text: "予約情報・SNS", url: "#sns" },
-    { text: "Youtube", url: "#youtube" },
+    // 鳥のアイコンだけでも良いかも
+    // { text: "予約情報", url: "#sns" },
+    // { text: "キャンペーン・おすすめ", url: "#" },
+    // { text: "Youtube", url: "#youtube" },
   ];
 
-  const changeTab = useCallback(async (text: string) => {
-    setOriginId(text);
-    setSelectTab(text);
-    // const data = await getAboutCategory(originId);
-    // changeAboutCategory(data[0].id);
-  }, []);
+  // const { data: aboutCategoryData, error: err_abo } = useSWR<AboutCategory[]>(
+  //   `/api/about-categories/originId/${originId}`,
+  //   fetcher,
+  //   {
+  //     fallbackData: aboutCategory,
+  //   }
+  // );
+
+  // const { data: priceData, error: err_pri } = useSWR<PriceDto[]>(
+  //   `/api/prices/clinic/${clinicData.id}?aboutId=${
+  //     aboutCategoryData?.length ? aboutCategoryData[0].id : aboutCategory[0].id
+  //   }`,
+  //   fetcher,
+  //   {
+  //     fallbackData: price,
+  //   }
+  // );
+
+  // const changeTab = useCallback(async (text: string) => {
+  //   setOriginId(text);
+  //   setSelectTab(text);
+  //   // const data = await getAboutCategory(originId);
+  //   // changeAboutCategory(data[0].id);
+  // }, []);
 
   // const changeAboutCategory = useCallback(async (aboutId: string) => {
   //   // await getPrices(aboutId);
@@ -148,6 +179,8 @@ const ClinicDetail: NextPage<Props> = ({
   //   [onOpen]
   // );
 
+  if (!priceData) return <LoadingIcon />;
+
   return (
     <>
       <Head>
@@ -159,7 +192,9 @@ const ClinicDetail: NextPage<Props> = ({
         mx={"auto"}
         // justifyContent={"center"}
         textAlign={"center"}
-        w={{ md: "70%", sm: "95%" }}
+        // minW={{ md: "40em", sm: "95%" }}
+        // maxW={{ md: "60em", sm: "95%" }}
+        maxW={{ md: "46em", sm: "95%" }}
       >
         <Flex
           mb={"3rem"}
@@ -197,43 +232,31 @@ const ClinicDetail: NextPage<Props> = ({
             wrap={"wrap"}
           >
             {tab.map((data, i) => (
-              <Flex
-                as="a"
+              <ChangeBgTab
                 key={i}
-                fontSize={{ md: "inherit", sm: "0.8em" }}
-                flexGrow={1}
-                justifyContent="center"
-                p={{ md: "1em", sm: ".5em 1em" }}
-                transition={"0.5s"}
-                cursor={"pointer"}
-                href={data.url}
-                onClick={() => changeTab(data.text)}
-                color={selectTab !== data.text ? "inherit" : "originGold"}
-                bg={selectTab !== data.text ? "#ccc" : "originWhite"}
-                _hover={{
-                  bg: selectTab !== data.text ? "#eee" : "",
-                  transition: "0.5s",
-                }}
-              >
-                {data.text}
-              </Flex>
+                selectTab={selectTab}
+                value={data.text}
+                url={data.url}
+                onClick={() => setSelectTab(data.text)}
+              />
             ))}
-            {/* 以降追加したい項目
-          <Box>施術の流れ</Box>
-          <Box>施術についての詳細</Box>
-         <Box>SNS</Box> */}
           </Flex>
-          <Flex p={"1em"} justifyContent={"center"}>
+          <Flex p={"2em"} justifyContent={"center"}>
             <Box
-              m={{ md: "2em", sm: "2em 0" }}
-              w={{ md: "75%", sm: "100%" }}
-              mx={"auto"}
+              // m={{ md: "2em", sm: "2em 0" }}
+              // mx={"auto"}
+              // w={{ md: "75%", sm: "100%" }}
+              w={"100%"}
+              // maxW={"43em"}
+              // minW={{ md: "30em", sm: "100%" }}
             >
               <ClinicDetailCard
                 clinicData={clinicData}
                 originData={origin}
-                aboutCategoryData={aboutCategory}
-                priceData={priceData || []}
+                // aboutCategoryData={aboutCategory}
+                // priceData={priceData || []}
+                prices={priceData}
+                onClickOriginId={(originId: string) => setOriginId(originId)}
               />
             </Box>
           </Flex>

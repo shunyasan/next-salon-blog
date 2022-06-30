@@ -31,6 +31,13 @@ export class BasePartsRepository {
     return data;
   }
 
+  async getAllBasePartsByAboutId(aboutCategoryId: string) {
+    const data = await prisma.baseParts.findMany({
+      where: { aboutCategoryId: aboutCategoryId },
+    });
+    return data;
+  }
+
   async getAllIdAndNameById(id: string): Promise<IdAndNameDto[]> {
     return await prisma.baseParts.findMany({
       select: { id: true, name: true },

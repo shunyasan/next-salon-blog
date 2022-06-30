@@ -1,22 +1,24 @@
-import { Box, Button, HStack, Text } from "@chakra-ui/react";
+import { Box, Button, HStack, Text, useDisclosure } from "@chakra-ui/react";
 import { Clinic, ClinicOpeningHours, ClinicOption } from "@prisma/client";
 import { FC, memo, useCallback, VFC } from "react";
+import { TitleValue } from "types/app/TitleValue";
 import { PriceDto } from "types/PriceDto";
 import { InlineTitleBadge } from "../../atoms/badge/InlineTitleBadge";
 import { PlanDetailModal } from "../../organisms/modal/PlanDetailModal";
 
 type Props = {
   price: PriceDto;
-  onClick?: () => void;
-  clinic?: Clinic & {
-    clinicOption: ClinicOption | null;
-    clinicOpeningHours: ClinicOpeningHours[];
-  };
-  isOpen?: boolean;
-  onClose?: () => void;
+  // clinic: Clinic & {
+  //   clinicOption: ClinicOption | null;
+  //   clinicOpeningHours: ClinicOpeningHours[];
+  // };
+  url: string;
+  options?: TitleValue[];
 };
 export const SmallPlanCard: FC<Props> = (props) => {
-  const { price, onClick, clinic, isOpen, onClose } = props;
+  const { price, url, options } = props;
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const checkGender = useCallback(() => {
     const func: any = {};
     func[1] = "女性";
@@ -35,12 +37,12 @@ export const SmallPlanCard: FC<Props> = (props) => {
         justifyContent={"space-around"}
         fontSize={"0.8rem"}
         spacing={"0"}
-        cursor={onClick ? "pointer" : ""}
+        cursor={"pointer"}
         _hover={{
           transition: ".5s",
-          bg: onClick ? "#ccc" : "",
+          bg: "#ccc",
         }}
-        onClick={onClick}
+        onClick={onOpen}
       >
         <HStack spacing={"0"} justifyContent={"center"} w={"53%"}>
           <Text>{price.name}</Text>
@@ -62,16 +64,13 @@ export const SmallPlanCard: FC<Props> = (props) => {
         </Button> */}
         </HStack>
       </HStack>
-      {isOpen && onClose && clinic ? (
-        <PlanDetailModal
-          isOpen={isOpen}
-          onClose={onClose}
-          price={price}
-          clinic={clinic}
-        />
-      ) : (
-        ""
-      )}
+      <PlanDetailModal
+        isOpen={isOpen}
+        onClose={onClose}
+        price={price}
+        url={url || ""}
+        options={options || []}
+      />
     </>
   );
 };

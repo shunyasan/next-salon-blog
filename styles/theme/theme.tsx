@@ -18,13 +18,13 @@ const theme = extendTheme({
       },
       th: {
         border: "1px",
-        textAlign: "center !important",
+        textAlign: "center",
         fontSize: "0.6rem",
         backgroundColor: "originLiteGray",
       },
       td: {
         border: "1px",
-        textAlign: "center  !important",
+        textAlign: "center ",
         fontSize: "0.6rem",
       },
     },
@@ -43,6 +43,7 @@ const theme = extendTheme({
     originDarkGold: "#7d7140",
     SeeThroughGold: "#ebdfc2",
     SeeThroughBlue: "#d9eeff",
+    bgOriginGold: "rgba(165,153,104,0.1)",
   },
   components: {
     Button: {

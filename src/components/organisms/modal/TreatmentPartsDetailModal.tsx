@@ -10,7 +10,7 @@ type Props = {
   onClose: () => void;
 };
 
-export const TreatmentPartsModal: FC<Props> = (props) => {
+export const TreatmentPartsDetailModal: FC<Props> = (props) => {
   const { partsId, isOpen, onClose } = props;
   const router = useRouter();
 

@@ -1,3 +1,5 @@
+import OrderPlanIdNameService from "./app/orderPlanIdNameService";
+import { TitleValueService } from "./app/titleValueService";
 import { AboutCategoryService } from "./orm/aboutCategoryService";
 import { BasePartsService } from "./orm/base-parts-service";
 import { ClinicAreaService } from "./orm/clinic-area-service";
@@ -7,6 +9,7 @@ import { IdAndNameService } from "./orm/id-and-name-service";
 import { MachineService } from "./orm/machine-service";
 import { OriginCategoryService } from "./orm/origin-category-service";
 import { PriceService } from "./orm/price-service";
+import { PriceByAboutCategoryService } from "./orm/priceByAboutCategoryService";
 import { ClinicRepository } from "./orm/repository/clinicRepository";
 import {
   aboutCategoryRepository,
@@ -39,3 +42,11 @@ export const originCategoryService = new OriginCategoryService(
   originCategoryRepository,
   priceService
 );
+export const priceByAboutCategoryService = new PriceByAboutCategoryService(
+  originCategoryRepository,
+  aboutCategoryRepository,
+  priceService
+);
+
+export const titleValueService = new TitleValueService();
+export const orderPlanIdNameService = new OrderPlanIdNameService();

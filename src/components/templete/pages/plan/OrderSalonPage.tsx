@@ -1,5 +1,5 @@
 import { Button } from "@chakra-ui/button";
-import { Box, Center, Flex, HStack, Text } from "@chakra-ui/layout";
+import { Box, Center, Link, Flex, HStack, Text } from "@chakra-ui/layout";
 import { CompleteBadge } from "components/atoms/badge/CompleteBadge";
 import { useRouter } from "next/router";
 import React, { FC, ReactNode, useEffect, useState } from "react";
@@ -17,9 +17,9 @@ type Props = {
 const OrderSalonPage: FC<Props> = (props) => {
   const { showPage, children } = props;
 
-  const router = useRouter();
+  // const router = useRouter();
 
-  const [query, setQuery] = useState<string>();
+  // const [query, setQuery] = useState<string>();
 
   // const getQuery = () => {
   //   const queryString = createQueryString(router.query);
@@ -27,10 +27,10 @@ const OrderSalonPage: FC<Props> = (props) => {
   //   return decode;
   // };
 
-  useEffect(() => {
-    const queryString = createQueryString(router.query);
-    setQuery(queryString);
-  }, [router]);
+  // useEffect(() => {
+  //   const queryString = createQueryString(router.query);
+  //   setQuery(queryString);
+  // }, [router]);
 
   return (
     <Box>
@@ -39,7 +39,7 @@ const OrderSalonPage: FC<Props> = (props) => {
           プランを探す
         </Center>
         <HStack justifyContent={"center"} wrap={"wrap"}>
-          {[...Array(7)].map((_, i) => (
+          {[...Array(4)].map((_, i) => (
             <CompleteBadge
               key={i}
               number={i + 1}
@@ -61,9 +61,15 @@ const OrderSalonPage: FC<Props> = (props) => {
         >
           戻る
         </Button> */}
-        <Button as="a" variant={"secBase"} href="/plan">
+        <Link
+          as="a"
+          fontWeight={"bold"}
+          href="/plan"
+          color={"originGold"}
+          textDecoration="underline"
+        >
           最初からやり直す
-        </Button>
+        </Link>
       </Center>
       {/* <Adsense /> */}
     </Box>

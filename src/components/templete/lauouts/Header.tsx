@@ -60,6 +60,25 @@ export const Header: FC<Props> = (props) => {
     },
   ];
 
+  const profiles = [
+    // {
+    //   path: "#",
+    //   text: "掲載クリニック様へ",
+    // },
+    {
+      path: "/information/profile",
+      text: "運営者情報",
+    },
+    {
+      path: "/information/form",
+      text: "お問い合わせ",
+    },
+    {
+      path: "/information/policy",
+      text: "プライバシーポリシー",
+    },
+  ];
+
   const onClickTransition = (path: string) => {
     onClose();
     router.push(`/${path}`);
@@ -132,65 +151,103 @@ export const Header: FC<Props> = (props) => {
           >
             <Link
               href="/"
-              textDecoration={"none !important"}
+              _hover={{
+                textDecoration: "none",
+              }}
               // w={{ md: "inherit", sm: "100%" }}
-              minW="10rem "
+              minW={{ md: "11rem", sm: "9rem" }}
               // my={{ md: "1rem", sm: "0" }}
               mx={{ md: "2rem", sm: "1rem" }}
               _focus={{ outline: "none" }}
             >
               <Flex justifyContent={"center"}>
                 <Logo
-                  fontSize={{ md: "2.4rem", sm: "1rem" }}
+                  fontSize={{ md: "2.4vw", sm: "3vw" }}
                   color={"originBlack"}
                 />
               </Flex>
             </Link>
-            <Box
-              // spacing={"0"}
-              // justifySelf={"center"}
-              textAlign="center"
-              bg={"#eee"}
-              p={{ md: "1rem 2rem", sm: ".5rem" }}
-              h="100%"
-              fontSize={{ md: "0.6rem", sm: "0.4rem" }}
-              // marginInlineStart={"unset !important"}
-            >
-              <Flex
+            <Flex alignItems={"center"}>
+              <HStack
+                as="nav"
+                // bg="originBlack"
+                // color="originWhite"
+                // h={"4rem"}
+                spacing={"1.5em"}
+                fontSize="1vw"
+                alignItems={"center"}
                 justifyContent={"center"}
                 wrap={"wrap"}
-                mb={"0.5rem"}
-                color={"originGold"}
+                display={{ md: "flex", sm: "none" }}
+                mr="1.5em"
               >
-                <Text>東京都激戦５区のクリニックから</Text>
-                <Text>ほぼ全てのプランを分析</Text>
-              </Flex>
-              <HStack
-                justifyContent={"center"}
-                alignItems={"center"}
-                spacing={"2rem"}
-              >
-                <Text fontSize={{ md: "1rem", sm: "0.7rem" }}>現在</Text>
-                <Box>
-                  <Text>クリニック数</Text>
-                  <Text fontSize={{ md: "1.6rem", sm: "1rem" }} mx={"3px"}>
-                    {clinicDefoultNum}
-                    <Text as="span" fontSize={"0.6rem"} ml={"5px"}>
-                      件
-                    </Text>
-                  </Text>
-                </Box>
-                <Box>
-                  <Text>プラン数</Text>
-                  <Text fontSize={{ md: "1.6rem", sm: "1rem" }} mx={"3px"}>
-                    {planDefoultNum}
-                    <Text as="span" fontSize={"0.6rem"} ml={"5px"}>
-                      件
-                    </Text>
-                  </Text>
-                </Box>
+                {profiles.map((data, i) => (
+                  <Box
+                    key={i}
+                    as="a"
+                    my=".5em"
+                    // w={{ md: "15%", sm: "60%" }}
+                    cursor="pointer"
+                    _hover={{
+                      transition: "0.5s",
+                      backgroundColor: "rgba(220,220,220,0.2)",
+                    }}
+                    href={`/${data.path}`}
+                    // onClick={() => onClickPush(data.path)}
+                  >
+                    {data.text}
+                  </Box>
+                ))}
               </HStack>
-            </Box>
+
+              <Box
+                // spacing={"0"}
+                // justifySelf={"center"}
+                textAlign="center"
+                bg={"#eee"}
+                p={{ md: "1rem 2rem", sm: " 1rem .5rem" }}
+                h="100%"
+                fontSize={{ md: "0.6vw", sm: "0.4rem" }}
+                // minW="13rem"
+                // fontSize={{ md: "0.6rem", sm: "0.4rem" }}
+                // marginInlineStart={"unset"}
+              >
+                <Flex
+                  justifyContent={"center"}
+                  wrap={"wrap"}
+                  mb={"0.5rem"}
+                  color={"originGold"}
+                >
+                  <Text>東京都激戦５区のクリニックから</Text>
+                  <Text>ほぼ全てのプランを分析</Text>
+                </Flex>
+                <HStack
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                  spacing={{ md: "2rem", sm: "1.5em" }}
+                >
+                  <Text fontSize={{ md: "1.2vw", sm: "0.7rem" }}>現在</Text>
+                  <Box>
+                    <Text>クリニック数</Text>
+                    <Text fontSize={{ md: "1.6vw", sm: "1rem" }} mx={"3px"}>
+                      {clinicDefoultNum}
+                      <Text as="span" fontSize={"0.6rem"} ml={"5px"}>
+                        件
+                      </Text>
+                    </Text>
+                  </Box>
+                  <Box>
+                    <Text>プラン数</Text>
+                    <Text fontSize={{ md: "1.6vw", sm: "1rem" }} mx={"3px"}>
+                      {planDefoultNum}
+                      <Text as="span" fontSize={"0.6rem"} ml={"5px"}>
+                        件
+                      </Text>
+                    </Text>
+                  </Box>
+                </HStack>
+              </Box>
+            </Flex>
           </HStack>
           {/* <Box py={"0.5em"} display={{ md: "none", sm: "block" }}>
             <GenderPlateBox

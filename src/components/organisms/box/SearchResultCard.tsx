@@ -7,6 +7,7 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
+import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
 import { OrderPlanIdName } from "types/app/OrderPlanIdName";
 import { TitleValue } from "types/app/TitleValue";
@@ -15,11 +16,20 @@ import { ResultCardBox } from "./ResultCardBox";
 
 type Props = {
   orderPlan: OrderPlanIdName;
-  resetPages: () => void;
+  // resetPages: () => void;
+  originCategories: OriginCategory[];
+  aboutCategories: AboutCategory[];
+  baseParts: BaseParts[];
 };
 
 export const SearchResultCard: FC<Props> = (props) => {
-  const { orderPlan, resetPages } = props;
+  const {
+    orderPlan,
+    // resetPages,
+    originCategories,
+    aboutCategories,
+    baseParts,
+  } = props;
   const [baseData, setBaseData] = useState<TitleValue[]>([]);
   const [partsData, setPartsData] = useState<TitleValue[]>([]);
   const [yourData, setYourData] = useState<TitleValue[]>([]);
@@ -36,11 +46,11 @@ export const SearchResultCard: FC<Props> = (props) => {
     ];
     const parts: TitleValue[] = [
       {
-        title: "広域カテゴリ",
+        title: "大カテゴリ",
         value: orderPlan.originParts.name,
       },
       {
-        title: "詳細カテゴリ",
+        title: "小カテゴリ",
         value: orderPlan.AboutCategory.name,
       },
       {
@@ -121,7 +131,7 @@ export const SearchResultCard: FC<Props> = (props) => {
         >
           <Box mb={"1rem"}>
             <Text
-              w={"9em"}
+              maxW={"9em"}
               bg={"originLiteGray"}
               border={"1px"}
               borderColor={"originBlack"}
@@ -133,11 +143,12 @@ export const SearchResultCard: FC<Props> = (props) => {
             </Text>
           </Box>
           <Box
-            // なぜか縦が言うこと聞かない
-            h={"7rem"}
+          // なぜか縦が言うこと聞かない
+          //
+          // h={"7rem"}
           >
             <Text
-              w={"9em"}
+              maxW={"9em"}
               bg={"originLiteGray"}
               border={"1px"}
               borderColor={"originBlack"}
@@ -150,7 +161,7 @@ export const SearchResultCard: FC<Props> = (props) => {
           </Box>
           <Box>
             <Text
-              w={"9em"}
+              maxW={"9em"}
               bg={"originLiteGray"}
               border={"1px"}
               borderColor={"originBlack"}
@@ -163,7 +174,7 @@ export const SearchResultCard: FC<Props> = (props) => {
           </Box>
           <Box>
             <Text
-              w={"9em"}
+              maxW={"9em"}
               bg={"originLiteGray"}
               border={"1px"}
               borderColor={"originBlack"}
@@ -174,9 +185,11 @@ export const SearchResultCard: FC<Props> = (props) => {
               <ResultCardBox key={i} title={data.title} value={data.value} />
             ))}
           </Box>
-          <Box h={"7rem"}>
+          <Box
+          // h={"7rem"}
+          >
             <Text
-              w={"9em"}
+              maxW={"9em"}
               bg={"originLiteGray"}
               border={"1px"}
               borderColor={"originBlack"}
@@ -194,14 +207,15 @@ export const SearchResultCard: FC<Props> = (props) => {
           </Button>
         </Box>
       </Box>
-      {orderPlan && (
-        <PlanResearchModal
-          OrderPlan={orderPlan}
-          isOpen={isOpen}
-          onClose={onClose}
-          resetPages={resetPages}
-        />
-      )}
+      <PlanResearchModal
+        OrderPlan={orderPlan}
+        isOpen={isOpen}
+        onClose={onClose}
+        // resetPages={resetPages}
+        originCategories={originCategories}
+        aboutCategories={aboutCategories}
+        baseParts={baseParts}
+      />
     </>
   );
 };

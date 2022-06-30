@@ -27,7 +27,7 @@ export const PairDataRowBoxList_2: FC<Props> = (props) => {
           key={i}
           fontSize={fontSize}
           w={"50%"}
-          my={my || { md: "1em !important", sm: "0.5em !important" }}
+          my={my || { md: "1em", sm: "0.5em" }}
           wrap={"wrap"}
           justifyContent={"space-between"}
           alignItems={"center"}

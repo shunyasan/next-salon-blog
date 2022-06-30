@@ -15,7 +15,7 @@ export const NarrowImageAndTextBox: FC<Props> = (props) => {
     <Box
       width={{ md: "14rem", sm: "9rem" }}
       shadow="xl"
-      m={"0.5em !important"}
+      m={"0.5em"}
       cursor="pointer"
       onClick={onClick}
       filter={targetValue === id ? "brightness(50%)" : "brightness(100%)"}

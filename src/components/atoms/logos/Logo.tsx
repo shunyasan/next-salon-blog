@@ -1,8 +1,8 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { FC, memo } from "react";
 
 type Props = {
-  fontSize: { md: string; sm: string };
+  fontSize: string | { md: string; sm: string };
   color: string;
   // fontSize: {md: string, sm: string}
 };
@@ -19,7 +19,9 @@ export const Logo: FC<Props> = (props) => {
       fontSize={fontSize}
       textAlign={"center"}
     >
-      <Text>脱毛コンサルタント</Text>
+      <Flex>
+        <Text>脱毛コンサルタント</Text>
+      </Flex>
       <Text fontSize="0.35em">東京都</Text>
     </Box>
   );

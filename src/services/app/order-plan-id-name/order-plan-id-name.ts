@@ -24,8 +24,8 @@ export const changeOrderPlanToOrderPlanIdName = (
     roomType: { id: orderParams.roomType, name: orderParams.roomType },
     interior: { id: orderParams.interior, name: orderParams.interior },
     staff: {
-      id: orderParams.staff.toString(),
-      name: orderParams.staff.toString(),
+      id: checkGender(orderParams.staff),
+      name: checkGender(orderParams.staff),
     },
     card: { id: orderParams.card, name: orderParams.card },
     loan: { id: orderParams.loan, name: orderParams.loan },
@@ -33,4 +33,16 @@ export const changeOrderPlanToOrderPlanIdName = (
     option: { id: orderParams.option, name: orderParams.option },
   };
   return data;
+};
+
+const checkGender = (value: number) => {
+  const num = value.toString();
+  switch (num) {
+    case "1":
+      return "女性";
+    case "2":
+      return "男性";
+    default:
+      return "希望なし";
+  }
 };

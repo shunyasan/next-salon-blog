@@ -13,6 +13,12 @@ export class BasePartsService {
     return await this.basePartsRepository.getBasePartsById(id);
   }
 
+  async getAllBasePartsByAboutId(aboutCategoryId: string) {
+    return await this.basePartsRepository.getAllBasePartsByAboutId(
+      aboutCategoryId
+    );
+  }
+
   async getAllBasePartsIdAndName(
     aboutCategoryId: string
   ): Promise<IdAndNameDto[]> {

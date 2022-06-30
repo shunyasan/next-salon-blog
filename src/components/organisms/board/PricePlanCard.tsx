@@ -29,7 +29,7 @@ type Props = {
 };
 export const PricePlanCard: FC<Props> = (props) => {
   const { price, orderDataIdName } = props;
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onClose } = useDisclosure();
 
   const [detailViewState, setDetailViewState] = useState<boolean>(false);
   const [detailViewClass, setDetailViewClass] =
@@ -67,29 +67,37 @@ export const PricePlanCard: FC<Props> = (props) => {
 
   return (
     <Box
-      p={"1rem"}
+      p={"0 1rem 1rem"}
       borderRadius={8}
       shadow={"0 4px 8px 2px rgb(180,180,180)"}
       color={"#333"}
     >
       <Box
         textAlign={"left"}
-        pb={"2px"}
-        pl={"8px"}
+        py={".5em"}
+        pl={".5em"}
         fontSize={"1.1em"}
         fontWeight={"bold"}
+        pos="sticky"
+        top="0"
+        bg="originWhite"
+        zIndex="50"
       >
         {price.clinic.name}
       </Box>
-      <HStack
+      <Flex
         // minH={"15rem"}
         wrap={"wrap"}
         justifyContent={{ md: "space-evenly", sm: "center" }}
         alignItems={"flex-start"}
-        spacing={"0"}
         // fontFamily={"Zen Maru Gothic, sans-serif"}
       >
-        <Box h={"100%"} w={"22rem"} textAlign={"left"}>
+        <Box
+          h={"100%"}
+          w={"22rem"}
+          textAlign={"left"}
+          mb={{ md: "1em", sm: "0" }}
+        >
           {/* <Box pb={"2px"} pl={"8px"} fontSize={"1.1em"} fontWeight={"bold"}>
             {price.clinic.name}
           </Box> */}
@@ -104,7 +112,7 @@ export const PricePlanCard: FC<Props> = (props) => {
           </Flex>
         </Box>
         <Stack
-          spacing={"0.5rem"}
+          spacing={"1em"}
           // w="13.3rem"
           // w={{
           //   md: "30rem",
@@ -115,6 +123,7 @@ export const PricePlanCard: FC<Props> = (props) => {
             md: "25rem",
             sm: "100%",
           }}
+          pt={{ md: "0", sm: "1em" }}
           px={"0.5em"}
           // py={"1em"}
           justifyContent={"center"}
@@ -132,7 +141,7 @@ export const PricePlanCard: FC<Props> = (props) => {
             </Stack>
           </Flex>
           <NoticeClinicDetail clinic={price.clinic} width={"46%"} py={"8px"} />
-          <Box pt="1em">
+          <Box>
             <Text
               textAlign={"center"}
               color={"originBlack"}
@@ -212,14 +221,14 @@ export const PricePlanCard: FC<Props> = (props) => {
             </Box>
           </Flex>
         </Stack>
-      </HStack>
-      <PlanDetailModal
+      </Flex>
+      {/* <PlanDetailModal
         isOpen={isOpen}
         onClose={onClose}
         price={price}
         clinic={price.clinic}
         clinicButton={true}
-      />
+      /> */}
     </Box>
   );
 };

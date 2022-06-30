@@ -31,7 +31,7 @@ export const PriceViewCard: FC<Props> = (props) => {
             shadow="0 0 2px 2px #777"
             cursor="pointer"
             py="0.5rem"
-            m={{ md: "2rem !important", sm: "1rem !important" }}
+            m={{ md: "2rem", sm: "1rem" }}
             onClick={() => selectItem("総額")}
             bg={selected === "総額" ? "#aaa" : ""}
           >
@@ -46,7 +46,7 @@ export const PriceViewCard: FC<Props> = (props) => {
             shadow="0 0 2px 2px #777"
             cursor="pointer"
             py="0.5rem"
-            m={{ md: "2rem !important", sm: "1rem !important" }}
+            m={{ md: "2rem", sm: "1rem" }}
             onClick={() => selectItem("１回分")}
             bg={selected === "１回分" ? "#aaa" : ""}
           >

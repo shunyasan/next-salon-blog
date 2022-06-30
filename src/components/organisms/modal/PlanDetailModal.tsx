@@ -1,50 +1,28 @@
-import { CloseIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  HStack,
-  Image,
-  Link,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalOverlay,
-  Stack,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { Clinic, ClinicOpeningHours, ClinicOption } from "@prisma/client";
-import { OpeningHoursTable } from "components/molecules/table/OpeningHoursTable";
+import { Box, Button, Flex, Link, Stack, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
-import {
-  ClinicOptionTitleValue,
-  ClinicOtherTitleValue,
-  ClinicPaymentTitleValue,
-} from "services/app/clinic/ClinicDetailHooks";
-import { getRandomImg } from "services/app/resources/SearchSalonHooks";
+import { FC } from "react";
 import { PriceDto } from "types/PriceDto";
 import { TitleValue } from "types/app/TitleValue";
-import { NoticeClinicDetail } from "../box/NoticeClinicDetail";
-import { PairDataBoxList } from "../lists/PairDataBoxList";
 import { PairDataRowBoxList } from "../lists/PairDataRowBoxList";
+import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
+import { StaffGenderText } from "components/atoms/text/StaffGenderText";
+import { Icon } from "@chakra-ui/icons";
+import { MdClose } from "react-icons/md";
 
 type Props = {
   price: PriceDto;
-  clinic: Clinic & {
-    clinicOption: ClinicOption | null;
-    clinicOpeningHours: ClinicOpeningHours[];
-  };
+  // clinic: Clinic & {
+  //   clinicOption: ClinicOption | null;
+  //   clinicOpeningHours: ClinicOpeningHours[];
+  // };
+  url: string;
+  options: TitleValue[];
   isOpen: boolean;
   onClose: () => void;
-  clinicButton?: boolean;
 };
 
 export const PlanDetailModal: FC<Props> = (props) => {
-  const { price, clinic, isOpen, onClose, clinicButton } = props;
+  const { price, url, options, isOpen, onClose } = props;
   // const { ClinicOptionTitleValue } = ClinicDetailHooks();
   // const { ClinicPaymentTitleValue, ClinicOtherTitleValue } =
   //   ClinicDetailHooks();
@@ -53,40 +31,43 @@ export const PlanDetailModal: FC<Props> = (props) => {
   // const history = useHistory();
   const router = useRouter();
 
-  const [otherData, setOtherData] = useState<TitleValue[]>();
-  const [optionData, setOptionData] = useState<TitleValue[]>();
-  const [paymentData, setPaymentData] = useState<TitleValue[]>();
+  const values: TitleValue[] = [
+    {
+      title: "総額",
+      value: price.price.toLocaleString(),
+    },
+    {
+      title: "1回分",
+      value: price.oncePrice.toLocaleString(),
+    },
+  ];
 
-  const [image, setImage] = useState<string[]>([]);
+  // const [otherData, setOtherData] = useState<TitleValue[]>();
+  // const [optionData, setOptionData] = useState<TitleValue[]>();
+  // const [paymentData, setPaymentData] = useState<TitleValue[]>();
 
-  useEffect(() => {
-    const gets = [...Array(2)].map(() => getRandomImg());
-    setImage(gets);
-  }, []);
-  //
+  // const [image, setImage] = useState<string[]>([]);
 
-  useEffect(() => {
-    const data = clinic.clinicOption
-      ? ClinicOptionTitleValue(clinic.clinicOption)
-      : undefined;
-    setOptionData(data);
+  // useEffect(() => {
+  //   const gets = [...Array(2)].map(() => getRandomImg());
+  //   setImage(gets);
+  // }, []);
+  // //
 
-    const payment = ClinicPaymentTitleValue(clinic);
-    setPaymentData(payment);
+  // useEffect(() => {
+  //   const data = clinic.clinicOption
+  //     ? ClinicOptionTitleValue(clinic.clinicOption)
+  //     : undefined;
+  //   setOptionData(data);
 
-    const other = ClinicOtherTitleValue(clinic);
-    setOtherData(other);
-  }, [clinic]);
+  //   const payment = ClinicPaymentTitleValue(clinic);
+  //   setPaymentData(payment);
+
+  //   const other = ClinicOtherTitleValue(clinic);
+  //   setOtherData(other);
+  // }, [clinic]);
 
   return (
-    //  <Modal isOpen={isOpen} onClose={onClose} size={"6xl"}>
-    //  <ModalOverlay />
-    //  <ModalContent
-    //    w={"95%"}
-    //     w={{ md: "", sm: "95%" }}
-    //  >
-    //    <ModalCloseButton />
-    //    <ModalBody p={{ md: "2rem", sm: "2rem 1rem" }}>
     <Box
       width="100%"
       height="100%"
@@ -94,183 +75,121 @@ export const PlanDetailModal: FC<Props> = (props) => {
       top="0"
       left="0"
       visibility={isOpen ? "visible" : "hidden"}
-      onClick={onClose}
+      // onClick={onClose}
       zIndex="100"
       bg="rgba(30,30,30,0.5)"
     >
       {/* クリニック情報は重複するから入れない  
       部位の施術範囲とか常々情報が変わるものを入れる*/}
       <Box
-        p={{ md: "2rem", sm: "2rem 1rem" }}
+        pt="1em"
+        px={{ md: "3rem", sm: "1.5rem" }}
         bg="originWhite"
-        w="70%"
+        w={{ md: "70%", sm: "95%" }}
         h="90%"
         mx="auto"
         my="2rem"
         overflow={"scroll"}
       >
-        <HStack
-          ml={"2rem"}
-          mb={"1em"}
-          textAlign={"left"}
-          fontSize={"1.2em"}
-          justifyContent="space-between"
-        >
-          <Text>{clinic.name}</Text>
-          <CloseIcon cursor={"pointer"} onClick={onClose}>
-            閉じる
-          </CloseIcon>
-        </HStack>
-        <Flex justifyContent={"space-evenly"} wrap={"wrap"}>
-          <Box w={"22rem"}>
-            <Flex wrap={{ md: "wrap", sm: "nowrap" }} overflow={"scroll"}>
-              <Image
-                alt="クリニック画像"
-                objectFit={"contain"}
-                src={image[0]}
-              />
-              <Image
-                alt="クリニック画像-2"
-                objectFit={"contain"}
-                mt={{ md: "5px", sm: "0" }}
-                src={image[1]}
+        <Flex justifyContent={"right"} pos="sticky" top="0">
+          <Icon
+            cursor={"pointer"}
+            fontSize={"2em"}
+            textAlign={"right"}
+            as={MdClose}
+            onClick={onClose}
+            bg="originWhite"
+          />
+        </Flex>
+        <Stack spacing={"2em"} mb="2rem">
+          <UnderLineItemBox fontSize="1.2em" title={"部位・回数"}>
+            <Text textAlign="center" fontSize={"1.5em"}>
+              {price.name}
+            </Text>
+            {/* <Flex
+              // fontSize={"1.3rem"}
+              w={{ md: "50%", sm: "100%" }}
+              mb="2em"
+              justifyContent={"space-between"}
+            >
+              <Text w="50%" fontWeight={"bold"}>
+                {data.title}
+              </Text>
+              <Text w="50%" textAlign={"left"}>
+                ￥{data.value}
+              </Text>
+            </Flex> */}
+          </UnderLineItemBox>
+          <UnderLineItemBox fontSize="1.2em" title={"セット回数"}>
+            <Text textAlign="center" fontSize={"1.5em"}>
+              {price.times}回
+            </Text>
+          </UnderLineItemBox>
+          <UnderLineItemBox fontSize="1.2em" title={"対象"}>
+            <Box textAlign="center" fontSize={"1.5em"}>
+              <StaffGenderText staffGender={price.gender} />
+            </Box>
+          </UnderLineItemBox>
+          <UnderLineItemBox fontSize="1.2em" title={"料金"}>
+            <Flex justifyContent={"space-between"} wrap={"wrap"} mb="-2em">
+              {/* <PairDataBoxList datas={values} /> */}
+              {values.map((data, i) => (
+                <Flex
+                  key={i}
+                  fontSize={"1.3rem"}
+                  w={{ md: "50%", sm: "100%" }}
+                  mb="2em"
+                  justifyContent={"space-between"}
+                >
+                  <Text w="50%" fontWeight={"bold"}>
+                    {data.title}
+                  </Text>
+                  <Text w="50%" textAlign={"left"}>
+                    ￥{data.value}
+                  </Text>
+                </Flex>
+              ))}
+            </Flex>
+          </UnderLineItemBox>
+          <UnderLineItemBox fontSize="1.2em" title={"オプションサービス"}>
+            <Flex justifyContent={"center"} pl={{ md: "2em", sm: ".5em" }}>
+              <PairDataRowBoxList
+                datas={options}
+                fontSize={"1.1em"}
+                my={{ md: "1em", sm: "0.8em" }}
               />
             </Flex>
-          </Box>
-          <Box w={{ md: "40rem", sm: "100%" }} pl={{ md: "1em", sm: "0" }}>
-            <Stack spacing={"1em"} justifyContent={"center"}>
-              <Flex
-                textAlign={"center"}
-                fontWeight={"bold"}
-                fontSize={"1.2em"}
-                justifyContent={"center"}
-                mt={"1em"}
-              >
-                <Text mx={".5em"}>{price.name}</Text>
-                <Text mx={".5em"}>{price.times}回</Text>
-              </Flex>
-              <Box fontWeight={"bold"} textAlign={"left"} borderBottom={"1px"}>
-                料金
-              </Box>
-              <Flex justifyContent={"space-between"}>
-                <Flex w={"45%"} justifyContent={"space-evenly"}>
-                  <Text
-                  // fontWeight={"bold"}
-                  >
-                    総額
-                  </Text>
-                  <Text>{price.price.toLocaleString()}円</Text>
-                </Flex>
-                <Flex w={"45%"} justifyContent={"space-evenly"}>
-                  <Text
-                  // fontWeight={"bold"}
-                  >
-                    1回分
-                  </Text>
-                  <Text>{price.oncePrice.toLocaleString()}円</Text>
-                </Flex>
-              </Flex>
-              <Box fontWeight={"bold"} textAlign={"left"} borderBottom={"1px"}>
-                特徴
-              </Box>
-              <NoticeClinicDetail
-                clinic={clinic}
-                width={"50%"}
-                py={"5px"}
-                fontSize={{ md: "1rem", sm: "0.9rem" }}
-                border={"0"}
-                fontWeigth={false}
-              />
-              <Box fontWeight={"bold"} textAlign={"left"} borderBottom={"1px"}>
-                オプションサービス
-              </Box>
-              <Box mx={"auto"} w={"95%"}>
-                {optionData && (
-                  <Flex
-                    // w={"95%"}
-                    // w={{ md: "95%", sm: "100%" }}
-                    justifyContent={"center"}
-                    // mx={"auto"}
-                  >
-                    <PairDataRowBoxList
-                      datas={optionData}
-                      //  width={"50%"}
-                    />
-                  </Flex>
-                )}
-              </Box>
-              <Box fontWeight={"bold"} textAlign={"left"} borderBottom={"1px"}>
-                契約・支払い
-              </Box>
-              <Box mx={"auto"} w={"95%"}>
-                {paymentData && (
-                  <Flex
-                    //  w={"95%"}  mx={"auto"}
-                    justifyContent={"center"}
-                  >
-                    <PairDataRowBoxList
-                      datas={paymentData}
-                      // width={"50%"}
-                    />
-                  </Flex>
-                )}
-              </Box>
-              <Flex
-                mt={"2rem !important"}
-                overflow={"scroll"}
-                justifyContent={"center"}
-              >
-                <Box w={"32em"} display={{ md: "block", sm: "none" }}>
-                  <OpeningHoursTable
-                    datas={clinic.clinicOpeningHours}
-                    size={"sm"}
-                  />
-                </Box>
-                <Box w={"95%"} display={{ md: "none", sm: "block" }}>
-                  <OpeningHoursTable
-                    datas={clinic.clinicOpeningHours}
-                    size={"xs"}
-                  />
-                </Box>
-              </Flex>
-              <Box bg={"#eee"} px={"2em"}>
-                {otherData && (
-                  <PairDataBoxList
-                    datas={otherData}
-                    bg={"#eee"}
-                    fontSize={".85rem"}
-                  />
-                )}
-              </Box>
-              <Box textAlign={"center"}>
-                <Link
-                  href={clinic.url || undefined}
-                  _hover={{ textDecoration: "none" }}
-                  _focus={{ outline: "none" }}
-                  isExternal
-                >
-                  <Button my={"1rem"} mx={"1.5rem"} size={"lg"} variant="base">
-                    公式サイト
-                  </Button>
-                </Link>
-                {clinicButton && (
-                  <Button
-                    my={"1rem"}
-                    mx={"1.5rem"}
-                    size={"lg"}
-                    variant="secBase"
-                    onClick={() => router.push(`/clinic/detail/${clinic.id}`)}
-                  >
-                    クリニック情報
-                  </Button>
-                )}
-              </Box>
-            </Stack>
-          </Box>
-        </Flex>
-        {/* </ModalBody>
-       </ModalContent>
-      </Modal> */}
+          </UnderLineItemBox>
+        </Stack>
+        <Box
+          mt={{ md: "0", sm: "1.5em" }}
+          py="1em"
+          pos="sticky"
+          bottom={"0"}
+          bg="originWhite"
+        >
+          <Link
+            w="30%"
+            href={url || ""}
+            _hover={{ textDecoration: "none" }}
+            _focus={{ outline: "none" }}
+            isExternal
+          >
+            <Button
+              size={"lg"}
+              px={{ md: "4em", sm: "2em" }}
+              // w={{ md: "inherit", sm: "70%" }}
+              variant="base"
+            >
+              <Text w="100%" as="span">
+                もっと詳しく
+              </Text>
+              <Text w="100%" as="span" fontSize={".6em"}>
+                (外部リンク)
+              </Text>
+            </Button>
+          </Link>
+        </Box>
       </Box>
     </Box>
   );

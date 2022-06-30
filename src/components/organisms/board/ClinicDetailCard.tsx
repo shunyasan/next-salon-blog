@@ -30,6 +30,7 @@ import { PairDataBoxList } from "../lists/PairDataBoxList";
 import { PairDataRowBoxList } from "../lists/PairDataRowBoxList";
 import { PairDataRowBoxList_2 } from "../lists/PairDataRowBoxList_2";
 import { ClinicPlanCard } from "./ClinicPlanCard";
+import { PriceByAboutCategory } from "types/PriceByAboutCategory";
 
 type Props = {
   clinicData: Clinic & {
@@ -37,12 +38,14 @@ type Props = {
     clinicOpeningHours: ClinicOpeningHours[];
   };
   originData: IdAndNameDto[];
-  aboutCategoryData: AboutCategory[];
-  priceData: PriceDto[];
+  prices: PriceByAboutCategory[];
+  onClickOriginId: (originId: string) => void;
+  // aboutCategoryData: AboutCategory[];
+  // priceData: PriceDto[];
 };
 
 export const ClinicDetailCard: FC<Props> = (props) => {
-  const { clinicData, originData, aboutCategoryData, priceData } = props;
+  const { clinicData, originData, prices, onClickOriginId } = props;
   // const { getRandomImg } = SearchSalonHooks();
   // const { ClinicOtherTitleValue, ClinicOptionTitleValue } = ClinicDetailHooks();
 
@@ -86,7 +89,7 @@ export const ClinicDetailCard: FC<Props> = (props) => {
   }, [clinicData]);
 
   return (
-    <Box>
+    <>
       <Box>
         <Image src={topImg} w={"28rem"} mx={"auto"} alt={clinicData.name} />
       </Box>
@@ -177,16 +180,19 @@ export const ClinicDetailCard: FC<Props> = (props) => {
           )}
         </UnderLineItemBox>
         <UnderLineItemBox title={"料金"} ankerId={"fee"}>
-          <Box px={{ md: "2em", sm: "0" }}>
+          <Box px={{ md: "1em", sm: "0" }}>
             <ClinicPlanCard
-              clinicData={clinicData}
+              url={clinicData.url || "#"}
+              options={optionData}
               originData={originData}
-              aboutCategoryData={aboutCategoryData}
-              priceData={priceData || []}
+              onClickOriginId={(originId: string) => onClickOriginId(originId)}
+              // aboutCategoryData={aboutCategoryData}
+              // priceData={priceData || []}
+              prices={prices}
             />
           </Box>
         </UnderLineItemBox>
-        <UnderLineItemBox title={"予約情報・口コミ"} ankerId={"sns"}>
+        {/* <UnderLineItemBox title={"予約情報・口コミ"} ankerId={"sns"}>
           <Flex h="10rem" px="2em">
             なんちゃら
           </Flex>
@@ -195,8 +201,8 @@ export const ClinicDetailCard: FC<Props> = (props) => {
           <Flex h="10rem" px="2em">
             なんちゃら
           </Flex>
-        </UnderLineItemBox>
+        </UnderLineItemBox> */}
       </Box>
-    </Box>
+    </>
   );
 };

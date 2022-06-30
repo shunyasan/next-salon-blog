@@ -3,7 +3,7 @@ import { FC } from "react";
 
 type Props = {
   title: string;
-  fontSize: { md: string; sm: string };
+  fontSize: string | { md: string; sm: string };
   as?: "h1" | "h2" | "h3";
 };
 export const UnderLineText: FC<Props> = (props) => {
@@ -11,13 +11,13 @@ export const UnderLineText: FC<Props> = (props) => {
 
   return (
     <Box>
-      <Box borderBottom={"1px"}></Box>
-      <Box display={"inline-block"} ml={"3rem"}>
-        <Box w={"100%"} borderTop={"4px"} borderColor={"#000"}></Box>
-        <Text as={as} fontSize={fontSize} display={"inline-block"}>
+      <Box display={"inline-block"} ml={"3.2vw"} textAlign="left">
+        <Text as={as} fontSize={fontSize} display={"block"}>
           {title}
         </Text>
+        {/* <Box w={"100%"} borderTop={"4px"} borderColor={"#000"}></Box> */}
       </Box>
+      <Box borderBottom={"1px"}></Box>
     </Box>
   );
 };

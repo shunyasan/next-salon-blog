@@ -9,6 +9,7 @@ import { OriginCategoryRepository } from "./repository/originCategoryRepository"
 import { AboutCategoryRepository } from "./repository/aboutCategoryRepository";
 import { BasePartsRepository } from "./repository/basePartsRepository";
 import { MachineService } from "./machine-service";
+import { PriceByAboutCategory } from "types/PriceByAboutCategory";
 
 export class PriceService {
   constructor(
@@ -171,15 +172,14 @@ export class PriceService {
 
   async getPricesForAboutCategory(
     clinicId: string,
-    aboutCategories: AboutCategory[]
-  ) {
-    const res = await Promise.all(
-      aboutCategories.map(async (about) => {
-        const price = await this.getPriceByClinic(clinicId, about.id);
-        const data = { about: about, prices: price };
-      })
-    );
-    return res;
+    aboutCategory: AboutCategory
+  ): Promise<PriceByAboutCategory> {
+    const price = await this.getPriceByClinic(clinicId, aboutCategory.id);
+    const data: PriceByAboutCategory = {
+      aboutCategory: aboutCategory,
+      prices: price,
+    };
+    return data;
   }
 
   async getPriceOrderPlan(

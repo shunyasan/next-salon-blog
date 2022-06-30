@@ -1,200 +1,131 @@
-import { Button } from "@chakra-ui/button";
-import { Box, Center, Flex, HStack, Text } from "@chakra-ui/layout";
-import { CompleteBadge } from "components/atoms/badge/CompleteBadge";
-import { AboutPartsSelectCard } from "components/organisms/box/AboutPartsSelectCard";
-import { ClinicSearchCard } from "components/organisms/box/ClinicSearchCard";
-import { GenderCard } from "components/organisms/box/GenderCard";
-import { OriginPartsSelectCard } from "components/organisms/box/OriginPartsSelectCard";
-import { PartsCard } from "components/organisms/box/PartsCard";
-import { PlanSearchCard } from "components/organisms/box/PlanSearchCard";
-import { YourselfCard } from "components/organisms/box/YourselfCard";
-import OrderSalonPage from "components/templete/pages/plan/OrderSalonPage";
-import { GetServerSideProps, GetStaticProps, NextPage } from "next";
+import { Button, Flex, Box } from "@chakra-ui/react";
+import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
+import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
+import { BgImgH1 } from "components/atoms/text/BgImgH1";
+import Instagram from "components/Instagram";
+import { GenderPlateBox } from "components/molecules/box/GenderPlateBox";
+import { PlanSearchBox } from "components/organisms/box/PlanSearchBox";
+import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { ParsedUrlQuery } from "querystring";
-import React, { FC, useCallback, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import {
   createQueryString,
   getQueryOrderPlan,
 } from "services/app/parameter/CreateParameterHooks";
-import { PageQuery } from "types/app/PageQuery";
+import fetcher from "services/fetcher";
+import {
+  aboutCategoryService,
+  basePartsService,
+  orderPlanIdNameService,
+  originCategoryService,
+} from "services/service";
+import useSWR from "swr";
+import { OrderPlanIdName } from "types/app/OrderPlanIdName";
+
 import { QueryOrderPlan } from "types/app/QueryOrderPlan";
+import { IdAndNameDto } from "types/IdAndNameDto";
 import style from "../../../styles/Home.module.css";
 
 type Props = {
-  queryOrderPlan: QueryOrderPlan;
+  // queryOrderPlan: QueryOrderPlan;
+  originCategories: OriginCategory[];
+  aboutCategories: AboutCategory[];
+  baseParts: BaseParts[];
+  defaultOrderData: OrderPlanIdName;
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async (
-  context
-) => {
-  const query = createQueryString(context.query);
-  const queryOrderPlan = getQueryOrderPlan(query);
+export const getStaticProps: GetStaticProps<Props> = async (context) => {
+  const originCategories = await originCategoryService.getAllOriginCategory();
+  const aboutCategories = await aboutCategoryService.getAboutCategoryByOriginId(
+    originCategories[0].id
+  );
+  const baseParts = await basePartsService.getAllBasePartsByAboutId(
+    aboutCategories[0].id
+  );
+
+  const defaultOrderData = orderPlanIdNameService.defaultData;
   return {
-    props: { queryOrderPlan: queryOrderPlan },
+    props: {
+      originCategories,
+      aboutCategories,
+      baseParts,
+      defaultOrderData,
+    },
   };
 };
 
 const SearchSalon: NextPage<Props> = (props) => {
-  const { queryOrderPlan } = props;
+  const { originCategories, aboutCategories, baseParts, defaultOrderData } =
+    props;
   const router = useRouter();
 
   const [change, setChange] = useState<string>(style.fade);
-  const [prevParamsData, setPrevParamsData] = useState<string>("?");
-  const [showPage, setShowPage] = useState<number>(0);
-  // const [queryOrderPlan, setQueryOrderPlan] = useState<QueryOrderPlan>();
-  const [pageQuery, setPageQuery] = useState<PageQuery>({
-    1: "",
-    2: "",
-    3: "",
-    4: "",
-    5: "",
-    6: "",
-    7: "",
-  });
+  // const [gender, setGender] = useState<string>("女性");
+  //配列番号を所持
+  const [orderPlanIdName, setOrderPlanIdName] =
+    useState<OrderPlanIdName>(defaultOrderData);
+  // const [originId, setOriginId] = useState<string>(originCategories[0].id);
+  // const [aboutId, setAboutId] = useState<string>(aboutCategoryData[0].id);
 
-  const createPageQuery = (query: string, page: number) => {
-    const queryData: any = pageQuery;
-    queryData[page] = query;
-    setPageQuery(queryData);
-  };
+  // const onClickParts = (partsId: string) => {
+  //   const me = `${OrderPlanEnum.gender.query}=${gender}&`;
+  //   const origin = `${OrderPlanEnum.originCategory.query}=${originId}&`;
+  //   const about = `${OrderPlanEnum.aboutCategory.query}=${aboutId}&`;
+  //   const parts = `${OrderPlanEnum.parts.query}=${partsId}&`;
+  //   const query = me + origin + about + parts;
+  //   selectParamsData(query);
+  // };
 
   // 次ボタン　パラメーター
-  const selectParamsData = (query: string, page: number) => {
+  const selectParamsData = (query: string) => {
+    // createPageQuery(query, page);
+    // setPrevParamsData(decode);
     setChange(style.slide);
-    createPageQuery(query, page);
     const queryString = createQueryString(router.query);
     const decode = decodeURI(queryString);
-    setPrevParamsData(decode);
     const createParams = `${decode}${query}`;
     const encode = encodeURI(createParams);
-    setShowPage(page || 0);
+    // setShowPage(page || 0);
 
     router.push({
-      pathname: "/plan/origin",
+      pathname: "/plan/self",
       search: encode,
     });
   };
 
-  // 戻るボタン
-  const prevClick = async () => {
-    const queryData: any = pageQuery;
-    const page = showPage - 1;
-    const query = queryData[page];
-
-    for (const key in pageQuery) {
-      if (showPage <= Number(key)) {
-        queryData[key] = "";
-      }
-    }
-    setPageQuery(queryData);
-
-    setChange("");
-    setShowPage(page < 0 ? 0 : page);
-    router.push({
-      pathname: "/plan",
-      search: query,
-    });
-    // 編集前
-    // setNewParams("");
-  };
-
-  // 最後の条件ボタン
-  const FindPlanLastCondition = (query: string) => {
-    const queryString = createQueryString(router.query);
-    const decode = decodeURI(queryString);
-    router.push({
-      pathname: "/plan/search",
-      search: decode + query,
-    });
-  };
-
-  // 検索ボタン
-  // const findPlan = async () => {
-  //   const queryString = createQueryString(router.query);
-  //   router.push({
-  //     pathname: "/plan/search",
-  //     search: queryString,
-  //   });
-  // };
-
-  const transitionTop = () => {
-    setShowPage(0);
-    setChange(style.fade);
-    router.push("/plan");
-  };
-
   // useEffect(() => {
-  //   const orderPlanViewCard = getQueryOrderPlan(getQuery);
-  //   setQueryOrderPlan(orderPlanViewCard);
-  // }, [getQuery]);
+  //   aboutCategories && setAboutId(aboutCategories[0].id);
+  // }, [aboutCategories]);
 
+  if (!originCategories || !aboutCategories || !baseParts)
+    return <LoadingIcon />;
   return (
     <>
       <Head>
-        <title>条件を選択 | あなたのための脱毛</title>
+        <title>プランを探す | あなたのための脱毛</title>
         <meta
           name="description"
           content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」からおすすめのプランを検索します。安い/痛くないと言った要望や、顔/全身/VIOの中でも、クリニックにごとの施術範囲の違いを指定して検索できます。"
         />
       </Head>
-      <OrderSalonPage showPage={0}>
-        <GenderCard
-          setGenderData={(query) => selectParamsData(query, 1)}
-          setAnimation={change}
+      <BgImgH1 title="プランを探す" />
+      <Box mx="auto" w={{ md: "60%", sm: "90%" }} my="3em">
+        <PlanSearchBox
+          OrderPlan={orderPlanIdName}
+          originCategories={originCategories}
+          aboutCategories={aboutCategories}
+          baseParts={baseParts}
         />
-      </OrderSalonPage>
-      {/* 毛量を選択
-      {showPage === 5 && queryOrderPlan ? (
-        <HairCard setHairData={(query) => FindPlanLastCondition(query)} />
-      ) : null}
-      {/* 肌色を選択 */}
-      {/* {showPage === 4 && queryOrderPlan ? (
-        <SkinCollorCard
-          setSkinCollorData={(query) => selectParamsData(query, 6)}
-        />
-      ) : null}  */}
-
-      {/* プラン情報を選択 */}
-      {/* {showPage === 6 && queryOrderPlan ? (
-        <PlanSearchCard
-          setQueryData={(query) => FindPlanLastCondition(query)}
-        />
-      ) : null} */}
-      {/* クリニック情報を選択 */}
-      {/* {showPage === 5 && queryOrderPlan ? (
-        <ClinicSearchCard
-          setQueryData={(query) => selectParamsData(query, 6)}
-        />
-      ) : null} */}
-      {/* 自身の情報を選択 */}
-      {/* {showPage === 4 && queryOrderPlan ? (
-        <YourselfCard setQueryData={(query) => selectParamsData(query, 5)} />
-      ) : null} */}
-      {/* 部位別を選択 */}
-      {/* {showPage === 3 && queryOrderPlan ? (
-        <PartsCard
-          setPartsData={(query) => selectParamsData(query, 4)}
-          orderPlan={queryOrderPlan}
-        />
-      ) : null} */}
-      {/* 大まかな部位を選ぶ */}
-      {/* {showPage === 2 && queryOrderPlan ? (
-        <AboutPartsSelectCard
-          setAboutPartsSelectData={(query) => selectParamsData(query, 3)}
-          orderPlan={queryOrderPlan}
-        />
-      ) : null} */}
-      {/* カテゴリを選ぶ */}
-      {/* {showPage === 1 && queryOrderPlan ? (
-        <OriginPartsSelectCard
-          setOriginPartsSelectData={(query) => selectParamsData(query, 2)}
-          orderPlan={queryOrderPlan}
-        />
-      ) : null} */}
-      {/* 性別を選択する */}
+        <Flex mt="2rem" justifyContent={"space-around"} wrap="wrap">
+          <Box w={{ md: "45%", sm: "95%" }}>
+            <Instagram account="CeZ47dwpjd_" />
+          </Box>
+          <Box w={{ md: "45%", sm: "95%" }}>
+            <Instagram account="Ceu2OGWpcWw" />
+          </Box>
+        </Flex>
+      </Box>
       {/* <Adsense /> */}
     </>
   );

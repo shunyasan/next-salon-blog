@@ -5,7 +5,8 @@ import { FC, memo, VFC } from "react";
 type Props = {
   parts: BaseParts;
   width: string;
-  onOpen: () => void;
+  //↓消す予定
+  onOpen?: () => void;
   search?: () => void;
   // 1:女性 2:男性
 };

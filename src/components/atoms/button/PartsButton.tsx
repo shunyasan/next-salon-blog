@@ -4,13 +4,14 @@ import { FC, memo, VFC } from "react";
 type Props = {
   text: string;
   onClick: () => void;
-  filter: boolean;
+  filter?: boolean;
 };
 
 export const PartsButton: FC<Props> = (props) => {
   const { text, onClick, filter } = props;
   return (
     <Button
+      // w="100%"
       variant={"parts"}
       m={{ md: "1em", sm: "0.5em" }}
       fontSize={{ md: "1em", sm: "0.8em" }}

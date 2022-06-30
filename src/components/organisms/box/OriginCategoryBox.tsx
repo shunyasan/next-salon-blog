@@ -15,7 +15,7 @@ export const OriginCategoryBox: FC<Props> = (props) => {
     // <Box>
     // <Box
     //   cursor={"pointer"}
-    //   m={"0.5em !important"}
+    //   m={"0.5em"}
     //   w="5rem"
     //   textAlign={"center"}
     //   border={"2px"}

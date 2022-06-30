@@ -65,29 +65,33 @@ export const PlanCard: FC<Props> = (props) => {
 
   return (
     <Box
-      p={"1rem"}
+      p={"0 1rem 1rem"}
       borderRadius={8}
       shadow={"0 4px 8px 2px rgb(180,180,180)"}
       color={"#333"}
     >
       <Box
         textAlign={"left"}
-        pb={"2px"}
-        pl={"8px"}
+        py={".5em"}
+        pl={".5em"}
         fontSize={"1.1em"}
         fontWeight={"bold"}
+        pos="sticky"
+        top="0"
+        bg="originWhite"
+        zIndex="50"
       >
         {clinic.name}
       </Box>
-      <HStack
+      <Flex
         // minH={"15rem"}
         wrap={"wrap"}
         justifyContent={{ md: "space-evenly", sm: "center" }}
         alignItems={"flex-start"}
-        spacing={"0"}
+        // spacing={"0"}
         // fontFamily={"Zen Maru Gothic, sans-serif"}
       >
-        <Box maxW={"22rem"} textAlign={"left"}>
+        <Box maxW={"22rem"} textAlign={"left"} mb={{ md: "1em", sm: "0" }}>
           {/* <Box pb={"2px"} pl={"8px"} fontSize={"1.1em"} fontWeight={"bold"}>
             {clinic.name}
           </Box> */}
@@ -219,7 +223,7 @@ export const PlanCard: FC<Props> = (props) => {
             </Box>
           </Flex>
         </Stack>
-      </HStack>
+      </Flex>
     </Box>
   );
 };

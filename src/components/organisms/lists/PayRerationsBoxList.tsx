@@ -21,7 +21,7 @@ export const PayRerationsBoxList: FC<Props> = (props) => {
           // spacing={"3px"}
           fontSize={data.text !== "-" ? "0.8em" : "0.8em"}
           // onClick={onClick}
-          // mx={"auto !important"}
+          // mx={"auto"}
           // cursor={"pointer"}
         >
           <Text fontWeight={data.text !== "-" ? "bold" : ""}>{data.name}</Text>
@@ -29,7 +29,7 @@ export const PayRerationsBoxList: FC<Props> = (props) => {
           borderBottom={"1px"}
           borderColor={"black"}
           w={"80%"}
-          mx={"auto !important"}
+          mx={"auto"}
          ></Box> */}
           <Box ml="1rem" display={"inline-block"}>
             <StatusText

@@ -2,7 +2,7 @@ import { Box, Center, Flex, Link, Text } from "@chakra-ui/react";
 import { FC, memo, VFC } from "react";
 
 type Props = {
-  title?: string;
+  title: string;
   orderData: string;
   texts: { id: string; text: string }[];
   onClick: (val: string, id: string) => void;
@@ -10,27 +10,42 @@ type Props = {
 export const ConditionText: FC<Props> = (props) => {
   const { title, orderData, texts, onClick } = props;
   return (
-    <Flex fontSize={"0.8rem"} justifyContent={!title ? "space-evenly" : ""}>
-      {title && (
-        <Center w={{ md: "30%", sm: "38%" }} fontWeight={"bold"}>
-          {title}
-        </Center>
-      )}
+    <Flex
+      fontSize={{ md: "1em", sm: "0.9em" }}
+      justifyContent={!title ? "space-evenly" : ""}
+      mt="-1px"
+    >
+      <Center
+        h="6em"
+        // py="1em"
+        w={"30%"}
+        fontWeight={"bold"}
+        bg="#eee"
+        border="1px"
+        borderColor={"#ddd"}
+      >
+        {title}
+      </Center>
       <Flex
         justifyContent={"space-evenly"}
-        w={{ md: "70%", sm: "62%" }}
+        w={"70%"}
         alignItems={"center"}
+        border="1px"
+        borderColor={"#ddd"}
+        ml="-1px"
       >
         {texts.map((data, int) => (
-          <Link
+          <Text
+            as="a"
             key={int}
+            cursor={"pointer"}
             p={orderData === data.id ? "2px 5px" : ""}
             color={orderData === data.id ? "originWhite" : "originBlack"}
             bg={orderData === data.id ? "originBlack" : ""}
             onClick={() => onClick(data.text, data.id)}
           >
             {data.text}
-          </Link>
+          </Text>
         ))}
       </Flex>
     </Flex>

@@ -15,7 +15,6 @@ import { ClinicAreaService } from "services/orm/clinic-area-service";
 import { ClinicService } from "services/orm/clinic-service";
 import fetcher from "services/fetcher";
 import { clinicAreaService, clinicService } from "services/service";
-import { tweet } from "services/tweet";
 import useSWR from "swr";
 import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
 

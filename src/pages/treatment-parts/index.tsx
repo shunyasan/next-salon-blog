@@ -7,12 +7,13 @@ import { memo, useCallback, useEffect, useState, VFC } from "react";
 import fetcher from "services/fetcher";
 import { searchForPlan } from "services/app/parameter/CreateParameterHooks";
 import useSWR from "swr";
-import { AboutCategory, BaseParts } from "@prisma/client";
+import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import { OriginCategiryId } from "enums/OriginCategiryIdEnum";
 import TreatmentTemplete from "components/templete/pages/treatment/TreatmentTemplete";
-import { aboutCategoryService } from "services/service";
+import { aboutCategoryService, originCategoryService } from "services/service";
+import { IdAndNameDto } from "types/IdAndNameDto";
 
 type Props = {
   // origin: IdAndNameDto[];
@@ -37,17 +38,14 @@ const TreatmentFaceParts: NextPage<Props> = ({ about }) => {
   const [gender, setGender] = useState<string>("女性");
   const [aboutString, setAboutString] = useState<string>("test");
   const router = useRouter();
+
   const { data: aboutCategories, error: err_abo } = useSWR<
     (AboutCategory & {
       baseParts: BaseParts[];
     })[]
   >(
     `/api/about-categories/originId?originId=${originId}&gender=${gender}`,
-    async (url) => {
-      const data = await fetcher(url);
-      return data;
-      // setAboutId(data[0].id);
-    },
+    fetcher,
     { fallbackData: about }
   );
 

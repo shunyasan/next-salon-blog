@@ -4,12 +4,12 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { FC, ReactNode, useCallback, useState } from "react";
 import { BgImgH1 } from "components/atoms/text/BgImgH1";
-import { AboutTreatmentParts } from "components/organisms/lists/AboutTreatmentParts";
 import { PartsBox } from "components/organisms/box/PartsBox";
-import { AboutCategory, BaseParts } from "@prisma/client";
+import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
 import { searchForPlan } from "services/app/parameter/CreateParameterHooks";
 import { CategoryBox } from "components/organisms/box/CategoryBox";
-import { TreatmentPartsModal } from "components/organisms/modal/TreatmentPartsModal";
+import { TreatmentPartsDetailModal } from "components/organisms/modal/TreatmentPartsDetailModal";
+import { originCategoryService } from "services/service";
 
 type Props = {
   // title: string;
@@ -37,14 +37,14 @@ const TreatmentTemplete: FC<Props> = ({
   // const [originId, setOriginId] = useState<string>(selectOriginId);
   // const [gender, setGender] = useState<string>("女性");
 
-  const origin = [
-    { id: "Z000001", name: "顔", path: "" },
-    { id: "Z000002", name: "四肢", path: "limb" },
-    { id: "Z000003", name: "体幹", path: "body" },
-    { id: "Z000004", name: "VIO", path: "vio" },
-    { id: "Z000005", name: "全身", path: "all-body" },
-    { id: "Z000006", name: "その他", path: "other" },
-  ];
+  // const origin = [
+  //   { id: "Z000001", name: "顔", path: "" },
+  //   { id: "Z000002", name: "四肢", path: "limb" },
+  //   { id: "Z000003", name: "体幹", path: "body" },
+  //   { id: "Z000004", name: "VIO", path: "vio" },
+  //   { id: "Z000005", name: "全身", path: "all-body" },
+  //   { id: "Z000006", name: "その他", path: "other" },
+  // ];
 
   const searchForPlanFunc = (
     gender: string,
@@ -54,7 +54,7 @@ const TreatmentTemplete: FC<Props> = ({
   ) => {
     const param = searchForPlan(gender, originId, aboutCategoryId, partsId);
     router.push({
-      pathname: "/plan/search",
+      pathname: "/plan/search/1",
       search: param,
     });
   };
@@ -66,6 +66,16 @@ const TreatmentTemplete: FC<Props> = ({
     },
     [onOpen]
   );
+
+  // これはどうにかする
+  const mockOrigin = [
+    { id: "Z000001", name: "顔", path: "" },
+    { id: "Z000002", name: "四肢", path: "limb" },
+    { id: "Z000003", name: "体幹", path: "body" },
+    { id: "Z000004", name: "VIO", path: "vio" },
+    { id: "Z000005", name: "全身", path: "all-body" },
+    { id: "Z000006", name: "その他", path: "other" },
+  ];
 
   //   const changeGenderState = useCallback(
   //   (genderParam: string) => {
@@ -104,7 +114,7 @@ const TreatmentTemplete: FC<Props> = ({
           w={{ md: "70%", sm: "95%" }}
           justifyContent={"center"}
         >
-          {origin.map((data, int) => (
+          {mockOrigin.map((data, int) => (
             <OriginCategoryBox
               key={int}
               name={data.name}

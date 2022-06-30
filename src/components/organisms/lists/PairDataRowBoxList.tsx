@@ -12,6 +12,8 @@ type Props = {
   justifyContent?: string;
 };
 
+// FreeServiceBoxListと似ているのでどちらか削除
+
 export const PairDataRowBoxList: FC<Props> = (props) => {
   const { datas, bg, fontSize, my, fontWeight, justifyContent } = props;
 
@@ -27,15 +29,18 @@ export const PairDataRowBoxList: FC<Props> = (props) => {
           key={i}
           fontSize={fontSize}
           w={"50%"}
-          my={my || { md: "1em !important", sm: "0.5em !important" }}
+          my={my || { md: "1em", sm: "0.5em" }}
           wrap={"wrap"}
           justifyContent={"space-between"}
           alignItems={"center"}
         >
           <Text
-            fontSize={{ md: ".8em", sm: ".7em" }}
+            fontSize={{
+              md: data.value && data.value !== "-" ? ".8em" : ".7em",
+              sm: data.value && data.value !== "-" ? ".7em" : ".6em",
+            }}
             w="40%"
-            fontWeight={fontWeight ? "bold" : ""}
+            fontWeight={data.value && data.value !== "-" ? "bold" : ""}
           >
             {data.title}
           </Text>

@@ -1,6 +1,6 @@
 import { Button } from "@chakra-ui/button";
 import { Image } from "@chakra-ui/image";
-import { Box, Center, HStack, Text, Wrap, WrapItem } from "@chakra-ui/layout";
+import { Box, Flex } from "@chakra-ui/layout";
 import { AboutCategory } from "@prisma/client";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import { NarrowImageAndTextBox } from "components/molecules/box/NarrowImageAndTextBox";
@@ -54,7 +54,7 @@ export const AboutPartsSelectCard: FC<Props> = (props) => {
     <div className={change}>
       <Box m={6} textAlign="center">
         <Box>脱毛したい部位カテゴリを選択してください</Box>
-        <HStack justifyContent={"center"} wrap={"wrap"} my="1.5rem">
+        <Flex justifyContent={"center"} wrap={"wrap"} my="1.5rem">
           {/* <Wrap my={4} spacing="1rem" justify="center"> */}
           {aboutParts?.map((data) => (
             <NarrowImageAndTextBox
@@ -68,7 +68,7 @@ export const AboutPartsSelectCard: FC<Props> = (props) => {
               onClick={() => selectAboutPartsSelect(data.id)}
             />
           ))}
-        </HStack>
+        </Flex>
       </Box>
     </div>
   );

@@ -1,5 +1,6 @@
 import { OriginCategory } from "@prisma/client";
 import { IdAndNameDto } from "types/IdAndNameDto";
+import { LargeCategoryAndPrices } from "types/LargeCategoryAndPrices";
 import { PriceDto } from "types/PriceDto";
 import { PriceService } from "./price-service";
 import { OriginCategoryRepository } from "./repository/originCategoryRepository";
@@ -39,11 +40,37 @@ export class OriginCategoryService {
     return this.originCategoryRepository.getIdAndName(id);
   }
 
-  async getOriginJoinPrice(id: string) {
-    const origin =
-      await this.originCategoryRepository.getAllJoinAboutCategory();
-    Promise.all(origin.map(async (data) => {}));
-  }
+  mockOrigin = [
+    { id: "Z000001", name: "顔", path: "" },
+    { id: "Z000002", name: "四肢", path: "limb" },
+    { id: "Z000003", name: "体幹", path: "body" },
+    { id: "Z000004", name: "VIO", path: "vio" },
+    { id: "Z000005", name: "全身", path: "all-body" },
+    { id: "Z000006", name: "その他", path: "other" },
+  ];
+
+  // async getOriginJoinPrice(clinicId: string) {
+  //   const originCategory =
+  //     await this.originCategoryRepository.getAllJoinAboutCategory();
+  //   const origin = await Promise.all(
+  //     originCategory.map( (origin) => {
+  //      const prices=  origin.aboutCategory.map(async(about) => {
+  //         return await this.priceService.getPricesForAboutCategory(
+  //           clinicId,
+  //           about
+  //           );
+  //         })
+  //         const res: LargeCategoryAndPrices = {
+  //           originCategory: origin,
+  //           priceByAboutCategories: prices,
+  //         };
+  //         return res;
+  //     })
+  //   );
+
+  //   // return origin;
+  //   return prices;
+  // }
 
   sortBySelectData(
     targetString: string,

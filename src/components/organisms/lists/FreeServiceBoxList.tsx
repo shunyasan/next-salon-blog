@@ -36,7 +36,7 @@ export const FreeServiceBoxList: FC<Props> = (props) => {
             // spacing={"3px"}
             fontSize={data.value !== "-" ? "0.8em" : "0.8em"}
             // onClick={onClick}
-            // mx={"auto !important"}
+            // mx={"auto"}
             // cursor={"pointer"}
           >
             <Text
@@ -49,7 +49,7 @@ export const FreeServiceBoxList: FC<Props> = (props) => {
             borderBottom={"1px"}
             borderColor={"black"}
             w={"80%"}
-            mx={"auto !important"}
+            mx={"auto"}
           ></Box> */}
             <Box ml="1rem" display={"inline-block"}>
               <StatusText

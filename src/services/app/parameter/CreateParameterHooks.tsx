@@ -69,6 +69,19 @@ const checkNone = (value: string) => {
   }
 };
 
+const checkGender = (value: number | string) => {
+  switch (value) {
+    case 1:
+      return "女性";
+    case 2:
+      return "男性";
+    case 0:
+      return "未指定";
+    default:
+      return value;
+  }
+};
+
 export const createParameter = (orderData: OrderPlanIdName) => {
   let newParams: string = "";
   newParams += checkParam(QueryKey.gender, orderData.gender.id);

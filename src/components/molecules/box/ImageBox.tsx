@@ -6,7 +6,7 @@ import { HomeFeatureText } from "types/app/HomeFeatureText";
 type Props = {
   homeFeature: HomeFeatureText;
   width: { md: string; sm: string };
-  height: { md: string; sm: string };
+  height?: { md: string; sm: string };
   // textHeight: string;
 };
 export const ImageBox: FC<Props> = (props) => {

@@ -29,7 +29,7 @@ export const FreeServiceBox: FC<Props> = (props) => {
       // spacing={"3px"}
       fontSize={{ md: fontSizeData, sm: value !== "-" ? "0.7em" : "0.5em" }}
       // onClick={onClick}
-      // mx={"auto !important"}
+      // mx={"auto"}
       // cursor={"pointer"}
     >
       <Text fontWeight={value !== "-" ? "bold" : ""}>{title}</Text>
@@ -37,7 +37,7 @@ export const FreeServiceBox: FC<Props> = (props) => {
         borderBottom={"1px"}
         borderColor={"black"}
         w={"80%"}
-        mx={"auto !important"}
+        mx={"auto"}
       ></Box> */}
       <Box display={"inline-block"}>
         <StatusText

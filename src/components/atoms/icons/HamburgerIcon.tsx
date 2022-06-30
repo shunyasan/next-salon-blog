@@ -16,7 +16,7 @@ export const HamburgerIcon: FC<Props> = (props) => {
       spacing={"7px"}
       py={"1rem"}
       w={"5rem"}
-      mx={"auto !important"}
+      mx={"auto"}
       cursor={"pointer"}
     >
       <Box borderBottom={"2px"} borderColor={"white"}></Box>

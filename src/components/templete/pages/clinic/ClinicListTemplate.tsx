@@ -16,6 +16,9 @@ import fetcher from "services/fetcher";
 import { tweet } from "services/tweet";
 import useSWR from "swr";
 import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
+import Instagram from "components/Instagram";
+import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
+import Twitter from "components/Twitter";
 
 const numOfTakeData = 10;
 const defaultMax = 349;
@@ -234,23 +237,27 @@ const ClinicListTemplate: FC<Props> = ({
               <PlanCard clinic={data} key={int} />
             ))}
           </Stack>
-          <Stack
-            spacing={"3rem"}
-            display={{ md: "flex", sm: "none" }}
-            w="22rem"
-          >
-            {tweet.map((account) => (
-              <Box key={account}>
-                <a
-                  className="twitter-timeline"
-                  data-height="600"
-                  href={`https://twitter.com/${account}?ref_src=twsrc%5Etfw`}
-                >
-                  Tweets by {account}
-                </a>
-              </Box>
-            ))}
-          </Stack>
+          <Box display={{ md: "block", sm: "none" }} w="22rem">
+            <UnderLineItemBox title="最新情報" fontSize="1em">
+              <Stack spacing={"3rem"}>
+                {tweet.map((account, i) => (
+                  <Twitter
+                    key={i}
+                    account={account.id}
+                    clinicId={account.clinicId}
+                    height="400px"
+                  />
+                ))}
+              </Stack>
+            </UnderLineItemBox>
+            <Box mt="5rem">
+              <UnderLineItemBox title="キャンペーン・おすすめ" fontSize="1em">
+                <Box mt="1em">
+                  <Instagram account="CbwwpPYLi18" />
+                </Box>
+              </UnderLineItemBox>
+            </Box>
+          </Box>
         </HStack>
       </Pagenation>
       {/* <Adsense /> */}

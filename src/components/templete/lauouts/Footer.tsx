@@ -8,19 +8,19 @@ export const Footer: FC = () => {
 
   const datas = [
     {
-      path: "/",
+      path: "",
       text: "TOP",
     },
     {
-      path: "/plan",
+      path: "plan",
       text: "プランを探す",
     },
     {
-      path: "/treatment-parts",
+      path: "treatment-parts",
       text: "部位一覧",
     },
     {
-      path: "/clinic/1",
+      path: "clinic/1",
       text: "クリニック一覧",
     },
   ];
@@ -31,20 +31,18 @@ export const Footer: FC = () => {
     //   text: "掲載クリニック様へ",
     // },
     {
-      path: "/information/profile",
+      path: "information/profile",
       text: "運営者情報",
     },
     {
-      path: "/information/form",
+      path: "information/form",
       text: "お問い合わせ",
     },
     {
-      path: "/information/policy",
+      path: "information/policy",
       text: "プライバシーポリシー",
     },
   ];
-
-  const onClickPush = (path: string) => router.push(path);
 
   return (
     <Box as="footer" bg={"originBlack"} mt={"2rem"} py="2rem">
@@ -61,16 +59,18 @@ export const Footer: FC = () => {
         >
           {datas.map((data, i) => (
             <Box
+              key={i}
+              as="a"
               w={{ md: "inherit", sm: "40%" }}
               px={"1.3rem"}
               py={"0.1rem"}
               cursor="pointer"
-              onClick={() => onClickPush(data.path)}
+              href={`/${data.path}`}
+              // onClick={() => onClickPush(data.path)}
               _hover={{
                 transition: "0.5s",
                 backgroundColor: "rgba(220,220,220,0.2)",
               }}
-              key={i}
             >
               {data.text}
             </Box>
@@ -78,7 +78,7 @@ export const Footer: FC = () => {
         </Flex>
         <Link
           href="/"
-          textDecoration={"none !important"}
+          textDecoration={"none"}
           w={{ md: "inherit", sm: "100%" }}
           my={{ md: "inherit", sm: "1rem" }}
           mx={"auto"}
@@ -90,7 +90,7 @@ export const Footer: FC = () => {
           as="nav"
           bg="originBlack"
           color="originWhite"
-          h={"4rem"}
+          // h={{"4rem"}}
           fontSize="0.8rem"
           alignItems={"center"}
           justifyContent={"center"}
@@ -99,13 +99,16 @@ export const Footer: FC = () => {
           {profiles.map((data, i) => (
             <Box
               key={i}
+              as="a"
+              py=".5em"
               w={{ md: "15%", sm: "60%" }}
               cursor="pointer"
               _hover={{
                 transition: "0.5s",
                 backgroundColor: "rgba(220,220,220,0.2)",
               }}
-              onClick={() => onClickPush(data.path)}
+              href={`/${data.path}`}
+              // onClick={() => onClickPush(data.path)}
             >
               {data.text}
             </Box>

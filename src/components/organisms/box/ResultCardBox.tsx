@@ -18,7 +18,7 @@ export const ResultCardBox: FC<Props> = (props) => {
       textAlign={"center"}
     >
       <Text
-        w={"9rem"}
+        w={"9em"}
         fontWeight={"bold"}
         // bg={"originLiteGray"}
         // border={"1px"}
@@ -26,7 +26,7 @@ export const ResultCardBox: FC<Props> = (props) => {
       >
         {title}
       </Text>
-      <Text w={"9rem"} fontSize={"0.9em"}>
+      <Text w={"9em"} fontSize={"0.9em"}>
         {value}
       </Text>
     </Flex>
