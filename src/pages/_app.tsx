@@ -25,9 +25,14 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Script>
       <Script
         async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2833905872269108"
+        crossOrigin="anonymous"
+      ></Script>
+      {/* <Script
+        async
         src="https://platform.twitter.com/widgets.js"
         charSet="utf-8"
-      ></Script>
+      ></Script> */}
       <Layout>
         <Component {...pageProps} />
       </Layout>
