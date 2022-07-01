@@ -14,7 +14,6 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { ConditionText } from "components/molecules/box/ConditionTextBox";
 import { useRouter } from "next/router";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
 import { MdClose } from "react-icons/md";

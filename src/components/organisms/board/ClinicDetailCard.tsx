@@ -115,6 +115,8 @@ export const ClinicDetailCard: FC<Props> = (props) => {
         // spacing={{ md: "2em", sm: "1em" }}
         mt={"2em"}
         justifyContent={"center"}
+        pb={"2em"}
+        px={{ md: "2em", sm: "1em" }}
       >
         <NoticeClinicDetail
           clinic={clinicData}

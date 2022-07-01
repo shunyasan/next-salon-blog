@@ -241,7 +241,11 @@ const ClinicDetail: NextPage<Props> = ({
               />
             ))}
           </Flex>
-          <Flex p={"2em"} justifyContent={"center"}>
+          <Flex
+            pt={"2em"}
+            // px={{ md: "2em", sm: "0" }}
+            justifyContent={"center"}
+          >
             <Box
               // m={{ md: "2em", sm: "2em 0" }}
               // mx={"auto"}

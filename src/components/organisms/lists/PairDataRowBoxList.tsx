@@ -36,8 +36,8 @@ export const PairDataRowBoxList: FC<Props> = (props) => {
         >
           <Text
             fontSize={{
-              md: data.value && data.value !== "-" ? ".8em" : ".7em",
-              sm: data.value && data.value !== "-" ? ".7em" : ".6em",
+              md: data.value && data.value !== "-" ? ".9em" : ".8em",
+              sm: data.value && data.value !== "-" ? ".9em" : ".8em",
             }}
             w="40%"
             fontWeight={data.value && data.value !== "-" ? "bold" : ""}

@@ -237,7 +237,7 @@ const ClinicListTemplate: FC<Props> = ({
               <PlanCard clinic={data} key={int} />
             ))}
           </Stack>
-          <Box display={{ md: "block", sm: "none" }} w="22rem">
+          <Box display={{ md: "block", sm: "none" }} w="22rem" minW="15em">
             <UnderLineItemBox title="最新情報" fontSize="1em">
               <Stack spacing={"3rem"}>
                 {tweet.map((account, i) => (

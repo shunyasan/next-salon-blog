@@ -5,7 +5,6 @@ import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import { GenderPlateBox } from "components/molecules/box/GenderPlateBox";
 import { CategoryBox } from "components/organisms/box/CategoryBox";
 import { OriginCategoryBox } from "components/organisms/box/OriginCategoryBox";
-import { PartsBox } from "components/organisms/box/PartsBox";
 import TreatmentPartsBox from "components/organisms/box/TreatmentPartsBox";
 import OrderSalonPage from "components/templete/pages/plan/OrderSalonPage";
 import { OrderPlanEnum } from "enums/OrderPlanEnum";

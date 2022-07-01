@@ -183,6 +183,7 @@ export const PricePlanCard: FC<Props> = (props) => {
               overflow={"scroll"}
               mx="auto"
               w={{ md: "95%", sm: "95%" }}
+              textAlign={"center"}
             >
               <OpeningHoursTable datas={price.clinic.clinicOpeningHours} />
             </Box>

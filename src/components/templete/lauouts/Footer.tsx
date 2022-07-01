@@ -46,13 +46,12 @@ export const Footer: FC = () => {
 
   return (
     <Box as="footer" bg={"originBlack"} mt={"2rem"} py="2rem">
-      <Box textAlign={"center"} w={"80%"} mx={"auto"}>
+      <Box textAlign={"center"} w={"80%"} mx={"auto"} fontSize="0.9rem">
         <Flex
           as="nav"
           bg="originBlack"
           color="originWhite"
           h={"4rem"}
-          fontSize="0.8rem"
           alignItems={"center"}
           justifyContent={"space-between"}
           wrap={"wrap"}
@@ -61,9 +60,9 @@ export const Footer: FC = () => {
             <Box
               key={i}
               as="a"
-              w={{ md: "inherit", sm: "40%" }}
-              px={"1.3rem"}
-              py={"0.1rem"}
+              w={{ md: "inherit", sm: "50%" }}
+              // px={"1.3rem"}
+              py={"0.2em"}
               cursor="pointer"
               href={`/${data.path}`}
               // onClick={() => onClickPush(data.path)}
@@ -76,22 +75,23 @@ export const Footer: FC = () => {
             </Box>
           ))}
         </Flex>
-        <Link
-          href="/"
-          textDecoration={"none"}
+        <Box
           w={{ md: "inherit", sm: "100%" }}
           my={{ md: "inherit", sm: "1rem" }}
           mx={"auto"}
-          _focus={{ outline: "none" }}
         >
-          <Logo fontSize={{ md: "2rem", sm: "1.6rem" }} color={"originWhite"} />
-        </Link>
+          <Link href="/" textDecoration={"none"} _focus={{ outline: "none" }}>
+            <Logo
+              fontSize={{ md: "2rem", sm: "1.6rem" }}
+              color={"originWhite"}
+            />
+          </Link>
+        </Box>
         <Flex
           as="nav"
           bg="originBlack"
           color="originWhite"
           // h={{"4rem"}}
-          fontSize="0.8rem"
           alignItems={"center"}
           justifyContent={"center"}
           wrap={"wrap"}

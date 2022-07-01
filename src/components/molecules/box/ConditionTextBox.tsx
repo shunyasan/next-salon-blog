@@ -10,15 +10,11 @@ type Props = {
 export const ConditionText: FC<Props> = (props) => {
   const { title, orderData, texts, onClick } = props;
   return (
-    <Flex
-      fontSize={{ md: "1em", sm: "0.9em" }}
-      justifyContent={!title ? "space-evenly" : ""}
-      mt="-1px"
-    >
+    <Flex justifyContent={!title ? "space-evenly" : ""} mt="-1px">
       <Center
         h="6em"
         // py="1em"
-        w={"30%"}
+        w={{ md: "30%", sm: "28%" }}
         fontWeight={"bold"}
         bg="#eee"
         border="1px"
@@ -28,7 +24,7 @@ export const ConditionText: FC<Props> = (props) => {
       </Center>
       <Flex
         justifyContent={"space-evenly"}
-        w={"70%"}
+        w={{ md: "70%", sm: "72%" }}
         alignItems={"center"}
         border="1px"
         borderColor={"#ddd"}

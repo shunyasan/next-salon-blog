@@ -10,7 +10,7 @@ export default async function getAboutCategoryByOriginId(
   const gender = req.query.gender as string;
 
   // 女性:1 男性:2
-  const excludeGender = gender === "男性" ? 2 : 1;
+  const excludeGender = gender === "男性" ? 1 : 2;
 
   const data = await aboutCategoryService.getJoinBasicPartsd(
     originId,

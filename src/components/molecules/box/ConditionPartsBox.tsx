@@ -41,14 +41,10 @@ export const ConditionPartsBox: FC<Props> = (props) => {
 
   return (
     <>
-      <Flex
-        fontSize={{ md: "1em", sm: "0.9em" }}
-        justifyContent={!title ? "space-evenly" : ""}
-        mt="-1px"
-      >
+      <Flex justifyContent={!title ? "space-evenly" : ""} mt="-1px">
         <Center
           h="10em"
-          w={"30%"}
+          w={{ md: "30%", sm: "28%" }}
           fontWeight={"bold"}
           bg="#eee"
           border="1px"
@@ -58,7 +54,7 @@ export const ConditionPartsBox: FC<Props> = (props) => {
         </Center>
         <Flex
           justifyContent={"space-evenly"}
-          w={"70%"}
+          w={{ md: "70%", sm: "72%" }}
           alignItems={"center"}
           border="1px"
           borderColor={"#ddd"}
@@ -66,19 +62,19 @@ export const ConditionPartsBox: FC<Props> = (props) => {
         >
           <Stack w="75%">
             <Flex>
-              <Text w="35%" mr="5px" fontWeight={"bold"}>
+              <Text w="40%" mr="5px" fontWeight={"bold"}>
                 {OrderPlanEnum.originCategory.name}
               </Text>
               <Text>{orderPlan.originParts.name}</Text>
             </Flex>
             <Flex>
-              <Text w="35%" mr="5px" fontWeight={"bold"}>
+              <Text w="40%" mr="5px" fontWeight={"bold"}>
                 {OrderPlanEnum.aboutCategory.name}
               </Text>
               <Text>{orderPlan.AboutCategory.name}</Text>
             </Flex>
             <Flex>
-              <Text w="35%" mr="5px" fontWeight={"bold"}>
+              <Text w="40%" mr="5px" fontWeight={"bold"}>
                 {OrderPlanEnum.parts.name}
               </Text>
               <Text>{orderPlan.parts.name}</Text>

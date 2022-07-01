@@ -23,7 +23,7 @@ import Instagram from "components/Instagram";
 
 type Props = {
   // data: FeatureViewData[];
-  image: string[];
+  imgs: string[];
   feature: FeatureViewData[];
   topImg: string;
 };
@@ -35,18 +35,19 @@ const getAllFeatureFunc = async () => {
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const feature = await getAllFeatureFunc();
+  // const imgs = getRandomImg();
   const imgs = [...Array(6)].map((_, i) => getRandomImg());
   const topImg = TopResource.topImg;
   return {
     props: {
       feature: feature,
-      image: imgs,
+      imgs,
       topImg,
     },
   };
 };
 
-const Home: NextPage<Props> = ({ image, feature, topImg }) => {
+const Home: NextPage<Props> = ({ imgs, feature, topImg }) => {
   const router = useRouter();
   const [gender, setGender] = useState<string>();
 
@@ -124,7 +125,7 @@ const Home: NextPage<Props> = ({ image, feature, topImg }) => {
         <Flex justifyContent={"center"} wrap={{ md: "nowrap", sm: "wrap" }}>
           {tweet.map((account, i) => (
             <Box
-              key={i}
+              key={account.id}
               mx=".5em"
               width={{ md: "25em", sm: "18em" }}
               mt={{ md: "2em", sm: "1em" }}
@@ -165,8 +166,8 @@ const Home: NextPage<Props> = ({ image, feature, topImg }) => {
         mt={{ md: "2em", sm: "1.5em" }}
       >
         {feature.map((feature, i) => (
-          <>
-            <Box key={i}>
+          <Box key={feature.path}>
+            <Box>
               <Text
                 fontSize={"1.2rem"}
                 fontWeight={"bold"}
@@ -183,35 +184,33 @@ const Home: NextPage<Props> = ({ image, feature, topImg }) => {
                 // py="1em"
               >
                 {feature.datas.map((data, i) => (
-                  <>
-                    <Box
-                      minW={{ md: "15rem", sm: "10rem" }}
-                      h={{ md: "18rem", sm: "14rem" }}
-                      shadow="xl"
-                      cursor="pointer"
-                      onClick={() => router.push(`/${data.url}`)}
-                      key={i}
-                      m=".5em"
-                    >
-                      <CopyrightImageBox
-                        src={image[i]}
-                        // src={TopResource.clinicImg}
-                        authority={"urk"}
-                        fontSize={"0.7em"}
-                      />
-                      <Stack p={{ md: "1em", sm: ".5em" }}>
-                        <Text
-                          fontWeight={"bold"}
-                          fontSize={{ md: "0.8em", sm: "0.7em" }}
-                        >
-                          {data.name}
-                        </Text>
-                        <Text pt={"0.6em"} fontSize={"0.6em"}>
-                          {data.nearestStation}
-                        </Text>
-                      </Stack>
-                    </Box>
-                  </>
+                  <Box
+                    key={data.id + i}
+                    minW={{ md: "15rem", sm: "10rem" }}
+                    h={{ md: "18rem", sm: "14rem" }}
+                    shadow="xl"
+                    cursor="pointer"
+                    onClick={() => router.push(`/${data.url}`)}
+                    m=".5em"
+                  >
+                    <CopyrightImageBox
+                      src={imgs[i]}
+                      // src={TopResource.clinicImg}
+                      authority={"urk"}
+                      fontSize={"0.7em"}
+                    />
+                    <Stack p={{ md: "1em", sm: ".5em" }}>
+                      <Text
+                        fontWeight={"bold"}
+                        fontSize={{ md: "0.8em", sm: "0.7em" }}
+                      >
+                        {data.name}
+                      </Text>
+                      <Text pt={"0.6em"} fontSize={"0.6em"}>
+                        {data.nearestStation}
+                      </Text>
+                    </Stack>
+                  </Box>
                 ))}
               </Flex>
             </Box>
@@ -225,7 +224,7 @@ const Home: NextPage<Props> = ({ image, feature, topImg }) => {
                 </Box>
               </Flex>
             )}
-          </>
+          </Box>
         ))}
         <Flex justifyContent={"space-around"} wrap="wrap">
           <Box w={{ md: "45%", sm: "95%" }}>

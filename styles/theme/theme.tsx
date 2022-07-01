@@ -18,13 +18,13 @@ const theme = extendTheme({
       },
       th: {
         border: "1px",
-        textAlign: "center",
+        textAlign: "center !important",
         fontSize: "0.6rem",
         backgroundColor: "originLiteGray",
       },
       td: {
         border: "1px",
-        textAlign: "center ",
+        textAlign: "center !important",
         fontSize: "0.6rem",
       },
     },
@@ -95,6 +95,14 @@ const theme = extendTheme({
       },
     },
     CheckBox: {
+      baseStyle: {
+        _focus: {
+          boxShadow: "none",
+          outline: "none",
+        },
+      },
+    },
+    Link: {
       baseStyle: {
         _focus: {
           boxShadow: "none",

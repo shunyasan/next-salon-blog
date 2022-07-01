@@ -143,26 +143,20 @@ const TreatmentTemplete: FC<Props> = ({
             />
           ))}
         </Flex>
-        <HStack
-          w={{ md: "80%", sm: "95%" }}
-          mx="auto"
-          spacing={"0"}
+        <Flex
+          // maxW={{ md: "80%", sm: "95%" }}
+          // mx="auto"
           mt="2rem"
           wrap={"wrap"}
-          justifyContent={"space-evenly"}
+          justifyContent={"center"}
         >
           {about.map((abo, i) => (
-            <HStack
+            <Flex
               key={i}
-              w={{ md: "80%", sm: "95%" }}
-              mx="auto"
-              spacing={"0"}
-              textAlign="center"
-              // mt="1rem"
+              pl={{ md: "4vw", sm: "2vw" }}
+              textAlign="left"
               wrap={"wrap"}
-              justifyContent={"left"}
               display={aboutArray === i ? "flex" : "none"}
-              // visibility={aboutArray === i ? "visible" : "hidden"}
             >
               {abo.baseParts.map((parts, i) => (
                 // ここをクリックでmodal？いや、下に表示させたほうがスクロールできて見栄えがいい？
@@ -172,7 +166,7 @@ const TreatmentTemplete: FC<Props> = ({
                 <PartsBox
                   key={i}
                   parts={parts}
-                  width={"33.3%"}
+                  width={{ md: "33.3%", sm: "50%" }}
                   onOpen={() => onClickParts(parts.id)}
                   search={() =>
                     searchForPlanFunc(
@@ -184,14 +178,14 @@ const TreatmentTemplete: FC<Props> = ({
                   }
                 />
               ))}
-            </HStack>
+            </Flex>
           ))}
           {/* <TreatmentPartsModal
             partsId={partsId}
             isOpen={isOpen}
             onClose={onClose}
           /> */}
-        </HStack>
+        </Flex>
       </Box>
     </Box>
     //  <Adsense />

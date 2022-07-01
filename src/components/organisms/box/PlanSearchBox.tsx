@@ -119,7 +119,7 @@ export const PlanSearchBox: FC<Props> = (props) => {
   // }, [getAllPartsAndCategory, OrderPlan]);
 
   return (
-    <Stack m={"auto"} textAlign={"center"} spacing={"3em"} fontSize={"0.8em"}>
+    <Stack m={"auto"} textAlign={"center"} spacing={"3em"} fontSize={"0.9em"}>
       <Box>
         <Text fontSize={"1.2em"}>あなたの特徴について教えてください</Text>
         <UnderLineItemBox title="自分" fontSize="1.5em">

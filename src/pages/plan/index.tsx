@@ -110,7 +110,7 @@ const SearchSalon: NextPage<Props> = (props) => {
         />
       </Head>
       <BgImgH1 title="プランを探す" />
-      <Box mx="auto" w={{ md: "60%", sm: "90%" }} my="3em">
+      <Box mx="auto" w={{ md: "60%", sm: "95%" }} my="3em">
         <PlanSearchBox
           OrderPlan={orderPlanIdName}
           originCategories={originCategories}

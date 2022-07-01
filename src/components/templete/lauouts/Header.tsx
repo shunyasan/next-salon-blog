@@ -155,14 +155,14 @@ export const Header: FC<Props> = (props) => {
                 textDecoration: "none",
               }}
               // w={{ md: "inherit", sm: "100%" }}
-              minW={{ md: "11rem", sm: "9rem" }}
+              minW={{ md: "11rem", sm: "11rem" }}
               // my={{ md: "1rem", sm: "0" }}
               mx={{ md: "2rem", sm: "1rem" }}
               _focus={{ outline: "none" }}
             >
               <Flex justifyContent={"center"}>
                 <Logo
-                  fontSize={{ md: "2.4vw", sm: "3vw" }}
+                  fontSize={{ md: "2.4vw", sm: "1.19em" }}
                   color={"originBlack"}
                 />
               </Flex>
