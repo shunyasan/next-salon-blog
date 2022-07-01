@@ -9,6 +9,9 @@ import Script from "next/script";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
+      <Head>
+        <meta name="theme-color" content="originBlack" />
+      </Head>
       {/* <!-- Global site tag (gtag.js) - Google Analytics --> */}
       <Script
         async

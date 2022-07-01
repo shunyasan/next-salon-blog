@@ -144,16 +144,17 @@ const TreatmentTemplete: FC<Props> = ({
           ))}
         </Flex>
         <Flex
-          // maxW={{ md: "80%", sm: "95%" }}
-          // mx="auto"
+          maxW={{ md: "80%", sm: "95%" }}
+          mx="auto"
           mt="2rem"
           wrap={"wrap"}
           justifyContent={"center"}
         >
           {about.map((abo, i) => (
             <Flex
+              w="100% "
               key={i}
-              pl={{ md: "4vw", sm: "2vw" }}
+              pl={{ md: "4vw", sm: "4vw" }}
               textAlign="left"
               wrap={"wrap"}
               display={aboutArray === i ? "flex" : "none"}

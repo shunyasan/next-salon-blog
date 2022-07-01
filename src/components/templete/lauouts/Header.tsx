@@ -157,7 +157,7 @@ export const Header: FC<Props> = (props) => {
               // w={{ md: "inherit", sm: "100%" }}
               minW={{ md: "11rem", sm: "11rem" }}
               // my={{ md: "1rem", sm: "0" }}
-              mx={{ md: "2rem", sm: "1rem" }}
+              mx={{ md: "2rem", sm: ".5em" }}
               _focus={{ outline: "none" }}
             >
               <Flex justifyContent={"center"}>
