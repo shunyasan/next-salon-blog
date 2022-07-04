@@ -9,10 +9,6 @@ import { OriginCategoryBox } from "components/organisms/box/OriginCategoryBox";
 import { useRouter } from "next/router";
 import React, { FC, useCallback, useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
-import {
-  createQueryString,
-  getQueryOrderPlan,
-} from "services/app/parameter/CreateParameterHooks";
 import fetcher from "services/fetcher";
 
 import useSWR from "swr";

@@ -71,3 +71,11 @@ export class BasePartsRepository {
     return change;
   }
 }
+
+export const getBasePartsNameById = async (id: string) => {
+  const data = await prisma.baseParts.findFirst({
+    select: { name: true },
+    where: { id: id },
+  });
+  return data?.name;
+};

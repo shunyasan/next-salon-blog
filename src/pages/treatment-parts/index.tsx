@@ -1,11 +1,9 @@
 import { Box, Button, Flex, HStack, Text } from "@chakra-ui/react";
-import { AboutTreatmentParts } from "components/organisms/lists/AboutTreatmentParts";
 import { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
 import fetcher from "services/fetcher";
-import { searchForPlan } from "services/app/parameter/CreateParameterHooks";
 import useSWR from "swr";
 import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";

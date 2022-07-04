@@ -1,4 +1,5 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Icon } from "@chakra-ui/icons";
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import { FC, memo } from "react";
 
 type Props = {
@@ -19,10 +20,19 @@ export const Logo: FC<Props> = (props) => {
       fontSize={fontSize}
       textAlign={"center"}
     >
-      <Flex>
+      <Box>
         <Text>脱毛コンサルタント</Text>
-      </Flex>
-      <Text fontSize="0.35em">東京都</Text>
+        <Flex justifyContent={"center"}>
+          <Image
+            w="1.6em"
+            objectFit={"contain"}
+            src="/consaltant.png"
+            alt="脱毛コンサルタント"
+            mx="auto"
+          />
+        </Flex>
+      </Box>
+      {/* <Text fontSize="0.35em">東京都</Text> */}
     </Box>
   );
 };

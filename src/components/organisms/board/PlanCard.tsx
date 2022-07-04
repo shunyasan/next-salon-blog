@@ -144,7 +144,7 @@ export const PlanCard: FC<Props> = (props) => {
             >
               オプションサービス
             </Text>
-            <Box pl={{ md: "3rem", sm: "2rem" }} mt=".5rem">
+            <Box pl={{ md: "3rem", sm: "1.5rem" }} mt=".5rem">
               {clinic.clinicOption && (
                 <FreeServiceBoxList clinicOption={clinic.clinicOption} />
               )}

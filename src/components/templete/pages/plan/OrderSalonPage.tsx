@@ -3,8 +3,6 @@ import { Box, Center, Link, Flex, HStack, Text } from "@chakra-ui/layout";
 import { CompleteBadge } from "components/atoms/badge/CompleteBadge";
 import { useRouter } from "next/router";
 import React, { FC, ReactNode, useEffect, useState } from "react";
-import { createQueryString } from "services/app/parameter/CreateParameterHooks";
-import { PageQuery } from "types/app/PageQuery";
 import style from "../../../../../styles/Home.module.css";
 
 type Props = {

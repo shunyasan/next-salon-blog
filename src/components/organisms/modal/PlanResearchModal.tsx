@@ -19,19 +19,15 @@ import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
 import { MdClose } from "react-icons/md";
 import { useLocation } from "react-router-dom";
 import { getResearchCardData } from "services/app/etc/etc";
-import { createParameter } from "services/app/parameter/CreateParameterHooks";
 import { IdAndNameDto } from "types/IdAndNameDto";
 import { OrderPlanIdName } from "types/app/OrderPlanIdName";
-import { PartsSelectBox } from "../box/PartsSelectBox";
-import { OrderPlanEnum } from "enums/OrderPlanEnum";
 import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
 import { ConditionPartsBox } from "components/molecules/box/ConditionPartsBox";
-import TreatmentPartsBox from "../box/TreatmentPartsBox";
 import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
 import { PlanSearchBox } from "../box/PlanSearchBox";
 
 type Props = {
-  OrderPlan: OrderPlanIdName;
+  orderPlan: OrderPlanIdName;
   isOpen: boolean;
   onClose: () => void;
   // resetPages: () => void;
@@ -42,7 +38,7 @@ type Props = {
 
 export const PlanResearchModal: FC<Props> = (props) => {
   const {
-    OrderPlan,
+    orderPlan,
     isOpen,
     onClose,
     // resetPages,
@@ -52,7 +48,7 @@ export const PlanResearchModal: FC<Props> = (props) => {
   } = props;
   const router = useRouter();
 
-  // const [orderData, setOrderData] = useState<OrderPlanIdName>(OrderPlan);
+  // const [orderData, setOrderData] = useState<OrderPlanIdName>(orderPlan);
   // const [partsAndCategory, setPartsAndCategory] = useState<{
   //   originCategory: IdAndNameDto[];
   //   aboutCategory: IdAndNameDto[];
@@ -63,59 +59,20 @@ export const PlanResearchModal: FC<Props> = (props) => {
   //   async (orderParams: OrderPlanIdName) => {
   //     const data = await getResearchCardData(
   //       orderParams.originParts.id,
-  //       orderParams.AboutCategory.id,
+  //       orderParams.aboutCategory.id,
   //       orderParams.parts?.id
   //     );
   //     setPartsAndCategory(data);
   //     setOrderData({
   //       ...orderParams,
   //       originParts: data.originCategory[0],
-  //       AboutCategory: data.aboutCategory[0],
+  //       aboutCategory: data.aboutCategory[0],
   //       parts: data.parts[0],
   //     });
   //     return data;
   //   },
   //   []
   // );
-
-  // const checkNewAboutPartsData = (
-  //   newOrderData: OrderPlanIdName,
-  //   key: string,
-  //   name: string,
-  //   id: string
-  // ) => {
-  //   if (key === OrderPlanEnum.gender.name) {
-  //     newOrderData.gender = { id, name };
-  //   } else if (key === OrderPlanEnum.skinCollor.name) {
-  //     newOrderData.skinCollor = { id, name };
-  //   } else if (key === OrderPlanEnum.hair.name) {
-  //     newOrderData.hair = { id, name };
-  //   } else if (key === OrderPlanEnum.paySystem.name) {
-  //     newOrderData.paySystem = { id, name };
-  //   } else if (key === OrderPlanEnum.roomType.name) {
-  //     newOrderData.roomType = { id, name };
-  //   } else if (key === OrderPlanEnum.interior.name) {
-  //     newOrderData.interior = { id, name };
-  //   } else if (key === OrderPlanEnum.staff.name) {
-  //     newOrderData.staff = { id, name };
-  //   } else if (key === OrderPlanEnum.card.name) {
-  //     newOrderData.card = { id, name };
-  //   } else if (key === OrderPlanEnum.loan.name) {
-  //     newOrderData.loan = { id, name };
-  //   } else if (key === OrderPlanEnum.contract.name) {
-  //     newOrderData.contract = { id, name };
-  //   } else if (key === OrderPlanEnum.originCategory.name) {
-  //     newOrderData.originParts = { id, name };
-  //     newOrderData.AboutCategory = { id: "", name: "" };
-  //     newOrderData.parts = { id: "", name: "" };
-  //   } else if (key === OrderPlanEnum.aboutCategory.name) {
-  //     newOrderData.AboutCategory = { id, name };
-  //     newOrderData.parts = { id: "", name: "" };
-  //   } else if (key === OrderPlanEnum.parts.name) {
-  //     newOrderData.parts = { id, name };
-  //   }
-  //   return newOrderData;
-  // };
 
   // const getSetOrderData = async (key: string, name: string, id: string) => {
   //   if (orderData) {
@@ -143,8 +100,8 @@ export const PlanResearchModal: FC<Props> = (props) => {
   // };
 
   // useEffect(() => {
-  //   getAllPartsAndCategory(OrderPlan);
-  // }, [getAllPartsAndCategory, OrderPlan]);
+  //   getAllPartsAndCategory(orderPlan);
+  // }, [getAllPartsAndCategory, orderPlan]);
 
   return (
     // <Modal isOpen={isOpen} onClose={onClose}>
@@ -172,19 +129,20 @@ export const PlanResearchModal: FC<Props> = (props) => {
         mx="auto"
         my="2rem"
         overflow={"scroll"}
+        textAlign={"right"}
       >
-        <Box textAlign={"right"} pt="1em" pos="sticky" top="0">
-          <Icon
-            cursor={"pointer"}
-            fontSize={"2em"}
-            textAlign={"right"}
-            as={MdClose}
-            onClick={onClose}
-            bg="originWhite"
-          />
-        </Box>
+        <Icon
+          top=".5em"
+          pos="sticky"
+          cursor={"pointer"}
+          fontSize={"2em"}
+          textAlign={"right"}
+          as={MdClose}
+          onClick={onClose}
+          bg="originWhite"
+        />
         <PlanSearchBox
-          OrderPlan={OrderPlan}
+          orderPlan={orderPlan}
           originCategories={originCategories}
           aboutCategories={aboutCategories}
           baseParts={baseParts}

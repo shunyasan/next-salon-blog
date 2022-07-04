@@ -12,7 +12,7 @@ export const ConditionText: FC<Props> = (props) => {
   return (
     <Flex justifyContent={!title ? "space-evenly" : ""} mt="-1px">
       <Center
-        h="6em"
+        minH="6em"
         // py="1em"
         w={{ md: "30%", sm: "28%" }}
         fontWeight={"bold"}
@@ -23,18 +23,20 @@ export const ConditionText: FC<Props> = (props) => {
         {title}
       </Center>
       <Flex
+        p=".5em"
         justifyContent={"space-evenly"}
         w={{ md: "70%", sm: "72%" }}
         alignItems={"center"}
         border="1px"
         borderColor={"#ddd"}
         ml="-1px"
+        wrap={"wrap"}
       >
         {texts.map((data, int) => (
           <Text
-            as="a"
             key={int}
             cursor={"pointer"}
+            m="3px"
             p={orderData === data.id ? "2px 5px" : ""}
             color={orderData === data.id ? "originWhite" : "originBlack"}
             bg={orderData === data.id ? "originBlack" : ""}

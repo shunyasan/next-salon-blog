@@ -17,6 +17,7 @@ import { Logo } from "../../atoms/logos/Logo";
 import { HamburgerIcon } from "../../atoms/icons/HamburgerIcon";
 import { HeaderDrawer } from "../../molecules/drawers/HeaderDrawer";
 import { GenderPlateBox } from "components/molecules/box/GenderPlateBox";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 type Props = {
   // children?: ReactNode;
@@ -140,14 +141,16 @@ export const Header: FC<Props> = (props) => {
 
   return (
     <Box as="header">
-      <Box pos="relative" zIndex={1}>
+      <Box>
         <Box>
-          <HStack
+          <Flex
             // wrap={"wrap"}
             justifyContent={"space-between"}
             alignItems={"center"}
-            spacing={"0"}
             w={{ md: "inherit", sm: "100%" }}
+            h={{ md: "inherit", sm: "5em" }}
+            // display={{ md: "flex", sm: "block" }}
+            // bg={{ md: "originWhite", sm: "originBlack" }}
           >
             <Link
               href="/"
@@ -157,17 +160,38 @@ export const Header: FC<Props> = (props) => {
               // w={{ md: "inherit", sm: "100%" }}
               minW={{ md: "11rem", sm: "11rem" }}
               // my={{ md: "1rem", sm: "0" }}
-              mx={{ md: "2rem", sm: ".5em" }}
+              mx={"2em"}
               _focus={{ outline: "none" }}
             >
-              <Flex justifyContent={"center"}>
-                <Logo
-                  fontSize={{ md: "2.4vw", sm: "1.19em" }}
-                  color={"originBlack"}
-                />
-              </Flex>
+              <Logo
+                fontSize={{ md: "2.4vw", sm: "1.4em" }}
+                color={"originBlack"}
+              />
             </Link>
-            <Flex alignItems={"center"}>
+            <Flex
+              // p="1em"
+              h="100%"
+              w="5.1em"
+              cursor={"pointer"}
+              bg="originBlack"
+              color="originWhite"
+              alignItems={"center"}
+              justifyContent="center"
+              pt="7px"
+              // _hover={{ transition: "1s", opacity: 0.8 }}
+              // _hover={{ transition: "1s", bg: "originLiteBlack" }}
+              display={{ md: "none", sm: "flex" }}
+              textAlign="center"
+              onClick={onOpen}
+            >
+              <HamburgerIcon />
+              {/* <HamburgerIcon /> */}
+            </Flex>
+            <Flex
+              alignItems={"center"}
+              display={{ md: "flex", sm: "none" }}
+              w={{ md: "inherit", sm: "100%" }}
+            >
               <HStack
                 as="nav"
                 // bg="originBlack"
@@ -248,13 +272,8 @@ export const Header: FC<Props> = (props) => {
                 </HStack>
               </Box>
             </Flex>
-          </HStack>
-          {/* <Box py={"0.5em"} display={{ md: "none", sm: "block" }}>
-            <GenderPlateBox
-              gender={gender}
-              onClick={(gender: string) => changeGenderState(gender)}
-            />
-          </Box> */}
+          </Flex>
+          <Box h="7px" w="100%" bg="originBlack"></Box>
           <Box as="nav" w={"100%"}>
             <HStack
               alignItems={"center"}
@@ -286,19 +305,7 @@ export const Header: FC<Props> = (props) => {
             </HStack>
           </Box>
         </Box>
-        <Box
-          // justifyContent={"center"}
-          cursor={"pointer"}
-          bg="originBlack"
-          _hover={{ transition: "1s", opacity: 0.8 }}
-          // _hover={{ transition: "1s", bg: "originLiteBlack" }}
-          display={{ md: "none", sm: "block" }}
-          onClick={onOpen}
-        >
-          <Flex justifyContent={"center"}>
-            <HamburgerIcon />
-          </Flex>
-        </Box>
+
         {/* <DropHeader anime={dropHeader} /> */}
       </Box>
       <HeaderDrawer

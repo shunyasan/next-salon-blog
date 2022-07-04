@@ -1,4 +1,3 @@
-import OrderPlanIdNameService from "./app/orderPlanIdNameService";
 import { TitleValueService } from "./app/titleValueService";
 import { AboutCategoryService } from "./orm/aboutCategoryService";
 import { BasePartsService } from "./orm/base-parts-service";
@@ -19,6 +18,8 @@ import {
   machineRepository,
   originCategoryRepository,
 } from "./repository";
+import { OrderPlanIdNameService } from "./app/orderPlanIdNameService";
+import { OrderPlanQueryService } from "./app/orderPlanQueryService";
 
 export const aboutCategoryService = new AboutCategoryService(
   aboutCategoryRepository
@@ -50,3 +51,6 @@ export const priceByAboutCategoryService = new PriceByAboutCategoryService(
 
 export const titleValueService = new TitleValueService();
 export const orderPlanIdNameService = new OrderPlanIdNameService();
+export const orderPlanQueryService = new OrderPlanQueryService(
+  orderPlanIdNameService
+);

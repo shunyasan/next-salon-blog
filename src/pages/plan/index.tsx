@@ -9,10 +9,6 @@ import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import {
-  createQueryString,
-  getQueryOrderPlan,
-} from "services/app/parameter/CreateParameterHooks";
 import fetcher from "services/fetcher";
 import {
   aboutCategoryService,
@@ -68,31 +64,22 @@ const SearchSalon: NextPage<Props> = (props) => {
   // const [originId, setOriginId] = useState<string>(originCategories[0].id);
   // const [aboutId, setAboutId] = useState<string>(aboutCategoryData[0].id);
 
-  // const onClickParts = (partsId: string) => {
-  //   const me = `${OrderPlanEnum.gender.query}=${gender}&`;
-  //   const origin = `${OrderPlanEnum.originCategory.query}=${originId}&`;
-  //   const about = `${OrderPlanEnum.aboutCategory.query}=${aboutId}&`;
-  //   const parts = `${OrderPlanEnum.parts.query}=${partsId}&`;
-  //   const query = me + origin + about + parts;
-  //   selectParamsData(query);
+  // // 次ボタン　パラメーター
+  // const selectParamsData = (query: string) => {
+  //   // createPageQuery(query, page);
+  //   // setPrevParamsData(decode);
+  //   setChange(style.slide);
+  //   const queryString = createQueryString(router.query);
+  //   const decode = decodeURI(queryString);
+  //   const createParams = `${decode}${query}`;
+  //   const encode = encodeURI(createParams);
+  //   // setShowPage(page || 0);
+
+  //   router.push({
+  //     pathname: "/plan/self",
+  //     search: encode,
+  //   });
   // };
-
-  // 次ボタン　パラメーター
-  const selectParamsData = (query: string) => {
-    // createPageQuery(query, page);
-    // setPrevParamsData(decode);
-    setChange(style.slide);
-    const queryString = createQueryString(router.query);
-    const decode = decodeURI(queryString);
-    const createParams = `${decode}${query}`;
-    const encode = encodeURI(createParams);
-    // setShowPage(page || 0);
-
-    router.push({
-      pathname: "/plan/self",
-      search: encode,
-    });
-  };
 
   // useEffect(() => {
   //   aboutCategories && setAboutId(aboutCategories[0].id);
@@ -112,7 +99,7 @@ const SearchSalon: NextPage<Props> = (props) => {
       <BgImgH1 title="プランを探す" />
       <Box mx="auto" w={{ md: "60%", sm: "95%" }} my="3em">
         <PlanSearchBox
-          OrderPlan={orderPlanIdName}
+          orderPlan={orderPlanIdName}
           originCategories={originCategories}
           aboutCategories={aboutCategories}
           baseParts={baseParts}

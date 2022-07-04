@@ -20,24 +20,29 @@ export const PriceDataBox: FC<Props> = (props) => {
     >
       <Text fontWeight={"bold"}>{price.name}</Text>
       <Flex justifyContent={"center"} alignItems={"flex-end"}>
-        <Text pb="1.2em" fontSize={"0.4rem"}>
-          {price.clinic.tax || "不明"}
-        </Text>
         {orderDataIdName.paySystem.id !== "総額" ? (
           <>
+            <Text mr=".5em" pb=".5em" fontWeight={"bold"}>
+              1回分
+            </Text>
             <Text fontSize={{ md: "1.8rem", sm: "1.5rem" }}>
               ￥{price.oncePrice.toLocaleString()}
             </Text>
-            <Text>/回</Text>
           </>
         ) : (
           <>
+            <Text mr=".5em" pb=".5em" fontWeight={"bold"}>
+              総額
+            </Text>
             <Text fontSize={{ md: "1.8rem", sm: "1.5rem" }}>
               ￥{price.price.toLocaleString()}
             </Text>
             {/* <Text >({price.times}回)</Text> */}
           </>
         )}
+        <Text pb=".3em" fontSize={"0.6em"}>
+          （{price.clinic.tax || "不明"}）
+        </Text>
       </Flex>
       <Flex fontSize={"0.8em"} justifyContent={"space-evenly"}>
         <HStack>

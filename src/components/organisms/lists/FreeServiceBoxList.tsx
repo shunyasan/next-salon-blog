@@ -4,7 +4,6 @@ import { StatusText } from "components/atoms/text/StatusText";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
 import { ClinicOptionTitleValue } from "services/app/clinic/ClinicDetailHooks";
 import { TitleValue } from "types/app/TitleValue";
-import { FreeServiceBox } from "../box/FreeServiceBox";
 type Props = {
   clinicOption: ClinicOption;
 };

@@ -20,7 +20,7 @@ export const HomeSearchBoxList: FC = () => {
   // };
   const partsList: HomeFeatureText = {
     img: TopResource.partsImg,
-    text: "施術部位一覧",
+    text: "部位一覧",
     description:
       "各クリニックを分析して、全クリニック共通の表記にした施術可能な部位一覧",
     path: "/treatment-parts",
@@ -34,11 +34,16 @@ export const HomeSearchBoxList: FC = () => {
   const datas: HomeFeatureText[] = [plan, partsList, clinicList];
 
   return (
-    <Flex wrap={"wrap"} w={"90%"} m={"auto"} justifyContent={"space-evenly"}>
+    <Flex
+      // wrap={"wrap"}
+      w={{ md: "90%", sm: "100%" }}
+      m={"auto"}
+      justifyContent={"space-evenly"}
+    >
       {datas.map((data, i) => (
         <ImageBox
           homeFeature={data}
-          width={{ md: "19rem", sm: "17rem" }}
+          width={{ md: "14em", sm: "30vw" }}
           // height={{ md: "2rem", sm: "inherit" }}
           key={i}
         />

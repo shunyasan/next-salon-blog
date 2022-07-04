@@ -12,7 +12,7 @@ type Props = {
 export const PagenationBlock: FC<Props> = (props) => {
   const { max, take, nowPage, pageBlock, onClickNumber } = props;
 
-  const [numOfMaxPage, setNumOfMaxPage] = useState<number>(0);
+  const [arrayNum, setArrayNum] = useState<number>(5);
   const [endsStatus, setEndsStatus] = useState<{
     front: boolean;
     end: boolean;
@@ -25,8 +25,11 @@ export const PagenationBlock: FC<Props> = (props) => {
     const border = maxPage / (changeBlockNum * 5);
     // 両方
     const state = { front: pageBlock > 0, end: border > 1 };
-    setNumOfMaxPage(maxPage);
     setEndsStatus(state);
+
+    //番号の配列
+    const array = (pageBlock + 1) * 5 < maxPage ? 5 : maxPage - pageBlock * 5;
+    setArrayNum(array);
   }, [pageBlock, max, take]);
 
   // const numberOfViewPage = useCallback(() => {
@@ -63,11 +66,7 @@ export const PagenationBlock: FC<Props> = (props) => {
         </Box>
       )}
       {/* ページの一覧 */}
-      {[
-        ...Array(
-          (pageBlock + 1) * 5 < numOfMaxPage ? 5 : numOfMaxPage - pageBlock * 5
-        ),
-      ].map((_, i) => (
+      {[...Array(arrayNum)].map((_, i) => (
         <Box
           key={i}
           cursor={"pointer"}

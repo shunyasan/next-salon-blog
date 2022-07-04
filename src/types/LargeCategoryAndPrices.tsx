@@ -1,4 +1,4 @@
-import { AboutCategory, OriginCategory } from "@prisma/client";
+import { OriginCategory } from "@prisma/client";
 import { PriceByAboutCategory } from "./PriceByAboutCategory";
 import { PriceDto } from "./PriceDto";
 

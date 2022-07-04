@@ -70,3 +70,11 @@ export class OriginCategoryRepository {
     return get;
   }
 }
+
+export const getOriginCategoryNameById = async (id: string) => {
+  const data = await prisma.originCategory.findFirst({
+    select: { name: true },
+    where: { id: id },
+  });
+  return data?.name;
+};

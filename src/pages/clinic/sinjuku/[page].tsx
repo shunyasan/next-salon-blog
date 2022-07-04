@@ -1,20 +1,10 @@
-import { Box, Checkbox, Flex, HStack, Stack, Text } from "@chakra-ui/react";
 import { ClinicArea } from "@prisma/client";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
-import { BgImgH1 } from "components/atoms/text/BgImgH1";
-import { PlanCard } from "components/organisms/board/PlanCard";
-import { AreaBox } from "components/organisms/box/AreaBox";
-import { Pagenation } from "components/templete/pagenation/Pagenation";
 import ClinicListTemplate from "components/templete/pages/clinic/ClinicListTemplate";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { memo, useCallback, useEffect, useState, VFC } from "react";
-import { ClinicAreaService } from "services/orm/clinic-area-service";
-import { ClinicService } from "services/orm/clinic-service";
-import fetcher from "services/fetcher";
 import { clinicAreaService, clinicService } from "services/service";
-import useSWR from "swr";
 import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
 
 const numOfClinicMax = 71;
@@ -29,6 +19,7 @@ const defaultPagenation = {
 type Props = {
   area: ClinicArea[];
   clinics: ClinicNestPriceDto[];
+  page: number;
   // defaultPagenation: { now: number; block: number };
 };
 
@@ -41,6 +32,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const area: ClinicArea[] = await clinicAreaService.getAllClinicArea();
   const num = params ? Number(params.page) : 0;
+  const page = num - 1 >= 0 ? num - 1 : 0;
   // const area: ClinicArea[] = await fetcher(`${thisURL}api/clinic-areas`);
 
   const clinics: ClinicNestPriceDto[] =
@@ -55,12 +47,12 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     props: {
       area,
       clinics,
-      defaultPagenation,
+      page,
     },
   };
 };
 
-const ClinicsSinjuku: NextPage<Props> = ({ area, clinics }) => {
+const ClinicsSinjuku: NextPage<Props> = ({ area, clinics, page }) => {
   const router = useRouter();
   // const { getAllClinic, getAllClinicByAreaId } = ClinicApi();
   // const { getAllArea } = ClinicAreaApi();
@@ -107,6 +99,7 @@ const ClinicsSinjuku: NextPage<Props> = ({ area, clinics }) => {
         areaMax={numOfClinicMax}
         area={area || []}
         clinics={clinics}
+        page={page}
         getPage={(page) => router.push(`/clinic/sinjuku/${page + 1}`)}
       />
     </>

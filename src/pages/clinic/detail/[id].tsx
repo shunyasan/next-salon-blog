@@ -21,10 +21,8 @@ import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { ClinicService } from "services/orm/clinic-service";
 import useSWR from "swr";
 import { IdAndNameDto } from "types/IdAndNameDto";
-import { PriceDto } from "types/PriceDto";
 import { useCallback, useEffect, useState } from "react";
 import { OriginCategiryId } from "enums/OriginCategiryIdEnum";
-import { AbobutCategiryId } from "enums/AbobutCategiryIdEnum";
 import fetcher from "services/fetcher";
 import Head from "next/head";
 import { Layout } from "components/templete/lauouts/Layout";
@@ -100,9 +98,6 @@ const ClinicDetail: NextPage<Props> = ({
   // const [priceData, setPriceData] = useState<PriceDto[]>([]);
   // const [gender, setGender] = useState<string>();
   // const [modalPrice, setModalPrice] = useState<PriceDto>();
-  // const [selectedAboutId, setSelectedAboutId] = useState<string>(
-  //   AbobutCategiryId.upperFace
-  // );
   const [originId, setOriginId] = useState<string>(OriginCategiryId.face);
 
   const { data: priceData, error: err_pri } = useSWR<PriceByAboutCategory[]>(

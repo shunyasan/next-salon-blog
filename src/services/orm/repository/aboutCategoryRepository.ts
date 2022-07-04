@@ -87,3 +87,11 @@ export class AboutCategoryRepository {
     return change;
   }
 }
+
+export const getAboutCategoryNameById = async (id: string) => {
+  const data = await prisma.aboutCategory.findFirst({
+    select: { name: true },
+    where: { id: id },
+  });
+  return data?.name;
+};

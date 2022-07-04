@@ -9,7 +9,6 @@ import { PriceByAboutCategory } from "types/PriceByAboutCategory";
 import { PriceDto } from "types/PriceDto";
 import { CategoryBox } from "../box/CategoryBox";
 import { SmallPlanCard } from "../box/SmallPlanCard";
-import { AboutTreatmentParts } from "../lists/AboutTreatmentParts";
 import { PlanDetailModal } from "../modal/PlanDetailModal";
 
 type Props = {

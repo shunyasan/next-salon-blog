@@ -1,4 +1,3 @@
-import { AboutCategory } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { IdAndNameDto } from "types/IdAndNameDto";
 import { AboutCategoryRepository } from "./repository/aboutCategoryRepository";
@@ -56,7 +55,7 @@ export class AboutCategoryService {
     return await this.aboutCategoryRepository.getAboutCategoryById(id);
 
     // デフォルト
-    // const data: AboutCategory = await getAxios("about-category/" + id);
+    // const data: aboutCategory = await getAxios("about-category/" + id);
     // return data;
   }
 
@@ -66,7 +65,7 @@ export class AboutCategoryService {
     );
 
     // デフォルト
-    // const data: AboutCategory[] = await getAxios(
+    // const data: aboutCategory[] = await getAxios(
     //   "about-category/originId/" + originId
     //   );
     //   return data;

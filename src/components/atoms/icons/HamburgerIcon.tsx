@@ -14,14 +14,14 @@ export const HamburgerIcon: FC<Props> = (props) => {
       justifyContent={"center"}
       // onClick={onClick}
       spacing={"7px"}
-      py={"1rem"}
+      p={"1em 1.5em"}
       w={"5rem"}
       mx={"auto"}
       cursor={"pointer"}
     >
-      <Box borderBottom={"2px"} borderColor={"white"}></Box>
-      <Box borderBottom={"2px"} borderColor={"white"}></Box>
-      <Box borderBottom={"2px"} borderColor={"white"}></Box>
+      <Box borderBottom={"1px"} borderColor={"white"}></Box>
+      <Box borderBottom={"1px"} borderColor={"white"}></Box>
+      <Box borderBottom={"1px"} borderColor={"white"}></Box>
     </Stack>
 
     ///////

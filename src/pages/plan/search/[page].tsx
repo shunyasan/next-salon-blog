@@ -3,22 +3,12 @@ import { memo, useCallback, useEffect, useState, VFC } from "react";
 import { Button, Image, HStack, Stack } from "@chakra-ui/react";
 import { GetServerSideProps, NextPage } from "next";
 import { OrderPlanIdName } from "types/app/OrderPlanIdName";
-import { OrderPlan } from "types/app/OrderPlan";
 import { PriceDto } from "types/PriceDto";
-import { createQuery } from "services/app/prices/price";
 import { useRouter } from "next/router";
-import fetcher from "services/fetcher";
-import { changeOrderPlanToOrderPlanIdName } from "services/app/order-plan-id-name/order-plan-id-name";
-import {
-  createQueryString,
-  getQueryOrderPlanInSearch,
-  OrderPlanToOrderPlan,
-} from "services/app/parameter/CreateParameterHooks";
 import { SearchResultCard } from "components/organisms/box/SearchResultCard";
 import { Pagenation } from "components/templete/pagenation/Pagenation";
 import useSWR from "swr";
 import Head from "next/head";
-import { IdAndNameDto } from "types/IdAndNameDto";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import { tweet } from "services/tweet";
@@ -26,6 +16,8 @@ import { PricePlanCard } from "components/organisms/board/PricePlanCard";
 import {
   aboutCategoryService,
   basePartsService,
+  orderPlanIdNameService,
+  orderPlanQueryService,
   originCategoryService,
   priceService,
   titleValueService,
@@ -36,20 +28,26 @@ import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
 import Instagram from "components/Instagram";
 import Twitter from "components/Twitter";
 import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
+import { PlanSortBox } from "components/molecules/box/PlanSortBox";
+import { IdAndNameDto } from "types/IdAndNameDto";
+import { createParameter } from "services/app/orderPlanQueryService";
+import { PlanSortSelect } from "components/atoms/select/PlanSortSelect";
 
 const numOfTakeData = 10;
 
 type Props = {
-  planParam: string;
-  orderPlanData: OrderPlan;
+  // orderPlanQuery: OrderPlanQuery;
+  page: number;
   orderDataIdName: OrderPlanIdName;
   title: string;
-  firstPrices: PriceDto[];
-  firstMaxValue: number;
+  price: PriceDto[];
+  maxValue: number;
   condition: TitleValue[];
-  originCategories: OriginCategory[];
-  aboutCategories: AboutCategory[];
-  baseParts: BaseParts[];
+  allParts: {
+    originCategories: OriginCategory[];
+    aboutCategories: AboutCategory[];
+    baseParts: BaseParts[];
+  };
 };
 
 const createTitle = (idName: OrderPlanIdName) => {
@@ -71,150 +69,139 @@ const getAllParts = async () => {
   return { originCategories, aboutCategories, baseParts };
 };
 
-const createOrderDataIdName = async (orderPlanData: OrderPlan) => {
-  const orderDataIdName = changeOrderPlanToOrderPlanIdName(orderPlanData);
-  const origin: IdAndNameDto =
-    await originCategoryService.getOriginCategoryIdAndName(
-      orderDataIdName.originParts.id
-    );
-  const about: IdAndNameDto =
-    await aboutCategoryService.getAboutCategoryIdAndName(
-      orderDataIdName.AboutCategory.id
-    );
-  const parts: IdAndNameDto = await basePartsService.getBasePartsIdAndName(
-    orderDataIdName.parts.id
-  );
-  orderDataIdName.originParts = origin;
-  orderDataIdName.AboutCategory = about;
-  orderDataIdName.parts = parts;
-  return orderDataIdName;
-};
+// const createOrderDataIdName = async (orderPlanQuery: OrderPlanQuery) => {
+//   const orderDataIdName = changeOrderPlanToOrderPlanIdName(orderPlanQuery);
+//   const origin: IdAndNameDto =
+//     await originCategoryService.getOriginCategoryIdAndName(
+//       orderDataIdName.originParts.id
+//     );
+//   const about: IdAndNameDto =
+//     await aboutCategoryService.getAboutCategoryIdAndName(
+//       orderDataIdName.aboutCategory.id
+//     );
+//   const parts: IdAndNameDto = await basePartsService.getBasePartsIdAndName(
+//     orderDataIdName.parts.id
+//   );
+//   orderDataIdName.originParts = origin;
+//   orderDataIdName.aboutCategory = about;
+//   orderDataIdName.parts = parts;
+//   return orderDataIdName;
+// };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   //クエリ作成
   const num = context.params ? Number(context.params.page) : 1;
-  const query = createQueryString(context.query);
-  const orderPlanData = getQueryOrderPlanInSearch(query);
-  const planParam = createQuery(orderPlanData);
-  const reqOrder = OrderPlanToOrderPlan(orderPlanData);
+  const page = num - 1 >= 0 ? num - 1 : 0;
+  const orderPlanQuery = orderPlanQueryService.getOrderPlanQuery(context.query);
+  // const query = createQueryString(context.query);
+  // const orderPlanQuery = getQueryOrderPlanInSearch(query);
+  // const swrQuery = createQuery(orderPlanQuery);
+  // const reqOrder = OrderPlanToOrderPlan(orderPlanQuery);
 
   //データ取得
-  const firstPrices = await priceService.getPriceOrderPlan(reqOrder, {
+  const price = await priceService.getPriceOrderPlan(orderPlanQuery, {
     take: numOfTakeData,
-    skip: (num - 1) * numOfTakeData,
+    skip: page * numOfTakeData,
   });
-  const firstMaxValue = await priceService.getCountMaxPlan(reqOrder);
-  const orderDataIdName = await createOrderDataIdName(orderPlanData);
+  const maxValue = await priceService.getCountMaxPlan(orderPlanQuery);
   const allParts = await getAllParts();
-  // タイトル作成
-  const title = createTitle(orderDataIdName) || "";
 
-  // 条件結果取得
+  const orderDataIdName =
+    await orderPlanIdNameService.changeQueryToOrderPlanIdName(orderPlanQuery);
+  // タイトル作成・条件結果の文字列
+  const title = createTitle(orderDataIdName) || "";
   const condition =
     titleValueService.getModalSearchConditionBoxData(orderDataIdName);
   return {
     props: {
-      planParam,
-      orderPlanData,
+      page,
       orderDataIdName,
       title,
-      firstPrices,
-      firstMaxValue,
+      price,
+      maxValue,
       condition,
-      originCategories: allParts.originCategories,
-      aboutCategories: allParts.aboutCategories,
-      baseParts: allParts.baseParts,
+      allParts,
     },
   };
 };
 
 const SalonList: NextPage<Props> = (props) => {
-  const {
-    planParam,
-    orderPlanData,
-    orderDataIdName,
-    title,
-    firstPrices,
-    firstMaxValue,
-    condition,
-    originCategories,
-    aboutCategories,
-    baseParts,
-  } = props;
+  const { page, orderDataIdName, title, price, maxValue, condition, allParts } =
+    props;
 
   const router = useRouter();
 
   // const [orderDataIdName, setOrderDataIdName] = useState<OrderPlanIdName>();
-  // const [orderPlanData, setOrderPlanData] = useState<OrderPlan>();
+  // const [orderPlanQuery, setOrderPlanData] = useState<OrderPlan>();
   // const [planData, setPlanData] = useState<PriceDto[]>([]);
   // const [maxValue, setMaxvalue] = useState<number | undefined>();
-  const [pagenationData, setPagenationData] = useState<{
-    now: number;
-    block: number;
-  }>({
-    now: 0,
-    block: 0,
-  });
+  // const [pagenationData, setPagenationData] = useState<{
+  //   now: number;
+  //   block: number;
+  // }>({
+  //   now: 0,
+  //   block: 0,
+  // });
 
-  const { data: price, error: err_pri } = useSWR<PriceDto[]>(
-    `/api/prices?${planParam}&take=${numOfTakeData}&skip=${
-      numOfTakeData * pagenationData.now
-    }`,
-    fetcher,
-    {
-      fallbackData: firstPrices,
-    }
-  );
+  // const { data: price, error: err_pri } = useSWR<PriceDto[]>(
+  //   `/api/prices?${planParam}&take=${numOfTakeData}&skip=${
+  //     numOfTakeData * pagenationData.now
+  //   }`,
+  //   fetcher,
+  //   {
+  //     fallbackData: firstPrices,
+  //   }
+  // );
 
-  const { data: maxValue, error: err_max } = useSWR<number>(
-    `/api/prices/max-count?${planParam}`,
-    fetcher,
-    {
-      fallbackData: firstMaxValue,
-    }
-  );
+  // const { data: maxValue, error: err_max } = useSWR<number>(
+  //   `/api/prices/max-count?${planParam}`,
+  //   fetcher,
+  //   {
+  //     fallbackData: firstMaxValue,
+  //   }
+  // );
 
-  const serPagenationDefault = () => {
-    // setMaxvalue(undefined);
-    // setPagenationData({ now: 0, block: 0 });
-    // setPlanData([]);
+  // const serPagenationDefault = () => {
+  // setMaxvalue(undefined);
+  // setPagenationData({ now: 0, block: 0 });
+  // setPlanData([]);
+  // };
+
+  const onChangeSort = (idName: IdAndNameDto) => {
+    orderDataIdName.sort = idName;
+    const query = createParameter(orderDataIdName);
+    router.push({ pathname: `/plan/search/${page + 1}`, query: query });
   };
 
   const getPageNumber = useCallback(
     async (page: number, block?: number) => {
       // setPlanData([]);
-      // getTreatmentPriceFunc(orderPlanData, numOfTakeData, numOfTakeData * page);
-      if (block || block === 0) {
-        setPagenationData({ now: page, block: block });
-      } else {
-        setPagenationData({ ...pagenationData, now: page });
-      }
+      // getTreatmentPriceFunc(orderPlanQuery, numOfTakeData, numOfTakeData * page);
+      // if (block || block === 0) {
+      //   setPagenationData({ now: page, block: block });
+      // } else {
+      //   setPagenationData({ ...pagenationData, now: page });
+      // }
 
       const query = router.query;
       router.push({ pathname: `/plan/search/${page + 1}`, query: query });
     },
-    [pagenationData, router]
+    [router]
   );
 
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://platform.twitter.com/widgets.js";
-    document.body.appendChild(script);
-    // アンマウント時に一応scriptタグを消しておく
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const script = document.createElement("script");
+  //   script.src = "https://platform.twitter.com/widgets.js";
+  //   document.body.appendChild(script);
+  //   // アンマウント時に一応scriptタグを消しておく
+  //   return () => {
+  //     document.body.removeChild(script);
+  //   };
+  // }, []);
 
-  if (
-    !price ||
-    (!maxValue && maxValue !== 0) ||
-    !originCategories ||
-    !aboutCategories ||
-    !baseParts
-  )
+  if (!price || (!maxValue && maxValue !== 0) || !allParts)
     return <LoadingIcon />;
   return (
     <Box
@@ -225,12 +212,12 @@ const SalonList: NextPage<Props> = (props) => {
     >
       <Box>
         <BgImgH1
-          title={(orderDataIdName.AboutCategory.name || "体") + "の脱毛"}
+          title={(orderDataIdName.aboutCategory.name || "体") + "の脱毛"}
         />
       </Box>
       <Head>
         <title>
-          {`【${orderDataIdName.AboutCategory.name || "体"}】の脱毛`} |
+          {`【${orderDataIdName.aboutCategory.name || "体"}】の脱毛`} |
           脱毛コンサルタント
         </title>
         <meta name="description" content={`【${title}】のプランを検索`} />
@@ -242,9 +229,9 @@ const SalonList: NextPage<Props> = (props) => {
           // resetPages={serPagenationDefault}
           condition={condition}
           partsName={orderDataIdName.parts.name || "未指定"}
-          originCategories={originCategories}
-          aboutCategories={aboutCategories}
-          baseParts={baseParts}
+          originCategories={allParts.originCategories}
+          aboutCategories={allParts.aboutCategories}
+          baseParts={allParts.baseParts}
         />
         <Flex mt="1em" justifyContent={"center"}>
           <Button as="a" variant={"secBase"} href="/plan">
@@ -257,8 +244,8 @@ const SalonList: NextPage<Props> = (props) => {
           <Pagenation
             max={maxValue}
             take={numOfTakeData}
-            nowPage={pagenationData.now}
-            pageBlock={pagenationData.block}
+            nowPage={page}
+            pageBlock={Math.floor(page / 5)}
             onClickNumber={(page: number, block?: number) =>
               getPageNumber(page, block)
             }
@@ -276,6 +263,15 @@ const SalonList: NextPage<Props> = (props) => {
                 justifyContent={"center"}
                 spacing={"1.2em"}
               >
+                <HStack ml="1em">
+                  <Text fontSize={"0.9em"}>並び替え</Text>
+                  <Box>
+                    <PlanSortSelect
+                      idName={orderDataIdName.sort}
+                      onChange={(idName: IdAndNameDto) => onChangeSort(idName)}
+                    />
+                  </Box>
+                </HStack>
                 {price.map((plan) => (
                   <PricePlanCard
                     key={plan.id}
@@ -299,9 +295,9 @@ const SalonList: NextPage<Props> = (props) => {
                   <SearchResultCard
                     orderPlan={orderDataIdName}
                     // resetPages={serPagenationDefault}
-                    originCategories={originCategories}
-                    aboutCategories={aboutCategories}
-                    baseParts={baseParts}
+                    originCategories={allParts.originCategories}
+                    aboutCategories={allParts.aboutCategories}
+                    baseParts={allParts.baseParts}
                   />
                   <Box my={"1rem"}>
                     <Button as="a" variant={"secBase"} href="/plan">

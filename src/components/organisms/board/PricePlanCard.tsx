@@ -31,11 +31,11 @@ export const PricePlanCard: FC<Props> = (props) => {
   const { price, orderDataIdName } = props;
   const { isOpen, onClose } = useDisclosure();
 
-  const [detailViewState, setDetailViewState] = useState<boolean>(false);
-  const [detailViewClass, setDetailViewClass] =
-    useState<string>("defaultDisplayNone");
-  const [optionService, setOptionService] = useState<OptionText[]>();
-  const [medicalFee, setMedicalFee] = useState<OptionText[]>();
+  // const [detailViewState, setDetailViewState] = useState<boolean>(false);
+  // const [detailViewClass, setDetailViewClass] =
+  //   useState<string>("defaultDisplayNone");
+  // const [optionService, setOptionService] = useState<OptionText[]>();
+  // const [medicalFee, setMedicalFee] = useState<OptionText[]>();
   const [payment, setPayment] = useState<OptionText[]>();
   const [image, setImage] = useState<string[]>([]);
 
@@ -45,25 +45,25 @@ export const PricePlanCard: FC<Props> = (props) => {
   }, []);
   //
 
-  const OptionFunc = useCallback(() => {
-    const clinicOption = newOptionFunc(price.clinic);
-    setOptionService(clinicOption.service);
-    setMedicalFee(clinicOption.medicalFee);
-    setPayment(clinicOption.payment);
-  }, [price]);
+  // const OptionFunc = useCallback(() => {
+  //   const clinicOption = newOptionFunc(price.clinic);
+  //   setOptionService(clinicOption.service);
+  //   setMedicalFee(clinicOption.medicalFee);
+  //   setPayment(clinicOption.payment);
+  // }, [price]);
 
-  const detailOpen = useCallback(() => {
-    if (!detailViewState) {
-      setDetailViewClass("detailServiceOpen");
-    } else {
-      setDetailViewClass("detailServiceClose");
-    }
-    setDetailViewState(!detailViewState);
-  }, [detailViewState]);
+  // const detailOpen = useCallback(() => {
+  //   if (!detailViewState) {
+  //     setDetailViewClass("detailServiceOpen");
+  //   } else {
+  //     setDetailViewClass("detailServiceClose");
+  //   }
+  //   setDetailViewState(!detailViewState);
+  // }, [detailViewState]);
 
-  useEffect(() => {
-    OptionFunc();
-  }, [OptionFunc]);
+  // useEffect(() => {
+  //   OptionFunc();
+  // }, [OptionFunc]);
 
   return (
     <Box
@@ -149,7 +149,7 @@ export const PricePlanCard: FC<Props> = (props) => {
             >
               オプションサービス
             </Text>
-            <Box pl="3rem" mt=".5rem">
+            <Box pl={{ md: "3rem", sm: "1.5rem" }} mt=".5rem">
               {price.clinic.clinicOption && (
                 <FreeServiceBoxList clinicOption={price.clinic.clinicOption} />
               )}

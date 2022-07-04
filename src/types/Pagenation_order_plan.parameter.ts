@@ -1,6 +1,6 @@
-import { OrderPlan } from "types/app/OrderPlan";
+import { OrderPlanQuery } from "./app/OrderPlanQuery";
 
-export interface PagenationOrderPlan extends OrderPlan {
+export interface PagenationOrderPlan extends OrderPlanQuery {
   take: number;
   skip: number;
 }

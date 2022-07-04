@@ -6,7 +6,7 @@ export type OrderPlanIdName = {
   gender: IdAndNameDto;
   paySystem: IdAndNameDto;
   originParts: IdAndNameDto;
-  AboutCategory: IdAndNameDto;
+  aboutCategory: IdAndNameDto;
   parts: IdAndNameDto;
   skinCollor: IdAndNameDto;
   hair: IdAndNameDto;
@@ -17,13 +17,14 @@ export type OrderPlanIdName = {
   loan: IdAndNameDto;
   contract: IdAndNameDto;
   option: IdAndNameDto;
+  sort: IdAndNameDto;
 };
 
 // export type OrderPlanIdName = {
 //   gender: string;
 //   paySystem: string;
 //   originParts: IdAndNameDto;
-//   AboutCategory: IdAndNameDto;
+//   aboutCategory: IdAndNameDto;
 //   parts: IdAndNameDto | null;
 //   skinCollor: string;
 //   hair: string;

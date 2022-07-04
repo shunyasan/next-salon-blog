@@ -72,12 +72,24 @@ export const MobileSearchCondotionBox: FC<Props> = ({
             </Text>
           </Flex>
           <Box borderBottom={"1px"} borderColor={"#bbb"}></Box>
-          <Flex p="1em" justifyContent={"space-between"} alignItems={"center"}>
-            <Flex alignItems={"center"}>
+          <Flex
+            p="1em"
+            h="5em"
+            justifyContent={"space-between"}
+            alignItems={"center"}
+          >
+            <Flex alignItems={"center"} h="100%" overflow={"hidden"}>
               <Text fontWeight={"bold"} w="5em" flexShrink={"0"}>
                 詳細条件
               </Text>
-              <Text color={"#555"} fontSize={".8em"} pr="5px">
+              <Text
+                color={"#555"}
+                fontSize={".8em"}
+                pr="5px"
+                h="100%"
+                overflow={"hidden"}
+                textOverflow={"ellipsis"}
+              >
                 {condition.map((data) => `【${data.title}】${data.value}  |`)}
               </Text>
             </Flex>
@@ -99,7 +111,7 @@ export const MobileSearchCondotionBox: FC<Props> = ({
       </Stack>
       {originCategories && aboutCategories && baseParts && (
         <PlanResearchModal
-          OrderPlan={orderPlan}
+          orderPlan={orderPlan}
           isOpen={isOpen}
           onClose={onClose}
           // resetPages={resetPages}

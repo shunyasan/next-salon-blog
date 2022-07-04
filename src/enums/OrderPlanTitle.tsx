@@ -1,0 +1,17 @@
+export enum OrderPlanTitle {
+  gender = "性別",
+  paySystem = "重視する料金体系",
+  originCategory = "カテゴリ",
+  aboutCategory = "範囲",
+  parts = "部位",
+  skinCollor = "肌色",
+  hair = "毛量",
+  roomType = "施術室",
+  interior = "内装",
+  staff = "施術者の性別",
+  card = "カード払い",
+  loan = "医療ローン",
+  contract = "コースの解約",
+  option = "",
+  sort = "並び替え",
+}

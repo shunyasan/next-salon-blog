@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
 import TreatmentPartsBox from "components/organisms/box/TreatmentPartsBox";
-import { OrderPlanEnum } from "enums/OrderPlanEnum";
+import { OrderPlanTitle } from "enums/OrderPlanTitle";
 import { FC, memo, useState, VFC } from "react";
 import { json } from "stream/consumers";
 import { OrderPlanIdName } from "types/app/OrderPlanIdName";
@@ -43,7 +43,7 @@ export const ConditionPartsBox: FC<Props> = (props) => {
     <>
       <Flex justifyContent={!title ? "space-evenly" : ""} mt="-1px">
         <Center
-          h="10em"
+          minH="8em"
           w={{ md: "30%", sm: "28%" }}
           fontWeight={"bold"}
           bg="#eee"
@@ -53,6 +53,7 @@ export const ConditionPartsBox: FC<Props> = (props) => {
           {title}
         </Center>
         <Flex
+          p=".5em"
           justifyContent={"space-evenly"}
           w={{ md: "70%", sm: "72%" }}
           alignItems={"center"}
@@ -61,21 +62,21 @@ export const ConditionPartsBox: FC<Props> = (props) => {
           ml="-1px"
         >
           <Stack w="75%">
-            <Flex>
+            {/* <Flex>
               <Text w="40%" mr="5px" fontWeight={"bold"}>
-                {OrderPlanEnum.originCategory.name}
+                {OrderPlanTitle.originCategory.name}
               </Text>
               <Text>{orderPlan.originParts.name}</Text>
-            </Flex>
+            </Flex> */}
             <Flex>
-              <Text w="40%" mr="5px" fontWeight={"bold"}>
-                {OrderPlanEnum.aboutCategory.name}
+              <Text w="25%" flexShrink="0" mr="5px" fontWeight={"bold"}>
+                {OrderPlanTitle.aboutCategory}
               </Text>
-              <Text>{orderPlan.AboutCategory.name}</Text>
+              <Text>{orderPlan.aboutCategory.name}</Text>
             </Flex>
             <Flex>
-              <Text w="40%" mr="5px" fontWeight={"bold"}>
-                {OrderPlanEnum.parts.name}
+              <Text w="25%" flexShrink="0" mr="5px" fontWeight={"bold"}>
+                {OrderPlanTitle.parts}
               </Text>
               <Text>{orderPlan.parts.name}</Text>
             </Flex>

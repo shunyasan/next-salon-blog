@@ -2,7 +2,6 @@ import { Box, Flex, HStack, Stack, Text } from "@chakra-ui/react";
 import { StatusText } from "components/atoms/text/StatusText";
 import { FC, memo, useCallback, VFC } from "react";
 import { OptionText } from "types/app/OptionText";
-import { FreeServiceBox } from "../box/FreeServiceBox";
 type Props = {
   payments: OptionText[];
 };

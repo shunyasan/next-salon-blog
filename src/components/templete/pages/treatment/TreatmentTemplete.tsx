@@ -6,10 +6,15 @@ import { FC, ReactNode, useCallback, useState } from "react";
 import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import { PartsBox } from "components/organisms/box/PartsBox";
 import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
-import { searchForPlan } from "services/app/parameter/CreateParameterHooks";
 import { CategoryBox } from "components/organisms/box/CategoryBox";
 import { TreatmentPartsDetailModal } from "components/organisms/modal/TreatmentPartsDetailModal";
-import { originCategoryService } from "services/service";
+import {
+  orderPlanIdNameService,
+  orderPlanQueryService,
+  originCategoryService,
+} from "services/service";
+import { createParameter } from "services/app/orderPlanQueryService";
+import { defaultOrderPlanIdName } from "services/app/orderPlanIdNameService";
 
 type Props = {
   // title: string;
@@ -34,6 +39,7 @@ const TreatmentTemplete: FC<Props> = ({
   const [partsId, setPartsId] = useState<string>("B000001");
   const [aboutArray, setAboutArray] = useState<number>(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   // const [originId, setOriginId] = useState<string>(selectOriginId);
   // const [gender, setGender] = useState<string>("女性");
 
@@ -50,12 +56,19 @@ const TreatmentTemplete: FC<Props> = ({
     gender: string,
     originId: string,
     aboutCategoryId: string,
-    partsId?: string
+    partsId: string
   ) => {
-    const param = searchForPlan(gender, originId, aboutCategoryId, partsId);
+    const defaultOrderData = defaultOrderPlanIdName;
+    defaultOrderData.gender;
+    defaultOrderData.originParts.id = originId;
+    defaultOrderData.aboutCategory.id = aboutCategoryId;
+    defaultOrderData.parts.id = partsId;
+
+    const query = createParameter(defaultOrderData);
+    // const query = searchForPlan(gender, originId, aboutCategoryId, partsId);
     router.push({
       pathname: "/plan/search/1",
-      search: param,
+      query: query,
     });
   };
 

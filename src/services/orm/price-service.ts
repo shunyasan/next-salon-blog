@@ -4,12 +4,15 @@ import { IdAndNameDto } from "types/IdAndNameDto";
 import { IncludePartsAndCategoryPriceDto } from "types/IncludePartsAndCategoryPriceDto";
 import { PagenationParameter } from "types/PagenationParameterDto";
 import { PriceDto } from "types/PriceDto";
-import { OrderPlan } from "types/app/OrderPlan";
 import { OriginCategoryRepository } from "./repository/originCategoryRepository";
 import { AboutCategoryRepository } from "./repository/aboutCategoryRepository";
 import { BasePartsRepository } from "./repository/basePartsRepository";
 import { MachineService } from "./machine-service";
 import { PriceByAboutCategory } from "types/PriceByAboutCategory";
+import { OrderPlanQuery } from "types/app/OrderPlanQuery";
+import { ParsedUrlQuery } from "querystring";
+import { defaultSort } from "services/app/orderPlanIdNameService";
+import { SortPlan } from "types/app/SortPlan";
 
 export class PriceService {
   constructor(
@@ -19,24 +22,36 @@ export class PriceService {
     private readonly machineService: MachineService
   ) {}
 
-  async getAllPrices(
-    orderPlan: OrderPlan,
-    // tableName: string,
-    orderBy?: string,
-    take?: number,
-    skip?: number
-  ) {
+  checkEmptyData(val?: string | string[]) {
+    return checkEmptyAndApplicable(val);
+  }
+
+  chackSort = (value: string): SortPlan | undefined => {
+    const { price_asc, price_desc, oncePrice_asc, oncePrice_desc, none } =
+      defaultSort;
+
+    switch (value) {
+      case price_asc.id:
+        return { column: "price", sort: "asc" };
+      case price_desc.id:
+        return { column: "price", sort: "desc" };
+      case oncePrice_asc.id:
+        return { column: "oncePrice", sort: "asc" };
+      case oncePrice_desc.id:
+        return { column: "oncePrice", sort: "desc" };
+      default:
+        return undefined;
+    }
+  };
+
+  async beforeGetPrices(orderPlan: OrderPlanQuery) {
     const excludeGender: number = orderPlan.gender === "男性" ? 1 : 2;
+    const excludeStaff: number = 0;
+    // const excludeStaff: number = orderPlan.staff === "男性" ? 1 : 2;
     const tableName = await this.aboutCategoryRepository.getPriceTableName(
-      orderPlan.AboutCategory
+      orderPlan.aboutCategory
     );
 
-    // let query = this.selectPriceJoinClinicQueryBuilder(
-    //   tableName,
-    //   excludeGender
-    // );
-
-    //テスト用
     const machines = await this.machineService.getIdfindBySkinColorAndHairType(
       orderPlan.skinCollor,
       orderPlan.hair
@@ -44,7 +59,27 @@ export class PriceService {
     const targetMachine =
       machines.length > 0 ? machines.map((data) => `'${data.id}'`) : [];
 
+    const sort = this.chackSort(orderPlan.sort);
+    return {
+      excludeGender,
+      excludeStaff,
+      tableName,
+      targetMachine,
+      sort,
+    };
+  }
+
+  async getAllPrices(
+    orderPlan: OrderPlanQuery,
+    // tableName: string,
+    orderBy?: string,
+    take?: number,
+    skip?: number
+  ) {
+    const { excludeGender, excludeStaff, tableName, targetMachine, sort } =
+      await this.beforeGetPrices(orderPlan);
     const data = this.selectPriceClass(tableName);
+
     const ans = await data.findMany({
       // const ans = {
       include: {
@@ -53,7 +88,7 @@ export class PriceService {
             clinicOption: true,
             clinicOpeningHours: true,
             machine:
-              machines.length > 0
+              targetMachine.length > 0
                 ? {
                     where: {
                       machineId: {
@@ -71,89 +106,50 @@ export class PriceService {
         },
       },
       where: {
-        partsId:
-          orderPlan.parts && orderPlan.parts !== ""
-            ? orderPlan.parts
-            : undefined,
+        partsId: this.checkEmptyData(orderPlan.parts),
         clinic: {
-          staffGender: orderPlan.staff || undefined,
-          roomType:
-            orderPlan.roomType && orderPlan.roomType !== ""
-              ? orderPlan.roomType
-              : undefined,
-          interior:
-            orderPlan.interior && orderPlan.interior !== ""
-              ? orderPlan.interior
-              : undefined,
-          cardPay:
-            orderPlan.card && orderPlan.card !== ""
-              ? orderPlan.card
-              : undefined,
-          medhicalLoan:
-            orderPlan.loan && orderPlan.loan !== ""
-              ? orderPlan.loan
-              : undefined,
+          staffGender: excludeStaff || undefined,
+          roomType: this.checkEmptyData(orderPlan.roomType),
+          interior: this.checkEmptyData(orderPlan.interior),
+          cardPay: this.checkEmptyData(orderPlan.card),
+          medhicalLoan: this.checkEmptyData(orderPlan.loan),
           clinicOption: {
-            contractCancellation:
-              orderPlan.contract && orderPlan.contract !== ""
-                ? orderPlan.contract
-                : undefined,
+            contractCancellation: this.checkEmptyData(orderPlan.contract),
           },
         },
       },
       take: take,
       skip: skip,
       orderBy: {
-        oncePrice: orderBy === "oncePrice" ? "asc" : undefined,
-        price: orderBy === "price" ? "asc" : undefined,
+        oncePrice: sort?.column === "oncePrice" ? sort.sort : undefined,
+        price: sort?.column === "price" ? sort.sort : undefined,
       },
     });
 
-    // query += `AND "Machine"."id" IN (${targetMachine})`;
+    return ans;
+  }
 
-    // if (orderPlan.parts && orderPlan.parts !== "") {
-    //   query += ` AND "${tableName}"."partsId" = '${orderPlan.parts}'`;
-    // }
-    // if (
-    //   (orderPlan.skinCollor && orderPlan.skinCollor !== "") ||
-    //   (orderPlan.hair && orderPlan.skinCollor !== "")
-    // ) {
-    //   const machines =
-    //     await this.machineService.getIdfindBySkinColorAndHairType(
-    //       orderPlan.skinCollor,
-    //       orderPlan.hair
-    //     );
-    //   if (machines.length > 0) {
-    //     const targetMachine = machines.map((data) => `'${data.id}'`);
-    //     query += `AND "Machine"."id" IN (${targetMachine})`;
-    //   }
-    // }
+  async getCountMaxPlan(orderPlan: OrderPlanQuery): Promise<number> {
+    const { excludeGender, excludeStaff, tableName, targetMachine } =
+      await this.beforeGetPrices(orderPlan);
 
-    // if (orderPlan.roomType && orderPlan.roomType !== "") {
-    //   query += ` AND "Clinic"."roomType" = '${orderPlan.roomType}'`;
-    // }
-    // if (orderPlan.interior && orderPlan.interior !== "") {
-    //   query += ` AND "Clinic"."interior" = '${orderPlan.interior}'`;
-    // }
-    // if (orderPlan.staff) {
-    //   query += ` AND "Clinic"."staffGender" = ${orderPlan.staff}`;
-    // }
-    // if (orderPlan.card && orderPlan.card !== "") {
-    //   query += ` AND "Clinic"."cardPay" like '%${orderPlan.card}%'`;
-    // }
-    // if (orderPlan.loan && orderPlan.loan !== "") {
-    //   query += ` AND "Clinic"."medhicalLoan" like '%${orderPlan.loan}%'`;
-    // }
-    // if (orderPlan.contract && orderPlan.contract !== "") {
-    //   query += ` AND "ClinicOption"."contractCancellation" like '%${orderPlan.contract}%'`;
-    // }
-    // if (orderPlan.option) {
-    //   for (const data of orderPlan.option) {
-    //     query.andWhere(`clinic.${data} = :x_option `, {
-    //       x_option: '無料',
-    //     });
-    //   }
-    // }
+    const data = this.selectPriceClass(tableName);
+    const ans = await data.count({
+      where: {
+        partsId: this.checkEmptyData(orderPlan.parts),
+        clinic: {
+          staffGender: excludeStaff || undefined,
+          roomType: this.checkEmptyData(orderPlan.roomType),
+          interior: this.checkEmptyData(orderPlan.interior),
+          cardPay: this.checkEmptyData(orderPlan.card),
+          medhicalLoan: this.checkEmptyData(orderPlan.loan),
+          clinicOption: {
+            contractCancellation: this.checkEmptyData(orderPlan.contract),
+          },
+        },
+      },
+    });
+
     return ans;
   }
 
@@ -183,7 +179,7 @@ export class PriceService {
   }
 
   async getPriceOrderPlan(
-    orderPlan: OrderPlan,
+    orderPlan: OrderPlanQuery,
     pagenation: PagenationParameter
     // ↓に変更する可能性
     // pagenationOrderPlan: PagenationOrderPlan
@@ -200,72 +196,6 @@ export class PriceService {
       pagenation.skip
     );
     return getPrices as PriceDto[];
-  }
-
-  async getCountMaxPlan(orderPlan: OrderPlan): Promise<number> {
-    const tableName = await this.aboutCategoryRepository.getPriceTableName(
-      orderPlan.AboutCategory
-    );
-    const machines = await this.machineService.getIdfindBySkinColorAndHairType(
-      orderPlan.skinCollor,
-      orderPlan.hair
-    );
-    const targetMachine =
-      machines.length > 0 ? machines.map((data) => `'${data.id}'`) : [];
-
-    const data = this.selectPriceClass(tableName);
-    const ans = await data.count({
-      // const ans = {
-      // include: {
-      //   clinic: {
-      //     include: {
-      //       machine: {
-      //         where: {
-      //           machineId: {
-      //             in: targetMachine,
-      //           },
-      //         },
-      //       },
-      //     },
-      //   },
-      // },
-      where: {
-        partsId:
-          orderPlan.parts && orderPlan.parts !== ""
-            ? orderPlan.parts
-            : undefined,
-        clinic: {
-          staffGender: orderPlan.staff || undefined,
-          roomType:
-            orderPlan.roomType && orderPlan.roomType !== ""
-              ? orderPlan.roomType
-              : undefined,
-          interior:
-            orderPlan.interior && orderPlan.interior !== ""
-              ? orderPlan.interior
-              : undefined,
-          cardPay:
-            orderPlan.card && orderPlan.card !== ""
-              ? orderPlan.card
-              : undefined,
-          medhicalLoan:
-            orderPlan.loan && orderPlan.loan !== ""
-              ? orderPlan.loan
-              : undefined,
-          clinicOption: {
-            contractCancellation:
-              orderPlan.contract && orderPlan.contract !== ""
-                ? orderPlan.contract
-                : undefined,
-          },
-        },
-      },
-    });
-    // const count: any = await prisma.$queryRawUnsafe(
-    //   `SELECT COUNT( "${tableName}"."id" ) FROM "${tableName}" ${query}`
-    // );
-    // return count[0].count;
-    return ans;
   }
 
   async getPlanByClinicId(
@@ -321,28 +251,11 @@ export class PriceService {
         throw new Error(`not found price table at ${table}`);
     }
   }
-
-  selectPriceJoinClinicQueryBuilder(table: string, excludeGender: number) {
-    // const baseQuery = `SELECT * FROM ${table}`;
-    const clinicJoin = `INNER JOIN "Clinic" ON "Clinic"."id" = "${table}"."clinicId" `;
-    const optionJoin = `INNER JOIN "ClinicOption" ON "ClinicOption"."clinicId" = "Clinic"."id" `;
-    const hourJoin = `INNER JOIN "ClinicOpeningHours" ON "ClinicOpeningHours"."clinicId" = "Clinic"."id" `;
-    const machineJoin = `INNER JOIN "Clinic_Machine" ON "Clinic_Machine"."clinicId" = "Clinic"."id" `;
-    const machineRelation = `INNER JOIN "Machine" ON "Machine"."id" = "Clinic_Machine"."machineId" `;
-    const partsJoin = `INNER JOIN "Parts" ON "Parts"."id" = "${table}"."partsId" `;
-    const partsRelation = `INNER JOIN "BaseParts_Parts" ON "BaseParts_Parts"."partsId" = "Parts"."id" `;
-    const baseJoin = `INNER JOIN "BaseParts" ON "BaseParts"."id" = "BaseParts_Parts"."basePartsId" `;
-    const gender = `WHERE NOT "BaseParts"."gender" = ${excludeGender} `;
-    return (
-      clinicJoin +
-      optionJoin +
-      hourJoin +
-      machineJoin +
-      machineRelation +
-      partsJoin +
-      partsRelation +
-      baseJoin +
-      gender
-    );
-  }
 }
+
+export const checkEmptyAndApplicable = (val?: string | string[]) => {
+  const data = val as string;
+  if (data && data !== "" && data !== "none") {
+    return data;
+  }
+};

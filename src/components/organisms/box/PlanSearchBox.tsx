@@ -3,16 +3,19 @@ import { Box, Button, Center, Flex, Stack, Text } from "@chakra-ui/react";
 import { ConditionText } from "components/molecules/box/ConditionTextBox";
 import { useRouter } from "next/router";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
-import { createParameter } from "services/app/parameter/CreateParameterHooks";
 import { IdAndNameDto } from "types/IdAndNameDto";
 import { OrderPlanIdName } from "types/app/OrderPlanIdName";
-import { OrderPlanEnum } from "enums/OrderPlanEnum";
+import { OrderPlanTitle } from "enums/OrderPlanTitle";
 import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
 import { ConditionPartsBox } from "components/molecules/box/ConditionPartsBox";
 import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
+import { OrderPlanQuery } from "types/app/OrderPlanQuery";
+import { createParameter } from "services/app/orderPlanQueryService";
+import { PlanSortBox } from "components/molecules/box/PlanSortBox";
+import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 
 type Props = {
-  OrderPlan: OrderPlanIdName;
+  orderPlan: OrderPlanIdName;
   originCategories: OriginCategory[];
   aboutCategories: AboutCategory[];
   baseParts: BaseParts[];
@@ -20,112 +23,38 @@ type Props = {
 };
 
 export const PlanSearchBox: FC<Props> = (props) => {
-  const { OrderPlan, originCategories, aboutCategories, baseParts, onClose } =
+  const { orderPlan, originCategories, aboutCategories, baseParts, onClose } =
     props;
   const router = useRouter();
 
-  const [orderData, setOrderData] = useState<OrderPlanIdName>(OrderPlan);
-  // const [partsAndCategory, setPartsAndCategory] = useState<{
-  //   originCategory: IdAndNameDto[];
-  //   aboutCategory: IdAndNameDto[];
-  //   parts: IdAndNameDto[];
-  // }>();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [orderData, setOrderData] = useState<OrderPlanIdName>(orderPlan);
 
   const onClickSearchPlan = async () => {
     if (orderData) {
-      const param = createParameter(orderData);
+      const query = createParameter(orderData);
       onClose && onClose();
       // resetPages();
+      setLoading(true);
       router.push({
         pathname: "/plan/search/1",
-        search: `?${param}`,
+        query: query,
       });
     }
   };
 
-  // const getAllPartsAndCategory = useCallback(
-  //   async (orderParams: OrderPlanIdName) => {
-  //     const data = await getResearchCardData(
-  //       orderParams.originParts.id,
-  //       orderParams.AboutCategory.id,
-  //       orderParams.parts?.id
-  //     );
-  //     setPartsAndCategory(data);
-  //     setOrderData({
-  //       ...orderParams,
-  //       originParts: data.originCategory[0],
-  //       AboutCategory: data.aboutCategory[0],
-  //       parts: data.parts[0],
-  //     });
-  //     return data;
-  //   },
-  //   []
-  // );
-
-  // const checkNewAboutPartsData = (
-  //   newOrderData: OrderPlanIdName,
-  //   key: string,
-  //   name: string,
-  //   id: string
-  // ) => {
-  //   if (key === OrderPlanEnum.gender.name) {
-  //     newOrderData.gender = { id, name };
-  //   } else if (key === OrderPlanEnum.skinCollor.name) {
-  //     newOrderData.skinCollor = { id, name };
-  //   } else if (key === OrderPlanEnum.hair.name) {
-  //     newOrderData.hair = { id, name };
-  //   } else if (key === OrderPlanEnum.paySystem.name) {
-  //     newOrderData.paySystem = { id, name };
-  //   } else if (key === OrderPlanEnum.roomType.name) {
-  //     newOrderData.roomType = { id, name };
-  //   } else if (key === OrderPlanEnum.interior.name) {
-  //     newOrderData.interior = { id, name };
-  //   } else if (key === OrderPlanEnum.staff.name) {
-  //     newOrderData.staff = { id, name };
-  //   } else if (key === OrderPlanEnum.card.name) {
-  //     newOrderData.card = { id, name };
-  //   } else if (key === OrderPlanEnum.loan.name) {
-  //     newOrderData.loan = { id, name };
-  //   } else if (key === OrderPlanEnum.contract.name) {
-  //     newOrderData.contract = { id, name };
-  //   } else if (key === OrderPlanEnum.originCategory.name) {
-  //     newOrderData.originParts = { id, name };
-  //     newOrderData.AboutCategory = { id: "", name: "" };
-  //     newOrderData.parts = { id: "", name: "" };
-  //   } else if (key === OrderPlanEnum.aboutCategory.name) {
-  //     newOrderData.AboutCategory = { id, name };
-  //     newOrderData.parts = { id: "", name: "" };
-  //   } else if (key === OrderPlanEnum.parts.name) {
-  //     newOrderData.parts = { id, name };
-  //   }
-  //   return newOrderData;
-  // };
-
-  // const getSetOrderData = async (key: string, name: string, id: string) => {
-  //   if (orderData) {
-  //     const checkedParts: OrderPlanIdName = checkNewAboutPartsData(
-  //       orderData,
-  //       key,
-  //       name,
-  //       id
-  //     );
-
-  //     await getAllPartsAndCategory(checkedParts);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getAllPartsAndCategory(OrderPlan);
-  // }, [getAllPartsAndCategory, OrderPlan]);
-
+  // 全ての要素をchildrenにしてコンポーネントをまとめる
   return (
     <Stack m={"auto"} textAlign={"center"} spacing={"3em"} fontSize={"0.9em"}>
+      {loading && <LoadingIcon />}
       <Box>
-        <Text fontSize={"1.2em"}>あなたの特徴について教えてください</Text>
         <UnderLineItemBox title="自分" fontSize="1.5em">
+          <Text fontSize={"1.2em"}>
+            脱毛を考えている箇所について選択してください
+          </Text>
           <Box mt=".7em">
             <ConditionText
-              title={OrderPlanEnum.gender.name}
+              title={OrderPlanTitle.gender}
               orderData={orderData.gender.id}
               texts={[
                 { id: "女性", text: "女性" },
@@ -135,38 +64,47 @@ export const PlanSearchBox: FC<Props> = (props) => {
                 setOrderData({ ...orderData, gender: { id, name } })
               }
             />
-            <ConditionText
-              title={OrderPlanEnum.paySystem.name}
-              orderData={orderData.paySystem.id}
-              texts={[
-                { id: "総額", text: "総額" },
-                { id: "１回分", text: "１回分" },
-              ]}
-              onClick={(name: string, id: string) =>
-                setOrderData({ ...orderData, paySystem: { id, name } })
+
+            <ConditionPartsBox
+              title="部位"
+              orderPlan={orderData}
+              originCategories={originCategories}
+              aboutCategories={aboutCategories}
+              baseParts={baseParts}
+              onClick={(
+                origin: IdAndNameDto,
+                about: IdAndNameDto,
+                parts: IdAndNameDto
+              ) =>
+                setOrderData({
+                  ...orderData,
+                  originParts: origin,
+                  aboutCategory: about,
+                  parts: parts,
+                })
               }
             />
             <ConditionText
-              title={OrderPlanEnum.skinCollor.name}
+              title={OrderPlanTitle.skinCollor}
               orderData={orderData.skinCollor.id || "未選択"}
               texts={[
-                { id: "白色", text: "白色" },
-                { id: "薄茶色", text: "薄茶色" },
-                { id: "色黒", text: "色黒" },
-                { id: "未選択", text: "未選択" },
+                { id: "白色", text: "色白い" },
+                { id: "薄茶色", text: "平均的な肌色" },
+                { id: "色黒", text: "日焼け肌" },
+                // { id: "未選択", text: "未選択" },
               ]}
               onClick={(name: string, id: string) =>
                 setOrderData({ ...orderData, skinCollor: { id, name } })
               }
             />
             <ConditionText
-              title={OrderPlanEnum.hair.name}
+              title={OrderPlanTitle.hair}
               orderData={orderData.hair.id || "未選択"}
               texts={[
-                { id: "産毛", text: "産毛" },
-                { id: "標準", text: "標準" },
-                { id: "太い", text: "太い" },
-                { id: "未選択", text: "未選択" },
+                { id: "産毛", text: "産毛のように薄い毛" },
+                { id: "標準", text: "どちらとも言えない毛" },
+                { id: "太い", text: "濃くしっかりと生えた毛" },
+                // { id: "未選択", text: "未選択" },
               ]}
               onClick={(name: string, id: string) =>
                 setOrderData({ ...orderData, hair: { id, name } })
@@ -175,7 +113,7 @@ export const PlanSearchBox: FC<Props> = (props) => {
           </Box>
         </UnderLineItemBox>
       </Box>
-      <Box>
+      {/* <Box>
         <Text fontSize={"1.2em"}>施術したい部位を教えてください</Text>
         <UnderLineItemBox title="部位" fontSize="1.5em">
           <Box mt=".7em">
@@ -200,18 +138,18 @@ export const PlanSearchBox: FC<Props> = (props) => {
             />
           </Box>
         </UnderLineItemBox>
-      </Box>
+      </Box> */}
       <Box>
-        <Text fontSize={"1.2em"}>
-          どのようなクリニックで施術を受けたいか教えてください
-        </Text>
         <UnderLineItemBox title="クリニック" fontSize="1.5em">
+          <Text fontSize={"1.2em"}>
+            どのようなクリニックで施術を受けたいか選択してください
+          </Text>
           <Box mt=".7em">
             <ConditionText
-              title={OrderPlanEnum.roomType.name}
+              title={OrderPlanTitle.roomType}
               orderData={orderData.roomType.id}
               texts={[
-                { id: "none", text: "希望なし" },
+                { id: "none", text: "こだわらない" },
                 { id: "個室", text: "個室" },
                 { id: "完全個室", text: "完全個室" },
               ]}
@@ -220,10 +158,10 @@ export const PlanSearchBox: FC<Props> = (props) => {
               }
             />
             <ConditionText
-              title={OrderPlanEnum.interior.name}
+              title={OrderPlanTitle.interior}
               orderData={orderData.interior.id}
               texts={[
-                { id: "none", text: "希望なし" },
+                { id: "none", text: "こだわらない" },
                 { id: "標準", text: "標準" },
                 { id: "綺麗", text: "綺麗" },
                 { id: "豪華", text: "豪華" },
@@ -233,10 +171,10 @@ export const PlanSearchBox: FC<Props> = (props) => {
               }
             />
             <ConditionText
-              title={OrderPlanEnum.staff.name}
-              orderData={orderData.staff.name}
+              title={OrderPlanTitle.staff}
+              orderData={orderData.staff.id}
               texts={[
-                { id: "希望なし", text: "希望なし" },
+                { id: "none", text: "こだわらない" },
                 { id: "女性", text: "女性" },
                 { id: "男性", text: "男性" },
               ]}
@@ -248,40 +186,67 @@ export const PlanSearchBox: FC<Props> = (props) => {
         </UnderLineItemBox>
       </Box>
       <Box>
-        <Text fontSize={"1.2em"}>プランの特徴を教えてください</Text>
         <UnderLineItemBox title="プラン" fontSize="1.5em">
+          <Text fontSize={"1.2em"}>支払い方法・その他を選択してください</Text>
           <Box mt=".7em">
             <ConditionText
-              title={OrderPlanEnum.card.name}
+              title={OrderPlanTitle.card}
               orderData={orderData.card.id}
               texts={[
-                { id: "none", text: "希望なし" },
-                { id: "OK", text: "カード可" },
+                { id: "none", text: "こだわらない" },
+                { id: "OK", text: "可能" },
               ]}
               onClick={(name: string, id: string) =>
                 setOrderData({ ...orderData, card: { id, name } })
               }
             />
             <ConditionText
-              title={OrderPlanEnum.loan.name}
+              title={OrderPlanTitle.loan}
               orderData={orderData.loan.id}
               texts={[
-                { id: "none", text: "希望なし" },
-                { id: "OK", text: "医療ローン可" },
+                { id: "none", text: "こだわらない" },
+                { id: "OK", text: "可能" },
               ]}
               onClick={(name: string, id: string) =>
                 setOrderData({ ...orderData, loan: { id, name } })
               }
             />
             <ConditionText
-              title={OrderPlanEnum.contract.name}
+              title={OrderPlanTitle.contract}
               orderData={orderData.contract.id}
               texts={[
-                { id: "none", text: "希望なし" },
-                { id: "OK", text: "解約可" },
+                { id: "none", text: "こだわらない" },
+                { id: "OK", text: "可能" },
               ]}
               onClick={(name: string, id: string) =>
                 setOrderData({ ...orderData, contract: { id, name } })
+              }
+            />
+          </Box>
+        </UnderLineItemBox>
+      </Box>
+      <Box>
+        <UnderLineItemBox title="表示" fontSize="1.5em">
+          <Text fontSize={"1.2em"}>表示形式を選択してください</Text>
+          <Box mt=".7em">
+            <ConditionText
+              title={OrderPlanTitle.paySystem}
+              orderData={orderData.paySystem.id}
+              texts={[
+                { id: "総額", text: "総額" },
+                { id: "１回分", text: "１回分" },
+              ]}
+              onClick={(name: string, id: string) =>
+                setOrderData({ ...orderData, paySystem: { id, name } })
+              }
+            />
+            <PlanSortBox
+              orderData={orderData.sort}
+              onChange={(idName: IdAndNameDto) =>
+                setOrderData({
+                  ...orderData,
+                  sort: idName,
+                })
               }
             />
           </Box>

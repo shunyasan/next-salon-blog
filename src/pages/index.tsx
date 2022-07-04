@@ -108,57 +108,54 @@ const Home: NextPage<Props> = ({ imgs, feature, topImg }) => {
             </Stack>
           </Flex>
         </Box> */}
-      <Box w={{ md: "80%", sm: "95%" }} mx="auto" mt="4rem">
-        <UnderLineText
-          fontSize={{ md: "1.5rem", sm: "1.2rem" }}
-          as="h2"
-          title={"検索"}
-        />
-        <HomeSearchBoxList />
-      </Box>
-      <Box w={{ md: "80%", sm: "95%" }} mx="auto" mt="4rem">
-        <UnderLineText
-          fontSize={{ md: "1.5rem", sm: "1.2rem" }}
-          as="h2"
-          title={"リアルタイム情報"}
-        />
-        <Flex justifyContent={"center"} wrap={{ md: "nowrap", sm: "wrap" }}>
-          {tweet.map((account, i) => (
-            <Box
-              key={account.id}
-              mx=".5em"
-              width={{ md: "25em", sm: "18em" }}
-              mt={{ md: "2em", sm: "1em" }}
-            >
-              <Box>
-                <Text fontWeight={"bold"}>【{account.name}】</Text>
-              </Box>
-              <Twitter
-                account={account.id}
-                clinicId={account.clinicId}
-                height="400px"
-              />
-            </Box>
-          ))}
-        </Flex>
-      </Box>
-      {/* <Box mt={"4rem"} borderBottom={"1px"}></Box> 
-        <Box display={"inline-block"} ml={"3rem"}>
-          <Box w={"100%"} borderTop={"4px"} borderColor={"#000"}></Box>
-          <Text fontSize={"1.5rem"} display={"inline-block"}>
-            NEWS
-          </Text>
+      <Stack
+        w={{ md: "80%", sm: "95%" }}
+        spacing={{ md: "3em", sm: "2em" }}
+        mx="auto"
+        mt={{ md: "4rem", sm: "2rem" }}
+      >
+        <Box>
+          <UnderLineText
+            fontSize={{ md: "1.5rem", sm: "1.2rem" }}
+            as="h2"
+            title={"検索"}
+          />
+          <HomeSearchBoxList />
         </Box>
-        <Box w="80%" m={"auto"}>
-          <Box>リリースしました</Box>
-        </Box> */}
-      <Box mt="4rem" w={{ md: "80%", sm: "95%" }} mx="auto">
-        <UnderLineText
-          fontSize={{ md: "1.5rem", sm: "1.2rem" }}
-          as="h2"
-          title={"特集"}
-        />
-      </Box>
+        <Box>
+          <UnderLineText
+            fontSize={{ md: "1.5rem", sm: "1.2rem" }}
+            as="h2"
+            title={"リアルタイム情報"}
+          />
+          <Flex justifyContent={"center"} wrap={{ md: "nowrap", sm: "wrap" }}>
+            {tweet.map((account, i) => (
+              <Box
+                key={account.id}
+                mx=".5em"
+                width={{ md: "25em", sm: "18em" }}
+                mt={{ md: "2em", sm: "1em" }}
+              >
+                <Box>
+                  <Text fontWeight={"bold"}>【{account.name}】</Text>
+                </Box>
+                <Twitter
+                  account={account.id}
+                  clinicId={account.clinicId}
+                  height="400px"
+                />
+              </Box>
+            ))}
+          </Flex>
+        </Box>
+        <Box>
+          <UnderLineText
+            fontSize={{ md: "1.5rem", sm: "1.2rem" }}
+            as="h2"
+            title={"特集"}
+          />
+        </Box>
+      </Stack>
       <Stack
         spacing={{ md: "2em", sm: "1.5em" }}
         w={{ md: "70%", sm: "100%" }}

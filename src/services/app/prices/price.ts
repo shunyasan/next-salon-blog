@@ -1,4 +1,4 @@
-import { OrderPlan } from "types/app/OrderPlan";
+import { OrderPlanQuery } from "types/app/OrderPlanQuery";
 
 const isExistQueryData = (key: string, data?: string | number) => {
   if (data && data !== "未選択" && data !== "none") {
@@ -20,14 +20,14 @@ const checkNumber = (number?: number): boolean => {
 };
 
 export const createQuery = (
-  orderPlan: OrderPlan,
+  orderPlan: OrderPlanQuery,
   take?: number,
   skip?: number
 ) => {
   const gender = `gender=${orderPlan.gender}&`;
   const paySystem = `paySystem=${orderPlan.paySystem}&`;
   const originCategoryId = `originParts=${orderPlan.originParts}&`;
-  const aboutCategoryId = `AboutCategory=${orderPlan.AboutCategory}&`;
+  const aboutCategoryId = `aboutCategory=${orderPlan.aboutCategory}&`;
   const partsId = isExistQueryData("parts", orderPlan.parts);
   const skinCollor = isExistQueryData("skinCollor", orderPlan.skinCollor);
   const hair = isExistQueryData("hair", orderPlan.hair);

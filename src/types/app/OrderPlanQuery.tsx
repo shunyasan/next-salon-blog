@@ -1,16 +1,17 @@
-export type OrderPlan = {
+export type OrderPlanQuery = {
   gender: string;
   paySystem: string;
   originParts: string;
-  AboutCategory: string;
+  aboutCategory: string;
   parts: string;
   skinCollor: string;
   hair: string;
   roomType: string;
   interior: string;
-  staff: number;
+  staff: string;
   card: string;
   loan: string;
   contract: string;
   option: string;
+  sort: string;
 };

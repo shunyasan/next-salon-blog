@@ -34,6 +34,7 @@ type Props = {
   areaMax: number;
   area: ClinicArea[];
   clinics: ClinicNestPriceDto[];
+  page: number;
   getPage: (page: number) => void;
   // defaultPagenation: { now: number; block: number };
 };
@@ -62,6 +63,7 @@ const ClinicListTemplate: FC<Props> = ({
   clinics,
   areaId,
   areaMax,
+  page,
   getPage,
 }) => {
   const router = useRouter();
@@ -80,10 +82,10 @@ const ClinicListTemplate: FC<Props> = ({
   //   max: number;
   // }>({ id: undefined, max: defaultMax });
 
-  const [pagenationData, setPagenationData] = useState<{
-    now: number;
-    block: number;
-  }>(defaultPagenation);
+  // const [pagenationData, setPagenationData] = useState<{
+  //   now: number;
+  //   block: number;
+  // }>(defaultPagenation);
 
   // const { data: areaData, error: err_area } = useSWR<ClinicArea[]>(
   //   `/api/clinic-areas`,
@@ -130,24 +132,24 @@ const ClinicListTemplate: FC<Props> = ({
   //   [getClinicUrl]
   // );
 
-  const getPageNumber = useCallback(
-    (page: number, block?: number) => {
-      // getClinics(page, areaId);
-      let pagenation: {
-        now: number;
-        block: number;
-      };
-      if (block || block === 0) {
-        pagenation = { now: page, block: block };
-        setPagenationData({ now: page, block: block });
-      } else {
-        pagenation = { ...pagenationData, now: page };
-      }
-      getPage(page);
-      setPagenationData(pagenation);
-    },
-    [pagenationData, getPage]
-  );
+  // const getPageNumber = useCallback(
+  //   (page: number, block?: number) => {
+  //     // getClinics(page, areaId);
+  //     let pagenation: {
+  //       now: number;
+  //       block: number;
+  //     };
+  //     if (block || block === 0) {
+  //       pagenation = { now: page, block: block };
+  //       setPagenationData({ now: page, block: block });
+  //     } else {
+  //       pagenation = { ...pagenationData, now: page };
+  //     }
+  //     getPage(page);
+  //     setPagenationData(pagenation);
+  //   },
+  //   [pagenationData, getPage]
+  // );
 
   // const getClinicDataAndAreaId = useCallback(
   //   (page: number, areaId?: string, max?: number) => {
@@ -160,15 +162,15 @@ const ClinicListTemplate: FC<Props> = ({
   //   [getClinics]
   // );
 
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://platform.twitter.com/widgets.js";
-    document.body.appendChild(script);
-    // アンマウント時に一応scriptタグを消しておく
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const script = document.createElement("script");
+  //   script.src = "https://platform.twitter.com/widgets.js";
+  //   document.body.appendChild(script);
+  //   // アンマウント時に一応scriptタグを消しておく
+  //   return () => {
+  //     document.body.removeChild(script);
+  //   };
+  // }, []);
 
   if (!clinics) return <LoadingIcon />;
   return (
@@ -209,11 +211,9 @@ const ClinicListTemplate: FC<Props> = ({
       <Pagenation
         max={areaMax}
         take={numOfTakeData}
-        nowPage={pagenationData.now}
-        pageBlock={pagenationData.block}
-        onClickNumber={(page: number, block?: number) =>
-          getPageNumber(page, block)
-        }
+        nowPage={page}
+        pageBlock={Math.floor(page / 5)}
+        onClickNumber={(page: number, block?: number) => getPage(page)}
       >
         {/* <Box mt={"2rem"}>
           <Checkbox colorScheme="yellow" value={}>系列クリニックをまとめる</Checkbox>
