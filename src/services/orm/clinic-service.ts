@@ -1,11 +1,14 @@
 import { Clinic } from "@prisma/client";
+import { clinicAreaService, clinicService } from "services/service";
 import {
   ClinicNestPriceDto,
   ClinicToClinicNestPriceDto,
 } from "types/ClinicNestPriceDto";
 import { PagenationParameter } from "types/PagenationParameterDto";
+import { instagramService } from "./instagramService";
 import { PriceService } from "./price-service";
 import { ClinicRepository } from "./repository/clinicRepository";
+import { twitterService } from "./twitterService";
 
 export class ClinicService {
   constructor(

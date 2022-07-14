@@ -9,6 +9,7 @@ import {
 } from "types/ClinicNestPriceDto";
 import { FeatureDto } from "types/FeatureDto";
 import { PagenationParameter } from "types/PagenationParameterDto";
+import { RelationClinic } from "types/RelationClinic";
 import { PriceService } from "./price-service";
 import { ClinicRepository } from "./repository/clinicRepository";
 
@@ -21,24 +22,24 @@ export class FeatureService {
   ) {}
 
   async getAllFeature() {
-    const anesthesia = await this.clinicRepository.getFreeAnesthesia(
+    const anesthesia: RelationClinic[] =
+      await this.clinicRepository.getFreeAnesthesia(10, 0, true);
+    const installments: RelationClinic[] =
+      await this.clinicRepository.getInstallments(10, 0, true);
+    const interior: RelationClinic[] = await this.clinicRepository.getInterior(
       10,
       0,
       true
     );
-    const installments = await this.clinicRepository.getInstallments(
+    const privateRoom: RelationClinic[] =
+      await this.clinicRepository.getPrivateRoom(10, 0, true);
+    const sutudentDiscount: RelationClinic[] =
+      await this.clinicRepository.getSutudentDiscount(10, 0, true);
+    const visitFee: RelationClinic[] = await this.clinicRepository.getVisitFee(
       10,
       0,
       true
     );
-    const interior = await this.clinicRepository.getInterior(10, 0, true);
-    const privateRoom = await this.clinicRepository.getPrivateRoom(10, 0, true);
-    const sutudentDiscount = await this.clinicRepository.getSutudentDiscount(
-      10,
-      0,
-      true
-    );
-    const visitFee = await this.clinicRepository.getVisitFee(10, 0, true);
     const feature: FeatureDto = {
       anesthesia,
       installments,
@@ -93,16 +94,7 @@ export class FeatureService {
     return getFunc;
   }
 
-  async checkFeatureFunc(
-    feature: string,
-    take: number,
-    skip: number
-  ): Promise<
-    (Clinic & {
-      clinicOption: ClinicOption | null;
-      clinicOpeningHours: ClinicOpeningHours[];
-    })[]
-  > {
+  async checkFeatureFunc(feature: string, take: number, skip: number) {
     switch (feature) {
       case "anesthesia":
         return this.clinicRepository.getFreeAnesthesia(take, skip);

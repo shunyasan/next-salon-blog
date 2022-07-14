@@ -7,7 +7,9 @@ import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import { PartsBox } from "components/organisms/box/PartsBox";
 import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
 import { CategoryBox } from "components/organisms/box/CategoryBox";
-import { createParameter } from "services/app/orderPlanQueryService";
+import { OrderPlanQueryService } from "services/app/orderPlanQueryService";
+import { OrderPlanIdNameService } from "services/app/orderPlanIdNameService";
+import { defaultDataService } from "services/app/defaultDataService";
 
 type Props = {
   // title: string;
@@ -20,6 +22,9 @@ type Props = {
   gender: string;
   // parts: BaseParts[];
 };
+
+const { createParameter } = OrderPlanQueryService();
+const { defaultOrderPlanIdName } = defaultDataService();
 
 const TreatmentTemplete: FC<Props> = ({
   // title,
@@ -83,23 +88,23 @@ const TreatmentTemplete: FC<Props> = ({
     { id: "Z000006", name: "その他", path: "other" },
   ];
 
-  const defaultOrderPlanIdName = {
-    gender: { id: "女性", name: "女性" },
-    paySystem: { id: "総額", name: "総額" },
-    originParts: { id: "Z000001", name: "顔" },
-    aboutCategory: { id: "A000001", name: "顔（鼻から上）" },
-    parts: { id: "B000005", name: "眉全体" },
-    skinCollor: { id: "薄茶色", name: "平均的な肌色" },
-    hair: { id: "標準", name: "どちらとも言えない毛" },
-    roomType: { id: "none", name: "こだわらない" },
-    interior: { id: "none", name: "こだわらない" },
-    staff: { id: "none", name: "こだわらない" },
-    card: { id: "none", name: "こだわらない" },
-    loan: { id: "none", name: "こだわらない" },
-    contract: { id: "none", name: "こだわらない" },
-    option: { id: "none", name: "こだわらない" },
-    sort: { id: "none", name: "こだわらない" },
-  };
+  // const defaultOrderPlanIdName = {
+  //   gender: { id: "女性", name: "女性" },
+  //   paySystem: { id: "総額", name: "総額" },
+  //   originParts: { id: "Z000001", name: "顔" },
+  //   aboutCategory: { id: "A000001", name: "顔（鼻から上）" },
+  //   parts: { id: "B000005", name: "眉全体" },
+  //   skinCollor: { id: "薄茶色", name: "平均的な肌色" },
+  //   hair: { id: "標準", name: "どちらとも言えない毛" },
+  //   roomType: { id: "none", name: "こだわらない" },
+  //   interior: { id: "none", name: "こだわらない" },
+  //   staff: { id: "none", name: "こだわらない" },
+  //   card: { id: "none", name: "こだわらない" },
+  //   loan: { id: "none", name: "こだわらない" },
+  //   contract: { id: "none", name: "こだわらない" },
+  //   option: { id: "none", name: "こだわらない" },
+  //   sort: { id: "none", name: "こだわらない" },
+  // };
   //   const changeGenderState = useCallback(
   //   (genderParam: string) => {
   //     if (gender !== genderParam) {

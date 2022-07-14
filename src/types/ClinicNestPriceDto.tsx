@@ -1,20 +1,19 @@
 import { Clinic, ClinicOpeningHours, ClinicOption } from "@prisma/client";
 import { PriceDto } from "./PriceDto";
+import { RelationClinic } from "./RelationClinic";
 
-export interface ClinicNestPriceDto extends Clinic {
-  clinicOption: ClinicOption | null;
-  clinicOpeningHours: ClinicOpeningHours[];
+export interface ClinicNestPriceDto {
+  clinic: RelationClinic;
   prices: PriceDto[];
 }
 
 export const ClinicToClinicNestPriceDto = (
-  clinic: Clinic & {
-    clinicOption: ClinicOption | null;
-    clinicOpeningHours: ClinicOpeningHours[];
-  },
+  clinic: RelationClinic,
   prices: PriceDto[]
 ): ClinicNestPriceDto => {
-  const priceHash = { prices };
-  const data: ClinicNestPriceDto = Object.assign(clinic, priceHash);
+  const data: ClinicNestPriceDto = {
+    clinic,
+    prices,
+  };
   return data;
 };

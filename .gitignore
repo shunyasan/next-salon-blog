@@ -38,3 +38,6 @@ sendgrid
 # typescript
 *.tsbuildinfo
 sendgrid.env
+
+# SQl
+.test.sql

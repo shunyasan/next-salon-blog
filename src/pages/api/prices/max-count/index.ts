@@ -1,16 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import {
-  checkNumberRequestQuery,
-  checkRequestQuery,
-  checkRequestQueryToOrdarPlan,
-} from "services/validation";
-import { orderPlanQueryService, priceService } from "services/service";
+import { priceService } from "services/service";
+import { OrderPlanQueryService } from "services/app/orderPlanQueryService";
+
+const { getOrderPlanQuery } = OrderPlanQueryService();
 
 export default async function getCountPrice(
   req: NextApiRequest,
   res: NextApiResponse<number>
 ) {
-  const orderPlanParam = orderPlanQueryService.getOrderPlanQuery(req.query);
+  const orderPlanParam = getOrderPlanQuery(req.query);
   const data = await priceService.getCountMaxPlan(orderPlanParam);
 
   // const param = createQueryString(req.query);

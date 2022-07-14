@@ -1,7 +1,8 @@
 import { Clinic } from "@prisma/client";
+import { RelationClinic } from "types/RelationClinic";
 
 export type FeatureViewData = {
-  datas: Clinic[];
+  datas: RelationClinic[];
   title: string;
   description: string;
   path: string;

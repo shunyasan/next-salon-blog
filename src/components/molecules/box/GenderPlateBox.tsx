@@ -4,13 +4,14 @@ import { FC } from "react";
 type Props = {
   gender: string;
   onClick: (gender: string) => void;
+  fontSize: string | { md: string; sm: string };
 };
 
-export const GenderPlateBox: FC<Props> = ({ gender, onClick }) => {
+export const GenderPlateBox: FC<Props> = ({ gender, onClick, fontSize }) => {
   return (
     <Flex
       // w={{ md: "inherit", sm: "30%" }}
-      fontSize={{ md: "1.3rem", sm: "1rem" }}
+      fontSize={fontSize}
       justifyContent="center"
     >
       <Text

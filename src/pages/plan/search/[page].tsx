@@ -11,27 +11,35 @@ import useSWR from "swr";
 import Head from "next/head";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import { BgImgH1 } from "components/atoms/text/BgImgH1";
-import { tweet } from "services/tweet";
+// import { tweet } from "services/tweet";
 import { PricePlanCard } from "components/organisms/board/PricePlanCard";
 import {
   aboutCategoryService,
   basePartsService,
-  orderPlanIdNameService,
-  orderPlanQueryService,
   originCategoryService,
   priceService,
   titleValueService,
 } from "services/service";
 import { MobileSearchCondotionBox } from "components/organisms/box/MobileSearchCondotionBox";
 import { TitleValue } from "types/app/TitleValue";
-import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
-import Instagram from "components/Instagram";
-import Twitter from "components/Twitter";
+import {
+  AboutCategory,
+  BaseParts,
+  Clinic,
+  Instagram,
+  OriginCategory,
+  Twitter,
+} from "@prisma/client";
+import InstagramBox from "components/InstagramBox";
+import TwitterBox from "components/TwitterBox";
 import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
 import { PlanSortBox } from "components/molecules/box/PlanSortBox";
 import { IdAndNameDto } from "types/IdAndNameDto";
-import { createParameter } from "services/app/orderPlanQueryService";
 import { PlanSortSelect } from "components/atoms/select/PlanSortSelect";
+import { twitterService } from "services/orm/twitterService";
+import { instagramService } from "services/orm/instagramService";
+import { OrderPlanQueryService } from "services/app/orderPlanQueryService";
+import { OrderPlanIdNameService } from "services/app/orderPlanIdNameService";
 
 const numOfTakeData = 10;
 
@@ -48,7 +56,18 @@ type Props = {
     aboutCategories: AboutCategory[];
     baseParts: BaseParts[];
   };
+  twitter: (Twitter & {
+    clinic: Clinic;
+  })[];
+  instagram: (Instagram & {
+    clinic: Clinic;
+  })[];
 };
+
+const { changeQueryToOrderPlanIdName } = OrderPlanIdNameService();
+const { createParameter, getOrderPlanQuery } = OrderPlanQueryService();
+const { getTwittersRamdom } = twitterService();
+const { getInstagramRamdom } = instagramService();
 
 const createTitle = (idName: OrderPlanIdName) => {
   const data = Object.entries(idName).map(([key, value]) => {
@@ -69,32 +88,13 @@ const getAllParts = async () => {
   return { originCategories, aboutCategories, baseParts };
 };
 
-// const createOrderDataIdName = async (orderPlanQuery: OrderPlanQuery) => {
-//   const orderDataIdName = changeOrderPlanToOrderPlanIdName(orderPlanQuery);
-//   const origin: IdAndNameDto =
-//     await originCategoryService.getOriginCategoryIdAndName(
-//       orderDataIdName.originParts.id
-//     );
-//   const about: IdAndNameDto =
-//     await aboutCategoryService.getAboutCategoryIdAndName(
-//       orderDataIdName.aboutCategory.id
-//     );
-//   const parts: IdAndNameDto = await basePartsService.getBasePartsIdAndName(
-//     orderDataIdName.parts.id
-//   );
-//   orderDataIdName.originParts = origin;
-//   orderDataIdName.aboutCategory = about;
-//   orderDataIdName.parts = parts;
-//   return orderDataIdName;
-// };
-
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   //クエリ作成
   const num = context.params ? Number(context.params.page) : 1;
   const page = num - 1 >= 0 ? num - 1 : 0;
-  const orderPlanQuery = orderPlanQueryService.getOrderPlanQuery(context.query);
+  const orderPlanQuery = getOrderPlanQuery(context.query);
   // const query = createQueryString(context.query);
   // const orderPlanQuery = getQueryOrderPlanInSearch(query);
   // const swrQuery = createQuery(orderPlanQuery);
@@ -108,12 +108,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const maxValue = await priceService.getCountMaxPlan(orderPlanQuery);
   const allParts = await getAllParts();
 
-  const orderDataIdName =
-    await orderPlanIdNameService.changeQueryToOrderPlanIdName(orderPlanQuery);
+  const orderDataIdName = await changeQueryToOrderPlanIdName(orderPlanQuery);
   // タイトル作成・条件結果の文字列
   const title = createTitle(orderDataIdName) || "";
   const condition =
     titleValueService.getModalSearchConditionBoxData(orderDataIdName);
+  const twitter = await getTwittersRamdom(3);
+  const instagram = await getInstagramRamdom(4);
+
   return {
     props: {
       page,
@@ -123,13 +125,24 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
       maxValue,
       condition,
       allParts,
+      twitter,
+      instagram,
     },
   };
 };
 
 const SalonList: NextPage<Props> = (props) => {
-  const { page, orderDataIdName, title, price, maxValue, condition, allParts } =
-    props;
+  const {
+    page,
+    orderDataIdName,
+    title,
+    price,
+    maxValue,
+    condition,
+    allParts,
+    twitter,
+    instagram,
+  } = props;
 
   const router = useRouter();
 
@@ -307,12 +320,12 @@ const SalonList: NextPage<Props> = (props) => {
                 </Box>
                 <UnderLineItemBox title="最新情報" fontSize="1em">
                   <Stack spacing={"3rem"}>
-                    {tweet.map((account, i) => (
-                      <Twitter
+                    {twitter.map((account, i) => (
+                      <TwitterBox
                         key={i}
-                        account={account.id}
+                        account={account.code}
                         clinicId={account.clinicId}
-                        height="400px"
+                        height="500px"
                       />
                     ))}
                   </Stack>
@@ -322,9 +335,11 @@ const SalonList: NextPage<Props> = (props) => {
                     title="キャンペーン・おすすめ"
                     fontSize="1em"
                   >
-                    <Box mt="1em">
-                      <Instagram account="CbwwpPYLi18" />
-                    </Box>
+                    <Stack mt="1em">
+                      {instagram.map((data, i) => (
+                        <InstagramBox key={i} account={data.code} />
+                      ))}
+                    </Stack>
                   </UnderLineItemBox>
                 </Box>
               </Stack>

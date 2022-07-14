@@ -9,9 +9,11 @@ export default async function getTreatmentPrice(
 ) {
   const originId = req.query.originId as string;
   const clinicId = req.query.clinicId as string;
+  const gender = req.query.gender as string;
   const data = await priceByAboutCategoryService.getAllByClinic(
     originId,
-    clinicId
+    clinicId,
+    gender
   );
 
   res.json(data);

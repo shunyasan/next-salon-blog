@@ -1,4 +1,4 @@
-import { ClinicArea } from "@prisma/client";
+import { Clinic, ClinicArea, Twitter } from "@prisma/client";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import ClinicListTemplate from "components/templete/pages/clinic/ClinicListTemplate";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
@@ -12,6 +12,9 @@ import fetcher from "services/fetcher";
 import { clinicAreaService, clinicService } from "services/service";
 import useSWR from "swr";
 import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
+import { twitterService } from "services/orm/twitterService";
+import { ClinicPageProps } from "types/app/ClinicPageProps";
+import { ClinicServiceFunc } from "services/orm/ClinicServiceFunc";
 
 const numOfClinicMax = 349;
 const numOfTakeData = 10;
@@ -21,12 +24,7 @@ const defaultPagenation = {
   block: 0,
 };
 
-type Props = {
-  area: ClinicArea[];
-  clinics: ClinicNestPriceDto[];
-  page: number;
-  // defaultPagenation: { now: number; block: number };
-};
+const { getClinicPagesData } = ClinicServiceFunc();
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const num = Math.ceil(numOfClinicMax / numOfTakeData);
@@ -34,30 +32,31 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths: paths, fallback: false };
 };
 
-export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
-  const area: ClinicArea[] = await clinicAreaService.getAllClinicArea();
+export const getStaticProps: GetStaticProps<ClinicPageProps> = async ({
+  params,
+}) => {
   const num = params ? Number(params.page) : 0;
-  const page = num - 1 >= 0 ? num - 1 : 0;
-  // const area: ClinicArea[] = await fetcher(`${thisURL}api/clinic-areas`);
-
-  const clinics: ClinicNestPriceDto[] =
-    await clinicService.getAllClinicAndLimit({
-      take: numOfTakeData,
-      skip: (num - 1) * numOfTakeData,
-    });
-  // const clinics: ClinicNestPriceDto[] = await fetcher(
-  //   `${thisURL}api/clinics/prices?take=${numOfTakeData}&skip=0`
-  // );
+  const { area, clinics, page, twitter, instagram } = await getClinicPagesData(
+    num
+  );
   return {
     props: {
       area,
       clinics,
       page,
+      twitter,
+      instagram,
     },
   };
 };
 
-const ClinicsAll: NextPage<Props> = ({ area, clinics, page }) => {
+const ClinicsAll: NextPage<ClinicPageProps> = ({
+  area,
+  clinics,
+  page,
+  twitter,
+  instagram,
+}) => {
   const router = useRouter();
   // const { getAllClinic, getAllClinicByAreaId } = ClinicApi();
   // const { getAllArea } = ClinicAreaApi();
@@ -101,6 +100,8 @@ const ClinicsAll: NextPage<Props> = ({ area, clinics, page }) => {
         area={area || []}
         clinics={clinics}
         page={page}
+        twitter={twitter}
+        instagram={instagram}
         getPage={(page) => router.push(`/clinic/${page + 1}`)}
       />
     </>

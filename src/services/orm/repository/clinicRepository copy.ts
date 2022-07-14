@@ -1,20 +1,15 @@
 import { prisma } from "services/prisma";
 
-export class ClinicRepository {
-  // constructor(private readonly prisma = prisma.clinic) {}
+export const ClinicRepository = () => {
+  // constructor(private readonly prisma = prisma.clinic)=> {}
 
-  async getAll() {
+  const getAll = async () => {
     return prisma.clinic.findMany();
-  }
+  };
 
-  async getAllClinicAndLimit(take: number, skip: number) {
+  const getAllClinicAndLimit = async (take: number, skip: number) => {
     const query = prisma.clinic.findMany({
       include: {
-        picture: {
-          orderBy: {
-            id: "asc",
-          },
-        },
         clinicOption: true,
         clinicOpeningHours: true,
       },
@@ -22,19 +17,14 @@ export class ClinicRepository {
       skip: skip,
     });
     return query;
-  }
+  };
 
-  async getOneClinic(clinicId: string) {
+  const getOneClinic = async (clinicId: string) => {
     const query = await prisma.clinic.findFirst({
       where: {
         id: clinicId,
       },
       include: {
-        picture: {
-          orderBy: {
-            id: "asc",
-          },
-        },
         clinicOption: true,
         clinicOpeningHours: true,
       },
@@ -43,9 +33,13 @@ export class ClinicRepository {
       throw Error();
     }
     return query;
-  }
+  };
 
-  async getFreeAnesthesia(take: number, skip: number, notJoin?: boolean) {
+  const getFreeAnesthesia = async (
+    take: number,
+    skip: number,
+    notJoin?: boolean
+  ) => {
     const query = prisma.clinic.findMany({
       where: {
         clinicOption: {
@@ -55,11 +49,6 @@ export class ClinicRepository {
         },
       },
       include: {
-        picture: {
-          orderBy: {
-            id: "asc",
-          },
-        },
         clinicOption: true,
         clinicOpeningHours: true,
       },
@@ -67,9 +56,9 @@ export class ClinicRepository {
       skip: skip,
     });
     return query;
-  }
+  };
 
-  async getCountFreeAnesthesia() {
+  const getCountFreeAnesthesia = async () => {
     const query = prisma.clinic.count({
       where: {
         clinicOption: {
@@ -80,9 +69,13 @@ export class ClinicRepository {
       },
     });
     return query;
-  }
+  };
 
-  async getInstallments(take: number, skip: number, notJoin?: boolean) {
+  const getInstallments = async (
+    take: number,
+    skip: number,
+    notJoin?: boolean
+  ) => {
     const query = prisma.clinic.findMany({
       where: {
         OR: [
@@ -97,11 +90,6 @@ export class ClinicRepository {
         ],
       },
       include: {
-        picture: {
-          orderBy: {
-            id: "asc",
-          },
-        },
         clinicOption: true,
         clinicOpeningHours: true,
       },
@@ -109,9 +97,9 @@ export class ClinicRepository {
       skip: skip,
     });
     return query;
-  }
+  };
 
-  async getCountInstallments() {
+  const getCountInstallments = async () => {
     const query = prisma.clinic.count({
       where: {
         OR: [
@@ -127,9 +115,9 @@ export class ClinicRepository {
       },
     });
     return query;
-  }
+  };
 
-  async getInterior(take: number, skip: number, notJoin?: boolean) {
+  const getInterior = async (take: number, skip: number, notJoin?: boolean) => {
     const query = prisma.clinic.findMany({
       where: {
         interior: {
@@ -137,11 +125,6 @@ export class ClinicRepository {
         },
       },
       include: {
-        picture: {
-          orderBy: {
-            id: "asc",
-          },
-        },
         clinicOption: true,
         clinicOpeningHours: true,
       },
@@ -149,9 +132,9 @@ export class ClinicRepository {
       skip: skip,
     });
     return query;
-  }
+  };
 
-  async getCountInterior() {
+  const getCountInterior = async () => {
     const query = prisma.clinic.count({
       where: {
         interior: {
@@ -160,9 +143,13 @@ export class ClinicRepository {
       },
     });
     return query;
-  }
+  };
 
-  async getPrivateRoom(take: number, skip: number, notJoin?: boolean) {
+  const getPrivateRoom = async (
+    take: number,
+    skip: number,
+    notJoin?: boolean
+  ) => {
     const query = prisma.clinic.findMany({
       where: {
         roomType: {
@@ -170,11 +157,6 @@ export class ClinicRepository {
         },
       },
       include: {
-        picture: {
-          orderBy: {
-            id: "asc",
-          },
-        },
         clinicOption: true,
         clinicOpeningHours: true,
       },
@@ -182,9 +164,9 @@ export class ClinicRepository {
       skip: skip,
     });
     return query;
-  }
+  };
 
-  async getCountPrivateRoom() {
+  const getCountPrivateRoom = async () => {
     const query = prisma.clinic.count({
       where: {
         roomType: {
@@ -193,9 +175,13 @@ export class ClinicRepository {
       },
     });
     return query;
-  }
+  };
 
-  async getSutudentDiscount(take: number, skip: number, notJoin?: boolean) {
+  const getSutudentDiscount = async (
+    take: number,
+    skip: number,
+    notJoin?: boolean
+  ) => {
     const query = prisma.clinic.findMany({
       where: {
         clinicOption: {
@@ -205,11 +191,6 @@ export class ClinicRepository {
         },
       },
       include: {
-        picture: {
-          orderBy: {
-            id: "asc",
-          },
-        },
         clinicOption: true,
         clinicOpeningHours: true,
       },
@@ -217,9 +198,9 @@ export class ClinicRepository {
       skip: skip,
     });
     return query;
-  }
+  };
 
-  async getCountSutudentDiscount() {
+  const getCountSutudentDiscount = async () => {
     const query = prisma.clinic.count({
       where: {
         clinicOption: {
@@ -234,9 +215,9 @@ export class ClinicRepository {
       // },
     });
     return query;
-  }
+  };
 
-  async getVisitFee(take: number, skip: number, notJoin?: boolean) {
+  const getVisitFee = async (take: number, skip: number, notJoin?: boolean) => {
     const query = prisma.clinic.findMany({
       where: {
         AND: [
@@ -253,11 +234,6 @@ export class ClinicRepository {
         ],
       },
       include: {
-        picture: {
-          orderBy: {
-            id: "asc",
-          },
-        },
         clinicOption: true,
         clinicOpeningHours: true,
       },
@@ -265,9 +241,9 @@ export class ClinicRepository {
       skip: skip,
     });
     return query;
-  }
+  };
 
-  async getCountVisitFee() {
+  const getCountVisitFee = async () => {
     const query = prisma.clinic.count({
       where: {
         OR: [
@@ -289,19 +265,18 @@ export class ClinicRepository {
       // },
     });
     return query;
-  }
+  };
 
-  async getAllClinicByAreaId(areaId: string, take: number, skip: number) {
+  const getAllClinicByAreaId = async (
+    areaId: string,
+    take: number,
+    skip: number
+  ) => {
     const query = prisma.clinic.findMany({
       where: {
         areaId: areaId,
       },
       include: {
-        picture: {
-          orderBy: {
-            id: "asc",
-          },
-        },
         clinicOption: true,
         clinicOpeningHours: true,
       },
@@ -309,8 +284,26 @@ export class ClinicRepository {
       skip: skip,
     });
     return query;
-  }
+  };
 
+  return {
+    getAll,
+    getAllClinicAndLimit,
+    getOneClinic,
+    getFreeAnesthesia,
+    getCountFreeAnesthesia,
+    getInstallments,
+    getCountInstallments,
+    getInterior,
+    getCountInterior,
+    getPrivateRoom,
+    getCountPrivateRoom,
+    getSutudentDiscount,
+    getCountSutudentDiscount,
+    getVisitFee,
+    getCountVisitFee,
+    getAllClinicByAreaId,
+  };
   // selectQueryFeature(): SelectQueryBuilder<Clinic> {
   //   return prisma.clinic.findMany({include:{
   //     clinicOption:true,
@@ -319,4 +312,4 @@ export class ClinicRepository {
   //     .innerJoinAndSelect('clinic.clinicOption', 'clinicOption')
   //     .innerJoinAndSelect('clinic.clinicOpeningHours', 'clinicOpeningHours');
   // }
-}
+};

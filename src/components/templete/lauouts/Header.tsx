@@ -16,7 +16,6 @@ import { useRouter } from "next/router";
 import { Logo } from "../../atoms/logos/Logo";
 import { HamburgerIcon } from "../../atoms/icons/HamburgerIcon";
 import { HeaderDrawer } from "../../molecules/drawers/HeaderDrawer";
-import { GenderPlateBox } from "components/molecules/box/GenderPlateBox";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 type Props = {

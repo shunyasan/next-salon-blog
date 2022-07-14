@@ -4,11 +4,6 @@ import { IdAndNameDto } from "types/IdAndNameDto";
 export class AboutCategoryRepository {
   // constructor(private readonly prisma = prisma.aboutCategory) {}
 
-  // 例
-  // async getAll() {
-  //   return await prisma.aboutCategory.aboutCategory.findMany();
-  // }
-
   //削除予定
   getTest() {
     return prisma.aboutCategory;
@@ -87,11 +82,3 @@ export class AboutCategoryRepository {
     return change;
   }
 }
-
-export const getAboutCategoryNameById = async (id: string) => {
-  const data = await prisma.aboutCategory.findFirst({
-    select: { name: true },
-    where: { id: id },
-  });
-  return data?.name;
-};

@@ -66,9 +66,8 @@ export const checkNoneValue = (val?: string | null) => {
   return val;
 };
 
-export const newOptionFunc = (
-  clinic: (Clinic & { clinicOption: ClinicOption }) | ClinicNestPriceDto
-) => {
+export const newOptionFunc = (clinicAndPrice: ClinicNestPriceDto) => {
+  const clinic = clinicAndPrice.clinic;
   const irradiation: OptionText = {
     name: "照射漏れ",
     text: checkNoneValue(clinic.clinicOption?.irradiationLeakage),

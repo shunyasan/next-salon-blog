@@ -9,8 +9,7 @@ import { OrderPlanTitle } from "enums/OrderPlanTitle";
 import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
 import { ConditionPartsBox } from "components/molecules/box/ConditionPartsBox";
 import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
-import { OrderPlanQuery } from "types/app/OrderPlanQuery";
-import { createParameter } from "services/app/orderPlanQueryService";
+import { OrderPlanQueryService } from "services/app/orderPlanQueryService";
 import { PlanSortBox } from "components/molecules/box/PlanSortBox";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 
@@ -21,6 +20,8 @@ type Props = {
   baseParts: BaseParts[];
   onClose?: () => void;
 };
+
+const { createParameter } = OrderPlanQueryService();
 
 export const PlanSearchBox: FC<Props> = (props) => {
   const { orderPlan, originCategories, aboutCategories, baseParts, onClose } =

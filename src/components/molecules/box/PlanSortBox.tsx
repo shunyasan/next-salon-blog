@@ -1,7 +1,6 @@
 import { Box, Center, Flex, HStack, Select, Text } from "@chakra-ui/react";
 import { PlanSortSelect } from "components/atoms/select/PlanSortSelect";
 import { FC } from "react";
-import { defaultSort } from "services/app/orderPlanIdNameService";
 import { IdAndNameDto } from "types/IdAndNameDto";
 
 type Props = {
@@ -40,7 +39,9 @@ export const PlanSortBox: FC<Props> = ({ onChange, orderData }) => {
         ml="-1px"
         wrap={"wrap"}
       >
-        <PlanSortSelect idName={orderData} onChange={onChange} />
+        <Box>
+          <PlanSortSelect idName={orderData} onChange={onChange} />
+        </Box>
       </Flex>
     </Flex>
   );

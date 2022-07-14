@@ -13,6 +13,7 @@ import {
   Clinic,
   ClinicOpeningHours,
   ClinicOption,
+  Picture,
 } from "@prisma/client";
 import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
 import { OpeningHoursTable } from "components/molecules/table/OpeningHoursTable";
@@ -31,21 +32,22 @@ import { PairDataRowBoxList } from "../lists/PairDataRowBoxList";
 import { PairDataRowBoxList_2 } from "../lists/PairDataRowBoxList_2";
 import { ClinicPlanCard } from "./ClinicPlanCard";
 import { PriceByAboutCategory } from "types/PriceByAboutCategory";
+import { RelationClinic } from "types/RelationClinic";
+import { CopyrightImageBox } from "components/molecules/box/CopyrightImageBox";
 
 type Props = {
-  clinicData: Clinic & {
-    clinicOption: ClinicOption | null;
-    clinicOpeningHours: ClinicOpeningHours[];
-  };
+  clinicData: RelationClinic;
   originData: IdAndNameDto[];
   prices: PriceByAboutCategory[];
   onClickOriginId: (originId: string) => void;
+  onClickGender: (gender: string) => void;
   // aboutCategoryData: AboutCategory[];
   // priceData: PriceDto[];
 };
 
 export const ClinicDetailCard: FC<Props> = (props) => {
-  const { clinicData, originData, prices, onClickOriginId } = props;
+  const { clinicData, originData, prices, onClickOriginId, onClickGender } =
+    props;
   // const { getRandomImg } = SearchSalonHooks();
   // const { ClinicOtherTitleValue, ClinicOptionTitleValue } = ClinicDetailHooks();
 
@@ -54,6 +56,9 @@ export const ClinicDetailCard: FC<Props> = (props) => {
 
   const [image, setImage] = useState<string[]>([]);
   const [topImg, setTopImg] = useState<string>();
+  const [selectPicture, setSelectPicture] = useState<Picture>(
+    clinicData.picture[0]
+  );
 
   useEffect(() => {
     const gets = [...Array(2)].map(() => getRandomImg());
@@ -90,24 +95,58 @@ export const ClinicDetailCard: FC<Props> = (props) => {
 
   return (
     <>
-      <Box>
-        <Image src={topImg} w={"28rem"} mx={"auto"} alt={clinicData.name} />
-      </Box>
-      <Flex overflow={"scroll"} justifyContent={"center"} my={"1em"}>
-        <Image
-          w={"4rem"}
+      <Box w={{ md: "28em", sm: "100%" }} h={"18em"} mx={"auto"} zIndex={"0"}>
+        <CopyrightImageBox
+          width={{ md: "28em", sm: "100%" }}
+          height={{ md: "18em", sm: "100%" }}
           src={image[0]}
-          mx={"1em"}
-          onClick={() => setTopImg(image[0])}
-          alt={clinicData.name}
+          picture={selectPicture}
+          // src={TopResource.clinicImg}
+          fontSize={"0.7em"}
         />
-        <Image
-          w={"4rem"}
-          src={image[1]}
-          mx={"1em"}
-          onClick={() => setTopImg(image[1])}
+        {/* <Image
+          src={topImg}
+          w={"28rem"}
+          h={"18rem"}
+          objectFit={"contain"}
+          mx={"auto"}
           alt={clinicData.name}
-        />
+        /> */}
+      </Box>
+      <Flex
+        overflow={"scroll"}
+        justifyContent={"center"}
+        my={"1em"}
+        wrap={"wrap"}
+      >
+        {clinicData.picture.map((data, i) => (
+          // <Box
+          //   key={data.id}
+          //   w={"4rem"}
+          //   h={"2.5rem"}
+          //   mx={"1em"}
+          //   objectFit={"contain"}
+          //   // onClick={() => setTopImg(src)}
+          //   onClick={() => setSelectPicture(data)}
+          // >
+          //   <CopyrightImageBox
+          //     src={image[i]}
+          //     picture={selectPicture}
+          //     // src={TopResource.clinicImg}
+          //     fontSize={"0.7em"}
+          //   />
+          // </Box>
+          <Image
+            key={data.id}
+            w={"4em"}
+            h={"2.5em"}
+            src={data.url}
+            mx={"1em"}
+            objectFit={"contain"}
+            onClick={() => setSelectPicture(data)}
+            alt={clinicData.name}
+          />
+        ))}
       </Flex>
       <Box
         // w={{ md: "85%", sm: "100%" }}
@@ -188,6 +227,7 @@ export const ClinicDetailCard: FC<Props> = (props) => {
               options={optionData}
               originData={originData}
               onClickOriginId={(originId: string) => onClickOriginId(originId)}
+              onClickGender={(gender: string) => onClickGender(gender)}
               // aboutCategoryData={aboutCategoryData}
               // priceData={priceData || []}
               prices={prices}

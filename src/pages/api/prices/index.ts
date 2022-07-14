@@ -1,6 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { PriceDto } from "types/PriceDto";
-import { orderPlanQueryService, priceService } from "services/service";
+import { priceService } from "services/service";
+import { OrderPlanQueryService } from "services/app/orderPlanQueryService";
+
+const { getOrderPlanQuery } = OrderPlanQueryService();
 
 export default async function getTreatmentPrice(
   req: NextApiRequest,
@@ -8,7 +11,7 @@ export default async function getTreatmentPrice(
 ) {
   const take = Number(req.query.take);
   const skip = Number(req.query.skip);
-  const orderPlanParam = orderPlanQueryService.getOrderPlanQuery(req.query);
+  const orderPlanParam = getOrderPlanQuery(req.query);
   const data = await priceService.getPriceOrderPlan(orderPlanParam, {
     take,
     skip,

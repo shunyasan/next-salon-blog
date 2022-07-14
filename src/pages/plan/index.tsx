@@ -1,19 +1,25 @@
 import { Button, Flex, Box } from "@chakra-ui/react";
-import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
+import {
+  AboutCategory,
+  BaseParts,
+  Clinic,
+  Instagram,
+  OriginCategory,
+} from "@prisma/client";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import { BgImgH1 } from "components/atoms/text/BgImgH1";
-import Instagram from "components/Instagram";
-import { GenderPlateBox } from "components/molecules/box/GenderPlateBox";
+import InstagramBox from "components/InstagramBox";
 import { PlanSearchBox } from "components/organisms/box/PlanSearchBox";
 import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { OrderPlanIdNameService } from "services/app/orderPlanIdNameService";
 import fetcher from "services/fetcher";
+import { instagramService } from "services/orm/instagramService";
 import {
   aboutCategoryService,
   basePartsService,
-  orderPlanIdNameService,
   originCategoryService,
 } from "services/service";
 import useSWR from "swr";
@@ -29,8 +35,13 @@ type Props = {
   aboutCategories: AboutCategory[];
   baseParts: BaseParts[];
   defaultOrderData: OrderPlanIdName;
+  instagram: (Instagram & {
+    clinic: Clinic;
+  })[];
 };
 
+const { defaultOrderPlanIdName } = OrderPlanIdNameService();
+const { getInstagramRamdom } = instagramService();
 export const getStaticProps: GetStaticProps<Props> = async (context) => {
   const originCategories = await originCategoryService.getAllOriginCategory();
   const aboutCategories = await aboutCategoryService.getAboutCategoryByOriginId(
@@ -40,27 +51,34 @@ export const getStaticProps: GetStaticProps<Props> = async (context) => {
     aboutCategories[0].id
   );
 
-  const defaultOrderData = orderPlanIdNameService.defaultData;
+  const instagram = await getInstagramRamdom(2);
+  const defaultOrderData = defaultOrderPlanIdName;
   return {
     props: {
       originCategories,
       aboutCategories,
       baseParts,
       defaultOrderData,
+      instagram,
     },
   };
 };
 
 const SearchSalon: NextPage<Props> = (props) => {
-  const { originCategories, aboutCategories, baseParts, defaultOrderData } =
-    props;
+  const {
+    originCategories,
+    aboutCategories,
+    baseParts,
+    defaultOrderData,
+    instagram,
+  } = props;
   const router = useRouter();
 
   const [change, setChange] = useState<string>(style.fade);
   // const [gender, setGender] = useState<string>("女性");
   //配列番号を所持
-  const [orderPlanIdName, setOrderPlanIdName] =
-    useState<OrderPlanIdName>(defaultOrderData);
+  // const [orderPlanIdName, setOrderPlanIdName] =
+  //   useState<OrderPlanIdName>(defaultOrderData);
   // const [originId, setOriginId] = useState<string>(originCategories[0].id);
   // const [aboutId, setAboutId] = useState<string>(aboutCategoryData[0].id);
 
@@ -99,18 +117,17 @@ const SearchSalon: NextPage<Props> = (props) => {
       <BgImgH1 title="プランを探す" />
       <Box mx="auto" w={{ md: "60%", sm: "95%" }} my="3em">
         <PlanSearchBox
-          orderPlan={orderPlanIdName}
+          orderPlan={defaultOrderData}
           originCategories={originCategories}
           aboutCategories={aboutCategories}
           baseParts={baseParts}
         />
         <Flex mt="2rem" justifyContent={"space-around"} wrap="wrap">
-          <Box w={{ md: "45%", sm: "95%" }}>
-            <Instagram account="CeZ47dwpjd_" />
-          </Box>
-          <Box w={{ md: "45%", sm: "95%" }}>
-            <Instagram account="Ceu2OGWpcWw" />
-          </Box>
+          {instagram.map((data, i) => (
+            <Box key={i} w={{ md: "45%", sm: "95%" }}>
+              <InstagramBox account={data.code} />
+            </Box>
+          ))}
         </Flex>
       </Box>
       {/* <Adsense /> */}

@@ -28,6 +28,7 @@ import { OrderPlanIdName } from "types/app/OrderPlanIdName";
 import { NoticeClinicDetail } from "../box/NoticeClinicDetail";
 import { FreeServiceBoxList } from "../lists/FreeServiceBoxList";
 import { PayRerationsBoxList } from "../lists/PayRerationsBoxList";
+import { CopyrightImageBox } from "components/molecules/box/CopyrightImageBox";
 
 type Props = {
   clinic: ClinicNestPriceDto;
@@ -81,7 +82,7 @@ export const PlanCard: FC<Props> = (props) => {
         bg="originWhite"
         zIndex="50"
       >
-        {clinic.name}
+        {clinic.clinic.name}
       </Box>
       <Flex
         // minH={"15rem"}
@@ -91,19 +92,65 @@ export const PlanCard: FC<Props> = (props) => {
         // spacing={"0"}
         // fontFamily={"Zen Maru Gothic, sans-serif"}
       >
-        <Box maxW={"22rem"} textAlign={"left"} mb={{ md: "1em", sm: "0" }}>
-          {/* <Box pb={"2px"} pl={"8px"} fontSize={"1.1em"} fontWeight={"bold"}>
+        {/* <Box maxW={"22rem"} textAlign={"left"} mb={{ md: "1em", sm: "0" }}> */}
+        {/* <Box pb={"2px"} pl={"8px"} fontSize={"1.1em"} fontWeight={"bold"}>
             {clinic.name}
           </Box> */}
-          <Flex wrap={{ md: "wrap", sm: "nowrap" }} overflow={"scroll"}>
-            <Image src={image[0]} alt={"クリニック画像"} />
-            <Image
-              mt={{ md: "5px", sm: "0" }}
-              src={image[1]}
-              alt={"クリニック画像-2"}
+        <Flex
+          w={{ md: "23em", sm: "100%" }}
+          // h="15em"
+          // spacing={"2em"}
+          textAlign={"left"}
+          mb={{ md: "1em", sm: "0" }}
+          wrap={{ md: "wrap", sm: "nowrap" }}
+          overflow={{ md: "hidden", sm: "scroll" }}
+          // overflowX={"scroll"}
+        >
+          <Box>
+            <CopyrightImageBox
+              width={"23em"}
+              height={"15em"}
+              src={image[0]}
+              picture={clinic.clinic.picture[0]}
+              // src={TopResource.clinicImg}
+              fontSize={"0.4em"}
             />
-          </Flex>
-        </Box>
+          </Box>
+
+          {clinic.clinic.picture[1] && (
+            <Box mt="1em">
+              <CopyrightImageBox
+                width={"23em"}
+                height={"15em"}
+                src={image[1]}
+                picture={clinic.clinic.picture[1]}
+                // src={TopResource.clinicImg}
+                fontSize={"0.4em"}
+              />
+            </Box>
+          )}
+          {/* <Image
+            w={"23em"}
+            h="15em"
+            // transform={"scale(1.1,1.1)"}
+            src={
+              clinic.clinic.picture[0] ? clinic.clinic.picture[0].url : image[0]
+            }
+            alt={"イメージ"}
+            objectFit={"contain"}
+          />
+          <Image
+            w={"23em"}
+            h="15em"
+            objectFit={"contain"}
+            mt={{ md: "1em", sm: "0" }}
+            src={
+              clinic.clinic.picture[1] ? clinic.clinic.picture[1].url : image[1]
+            }
+            alt={"クリニック画像-2"}
+          /> */}
+        </Flex>
+        {/* </Box> */}
         <Stack
           spacing={"0.5rem"}
           // w="13.3rem"
@@ -134,7 +181,7 @@ export const PlanCard: FC<Props> = (props) => {
               <Text>掲載情報に相違がある場合がございます。</Text>
             </Stack>
           </Flex>
-          <NoticeClinicDetail clinic={clinic} width={"46%"} py={"8px"} />
+          <NoticeClinicDetail clinic={clinic.clinic} width={"46%"} py={"8px"} />
           <Box pt="1em">
             <Text
               textAlign={"center"}
@@ -145,8 +192,8 @@ export const PlanCard: FC<Props> = (props) => {
               オプションサービス
             </Text>
             <Box pl={{ md: "3rem", sm: "1.5rem" }} mt=".5rem">
-              {clinic.clinicOption && (
-                <FreeServiceBoxList clinicOption={clinic.clinicOption} />
+              {clinic.clinic.clinicOption && (
+                <FreeServiceBoxList clinicOption={clinic.clinic.clinicOption} />
               )}
             </Box>
           </Box>
@@ -180,7 +227,7 @@ export const PlanCard: FC<Props> = (props) => {
               mx="auto"
               w={{ md: "95%", sm: "95%" }}
             >
-              <OpeningHoursTable datas={clinic.clinicOpeningHours} />
+              <OpeningHoursTable datas={clinic.clinic.clinicOpeningHours} />
             </Box>
             <Flex>
               <Text
@@ -192,7 +239,7 @@ export const PlanCard: FC<Props> = (props) => {
                 最寄り駅
               </Text>
               <Text fontSize={"0.8em"} textAlign={"left"}>
-                {clinic.nearestStation}
+                {clinic.clinic.nearestStation}
               </Text>
             </Flex>
           </Stack>
@@ -200,7 +247,7 @@ export const PlanCard: FC<Props> = (props) => {
           <Flex justifyContent={"center"}>
             <Box>
               <Link
-                href={clinic.url || ""}
+                href={clinic.clinic.url || ""}
                 _hover={{ textDecoration: "none" }}
                 _focus={{ outline: "none" }}
                 isExternal
@@ -216,7 +263,9 @@ export const PlanCard: FC<Props> = (props) => {
                 mx={"1.5rem"}
                 size={"lg"}
                 variant="secBase"
-                onClick={() => router.push(`/clinic/detail/${clinic.id}`)}
+                onClick={() =>
+                  router.push(`/clinic/detail/${clinic.clinic.id}`)
+                }
               >
                 詳細
               </Button>

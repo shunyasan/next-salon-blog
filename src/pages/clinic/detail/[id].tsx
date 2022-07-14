@@ -37,12 +37,10 @@ import {
 import { PriceByAboutCategory } from "types/PriceByAboutCategory";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import { ChangeBgTab } from "components/atoms/tab/ChangeBgTab";
+import { RelationClinic } from "types/RelationClinic";
 
 type Props = {
-  clinicData: Clinic & {
-    clinicOption: ClinicOption | null;
-    clinicOpeningHours: ClinicOpeningHours[];
-  };
+  clinicData: RelationClinic;
   origin: IdAndNameDto[];
   // aboutCategory: AboutCategory[];
   // price: PriceDto[];
@@ -58,7 +56,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const param = params && params.id;
   const id = param && typeof param === "string" ? param : "";
-  const clinicData = await clinicService.getOneClinic(id);
+  const clinicData: RelationClinic = await clinicService.getOneClinic(id);
 
   const origin: IdAndNameDto[] = await idAndNameService.getAllOriginCategory();
   // const aboutCategory: AboutCategory[] =
@@ -69,7 +67,8 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   // );
   const prices = await priceByAboutCategoryService.getAllByClinic(
     "Z000001",
-    id
+    id,
+    "女性"
   );
 
   // const clinicData: Clinic = await fetcher(`${thisURL}api/clinics/${id}`);
@@ -99,9 +98,10 @@ const ClinicDetail: NextPage<Props> = ({
   // const [gender, setGender] = useState<string>();
   // const [modalPrice, setModalPrice] = useState<PriceDto>();
   const [originId, setOriginId] = useState<string>(OriginCategiryId.face);
+  const [gender, setGender] = useState<string>("女性");
 
   const { data: priceData, error: err_pri } = useSWR<PriceByAboutCategory[]>(
-    `/api/price-by-about-category?originId=${originId}&clinicId=${clinicData.id}`,
+    `/api/price-by-about-category?originId=${originId}&clinicId=${clinicData.id}&gender=${gender}`,
     fetcher,
     {
       fallbackData: prices,
@@ -135,44 +135,6 @@ const ClinicDetail: NextPage<Props> = ({
     // { text: "キャンペーン・おすすめ", url: "#" },
     // { text: "Youtube", url: "#youtube" },
   ];
-
-  // const { data: aboutCategoryData, error: err_abo } = useSWR<AboutCategory[]>(
-  //   `/api/about-categories/originId/${originId}`,
-  //   fetcher,
-  //   {
-  //     fallbackData: aboutCategory,
-  //   }
-  // );
-
-  // const { data: priceData, error: err_pri } = useSWR<PriceDto[]>(
-  //   `/api/prices/clinic/${clinicData.id}?aboutId=${
-  //     aboutCategoryData?.length ? aboutCategoryData[0].id : aboutCategory[0].id
-  //   }`,
-  //   fetcher,
-  //   {
-  //     fallbackData: price,
-  //   }
-  // );
-
-  // const changeTab = useCallback(async (text: string) => {
-  //   setOriginId(text);
-  //   setSelectTab(text);
-  //   // const data = await getAboutCategory(originId);
-  //   // changeAboutCategory(data[0].id);
-  // }, []);
-
-  // const changeAboutCategory = useCallback(async (aboutId: string) => {
-  //   // await getPrices(aboutId);
-  //   setSelectedAboutId(aboutId);
-  // }, []);
-
-  // const openPlanDetailModal = useCallback(
-  //   async (price: PriceDto) => {
-  //     setModalPrice(price);
-  //     onOpen();
-  //   },
-  //   [onOpen]
-  // );
 
   if (!priceData) return <LoadingIcon />;
 
@@ -225,6 +187,7 @@ const ClinicDetail: NextPage<Props> = ({
             top="0"
             id="navTop"
             wrap={"wrap"}
+            zIndex={"200"}
           >
             {tab.map((data, i) => (
               <ChangeBgTab
@@ -256,6 +219,7 @@ const ClinicDetail: NextPage<Props> = ({
                 // priceData={priceData || []}
                 prices={priceData}
                 onClickOriginId={(originId: string) => setOriginId(originId)}
+                onClickGender={(gender: string) => setGender(gender)}
               />
             </Box>
           </Flex>

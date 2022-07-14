@@ -1,4 +1,5 @@
 import { LargeCategoryAndPrices } from "types/LargeCategoryAndPrices";
+import { PriceByAboutCategory } from "types/PriceByAboutCategory";
 import { PriceService } from "./price-service";
 import { AboutCategoryRepository } from "./repository/aboutCategoryRepository";
 import { OriginCategoryRepository } from "./repository/originCategoryRepository";
@@ -10,7 +11,7 @@ export class PriceByAboutCategoryService {
     private readonly priceService: PriceService
   ) {}
 
-  async getAllByClinic(originId: string, clinicId: string) {
+  async getAllByClinic(originId: string, clinicId: string, gender: string) {
     const aboutCategory =
       await this.aboutCategoryRepository.getAllAboutCategoryByOriginId(
         originId
@@ -19,7 +20,8 @@ export class PriceByAboutCategoryService {
       aboutCategory.map(async (about) => {
         return await this.priceService.getPricesForAboutCategory(
           clinicId,
-          about
+          about,
+          gender
         );
         // const res: LargeCategoryAndPrices = {
         //   originCategory: origin,

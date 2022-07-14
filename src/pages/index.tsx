@@ -16,17 +16,31 @@ import { FeatureViewData } from "../types/app/FeatureViewData";
 import { UnderLineText } from "components/atoms/text/UnderLineText";
 import { Layout } from "components/templete/lauouts/Layout";
 import { featureService } from "services/service";
-import Twitter from "components/Twitter";
-import { tweet } from "services/tweet";
+// import Twitter from "components/Twitter";
+// import { tweet } from "services/tweet";
 import { CopyrightImageBox } from "components/molecules/box/CopyrightImageBox";
-import Instagram from "components/Instagram";
+import InstagramBox from "components/InstagramBox";
+import { Clinic, Instagram, Twitter } from "@prisma/client";
+import { twitterService } from "services/orm/twitterService";
+import TwitterBox from "components/TwitterBox";
+import { instagramService } from "services/orm/instagramService";
+import StreetView from "components/StreetView";
 
 type Props = {
   // data: FeatureViewData[];
   imgs: string[];
   feature: FeatureViewData[];
   topImg: string;
+  twitter: (Twitter & {
+    clinic: Clinic;
+  })[];
+  instagram: (Instagram & {
+    clinic: Clinic;
+  })[];
 };
+
+const { getTwittersRamdom } = twitterService();
+const { getInstagramRamdom } = instagramService();
 
 const getAllFeatureFunc = async () => {
   const data: FeatureDto = await featureService.getAllFeature();
@@ -36,24 +50,30 @@ const getAllFeatureFunc = async () => {
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const feature = await getAllFeatureFunc();
   // const imgs = getRandomImg();
-  const imgs = [...Array(6)].map((_, i) => getRandomImg());
+  const imgs = [...Array(10)].map((_, i) => getRandomImg());
   const topImg = TopResource.topImg;
+  const twitter = await getTwittersRamdom(3);
+  const instagram = await getInstagramRamdom(4);
   return {
     props: {
-      feature: feature,
+      feature,
       imgs,
       topImg,
+      twitter,
+      instagram,
     },
   };
 };
 
-const Home: NextPage<Props> = ({ imgs, feature, topImg }) => {
+const Home: NextPage<Props> = ({
+  imgs,
+  feature,
+  topImg,
+  twitter,
+  instagram,
+}) => {
   const router = useRouter();
   const [gender, setGender] = useState<string>();
-
-  const pushLink = (url: string) => {
-    router.push(`/${url}`);
-  };
 
   return (
     <Box>
@@ -129,19 +149,19 @@ const Home: NextPage<Props> = ({ imgs, feature, topImg }) => {
             title={"リアルタイム情報"}
           />
           <Flex justifyContent={"center"} wrap={{ md: "nowrap", sm: "wrap" }}>
-            {tweet.map((account, i) => (
+            {twitter.map((data, i) => (
               <Box
-                key={account.id}
+                key={data.id}
                 mx=".5em"
                 width={{ md: "25em", sm: "18em" }}
                 mt={{ md: "2em", sm: "1em" }}
               >
                 <Box>
-                  <Text fontWeight={"bold"}>【{account.name}】</Text>
+                  <Text fontWeight={"bold"}>【{data.clinic.name}】</Text>
                 </Box>
-                <Twitter
-                  account={account.id}
-                  clinicId={account.clinicId}
+                <TwitterBox
+                  account={data.code}
+                  clinicId={data.clinicId}
                   height="400px"
                 />
               </Box>
@@ -191,9 +211,11 @@ const Home: NextPage<Props> = ({ imgs, feature, topImg }) => {
                     m=".5em"
                   >
                     <CopyrightImageBox
+                      width={"auto"}
+                      height={"auto"}
                       src={imgs[i]}
+                      picture={data.picture[0]}
                       // src={TopResource.clinicImg}
-                      authority={"urk"}
                       fontSize={"0.7em"}
                     />
                     <Stack p={{ md: "1em", sm: ".5em" }}>
@@ -214,10 +236,10 @@ const Home: NextPage<Props> = ({ imgs, feature, topImg }) => {
             {i === 2 && (
               <Flex justifyContent={"space-around"} wrap="wrap">
                 <Box w={{ md: "45%", sm: "95%" }}>
-                  <Instagram account="CeZ47dwpjd_" />
+                  <InstagramBox account={instagram[0].code} />
                 </Box>
                 <Box w={{ md: "45%", sm: "95%" }}>
-                  <Instagram account="Ceu2OGWpcWw" />
+                  <InstagramBox account={instagram[1].code} />
                 </Box>
               </Flex>
             )}
@@ -225,10 +247,10 @@ const Home: NextPage<Props> = ({ imgs, feature, topImg }) => {
         ))}
         <Flex justifyContent={"space-around"} wrap="wrap">
           <Box w={{ md: "45%", sm: "95%" }}>
-            <Instagram account="CeZ47dwpjd_" />
+            <InstagramBox account={instagram[2].code} />
           </Box>
           <Box w={{ md: "45%", sm: "95%" }}>
-            <Instagram account="Ceu2OGWpcWw" />
+            <InstagramBox account={instagram[3].code} />
           </Box>
         </Flex>
       </Stack>

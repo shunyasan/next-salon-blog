@@ -52,6 +52,7 @@ model Parts {
   id String @id
   name String //部位名
   places Int //箇所数
+  description String?
   baseParts BaseParts_Parts[] 
 priceAllBody PriceAllBody[]
 priceArm PriceArm[]
@@ -136,25 +137,77 @@ model Clinic {
   clinicOpeningHours ClinicOpeningHours[] 
   clinicOption ClinicOption?  
   priceAllBody PriceAllBody[]
-priceArm PriceArm[]
-priceBackBody PriceBackBody[]
-priceBodySet PriceBodySet[]
-priceFaceSet PriceFaceSet[]
-priceFrontBody PriceFrontBody[]
-priceLeg PriceLeg[]
-priceLimb PriceLimb[]
-priceLowerBody PriceLowerBody[]
-priceLowerFace PriceLowerFace[]
-priceRange PriceRange[]
-priceSelect PriceSelect[]
-priceTime PriceTime[]
-priceUpperBody PriceUpperBody[]
-priceUpperFace PriceUpperFace[]
-priceVioSet PriceVioSet[]
-priceVio PriceVio[]
-
+  priceArm PriceArm[]
+  priceBackBody PriceBackBody[]
+  priceBodySet PriceBodySet[]
+  priceFaceSet PriceFaceSet[]
+  priceFrontBody PriceFrontBody[]
+  priceLeg PriceLeg[]
+  priceLimb PriceLimb[]
+  priceLowerBody PriceLowerBody[]
+  priceLowerFace PriceLowerFace[]
+  priceRange PriceRange[]
+  priceSelect PriceSelect[]
+  priceTime PriceTime[]
+  priceUpperBody PriceUpperBody[]
+  priceUpperFace PriceUpperFace[]
+  priceVioSet PriceVioSet[]
+  priceVio PriceVio[]
+  youtube Youtube[]
+  twitter Twitter[]
+  instagram Instagram[]
+  google Google[]
+  picture Picture[]
 }
 
+model Youtube {
+  id String @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  code String
+  clinicId String
+  clinic Clinic @relation(fields: [clinicId], references: [id])
+}
+
+model Instagram {
+  id String @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  code String
+  clinicId String
+  clinic Clinic @relation(fields: [clinicId], references: [id])
+}
+
+model Twitter {
+  id String @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  code String
+  clinicId String
+  clinic Clinic @relation(fields: [clinicId], references: [id])
+}
+
+model Google {
+  id String @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  code String
+  kind String @default("street_view")
+  clinicId String
+  clinic Clinic @relation(fields: [clinicId], references: [id])
+}
+
+model Picture {
+  id String @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  authority String
+  authorityUrl String
+  url String
+  clinicId String
+  clinic Clinic @relation(fields: [clinicId], references: [id])
+}
+		
 model ClinicArea {
   id String @id
   area String //地区名
@@ -203,7 +256,7 @@ model ClinicOption {
   shaving String?   //剃毛料
   studentDiscount String?   //学割
   troubleTreatment String?   //トラブル対応
-  clinicId String
+  clinicId String @unique
   clinic Clinic @relation(fields: [clinicId], references: [id])
 }
 

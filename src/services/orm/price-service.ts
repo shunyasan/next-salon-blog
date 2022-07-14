@@ -11,8 +11,10 @@ import { MachineService } from "./machine-service";
 import { PriceByAboutCategory } from "types/PriceByAboutCategory";
 import { OrderPlanQuery } from "types/app/OrderPlanQuery";
 import { ParsedUrlQuery } from "querystring";
-import { defaultSort } from "services/app/orderPlanIdNameService";
+import { OrderPlanIdNameService } from "services/app/orderPlanIdNameService";
 import { SortPlan } from "types/app/SortPlan";
+
+const { defaultSort } = OrderPlanIdNameService();
 
 export class PriceService {
   constructor(
@@ -23,7 +25,10 @@ export class PriceService {
   ) {}
 
   checkEmptyData(val?: string | string[]) {
-    return checkEmptyAndApplicable(val);
+    const data = val as string;
+    if (data && data !== "" && data !== "none") {
+      return data;
+    }
   }
 
   chackSort = (value: string): SortPlan | undefined => {
@@ -155,12 +160,18 @@ export class PriceService {
 
   async getPriceByClinic(
     clinicId: string,
-    aboutId: string
+    aboutId: string,
+    excludeGender?: number
   ): Promise<PriceDto[]> {
     const table = await this.aboutCategoryRepository.getPriceTableName(aboutId);
     const data = this.selectPriceClass(table);
     const price = await data.findMany({
-      where: { clinicId: clinicId },
+      where: {
+        clinicId: clinicId,
+        gender: {
+          not: excludeGender,
+        },
+      },
     });
     const res = price as PriceDto[];
     return res;
@@ -168,9 +179,16 @@ export class PriceService {
 
   async getPricesForAboutCategory(
     clinicId: string,
-    aboutCategory: AboutCategory
+    aboutCategory: AboutCategory,
+    gender: string
   ): Promise<PriceByAboutCategory> {
-    const price = await this.getPriceByClinic(clinicId, aboutCategory.id);
+    const excludeGender = gender === "男性" ? 1 : 2;
+
+    const price = await this.getPriceByClinic(
+      clinicId,
+      aboutCategory.id,
+      excludeGender
+    );
     const data: PriceByAboutCategory = {
       aboutCategory: aboutCategory,
       prices: price,
@@ -252,10 +270,3 @@ export class PriceService {
     }
   }
 }
-
-export const checkEmptyAndApplicable = (val?: string | string[]) => {
-  const data = val as string;
-  if (data && data !== "" && data !== "none") {
-    return data;
-  }
-};

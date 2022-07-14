@@ -130,6 +130,7 @@ const TreatmentPartsBox: FC<Props> = (props) => {
           <Box>
             <GenderPlateBox
               gender={gender}
+              fontSize={{ md: "1.3rem", sm: "1rem" }}
               onClick={(gender: string) => setGender(gender)}
             />
           </Box>

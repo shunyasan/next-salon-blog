@@ -12,7 +12,6 @@ import {
 } from "@chakra-ui/react";
 import { OpeningHoursTable } from "components/molecules/table/OpeningHoursTable";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
-import { newOptionFunc } from "services/app/etc/etc";
 import { getRandomImg } from "services/app/resources/SearchSalonHooks";
 import { PriceDto } from "types/PriceDto";
 import { OptionText } from "types/app/OptionText";
@@ -44,26 +43,6 @@ export const PricePlanCard: FC<Props> = (props) => {
     setImage(gets);
   }, []);
   //
-
-  // const OptionFunc = useCallback(() => {
-  //   const clinicOption = newOptionFunc(price.clinic);
-  //   setOptionService(clinicOption.service);
-  //   setMedicalFee(clinicOption.medicalFee);
-  //   setPayment(clinicOption.payment);
-  // }, [price]);
-
-  // const detailOpen = useCallback(() => {
-  //   if (!detailViewState) {
-  //     setDetailViewClass("detailServiceOpen");
-  //   } else {
-  //     setDetailViewClass("detailServiceClose");
-  //   }
-  //   setDetailViewState(!detailViewState);
-  // }, [detailViewState]);
-
-  // useEffect(() => {
-  //   OptionFunc();
-  // }, [OptionFunc]);
 
   return (
     <Box

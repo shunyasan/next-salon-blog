@@ -49,29 +49,6 @@ export class OriginCategoryService {
     { id: "Z000006", name: "その他", path: "other" },
   ];
 
-  // async getOriginJoinPrice(clinicId: string) {
-  //   const originCategory =
-  //     await this.originCategoryRepository.getAllJoinAboutCategory();
-  //   const origin = await Promise.all(
-  //     originCategory.map( (origin) => {
-  //      const prices=  origin.aboutCategory.map(async(about) => {
-  //         return await this.priceService.getPricesForAboutCategory(
-  //           clinicId,
-  //           about
-  //           );
-  //         })
-  //         const res: LargeCategoryAndPrices = {
-  //           originCategory: origin,
-  //           priceByAboutCategories: prices,
-  //         };
-  //         return res;
-  //     })
-  //   );
-
-  //   // return origin;
-  //   return prices;
-  // }
-
   sortBySelectData(
     targetString: string,
     datas: IdAndNameDto[]

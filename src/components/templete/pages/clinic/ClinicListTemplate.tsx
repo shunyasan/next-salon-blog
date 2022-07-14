@@ -1,5 +1,5 @@
 import { Box, Checkbox, Flex, HStack, Stack, Text } from "@chakra-ui/react";
-import { ClinicArea } from "@prisma/client";
+import { Clinic, ClinicArea, Instagram, Twitter } from "@prisma/client";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import { PlanCard } from "components/organisms/board/PlanCard";
@@ -13,12 +13,12 @@ import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
 import { ClinicAreaService } from "services/orm/clinic-area-service";
 import { ClinicService } from "services/orm/clinic-service";
 import fetcher from "services/fetcher";
-import { tweet } from "services/tweet";
+// import { tweet } from "services/tweet";
 import useSWR from "swr";
 import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
-import Instagram from "components/Instagram";
+import InstagramBox from "components/InstagramBox";
 import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
-import Twitter from "components/Twitter";
+import TwitterBox from "components/TwitterBox";
 
 const numOfTakeData = 10;
 const defaultMax = 349;
@@ -35,6 +35,12 @@ type Props = {
   area: ClinicArea[];
   clinics: ClinicNestPriceDto[];
   page: number;
+  twitter: (Twitter & {
+    clinic: Clinic;
+  })[];
+  instagram: (Instagram & {
+    clinic: Clinic;
+  })[];
   getPage: (page: number) => void;
   // defaultPagenation: { now: number; block: number };
 };
@@ -64,6 +70,8 @@ const ClinicListTemplate: FC<Props> = ({
   areaId,
   areaMax,
   page,
+  twitter,
+  instagram,
   getPage,
 }) => {
   const router = useRouter();
@@ -240,21 +248,23 @@ const ClinicListTemplate: FC<Props> = ({
           <Box display={{ md: "block", sm: "none" }} w="22rem" minW="15em">
             <UnderLineItemBox title="最新情報" fontSize="1em">
               <Stack spacing={"3rem"}>
-                {tweet.map((account, i) => (
-                  <Twitter
+                {twitter.map((account, i) => (
+                  <TwitterBox
                     key={i}
-                    account={account.id}
+                    account={account.code}
                     clinicId={account.clinicId}
-                    height="400px"
+                    height="30em"
                   />
                 ))}
               </Stack>
             </UnderLineItemBox>
             <Box mt="5rem">
               <UnderLineItemBox title="キャンペーン・おすすめ" fontSize="1em">
-                <Box mt="1em">
-                  <Instagram account="CbwwpPYLi18" />
-                </Box>
+                <Stack spacing={"3rem"} mt={"1rem"}>
+                  {instagram.map((data, i) => (
+                    <InstagramBox key={i} account={data.code} />
+                  ))}
+                </Stack>
               </UnderLineItemBox>
             </Box>
           </Box>

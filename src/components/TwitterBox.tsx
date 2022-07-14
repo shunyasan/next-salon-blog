@@ -6,8 +6,9 @@ type Props = {
   clinicId?: string;
   width?: string;
   height?: string;
+  test?: string;
 };
-const Twitter: FC<Props> = ({ account, width, height, clinicId }) => {
+const TwitterBox: FC<Props> = ({ account, width, height, clinicId, test }) => {
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://platform.twitter.com/widgets.js";
@@ -38,9 +39,9 @@ const Twitter: FC<Props> = ({ account, width, height, clinicId }) => {
         data-width={width}
         href={`https://twitter.com/${account}?ref_src=twsrc%5Etfw`}
       >
-        Tweets by ${account}
+        Tweets by {account}
       </Link>
     </Box>
   );
 };
-export default Twitter;
+export default TwitterBox;

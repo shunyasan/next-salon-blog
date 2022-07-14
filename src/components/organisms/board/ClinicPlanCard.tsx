@@ -1,5 +1,6 @@
 import { Box, Center, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
+import { GenderPlateBox } from "components/molecules/box/GenderPlateBox";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
 import fetcher from "services/fetcher";
 import useSWR from "swr";
@@ -14,15 +15,17 @@ import { PlanDetailModal } from "../modal/PlanDetailModal";
 type Props = {
   originData: IdAndNameDto[];
   url: string;
-  options?: TitleValue[];
   onClickOriginId: (originId: string) => void;
+  onClickGender: (gender: string) => void;
+  prices: PriceByAboutCategory[];
+  options?: TitleValue[];
   // aboutCategoryData?: AboutCategory[];
   // priceData?: PriceDto[];
-  prices: PriceByAboutCategory[];
 };
 
 export const ClinicPlanCard: FC<Props> = (props) => {
-  const { url, options, originData, prices, onClickOriginId } = props;
+  const { url, options, originData, prices, onClickOriginId, onClickGender } =
+    props;
   // const { getAboutCategoryByOriginId } = AboutCategoryApi();
   // const { getAllOriginCategoryIdAndName } = IdAndNameApi();
   // const { getPriceByAboutIdAndClinicId } = PriceApi();
@@ -30,75 +33,7 @@ export const ClinicPlanCard: FC<Props> = (props) => {
 
   const [selectTab, setSelectTab] = useState<string>(originData[0].id);
   const [selectedAboutId, setSelectedAboutId] = useState<string>();
-  const [modalPrice, setModalPrice] = useState<PriceDto>();
-  // const [originData, setOriginData] = useState<IdAndNameDto[]>([]);
-  // const [priceData, setPriceData] = useState<PriceDto[]>([]);
-  // const [aboutCategoryData, setAboutCategoryData] = useState<AboutCategory[]>(
-  //   []
-  // );
-
-  // const [originId, setOriginId] = useState<string>();
-
-  // const { data: originData, error: err_ori } = useSWR<IdAndNameDto[]>(
-  //   `/api/id-and-name/origin-category`,
-  //   fetcher,
-  //   {
-  //     fallbackData: origin,
-  //   }
-  // );
-
-  // const { data: aboutCategoryData, error: err_abo } = useSWR<AboutCategory[]>(
-  //   `/api/about-categories/originId/${originId}`,
-  //   fetcher,
-  //   {
-  //     fallbackData: aboutCategory,
-  //   }
-  // );
-
-  // const { data: priceData, error: err_pri } = useSWR<PriceDto[]>(
-  //   `/api/prices/clinic/${clinicData.id}?aboutId=${
-  //     aboutCategoryData ? aboutCategoryData[0].id : aboutCategory[0].id
-  //   }`,
-  //   fetcher,
-  //   {
-  //     fallbackData: price,
-  //   }
-  // );
-
-  // const getOriginCategory = useCallback(async () => {
-  //   const data = await getAllOriginCategoryIdAndName();
-  //   setOriginData(data);
-  //   return data;
-  // }, [getAllOriginCategoryIdAndName]);
-
-  // const getAboutCategory = useCallback(
-  //   async (originId: string) => {
-  //     const data = await getAboutCategoryByOriginId(originId);
-  //     setAboutCategoryData(data);
-  //     return data;
-  //   },
-  //   [getAboutCategoryByOriginId]
-  // );
-
-  // const getPrices = useCallback(
-  //   async (aboutId: string) => {
-  //     const data = await getPriceByAboutIdAndClinicId(clinicData.id, aboutId);
-  //     setPriceData(data);
-  //     return data;
-  //   },
-  //   [getPriceByAboutIdAndClinicId, clinicData]
-  // );
-
-  // const getFirstPartsDatas = useCallback(async () => {
-  //   const origin = await getOriginCategory();
-  //   const about = await getAboutCategory(origin[0].id);
-  //   await getPrices(about[0].id);
-  // }, [getOriginCategory, getAboutCategory, getPrices]);
-
-  // const changeAboutCategory = useCallback(async (aboutId: string) => {
-  //   // await getPrices(aboutId);
-  //   setSelectedAboutId(aboutId);
-  // }, []);
+  const [gender, setGender] = useState<string>("女性");
 
   const changeTab = useCallback(
     async (originId: string) => {
@@ -110,17 +45,16 @@ export const ClinicPlanCard: FC<Props> = (props) => {
     [onClickOriginId]
   );
 
-  // const openPlanDetailModal = useCallback(
-  //   async (price: PriceDto) => {
-  //     setModalPrice(price);
-  //     onOpen();
-  //   },
-  //   [onOpen]
-  // );
+  const changeGender = useCallback(
+    (gender: string) => {
+      onClickGender(gender);
+      setGender(gender);
+    },
+    [onClickGender]
+  );
 
   useEffect(() => {
     setSelectedAboutId(prices[0].aboutCategory.id);
-    console.log("id\n" + prices[0].aboutCategory.id);
   }, [setSelectedAboutId, prices]);
 
   // console.log("selectedAboutId\n" + selectedAboutId);
@@ -128,6 +62,13 @@ export const ClinicPlanCard: FC<Props> = (props) => {
   if (!originData || !prices) return <LoadingIcon />;
   return (
     <>
+      <Box>
+        <GenderPlateBox
+          gender={gender}
+          fontSize={"1em"}
+          onClick={(gender: string) => changeGender(gender)}
+        />
+      </Box>
       <Flex justifyContent={"space-evenly"} wrap={"wrap"}>
         {originData.map((data, i) => (
           <Box
@@ -162,7 +103,7 @@ export const ClinicPlanCard: FC<Props> = (props) => {
           <CategoryBox
             key={data.aboutCategory.id}
             category={data.aboutCategory}
-            gender={"男性"}
+            gender={gender}
             width={{ md: "10rem", sm: "7.5rem" }}
             arrow={selectedAboutId === data.aboutCategory.id}
             onClick={() => setSelectedAboutId(data.aboutCategory.id)}
@@ -211,7 +152,13 @@ export const ClinicPlanCard: FC<Props> = (props) => {
             )} */}
           </Flex>
         ) : (
-          <Center key={i} mt={"2em"}>
+          <Center
+            key={i}
+            display={
+              data.aboutCategory.id === selectedAboutId ? "flex" : "none"
+            }
+            mt={"2em"}
+          >
             こちらのプランはありません
           </Center>
         )
