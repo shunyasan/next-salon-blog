@@ -21,25 +21,25 @@ export class AboutCategoryRepository {
     return ans;
   }
 
-  async getPriceTableName(id: string): Promise<string> {
-    const getTableName = await prisma.aboutCategory.findFirst({
-      select: { tableName: true },
-      where: { id: id },
-    });
-    if (!getTableName) {
-      throw new Error();
-    }
-    return getTableName.tableName;
-  }
+  // // async getPriceTableName(id: string): Promise<string> {
+  // //   const getTableName = await prisma.aboutCategory.findFirst({
+  // //     select: { tableName: true },
+  // //     where: { id: id },
+  // //   });
+  // //   if (!getTableName) {
+  // //     throw new Error();
+  // //   }
+  // //   return getTableName.tableName;
+  // // }
 
-  async getAllPriceTableName(originId: string): Promise<string[]> {
-    const getTableName = await prisma.aboutCategory.findMany({
-      select: { tableName: true },
-      where: { originId: originId },
-    });
-    const data = getTableName.map((res) => res.tableName);
-    return data;
-  }
+  // async getAllPriceTableName(originId: string): Promise<string[]> {
+  //   const getTableName = await prisma.aboutCategory.findMany({
+  //     select: { tableName: true },
+  //     where: { originId: originId },
+  //   });
+  //   const data = getTableName.map((res) => res.tableName);
+  //   return data;
+  // }
 
   async getAllAboutCategoryByOriginId(originId: string) {
     const data = await prisma.aboutCategory.findMany({

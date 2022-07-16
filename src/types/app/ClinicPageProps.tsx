@@ -1,8 +1,8 @@
-import { Clinic, ClinicArea, Instagram, Twitter } from "@prisma/client";
+import { Clinic, Area, Instagram, Twitter } from "@prisma/client";
 import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
 
 export type ClinicPageProps = {
-  area: ClinicArea[];
+  area: Area[];
   clinics: ClinicNestPriceDto[];
   page: number;
   twitter: (Twitter & {

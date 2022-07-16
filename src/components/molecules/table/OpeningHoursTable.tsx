@@ -1,6 +1,6 @@
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import { ClinicOpeningHours } from "@prisma/client";
-import { FC } from "react";
+import { FC, useCallback } from "react";
 
 type Props = {
   datas: ClinicOpeningHours[];
@@ -9,6 +9,14 @@ type Props = {
 
 export const OpeningHoursTable: FC<Props> = (props) => {
   const { datas, size } = props;
+
+  const format = useCallback((date: Date) => {
+    // toLocaleString({ timeZone: 'Asia/Tokyo' });
+    const hour = date.getUTCHours();
+    const min = ("0" + date.getUTCMinutes()).slice(-2);
+    return `${hour}:${min}`;
+  }, []);
+
   return (
     <Table variant={"unstyled"} size={size || "xs"}>
       <Thead>
@@ -28,7 +36,7 @@ export const OpeningHoursTable: FC<Props> = (props) => {
         {datas.map((hours, int) => (
           <Tr key={int}>
             <Td>
-              {hours.startHours}〜{hours.endHours}
+              {format(hours.startHours)}〜{format(hours.endHours)}
             </Td>
             <Td>{hours.mon ? "〇" : "-"}</Td>
             <Td>{hours.thu ? "〇" : "-"}</Td>

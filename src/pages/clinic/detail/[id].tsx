@@ -57,7 +57,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const param = params && params.id;
   const id = param && typeof param === "string" ? param : "";
   const clinicData: RelationClinic = await clinicService.getOneClinic(id);
-
+  console.log(clinicData);
   const origin: IdAndNameDto[] = await idAndNameService.getAllOriginCategory();
   // const aboutCategory: AboutCategory[] =
   //   await aboutCategoryService.getAboutCategoryByOriginId(origin[0].id);

@@ -1,4 +1,4 @@
-import { ClinicArea } from "@prisma/client";
+import { Area } from "@prisma/client";
 import { ClinicAreaRepository } from "./repository/clinicAreaRepository";
 
 export class ClinicAreaService {

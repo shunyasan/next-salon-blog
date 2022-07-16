@@ -98,7 +98,7 @@ export const newOptionFunc = (clinicAndPrice: ClinicNestPriceDto) => {
   };
   const studentDiscount: OptionText = {
     name: "学割",
-    text: checkNoneValue(clinic.clinicOption?.studentDiscount),
+    text: checkNoneValue(clinic.studentDiscount),
   };
   const cardPay: OptionText = {
     name: "カード払い",

@@ -1,4 +1,4 @@
-import { Clinic, ClinicArea, Twitter } from "@prisma/client";
+import { Clinic, Area, Twitter } from "@prisma/client";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import ClinicListTemplate from "components/templete/pages/clinic/ClinicListTemplate";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
@@ -62,13 +62,13 @@ const ClinicsAll: NextPage<ClinicPageProps> = ({
   // const { getAllArea } = ClinicAreaApi();
 
   // const [clinicData, setClinicData] = useState<ClinicNestPriceDto[]>([]);
-  // const [areaData, setAreaData] = useState<ClinicArea[]>([]);
+  // const [areaData, setAreaData] = useState<Area[]>([]);
 
   // const [clinicUrl, setClinicUrl] = useState<string>();
 
   // const [page, setPage] = useState<number>(0);
 
-  // const { data: areaData, error: err_area } = useSWR<ClinicArea[]>(
+  // const { data: areaData, error: err_area } = useSWR<Area[]>(
   //   `/api/clinic-areas`,
   //   fetcher,
   //   {

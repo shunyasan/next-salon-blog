@@ -62,7 +62,7 @@ export const ClinicPaymentTitleValue = (
   const datas: TitleValue[] = [
     {
       title: "学割",
-      value: checkNoneValue(clinic.clinicOption?.studentDiscount),
+      value: checkNoneValue(clinic.studentDiscount),
     },
     { title: "カード払い", value: checkNoneValue(clinic.cardPay) },
     { title: "医療ローン", value: checkNoneValue(clinic.medhicalLoan) },

@@ -1,5 +1,5 @@
 import { Box, Checkbox, Flex, HStack, Stack, Text } from "@chakra-ui/react";
-import { Clinic, ClinicArea, Instagram, Twitter } from "@prisma/client";
+import { Clinic, Area, Instagram, Twitter } from "@prisma/client";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import { PlanCard } from "components/organisms/board/PlanCard";
@@ -32,7 +32,7 @@ type Props = {
   areaId?: string;
   title: string;
   areaMax: number;
-  area: ClinicArea[];
+  area: Area[];
   clinics: ClinicNestPriceDto[];
   page: number;
   twitter: (Twitter & {
@@ -46,8 +46,8 @@ type Props = {
 };
 
 // export const getStaticProps: GetStaticProps<Props> = async () => {
-//   const area: ClinicArea[] = await clinicAreaService.getAllClinicArea();
-//   // const area: ClinicArea[] = await fetcher(`${thisURL}api/clinic-areas`);
+//   const area: Area[] = await clinicAreaService.getAllClinicArea();
+//   // const area: Area[] = await fetcher(`${thisURL}api/clinic-areas`);
 
 //   const clinics: ClinicNestPriceDto[] =
 //     await clinicService.getAllClinicAndLimit({ take: numOfTakeData, skip: 0 });
@@ -79,7 +79,7 @@ const ClinicListTemplate: FC<Props> = ({
   // const { getAllArea } = ClinicAreaApi();
 
   // const [clinicData, setClinicData] = useState<ClinicNestPriceDto[]>([]);
-  // const [areaData, setAreaData] = useState<ClinicArea[]>([]);
+  // const [areaData, setAreaData] = useState<Area[]>([]);
 
   // const [clinicUrl, setClinicUrl] = useState<string>(
   //   `clinics/prices?take=${numOfTakeData}&skip=0`
@@ -95,7 +95,7 @@ const ClinicListTemplate: FC<Props> = ({
   //   block: number;
   // }>(defaultPagenation);
 
-  // const { data: areaData, error: err_area } = useSWR<ClinicArea[]>(
+  // const { data: areaData, error: err_area } = useSWR<Area[]>(
   //   `/api/clinic-areas`,
   //   fetcher,
   //   {
@@ -111,7 +111,7 @@ const ClinicListTemplate: FC<Props> = ({
   //     fallbackData: clinics,
   //   }
   // );
-  // const { data: areaData = [], error: err_ori } = useSWR<ClinicArea[]>(
+  // const { data: areaData = [], error: err_ori } = useSWR<Area[]>(
   //   `/api/clinics?take=${numOfTakeData}&skip=${numOfTakeData * pagenationData.now}`,
   //   fetcher
   // );

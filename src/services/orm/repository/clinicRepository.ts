@@ -198,10 +198,8 @@ export class ClinicRepository {
   async getSutudentDiscount(take: number, skip: number, notJoin?: boolean) {
     const query = prisma.clinic.findMany({
       where: {
-        clinicOption: {
-          studentDiscount: {
-            contains: "あり",
-          },
+        studentDiscount: {
+          contains: "あり",
         },
       },
       include: {
@@ -222,10 +220,8 @@ export class ClinicRepository {
   async getCountSutudentDiscount() {
     const query = prisma.clinic.count({
       where: {
-        clinicOption: {
-          studentDiscount: {
-            contains: "あり",
-          },
+        studentDiscount: {
+          contains: "あり",
         },
       },
       // include: {

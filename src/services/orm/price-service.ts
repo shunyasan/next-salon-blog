@@ -53,9 +53,6 @@ export class PriceService {
     const excludeGender: number = orderPlan.gender === "男性" ? 1 : 2;
     const excludeStaff: number = 0;
     // const excludeStaff: number = orderPlan.staff === "男性" ? 1 : 2;
-    const tableName = await this.aboutCategoryRepository.getPriceTableName(
-      orderPlan.aboutCategory
-    );
 
     const machines = await this.machineService.getIdfindBySkinColorAndHairType(
       orderPlan.skinCollor,
@@ -68,7 +65,6 @@ export class PriceService {
     return {
       excludeGender,
       excludeStaff,
-      tableName,
       targetMachine,
       sort,
     };
@@ -81,11 +77,10 @@ export class PriceService {
     take?: number,
     skip?: number
   ) {
-    const { excludeGender, excludeStaff, tableName, targetMachine, sort } =
+    const { excludeGender, excludeStaff, targetMachine, sort } =
       await this.beforeGetPrices(orderPlan);
-    const data = this.selectPriceClass(tableName);
 
-    const ans = await data.findMany({
+    const ans = await prisma.price.findMany({
       // const ans = {
       include: {
         clinic: {
@@ -130,16 +125,14 @@ export class PriceService {
         price: sort?.column === "price" ? sort.sort : undefined,
       },
     });
-
     return ans;
   }
 
   async getCountMaxPlan(orderPlan: OrderPlanQuery): Promise<number> {
-    const { excludeGender, excludeStaff, tableName, targetMachine } =
+    const { excludeGender, excludeStaff, targetMachine } =
       await this.beforeGetPrices(orderPlan);
 
-    const data = this.selectPriceClass(tableName);
-    const ans = await data.count({
+    const ans = await prisma.price.count({
       where: {
         partsId: this.checkEmptyData(orderPlan.parts),
         clinic: {
@@ -163,9 +156,9 @@ export class PriceService {
     aboutId: string,
     excludeGender?: number
   ): Promise<PriceDto[]> {
-    const table = await this.aboutCategoryRepository.getPriceTableName(aboutId);
-    const data = this.selectPriceClass(table);
-    const price = await data.findMany({
+    // const table = await this.aboutCategoryRepository.getPriceTableName(aboutId);
+    // const data = this.selectPriceClass(table);
+    const price = await prisma.price.findMany({
       where: {
         clinicId: clinicId,
         gender: {
@@ -220,7 +213,7 @@ export class PriceService {
     clinicId: string,
     pagenation?: PagenationParameter
   ): Promise<PriceDto[]> {
-    const data = await prisma.priceFaceSet.findMany({
+    const data = await prisma.price.findMany({
       where: { clinicId: clinicId },
       take: pagenation ? pagenation.take : 2,
       skip: pagenation ? pagenation.skip : 0,
@@ -229,44 +222,44 @@ export class PriceService {
     return change;
   }
 
-  selectPriceClass(table: string) {
-    switch (table) {
-      case "PriceUpperFace":
-        return prisma.priceUpperFace;
-      case "PriceLowerFace":
-        return prisma.priceLowerFace;
-      case "PriceFaceSet":
-        return prisma.priceFaceSet;
-      case "PriceArm":
-        return prisma.priceArm;
-      case "PriceLeg":
-        return prisma.priceLeg;
-      case "PriceLimb":
-        return prisma.priceLimb;
-      case "PriceFrontBody":
-        return prisma.priceFrontBody;
-      case "PriceBackBody":
-        return prisma.priceBackBody;
-      case "PriceBodySet":
-        return prisma.priceBodySet;
-      case "PriceVio":
-        return prisma.priceVio;
-      case "PriceVioSet":
-        return prisma.priceVioSet;
-      case "PriceAllBody":
-        return prisma.priceAllBody;
-      case "PriceSelect":
-        return prisma.priceSelect;
-      case "PriceTime":
-        return prisma.priceTime;
-      case "PriceRange":
-        return prisma.priceRange;
-      case "PriceUpperBody":
-        return prisma.priceUpperBody;
-      case "PriceLowerBody":
-        return prisma.priceLowerBody;
-      default:
-        throw new Error(`not found price table at ${table}`);
-    }
-  }
+  // selectPriceClass(table: string) {
+  //   switch (table) {
+  //     case "PriceUpperFace":
+  //       return prisma.priceUpperFace;
+  //     case "PriceLowerFace":
+  //       return prisma.priceLowerFace;
+  //     case "PriceFaceSet":
+  //       return prisma.priceFaceSet;
+  //     case "PriceArm":
+  //       return prisma.priceArm;
+  //     case "PriceLeg":
+  //       return prisma.priceLeg;
+  //     case "PriceLimb":
+  //       return prisma.priceLimb;
+  //     case "PriceFrontBody":
+  //       return prisma.priceFrontBody;
+  //     case "PriceBackBody":
+  //       return prisma.priceBackBody;
+  //     case "PriceBodySet":
+  //       return prisma.priceBodySet;
+  //     case "PriceVio":
+  //       return prisma.priceVio;
+  //     case "PriceVioSet":
+  //       return prisma.priceVioSet;
+  //     case "PriceAllBody":
+  //       return prisma.priceAllBody;
+  //     case "PriceSelect":
+  //       return prisma.priceSelect;
+  //     case "PriceTime":
+  //       return prisma.priceTime;
+  //     case "PriceRange":
+  //       return prisma.priceRange;
+  //     case "PriceUpperBody":
+  //       return prisma.priceUpperBody;
+  //     case "PriceLowerBody":
+  //       return prisma.priceLowerBody;
+  //     default:
+  //       throw new Error(`not found price table at ${table}`);
+  //   }
+  // }
 }

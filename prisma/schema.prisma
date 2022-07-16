@@ -24,7 +24,6 @@ model AboutCategory {
   imgUrlLady String
   imgUrlMen String
   set Boolean
-  tableName String
   originId String
   origin OriginCategory @relation(fields: [originId], references: [id])
   baseParts BaseParts[]
@@ -54,56 +53,63 @@ model Parts {
   places Int //箇所数
   description String?
   baseParts BaseParts_Parts[] 
-priceAllBody PriceAllBody[]
-priceArm PriceArm[]
-priceBackBody PriceBackBody[]
-priceBodySet PriceBodySet[]
-priceFaceSet PriceFaceSet[]
-priceFrontBody PriceFrontBody[]
-priceLeg PriceLeg[]
-priceLimb PriceLimb[]
-priceLowerBody PriceLowerBody[]
-priceLowerFace PriceLowerFace[]
-priceRange PriceRange[]
-priceSelect PriceSelect[]
-priceTime PriceTime[]
-priceUpperBody PriceUpperBody[]
-priceUpperFace PriceUpperFace[]
-priceVioSet PriceVioSet[]
-priceVio PriceVio[]
+  price Price[]
 }
 
+////////////////////////////////////////
 
-model MachineHr {
+model Irradiation{
   id String @id
-  hairType String //毛の状態
-  pain Int //痛み
-  shotDetail String  //ショット詳細
-  shotType String  //照射のタイプ
-  skinColor Int  //対応可能な肌の色 1: 白色のみOK 2:薄茶色までOK 3:色黒までOK
-  machine Machine[]
+  name String  //レーザー名、IPL名
+  skinColor Int
+  type IrradiationType
+  method IrradiationMethod
+  painCoefficient Int @default(1) //痛み計算の係数
+  hair Irradiation_Hair[]
+  machine Machine_Irradiation[]
 }
 
-model MachineShr {
+enum IrradiationType {
+  shot
+  shr
+}
+
+enum IrradiationMethod {
+  laser
+  ipl
+}
+
+////////////////////////////////////////
+
+model Hair {
   id String @id
-  hairType String //毛の状態
-  pain Int //痛み
-  shotDetail String  //ショット詳細
-  shotType String  //照射のタイプ
-  skinColor Int  //対応可能な肌の色 1: 白色のみOK 2:薄茶色までOK 3:色黒までOK
-  machine Machine[]
+  kind String
+  pain Int
+  irradiation Irradiation_Hair[]
+}
+
+model  Irradiation_Hair {
+  irradiationId String
+  irradiation Irradiation  @relation(fields: [irradiationId], references: [id])
+  hairId String 
+  hair Hair @relation(fields: [hairId], references: [id])
+  @@id([irradiationId, hairId])
+}
+
+model  Machine_Irradiation {
+  irradiationId String
+  irradiation Irradiation  @relation(fields: [irradiationId], references: [id])
+  machineId String 
+  machine Machine @relation(fields: [machineId], references: [id])
+  @@id([irradiationId, machineId])
 }
 
 model Machine {
   id String @id
   name String @default("クリニック名") //機器名
-  machineHrId String?  //HR機器ID
-  machineHr MachineHr? @relation(fields: [machineHrId], references: [id])
-  machineShrId String?  //SHR機器ID
-  machineShr MachineShr?  @relation(fields: [machineShrId], references: [id])
   clinic Clinic_Machine[] 
+  irradiation Machine_Irradiation[]
 }
-
 
 model  Clinic_Machine {
   clinicId String
@@ -120,6 +126,8 @@ model Clinic {
   address String //住所
   cardPay String?
   medhicalLoan String?
+  campaign String?  //キャンペーン
+  studentDiscount String?   //学割
   name String
   nearestStation String
   reserve String?
@@ -130,34 +138,19 @@ model Clinic {
   tel String?
   url String
   areaId String
-  area ClinicArea @relation(fields: [areaId], references: [id])
+  area Area @relation(fields: [areaId], references: [id])
   clinicGroupId String?
   clinicGroup ClinicGroup? @relation(fields: [clinicGroupId], references: [id])
   machine Clinic_Machine[] 
   clinicOpeningHours ClinicOpeningHours[] 
   clinicOption ClinicOption?  
-  priceAllBody PriceAllBody[]
-  priceArm PriceArm[]
-  priceBackBody PriceBackBody[]
-  priceBodySet PriceBodySet[]
-  priceFaceSet PriceFaceSet[]
-  priceFrontBody PriceFrontBody[]
-  priceLeg PriceLeg[]
-  priceLimb PriceLimb[]
-  priceLowerBody PriceLowerBody[]
-  priceLowerFace PriceLowerFace[]
-  priceRange PriceRange[]
-  priceSelect PriceSelect[]
-  priceTime PriceTime[]
-  priceUpperBody PriceUpperBody[]
-  priceUpperFace PriceUpperFace[]
-  priceVioSet PriceVioSet[]
-  priceVio PriceVio[]
+  price Price[]
   youtube Youtube[]
   twitter Twitter[]
   instagram Instagram[]
   google Google[]
   picture Picture[]
+  // option Option[]
 }
 
 model Youtube {
@@ -208,7 +201,7 @@ model Picture {
   clinic Clinic @relation(fields: [clinicId], references: [id])
 }
 		
-model ClinicArea {
+model Area {
   id String @id
   area String //地区名
   url String @default("#")
@@ -228,8 +221,8 @@ model ClinicGroup {
 
 model ClinicOpeningHours {
   id String  @id
-  startHours String  //開始時間
-  endHours String   //終了時間
+  startHours DateTime @db.Timetz(0) @default(now())  //開始時間
+  endHours DateTime @db.Timetz(0)  @default(now()) //開始時間
   description String?   //備考
   mon Boolean
   thu Boolean
@@ -249,251 +242,46 @@ model ClinicOption {
   irradiationLeakage String?   //照射漏れ
   aftercare String? //アフターケア
   anesthesia String?  //麻酔
-  campaign String?  //キャンペーン
   contractCancellation String?   //途中解約
   firstVisitFees String?   //初診料
   subsequentVisitFees String?   //再診料
   shaving String?   //剃毛料
-  studentDiscount String?   //学割
   troubleTreatment String?   //トラブル対応
   clinicId String @unique
   clinic Clinic @relation(fields: [clinicId], references: [id])
 }
 
+// model Option {
+//   id String @id
+//   price Int
+//   terms String?
+//   moreCharge Boolean
+//   kind OptionKind
+//   clinicId String
+//   clinic Clinic @relation(fields: [clinicId], references: [id])
+// }
+
+// enum OptionKind {
+//   leakage
+//   aftercare
+//   anesthesia
+//   contractCancel
+//   firstVisitFees
+//   revisitFees
+//   shaving
+//   skinTrouble
+// }
+
 
 //同スキーマ
-model PriceAllBody {
+model Price {
   id String @id
   name String  //部位名
   gender Int  //性別 1:女性 2:男性 3:女性男性
   times Int  //回数 0:年間プラン
   price Int //総額料金
   oncePrice Int //1回料金
-  description String? //備考
-  partsId String
-  parts Parts  @relation(fields: [partsId], references: [id])
-  clinicId String
-  clinic Clinic  @relation(fields: [clinicId], references: [id])
-}
-
-model PriceArm {
-  id String @id
-  name String  //部位名
-  gender Int  //性別 1:女性 2:男性 3:女性男性
-  times Int  //回数 0:年間プラン
-  price Int //総額料金
-  oncePrice Int //1回料金
-  description String? //備考
-  partsId String
-  parts Parts  @relation(fields: [partsId], references: [id])
-  clinicId String
-  clinic Clinic  @relation(fields: [clinicId], references: [id])
-}
-
-model PriceBackBody {
-  id String @id
-  name String  //部位名
-  gender Int  //性別 1:女性 2:男性 3:女性男性
-  times Int  //回数 0:年間プラン
-  price Int //総額料金
-  oncePrice Int //1回料金
-  description String? //備考
-  partsId String
-  parts Parts  @relation(fields: [partsId], references: [id])
-  clinicId String
-  clinic Clinic  @relation(fields: [clinicId], references: [id])
-}
-
-model PriceBodySet {
-  id String @id
-  name String  //部位名
-  gender Int  //性別 1:女性 2:男性 3:女性男性
-  times Int  //回数 0:年間プラン
-  price Int //総額料金
-  oncePrice Int //1回料金
-  description String? //備考
-  partsId String
-  parts Parts  @relation(fields: [partsId], references: [id])
-  clinicId String
-  clinic Clinic  @relation(fields: [clinicId], references: [id])
-}
-
-model PriceFaceSet {
-  id String @id
-  name String  //部位名
-  gender Int  //性別 1:女性 2:男性 3:女性男性
-  times Int  //回数 0:年間プラン
-  price Int //総額料金
-  oncePrice Int //1回料金
-  description String? //備考
-  partsId String
-  parts Parts  @relation(fields: [partsId], references: [id])
-  clinicId String
-  clinic Clinic  @relation(fields: [clinicId], references: [id])
-}
-
-model PriceFrontBody {
-  id String @id
-  name String  //部位名
-  gender Int  //性別 1:女性 2:男性 3:女性男性
-  times Int  //回数 0:年間プラン
-  price Int //総額料金
-  oncePrice Int //1回料金
-  description String? //備考
-  partsId String
-  parts Parts  @relation(fields: [partsId], references: [id])
-  clinicId String
-  clinic Clinic  @relation(fields: [clinicId], references: [id])
-}
-
-model PriceLeg {
-  id String @id
-  name String  //部位名
-  gender Int  //性別 1:女性 2:男性 3:女性男性
-  times Int  //回数 0:年間プラン
-  price Int //総額料金
-  oncePrice Int //1回料金
-  description String? //備考
-  partsId String
-  parts Parts  @relation(fields: [partsId], references: [id])
-  clinicId String
-  clinic Clinic  @relation(fields: [clinicId], references: [id])
-}
-
-model PriceLimb {
-  id String @id
-  name String  //部位名
-  gender Int  //性別 1:女性 2:男性 3:女性男性
-  times Int  //回数 0:年間プラン
-  price Int //総額料金
-  oncePrice Int //1回料金
-  description String? //備考
-  partsId String
-  parts Parts  @relation(fields: [partsId], references: [id])
-  clinicId String
-  clinic Clinic  @relation(fields: [clinicId], references: [id])
-}
-
-model PriceLowerBody {
-  id String @id
-  name String  //部位名
-  gender Int  //性別 1:女性 2:男性 3:女性男性
-  times Int  //回数 0:年間プラン
-  price Int //総額料金
-  oncePrice Int //1回料金
-  description String? //備考
-  partsId String
-  parts Parts  @relation(fields: [partsId], references: [id])
-  clinicId String
-  clinic Clinic  @relation(fields: [clinicId], references: [id])
-}
-
-model PriceLowerFace {
-  id String @id
-  name String  //部位名
-  gender Int  //性別 1:女性 2:男性 3:女性男性
-  times Int  //回数 0:年間プラン
-  price Int //総額料金
-  oncePrice Int //1回料金
-  description String? //備考
-  partsId String
-  parts Parts  @relation(fields: [partsId], references: [id])
-  clinicId String
-  clinic Clinic  @relation(fields: [clinicId], references: [id])
-}
-
-model PriceRange {
-  id String @id
-  name String  //部位名
-  gender Int  //性別 1:女性 2:男性 3:女性男性
-  times Int  //回数 0:年間プラン
-  price Int //総額料金
-  oncePrice Int //1回料金
-  description String? //備考
-  partsId String
-  parts Parts  @relation(fields: [partsId], references: [id])
-  clinicId String
-  clinic Clinic  @relation(fields: [clinicId], references: [id])
-}
-
-model PriceSelect {
-  id String @id
-  name String  //部位名
-  gender Int  //性別 1:女性 2:男性 3:女性男性
-  times Int  //回数 0:年間プラン
-  price Int //総額料金
-  oncePrice Int //1回料金
-  description String? //備考
-  partsId String
-  parts Parts  @relation(fields: [partsId], references: [id])
-  clinicId String
-  clinic Clinic  @relation(fields: [clinicId], references: [id])
-}
-
-model PriceTime {
-  id String @id
-  name String  //部位名
-  gender Int  //性別 1:女性 2:男性 3:女性男性
-  times Int  //回数 0:年間プラン
-  price Int //総額料金
-  oncePrice Int //1回料金
-  description String? //備考
-  partsId String
-  parts Parts  @relation(fields: [partsId], references: [id])
-  clinicId String
-  clinic Clinic  @relation(fields: [clinicId], references: [id])
-}
-
-model PriceUpperBody {
-  id String @id
-  name String  //部位名
-  gender Int  //性別 1:女性 2:男性 3:女性男性
-  times Int  //回数 0:年間プラン
-  price Int //総額料金
-  oncePrice Int //1回料金
-  description String? //備考
-  partsId String
-  parts Parts  @relation(fields: [partsId], references: [id])
-  clinicId String
-  clinic Clinic  @relation(fields: [clinicId], references: [id])
-}
-
-model PriceUpperFace {
-  id String @id
-  name String  //部位名
-  gender Int  //性別 1:女性 2:男性 3:女性男性
-  times Int  //回数 0:年間プラン
-  price Int //総額料金
-  oncePrice Int //1回料金
-  description String? //備考
-  partsId String
-  parts Parts  @relation(fields: [partsId], references: [id])
-  clinicId String
-  clinic Clinic  @relation(fields: [clinicId], references: [id])
-}
-
-model PriceVioSet {
-  id String @id
-  name String  //部位名
-  gender Int  //性別 1:女性 2:男性 3:女性男性
-  times Int  //回数 0:年間プラン
-  price Int //総額料金
-  oncePrice Int //1回料金
-  description String? //備考
-  partsId String
-  parts Parts  @relation(fields: [partsId], references: [id])
-  clinicId String
-  clinic Clinic  @relation(fields: [clinicId], references: [id])
-}
-
-model PriceVio {
-  id String @id
-  name String  //部位名
-  gender Int  //性別 1:女性 2:男性 3:女性男性
-  times Int  //回数 0:年間プラン
-  price Int //総額料金
-  oncePrice Int //1回料金
-  description String? //備考
+  terms String? //備考
   partsId String
   parts Parts  @relation(fields: [partsId], references: [id])
   clinicId String

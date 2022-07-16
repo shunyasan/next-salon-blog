@@ -33,7 +33,7 @@ export const ClinicServiceFunc = () => {
     const area = await clinicAreaService.getAllClinicArea();
     // const num = params ? Number(params.page) : 0;
     const page = num - 1 >= 0 ? num - 1 : 0;
-    // const area: ClinicArea[] = await fetcher(`${thisURL}api/clinic-areas`);
+    // const area: Area[] = await fetcher(`${thisURL}api/clinic-areas`);
 
     // const clinics: ClinicNestPriceDto[] = await fetcher(
     //   `${thisURL}api/clinics/prices?take=${numOfTakeData}&skip=0`

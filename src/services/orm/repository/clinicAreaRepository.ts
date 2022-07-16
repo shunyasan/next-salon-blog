@@ -4,6 +4,6 @@ export class ClinicAreaRepository {
   // constructor(private readonly prisma = prisma.clinicArea) {}
 
   async getAllClinicArea() {
-    return prisma.clinicArea.findMany();
+    return prisma.area.findMany();
   }
 }

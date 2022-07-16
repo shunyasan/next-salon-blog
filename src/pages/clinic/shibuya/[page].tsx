@@ -1,4 +1,4 @@
-import { Clinic, ClinicArea, Twitter } from "@prisma/client";
+import { Clinic, Area, Twitter } from "@prisma/client";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import ClinicListTemplate from "components/templete/pages/clinic/ClinicListTemplate";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
@@ -35,9 +35,9 @@ export const getStaticProps: GetStaticProps<ClinicPageProps> = async ({
     num,
     areaId
   );
-  // const area: ClinicArea[] = await clinicAreaService.getAllClinicArea();
+  // const area: Area[] = await clinicAreaService.getAllClinicArea();
   // const page = num - 1 >= 0 ? num - 1 : 0;
-  // // const area: ClinicArea[] = await fetcher(`${thisURL}api/clinic-areas`);
+  // // const area: Area[] = await fetcher(`${thisURL}api/clinic-areas`);
 
   // const clinics: ClinicNestPriceDto[] =
   //   await clinicService.getAllClinicByAreaId(areaId, {
@@ -71,13 +71,13 @@ const ClinicsShibuya: NextPage<ClinicPageProps> = ({
   // const { getAllArea } = ClinicAreaApi();
 
   // const [clinicData, setClinicData] = useState<ClinicNestPriceDto[]>([]);
-  // const [areaData, setAreaData] = useState<ClinicArea[]>([]);
+  // const [areaData, setAreaData] = useState<Area[]>([]);
 
   // const [clinicUrl, setClinicUrl] = useState<string>();
 
   // const [page, setPage] = useState<number>(0);
 
-  // const { data: areaData, error: err_area } = useSWR<ClinicArea[]>(
+  // const { data: areaData, error: err_area } = useSWR<Area[]>(
   //   `/api/clinic-areas`,
   //   fetcher,
   //   {

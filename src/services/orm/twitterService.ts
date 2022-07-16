@@ -9,10 +9,10 @@ export const twitterService = () => {
     const random = Math.floor(Math.random() * (max - take));
     const orderBy = random % 2 === 0 ? "asc" : "desc";
     const data = await getTwittersLimit(take, random, orderBy);
-    const res: (Twitter & {
-      clinic: Clinic;
-    })[] = JSON.parse(JSON.stringify(data));
-    return res;
+    // const res: (Twitter & {
+    //   clinic: Clinic;
+    // })[] = JSON.parse(JSON.stringify(data));
+    return data;
   };
 
   return {

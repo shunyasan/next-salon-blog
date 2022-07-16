@@ -37,9 +37,10 @@ export const PlanSortSelect: FC<Props> = ({ idName, onChange }) => {
       _focus={{ outline: "originBlack" }}
       borderColor={"originBlack"}
       onChange={(e) => onChangeSort(e.target.value)}
+      value={idName.id}
     >
       {datas.map((data) => (
-        <option key={data.id} value={data.id} selected={idName.id === data.id}>
+        <option key={data.id} value={data.id}>
           {data.name}
         </option>
       ))}

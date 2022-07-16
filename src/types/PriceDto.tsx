@@ -1,23 +1,29 @@
 import {
+  BaseParts_Parts,
   Clinic,
   ClinicOpeningHours,
   ClinicOption,
+  Clinic_Machine,
   Parts,
+  Price,
 } from "@prisma/client";
 
-export type PriceDto = {
-  id: string;
-  name: string;
-  gender: number;
-  times: number;
-  price: number;
-  oncePrice: number;
-  description: string;
-  partsId: string;
-  clinicId: string;
-  parts: Parts;
+// (Price & {
+//   clinic: Clinic & {
+//       clinicOption: ClinicOption | null;
+//       clinicOpeningHours: ClinicOpeningHours[];
+//       machine: Clinic_Machine[];
+//   };
+//   parts: Parts & {
+//       ...;
+//   };
+export type PriceDto = Price & {
   clinic: Clinic & {
-    clinicOption: ClinicOption;
+    clinicOption: ClinicOption | null;
     clinicOpeningHours: ClinicOpeningHours[];
+    machine: Clinic_Machine[];
+  };
+  parts: Parts & {
+    baseParts: BaseParts_Parts[];
   };
 };

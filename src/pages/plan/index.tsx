@@ -14,6 +14,7 @@ import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { defaultDataService } from "services/app/defaultDataService";
 import { OrderPlanIdNameService } from "services/app/orderPlanIdNameService";
 import fetcher from "services/fetcher";
 import { instagramService } from "services/orm/instagramService";
@@ -40,7 +41,7 @@ type Props = {
   })[];
 };
 
-const { defaultOrderPlanIdName } = OrderPlanIdNameService();
+const { defaultOrderPlanIdName } = defaultDataService();
 const { getInstagramRamdom } = instagramService();
 export const getStaticProps: GetStaticProps<Props> = async (context) => {
   const originCategories = await originCategoryService.getAllOriginCategory();
