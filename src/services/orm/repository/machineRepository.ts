@@ -5,45 +5,37 @@ export class MachineRepository {
   // constructor(private readonly prisma = prisma.machine) {}
 
   async getAllBySkinColor(skinColor: number): Promise<IdAndNameDto[]> {
-    return prisma.machine.findMany({
+    const data = await prisma.irradiation.findMany({
       select: {
         id: true,
         name: true,
       },
       where: {
-        OR: [
-          {
-            machineHr: {
-              skinColor: skinColor,
-            },
-            machineShr: {
-              skinColor: skinColor,
-            },
-          },
-        ],
+        skinColor: skinColor,
       },
     });
+    return data;
   }
 
   async getAllByHairType(hair: string): Promise<IdAndNameDto[]> {
-    return prisma.machine.findMany({
+    const hairs = await prisma.hair.findMany({
       select: {
         id: true,
-        name: true,
+        kind: true,
       },
       where: {
-        OR: [
-          {
-            machineHr: {
-              hairType: hair,
-            },
-            machineShr: {
-              hairType: hair,
-            },
-          },
-        ],
+        kind: hair,
       },
     });
+
+    const ans = hairs.map((data) => {
+      const idName: IdAndNameDto = {
+        id: data.id,
+        name: data.kind,
+      };
+      return idName;
+    });
+    return ans;
   }
   async getIdfindBySkinColorAndHairType(
     skinColor?: number,

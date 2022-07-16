@@ -9,12 +9,7 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import {
-  AboutCategory,
-  Clinic,
-  ClinicOpeningHours,
-  ClinicOption,
-} from "@prisma/client";
+import { AboutCategory, Clinic, ClinicOpeningHours } from "@prisma/client";
 import ClinicTemplate from "components/templete/pages/clinic/ClinicTemplate";
 import { ClinicDetailCard } from "components/organisms/board/ClinicDetailCard";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";

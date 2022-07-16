@@ -31,7 +31,7 @@ export class OriginCategoryRepository {
   async getAllRelationParts() {
     return prisma.originCategory.findMany({
       include: {
-        aboutCategory: {
+        aboutCategories: {
           include: {
             baseParts: true,
           },
@@ -51,7 +51,7 @@ export class OriginCategoryRepository {
   async getAllJoinAboutCategory() {
     const get = await prisma.originCategory.findMany({
       include: {
-        aboutCategory: true,
+        aboutCategories: true,
       },
       orderBy: { id: "asc" },
     });

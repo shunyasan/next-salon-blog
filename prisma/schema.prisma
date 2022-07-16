@@ -15,7 +15,7 @@ model OriginCategory {
   name String //広域カテゴリ名
   imgUrlLady String //女性の画像
   imgUrlMen String //男性の画像
-  aboutCategory AboutCategory[]
+  aboutCategories AboutCategory[]
 }
 
 model AboutCategory {
@@ -65,8 +65,8 @@ model Irradiation{
   type IrradiationType
   method IrradiationMethod
   painCoefficient Int @default(1) //痛み計算の係数
-  hair Irradiation_Hair[]
-  machine Machine_Irradiation[]
+  hairs Irradiation_Hair[]
+  machines Machine_Irradiation[]
 }
 
 enum IrradiationType {
@@ -85,7 +85,7 @@ model Hair {
   id String @id
   kind String
   pain Int
-  irradiation Irradiation_Hair[]
+  irradiations Irradiation_Hair[]
 }
 
 model  Irradiation_Hair {
@@ -108,7 +108,7 @@ model Machine {
   id String @id
   name String @default("クリニック名") //機器名
   clinic Clinic_Machine[] 
-  irradiation Machine_Irradiation[]
+  irradiations Machine_Irradiation[]
 }
 
 model  Clinic_Machine {
@@ -150,7 +150,7 @@ model Clinic {
   instagram Instagram[]
   google Google[]
   picture Picture[]
-  // option Option[]
+  options Option[]
 }
 
 model Youtube {
@@ -251,27 +251,26 @@ model ClinicOption {
   clinic Clinic @relation(fields: [clinicId], references: [id])
 }
 
-// model Option {
-//   id String @id
-//   price Int
-//   terms String?
-//   moreCharge Boolean
-//   kind OptionKind
-//   clinicId String
-//   clinic Clinic @relation(fields: [clinicId], references: [id])
-// }
+model Option {
+  id String @id
+  price Int
+  terms String?
+  moreCharge Boolean
+  kind OptionKind
+  clinicId String
+  clinic Clinic @relation(fields: [clinicId], references: [id])
+}
 
-// enum OptionKind {
-//   leakage
-//   aftercare
-//   anesthesia
-//   contractCancel
-//   firstVisitFees
-//   revisitFees
-//   shaving
-//   skinTrouble
-// }
-
+enum OptionKind {
+  leakage
+  aftercare
+  anesthesia
+  contractCancel
+  firstVisitFees
+  revisitFees
+  shaving
+  skinTrouble
+}
 
 //同スキーマ
 model Price {

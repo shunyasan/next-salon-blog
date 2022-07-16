@@ -14,8 +14,6 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { Clinic, ClinicOpeningHours, ClinicOption } from "@prisma/client";
-import { PriceDataBox } from "components/molecules/box/PriceDataBox";
 import { OpeningHoursTable } from "components/molecules/table/OpeningHoursTable";
 import { useRouter } from "next/router";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
@@ -40,7 +38,6 @@ const skip = 2;
 export const PlanCard: FC<Props> = (props) => {
   const { clinic } = props;
   const router = useRouter();
-  // const { checkFreeOption, newOptionFunc } = SalonListHook();
   // const { getPriceByClinicId } = PriceApi();
   // const { getRandomImg } = SearchSalonHooks();
 

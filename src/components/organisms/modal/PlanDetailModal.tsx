@@ -12,7 +12,6 @@ import { MdClose } from "react-icons/md";
 type Props = {
   price: PriceDto;
   // clinic: Clinic & {
-  //   clinicOption: ClinicOption | null;
   //   clinicOpeningHours: ClinicOpeningHours[];
   // };
   url: string;

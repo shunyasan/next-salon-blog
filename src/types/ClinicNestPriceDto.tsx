@@ -1,4 +1,3 @@
-import { Clinic, ClinicOpeningHours, ClinicOption } from "@prisma/client";
 import { PriceDto } from "./PriceDto";
 import { RelationClinic } from "./RelationClinic";
 

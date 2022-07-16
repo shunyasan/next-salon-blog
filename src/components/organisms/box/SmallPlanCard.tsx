@@ -1,5 +1,4 @@
 import { Box, Button, HStack, Text, useDisclosure } from "@chakra-ui/react";
-import { Clinic, ClinicOpeningHours, ClinicOption } from "@prisma/client";
 import { FC, memo, useCallback, VFC } from "react";
 import { TitleValue } from "types/app/TitleValue";
 import { PriceDto } from "types/PriceDto";
@@ -8,10 +7,6 @@ import { PlanDetailModal } from "../../organisms/modal/PlanDetailModal";
 
 type Props = {
   price: PriceDto;
-  // clinic: Clinic & {
-  //   clinicOption: ClinicOption | null;
-  //   clinicOpeningHours: ClinicOpeningHours[];
-  // };
   url: string;
   options?: TitleValue[];
 };

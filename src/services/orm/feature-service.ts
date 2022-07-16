@@ -1,8 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { Clinic, ClinicOpeningHours, ClinicOption } from "@prisma/client";
-import { NextApiRequest, NextApiResponse } from "next";
-import { featureValidation } from "services/app/features/feature";
 import {
   ClinicNestPriceDto,
   ClinicToClinicNestPriceDto,

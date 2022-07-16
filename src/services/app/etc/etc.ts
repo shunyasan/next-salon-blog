@@ -1,4 +1,3 @@
-import { Clinic, ClinicOption } from "@prisma/client";
 import { useRouter } from "next/router";
 import fetcher from "services/fetcher";
 import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
@@ -117,35 +116,4 @@ export const newOptionFunc = (clinicAndPrice: ClinicNestPriceDto) => {
     medicalFee: [firstVisit, subsequentVisit, studentDiscount],
     payment: [cardPay, medhicalLoan, contractCancel],
   };
-};
-
-export const checkFreeOption = (option: ClinicOption) => {
-  const func: any = {};
-  func["irradiationLeakage"] = "照射漏れ";
-  func["aftercare"] = "アフターケア";
-  func["anesthesia"] = "麻酔";
-  func["contractCancellation"] = "中途解約";
-  func["firstVisitFees"] = "初診料";
-  func["subsequentVisitFees"] = "再診料";
-  func["shaving"] = "剃毛";
-  func["troubleTreatment"] = "肌トラブル対応";
-
-  const clinicData = Object.entries(option).map(([key, value]) => {
-    if (typeof value === "string" && value.includes("無料")) {
-      return key;
-    } else {
-      return null;
-    }
-  });
-
-  let optionList: string = "";
-  for (const data of clinicData) {
-    if (data) {
-      const checkOption = func[data];
-      if (checkOption) {
-        optionList += checkOption + "/ ";
-      }
-    }
-  }
-  return optionList === "" ? "不明" : optionList;
 };

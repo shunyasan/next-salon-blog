@@ -12,7 +12,6 @@ import {
   AboutCategory,
   Clinic,
   ClinicOpeningHours,
-  ClinicOption,
   Picture,
 } from "@prisma/client";
 import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
