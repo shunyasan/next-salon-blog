@@ -3,15 +3,15 @@ import { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
-import fetcher from "services/fetcher";
+import fetcher from "services/common/fetcher";
 import useSWR from "swr";
 import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import { OriginCategiryId } from "enums/OriginCategiryIdEnum";
 import TreatmentTemplete from "components/templete/pages/treatment/TreatmentTemplete";
-import { aboutCategoryService, originCategoryService } from "services/service";
 import { IdAndNameDto } from "types/IdAndNameDto";
+import { aboutCategoryRepository } from "services/common/repository";
 
 type Props = {
   // origin: IdAndNameDto[];
@@ -23,7 +23,7 @@ type Props = {
 const originId = OriginCategiryId.face;
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const about = await aboutCategoryService.getJoinBasicPartsd(originId, 2);
+  const about = await aboutCategoryRepository.getJoinBasicParts(originId, 2);
   return {
     props: {
       about,

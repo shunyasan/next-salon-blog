@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { originCategoryService } from "services/service";
+import { IdAndNameRepository } from "services/repository/IdAndNameRepository";
 import { IdAndNameDto } from "types/IdAndNameDto";
 
+const { getOriginBySortSelected } = IdAndNameRepository();
 export default async function getOriginCategories(
   req: NextApiRequest,
   res: NextApiResponse<IdAndNameDto[]>
@@ -9,7 +10,7 @@ export default async function getOriginCategories(
   // originCategoryId: string
 ) {
   const originCategoryId = req.query.id as string;
-  const data = await originCategoryService.getBySortSelected(originCategoryId);
+  const data = await getOriginBySortSelected(originCategoryId);
 
   // const url =
   //   "origin-category/id-and-name/sort-selected?" +

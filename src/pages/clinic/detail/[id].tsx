@@ -13,26 +13,22 @@ import { AboutCategory, Clinic, ClinicOpeningHours } from "@prisma/client";
 import ClinicTemplate from "components/templete/pages/clinic/ClinicTemplate";
 import { ClinicDetailCard } from "components/organisms/board/ClinicDetailCard";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import { ClinicService } from "services/orm/clinic-service";
 import useSWR from "swr";
 import { IdAndNameDto } from "types/IdAndNameDto";
 import { useCallback, useEffect, useState } from "react";
 import { OriginCategiryId } from "enums/OriginCategiryIdEnum";
-import fetcher from "services/fetcher";
+import fetcher from "services/common/fetcher";
 import Head from "next/head";
 import { Layout } from "components/templete/lauouts/Layout";
-import {
-  aboutCategoryService,
-  clinicService,
-  idAndNameService,
-  originCategoryService,
-  priceByAboutCategoryService,
-  priceService,
-} from "services/service";
 import { PriceByAboutCategory } from "types/PriceByAboutCategory";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import { ChangeBgTab } from "components/atoms/tab/ChangeBgTab";
 import { RelationClinic } from "types/RelationClinic";
+import {
+  clinicRepository,
+  originCategoryRepository,
+} from "services/common/repository";
+import { priceByAboutCategoryRepository } from "services/repository/priceByAboutCategoryRepository";
 
 type Props = {
   clinicData: RelationClinic;
@@ -41,8 +37,10 @@ type Props = {
   prices?: PriceByAboutCategory[];
 };
 
+const { getAllByClinic } = priceByAboutCategoryRepository();
+
 export const getStaticPaths: GetStaticPaths = async () => {
-  const datas: Clinic[] = await clinicService.getAllClinics();
+  const datas: Clinic[] = await clinicRepository.getAll();
   const paths = datas.map((data) => `/clinic/detail/${data.id}`);
   return { paths: paths, fallback: false };
 };
@@ -50,15 +48,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const param = params && params.id;
   const id = param && typeof param === "string" ? param : "";
-  const clinicData: RelationClinic = await clinicService.getOneClinic(id);
-  const origin: IdAndNameDto[] = await idAndNameService.getAllOriginCategory();
-  // const aboutCategory: AboutCategory[] =
-  //   await aboutCategoryService.getAboutCategoryByOriginId(origin[0].id);
-  const prices = await priceByAboutCategoryService.getAllByClinic(
-    "Z000001",
-    id,
-    "女性"
-  );
+  const clinicData: RelationClinic = await clinicRepository.getOneClinic(id);
+  const origin: IdAndNameDto[] =
+    await originCategoryRepository.getAllIdAndName();
+  const prices = await getAllByClinic("Z000001", id, "女性");
 
   // const clinicData: Clinic = await fetcher(`${thisURL}api/clinics/${id}`);
   return {

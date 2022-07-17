@@ -1,7 +1,8 @@
 import { Price } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { priceService } from "services/service";
-import { PriceDto } from "types/PriceDto";
+import { priceRepository } from "services/repository/priceRepository";
+
+const { getPlanByClinicId } = priceRepository();
 
 export default async function getPriceByClinicId(
   req: NextApiRequest,
@@ -16,7 +17,7 @@ export default async function getPriceByClinicId(
   if (req.query.take !== "" && req.query.skip !== "") {
     pagenation = { take: Number(req.query.take), skip: Number(req.query.skip) };
   }
-  const data = await priceService.getPlanByClinicId(clinicId, pagenation);
+  const data = await getPlanByClinicId(clinicId, pagenation);
 
   // const takeCheck = checkEmptyRequestQueryToNumber(req.query.take);
   // const skipCheck = checkEmptyRequestQueryToNumber(req.query.skip);

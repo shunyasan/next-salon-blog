@@ -12,30 +12,28 @@ import {
 } from "@chakra-ui/react";
 import { OpeningHoursTable } from "components/molecules/table/OpeningHoursTable";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
-import { getRandomImg } from "services/app/resources/SearchSalonHooks";
 import { PriceDto } from "types/PriceDto";
-import { OptionText } from "types/app/OptionText";
-import { OrderPlanIdName } from "types/app/OrderPlanIdName";
+import { OrderPlanIdName } from "types/OrderPlanIdName";
 import { FreeServiceBoxList } from "../lists/FreeServiceBoxList";
 import { PayRerationsBoxList } from "../lists/PayRerationsBoxList";
 import { PlanDetailModal } from "../modal/PlanDetailModal";
 import { NoticeClinicDetail } from "../box/NoticeClinicDetail";
 import { PriceDataBox } from "components/molecules/box/PriceDataBox";
+import { resourcesData } from "services/common/resourcesData";
+import { TitleValue } from "types/TitleValue";
 
 type Props = {
   price: PriceDto;
   orderDataIdName: OrderPlanIdName;
 };
+
+const { getRandomImg } = resourcesData();
+
 export const PricePlanCard: FC<Props> = (props) => {
   const { price, orderDataIdName } = props;
   const { isOpen, onClose } = useDisclosure();
 
-  // const [detailViewState, setDetailViewState] = useState<boolean>(false);
-  // const [detailViewClass, setDetailViewClass] =
-  //   useState<string>("defaultDisplayNone");
-  // const [optionService, setOptionService] = useState<OptionText[]>();
-  // const [medicalFee, setMedicalFee] = useState<OptionText[]>();
-  const [payment, setPayment] = useState<OptionText[]>();
+  const [payment, setPayment] = useState<TitleValue[]>();
   const [image, setImage] = useState<string[]>([]);
 
   useEffect(() => {

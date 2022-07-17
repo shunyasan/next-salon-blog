@@ -1,7 +1,7 @@
 import { Box, Flex, HStack, Stack, Text } from "@chakra-ui/react";
 import { StatusText } from "components/atoms/text/StatusText";
 import { FC, memo, useCallback, VFC } from "react";
-import { TitleValue } from "types/app/TitleValue";
+import { TitleValue } from "types/TitleValue";
 type Props = {
   datas: TitleValue[];
   // width: string | { md: string; sm: string };

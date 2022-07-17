@@ -1,7 +1,7 @@
 import { Box, Flex, Image } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { VFC } from "react";
-import { HomeFeatureText } from "types/app/HomeFeatureText";
+import { HomeFeatureText } from "types/HomeFeatureText";
 import { FeatureResource } from "../../../../resorces/FeatureResource";
 import { TopResource } from "../../../../resorces/TopResource";
 import { ImageBox } from "../box/ImageBox";

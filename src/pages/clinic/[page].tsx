@@ -4,17 +4,8 @@ import ClinicListTemplate from "components/templete/pages/clinic/ClinicListTempl
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import Script from "next/script";
-import { memo, useCallback, useEffect, useState, VFC } from "react";
-import { ClinicAreaService } from "services/orm/clinic-area-service";
-import { ClinicService } from "services/orm/clinic-service";
-import fetcher from "services/fetcher";
-import { clinicAreaService, clinicService } from "services/service";
-import useSWR from "swr";
-import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
-import { twitterService } from "services/orm/twitterService";
-import { ClinicPageProps } from "types/app/ClinicPageProps";
-import { ClinicServiceFunc } from "services/orm/ClinicServiceFunc";
+import { clinicPagePropsRepository } from "services/repository/clinicPagePropsRepository";
+import { ClinicPageProps } from "types/ClinicPageProps";
 
 const numOfClinicMax = 349;
 const numOfTakeData = 10;
@@ -24,7 +15,7 @@ const defaultPagenation = {
   block: 0,
 };
 
-const { getClinicPagesData } = ClinicServiceFunc();
+const { getClinicPagesData } = clinicPagePropsRepository();
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const num = Math.ceil(numOfClinicMax / numOfTakeData);

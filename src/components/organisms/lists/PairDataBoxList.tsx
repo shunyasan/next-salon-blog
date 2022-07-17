@@ -1,6 +1,6 @@
 import { Box, Flex, HStack, Stack, Text } from "@chakra-ui/react";
 import { FC, memo, useCallback, VFC } from "react";
-import { TitleValue } from "types/app/TitleValue";
+import { TitleValue } from "types/TitleValue";
 type Props = {
   datas: TitleValue[];
   fontSize?: string;

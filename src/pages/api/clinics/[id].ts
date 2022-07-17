@@ -1,6 +1,6 @@
 import { Clinic } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { clinicService } from "services/service";
+import { clinicRepository } from "services/common/repository";
 
 export default async function getOneClinic(
   req: NextApiRequest,
@@ -9,7 +9,7 @@ export default async function getOneClinic(
   // clinicId: string
 ) {
   const clinicId = req.query.id as string;
-  const data = await clinicService.getOneClinic(clinicId);
+  const data = await clinicRepository.getOneClinic(clinicId);
 
   // const data: Clinic = await getAxios("clinic/" + clinicId);
   res.json(data);

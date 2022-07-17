@@ -1,9 +1,9 @@
 import { Box, Flex, HStack, Stack, Text } from "@chakra-ui/react";
 import { StatusText } from "components/atoms/text/StatusText";
 import { FC, memo, useCallback, VFC } from "react";
-import { OptionText } from "types/app/OptionText";
+import { TitleValue } from "types/TitleValue";
 type Props = {
-  payments: OptionText[];
+  payments: TitleValue[];
 };
 
 export const PayRerationsBoxList: FC<Props> = (props) => {
@@ -18,12 +18,14 @@ export const PayRerationsBoxList: FC<Props> = (props) => {
           // h={"4rem"}
           justifyContent={"left"}
           // spacing={"3px"}
-          fontSize={data.text !== "-" ? "0.8em" : "0.8em"}
+          fontSize={data.title !== "-" ? "0.8em" : "0.8em"}
           // onClick={onClick}
           // mx={"auto"}
           // cursor={"pointer"}
         >
-          <Text fontWeight={data.text !== "-" ? "bold" : ""}>{data.name}</Text>
+          <Text fontWeight={data.title !== "-" ? "bold" : ""}>
+            {data.value}
+          </Text>
           {/* <Box
           borderBottom={"1px"}
           borderColor={"black"}
@@ -32,7 +34,7 @@ export const PayRerationsBoxList: FC<Props> = (props) => {
          ></Box> */}
           <Box ml="1rem" display={"inline-block"}>
             <StatusText
-              text={data.text}
+              text={data.title}
               first={""}
               second={"無料"}
               other={"-"}

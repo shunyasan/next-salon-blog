@@ -17,15 +17,15 @@ import {
 import { OpeningHoursTable } from "components/molecules/table/OpeningHoursTable";
 import { useRouter } from "next/router";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
-import { newOptionFunc } from "services/app/etc/etc";
-import { getRandomImg } from "services/app/resources/SearchSalonHooks";
 import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
-import { OptionText } from "types/app/OptionText";
-import { OrderPlanIdName } from "types/app/OrderPlanIdName";
+import { OrderPlanIdName } from "types/OrderPlanIdName";
 import { NoticeClinicDetail } from "../box/NoticeClinicDetail";
 import { FreeServiceBoxList } from "../lists/FreeServiceBoxList";
 import { PayRerationsBoxList } from "../lists/PayRerationsBoxList";
 import { CopyrightImageBox } from "components/molecules/box/CopyrightImageBox";
+import { titleValueService } from "services/titleValueService";
+import { TitleValue } from "types/TitleValue";
+import { resourcesData } from "services/common/resourcesData";
 
 type Props = {
   clinic: ClinicNestPriceDto;
@@ -34,13 +34,16 @@ type Props = {
 const take = 10;
 const skip = 2;
 
+const { newOptionFunc } = titleValueService();
+const { getRandomImg } = resourcesData();
+
 export const PlanCard: FC<Props> = (props) => {
   const { clinic } = props;
   const router = useRouter();
   // const { getPriceByClinicId } = PriceApi();
   // const { getRandomImg } = SearchSalonHooks();
 
-  const [payment, setPayment] = useState<OptionText[]>([]);
+  const [payment, setPayment] = useState<TitleValue[]>([]);
   // 画像準備期間のみ
   const [image, setImage] = useState<string[]>([]);
 
@@ -51,8 +54,8 @@ export const PlanCard: FC<Props> = (props) => {
   //
 
   const OptionFunc = useCallback(async () => {
-    const clinicOptionList = newOptionFunc(clinic);
-    setPayment(clinicOptionList.payment);
+    const pay = newOptionFunc(clinic.clinic);
+    setPayment(pay);
   }, [clinic]);
 
   useEffect(() => {

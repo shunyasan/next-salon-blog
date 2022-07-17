@@ -14,17 +14,16 @@ import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { defaultDataService } from "services/app/defaultDataService";
-import { OrderPlanIdNameService } from "services/app/orderPlanIdNameService";
-import fetcher from "services/fetcher";
-import { instagramService } from "services/orm/instagramService";
+import { defaultData } from "services/common/defaultData";
+import fetcher from "services/common/fetcher";
+import { InstagramRepository } from "services/repository/InstagramRepository";
 import {
-  aboutCategoryService,
-  basePartsService,
-  originCategoryService,
-} from "services/service";
+  aboutCategoryRepository,
+  basePartsRepository,
+  originCategoryRepository,
+} from "services/common/repository";
 import useSWR from "swr";
-import { OrderPlanIdName } from "types/app/OrderPlanIdName";
+import { OrderPlanIdName } from "types/OrderPlanIdName";
 
 import { IdAndNameDto } from "types/IdAndNameDto";
 import style from "../../../styles/Home.module.css";
@@ -39,14 +38,16 @@ type Props = {
   })[];
 };
 
-const { defaultOrderPlanIdName } = defaultDataService();
-const { getInstagramRamdom } = instagramService();
+const { defaultOrderPlanIdName } = defaultData();
+const { getInstagramRamdom } = InstagramRepository();
 export const getStaticProps: GetStaticProps<Props> = async (context) => {
-  const originCategories = await originCategoryService.getAllOriginCategory();
-  const aboutCategories = await aboutCategoryService.getAboutCategoryByOriginId(
-    originCategories[0].id
-  );
-  const baseParts = await basePartsService.getAllBasePartsByAboutId(
+  const originCategories =
+    await originCategoryRepository.getAllOriginCategory();
+  const aboutCategories =
+    await aboutCategoryRepository.getAllAboutCategoryByOriginId(
+      originCategories[0].id
+    );
+  const baseParts = await basePartsRepository.getAllBasePartsByAboutId(
     aboutCategories[0].id
   );
 

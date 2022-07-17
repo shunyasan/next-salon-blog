@@ -6,25 +6,25 @@ import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { FC, useState } from "react";
-import fetcher from "services/fetcher";
-import { getRandomImg } from "services/app/resources/SearchSalonHooks";
+import fetcher from "services/common/fetcher";
+import { resourcesData } from "services/common/resourcesData";
 import useSWR, { SWRConfig } from "swr";
 import { FeatureDto } from "types/FeatureDto";
 import { TopResource } from "../../resorces/TopResource";
-import { getFeatureString } from "../services/app/features/feature";
-import { FeatureViewData } from "../types/app/FeatureViewData";
+import { FeatureViewData } from "../types/FeatureViewData";
 import { UnderLineText } from "components/atoms/text/UnderLineText";
 import { Layout } from "components/templete/lauouts/Layout";
-import { featureService } from "services/service";
 // import Twitter from "components/Twitter";
 // import { tweet } from "services/tweet";
 import { CopyrightImageBox } from "components/molecules/box/CopyrightImageBox";
 import InstagramBox from "components/InstagramBox";
 import { Clinic, Instagram, Twitter } from "@prisma/client";
-import { twitterService } from "services/orm/twitterService";
 import TwitterBox from "components/TwitterBox";
-import { instagramService } from "services/orm/instagramService";
 import StreetView from "components/StreetView";
+import { featureDtoRepository } from "services/repository/featureDtoRepository";
+import { InstagramRepository } from "services/repository/InstagramRepository";
+import { twitterRepository } from "services/repository/twitterRepository";
+import { featureViewDataService } from "services/featureViewDataService";
 
 type Props = {
   // data: FeatureViewData[];
@@ -39,11 +39,14 @@ type Props = {
   })[];
 };
 
-const { getTwittersRamdom } = twitterService();
-const { getInstagramRamdom } = instagramService();
+const { getTwittersRamdom } = twitterRepository();
+const { getInstagramRamdom } = InstagramRepository();
+const { getAllFeature } = featureDtoRepository();
+const { getFeatureString } = featureViewDataService();
+const { getRandomImg } = resourcesData();
 
 const getAllFeatureFunc = async () => {
-  const data: FeatureDto = await featureService.getAllFeature();
+  const data: FeatureDto = await getAllFeature();
   return getFeatureString(data);
 };
 

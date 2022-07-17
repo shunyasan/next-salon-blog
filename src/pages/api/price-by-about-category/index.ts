@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { priceByAboutCategoryService, priceService } from "services/service";
+import { priceByAboutCategoryRepository } from "services/repository/priceByAboutCategoryRepository";
 import { PriceByAboutCategory } from "types/PriceByAboutCategory";
 
+const { getAllByClinic } = priceByAboutCategoryRepository();
 export default async function getTreatmentPrice(
   req: NextApiRequest,
   res: NextApiResponse<PriceByAboutCategory[]>
@@ -9,11 +10,7 @@ export default async function getTreatmentPrice(
   const originId = req.query.originId as string;
   const clinicId = req.query.clinicId as string;
   const gender = req.query.gender as string;
-  const data = await priceByAboutCategoryService.getAllByClinic(
-    originId,
-    clinicId,
-    gender
-  );
+  const data = await getAllByClinic(originId, clinicId, gender);
 
   res.json(data);
 }

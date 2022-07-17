@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { basePartsService } from "services/service";
+import { IdAndNameRepository } from "services/repository/IdAndNameRepository";
 import { IdAndNameDto } from "types/IdAndNameDto";
+
+const { getBySortSelected } = IdAndNameRepository();
 
 export default async function getBaseParts(
   req: NextApiRequest,
@@ -11,18 +13,7 @@ export default async function getBaseParts(
 ) {
   const aboutCategoryId = req.query.aboutCategoryId as string;
   const partsId = req.query.partsId as string;
-  const data = await basePartsService.getBySortSelected(
-    aboutCategoryId,
-    partsId
-  );
+  const data = await getBySortSelected(aboutCategoryId, partsId);
 
-  // const url =
-  //   "base-parts/id-and-name/sort-selected?" +
-  //   `aboutCategoryId=${aboutCategoryId}&`;
-
-  // const checkedUrl =
-  //   !partsId || partsId === "none" ? url : url + `partsId=${partsId}&`;
-
-  // const data: IdAndNameDto[] = await getAxios(checkedUrl);
   res.json(data);
 }

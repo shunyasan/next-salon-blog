@@ -17,13 +17,8 @@ import {
 import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
 import { OpeningHoursTable } from "components/molecules/table/OpeningHoursTable";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
-import {
-  ClinicOptionTitleValue,
-  ClinicOtherTitleValue,
-} from "services/app/clinic/ClinicDetailHooks";
-import { getRandomImg } from "services/app/resources/SearchSalonHooks";
 import { IdAndNameDto } from "types/IdAndNameDto";
-import { TitleValue } from "types/app/TitleValue";
+import { TitleValue } from "types/TitleValue";
 import { NoticeClinicDetail } from "../box/NoticeClinicDetail";
 import { PairDataBoxList } from "../lists/PairDataBoxList";
 import { PairDataRowBoxList } from "../lists/PairDataRowBoxList";
@@ -32,6 +27,8 @@ import { ClinicPlanCard } from "./ClinicPlanCard";
 import { PriceByAboutCategory } from "types/PriceByAboutCategory";
 import { RelationClinic } from "types/RelationClinic";
 import { CopyrightImageBox } from "components/molecules/box/CopyrightImageBox";
+import { titleValueService } from "services/titleValueService";
+import { resourcesData } from "services/common/resourcesData";
 
 type Props = {
   clinicData: RelationClinic;
@@ -42,11 +39,13 @@ type Props = {
   // aboutCategoryData: AboutCategory[];
 };
 
+const { ClinicOptionTitleValue, ClinicOtherTitleValue } = titleValueService();
+const { getRandomImg } = resourcesData();
+
 export const ClinicDetailCard: FC<Props> = (props) => {
   const { clinicData, originData, prices, onClickOriginId, onClickGender } =
     props;
   // const { getRandomImg } = SearchSalonHooks();
-  // const { ClinicOtherTitleValue, ClinicOptionTitleValue } = ClinicDetailHooks();
 
   const [otherData, setOtherData] = useState<TitleValue[]>();
   const [optionData, setOptionData] = useState<TitleValue[]>();

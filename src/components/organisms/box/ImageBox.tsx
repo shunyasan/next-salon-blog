@@ -1,7 +1,7 @@
 import { Box, Flex, HStack, Image, Stack, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FC, memo, useCallback, useState, VFC } from "react";
-import { HomeFeatureText } from "types/app/HomeFeatureText";
+import { HomeFeatureText } from "types/HomeFeatureText";
 
 type Props = {
   homeFeature: HomeFeatureText;

@@ -1,14 +1,16 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { NextApiRequest, NextApiResponse } from "next";
-import { featureService } from "services/service";
+import { featureDtoRepository } from "services/repository/featureDtoRepository";
 import { FeatureDto } from "types/FeatureDto";
 
-export default async function getAllFeature(
+const { getAllFeature } = featureDtoRepository();
+
+export default async function getAllFeatureDto(
   req: NextApiRequest,
   res: NextApiResponse<FeatureDto>
 ) {
-  const data: FeatureDto = await featureService.getAllFeature();
+  const data: FeatureDto = await getAllFeature();
   // const data = await getAxios("feature");
   res.json(data);
 }

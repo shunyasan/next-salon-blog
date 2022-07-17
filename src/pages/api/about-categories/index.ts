@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { IdAndNameRepository } from "services/orm/repository/IdAndNameRepository";
-import { aboutCategoryService } from "services/service";
+import { IdAndNameRepository } from "services/repository/IdAndNameRepository";
 import { IdAndNameDto } from "types/IdAndNameDto";
 
 const { getAllAboutCategoriesIdAndName } = IdAndNameRepository();

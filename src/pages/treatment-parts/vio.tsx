@@ -2,15 +2,14 @@ import { Box, Flex, HStack, Text } from "@chakra-ui/react";
 import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
-import fetcher from "services/fetcher";
+import fetcher from "services/common/fetcher";
 import useSWR from "swr";
-import { AboutCategoryService } from "services/orm/aboutCategoryService";
 import { AboutCategory, BaseParts } from "@prisma/client";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import { OriginCategiryId } from "enums/OriginCategiryIdEnum";
 import TreatmentTemplete from "components/templete/pages/treatment/TreatmentTemplete";
-import { aboutCategoryService } from "services/service";
+import { aboutCategoryRepository } from "services/common/repository";
 
 type Props = {
   about: (AboutCategory & {
@@ -21,7 +20,7 @@ type Props = {
 const originId = OriginCategiryId.vio;
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const about = await aboutCategoryService.getJoinBasicPartsd(originId, 2);
+  const about = await aboutCategoryRepository.getJoinBasicParts(originId, 2);
   return {
     props: {
       about,

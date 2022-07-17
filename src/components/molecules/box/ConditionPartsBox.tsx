@@ -12,7 +12,7 @@ import TreatmentPartsBox from "components/organisms/box/TreatmentPartsBox";
 import { OrderPlanTitle } from "enums/OrderPlanTitle";
 import { FC, memo, useState, VFC } from "react";
 import { json } from "stream/consumers";
-import { OrderPlanIdName } from "types/app/OrderPlanIdName";
+import { OrderPlanIdName } from "types/OrderPlanIdName";
 import { IdAndNameDto } from "types/IdAndNameDto";
 
 type Props = {

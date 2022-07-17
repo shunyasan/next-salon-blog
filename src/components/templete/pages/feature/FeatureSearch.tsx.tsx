@@ -1,7 +1,7 @@
 import { Box, Text, Flex } from "@chakra-ui/layout";
 import { PlanCard } from "components/organisms/board/PlanCard";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
-import fetcher from "services/fetcher";
+import fetcher from "services/common/fetcher";
 import useSWR from "swr";
 import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
 import { TopResource } from "../../../../../resorces/TopResource";

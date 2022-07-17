@@ -10,8 +10,8 @@ import {
 import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
 import { OrderPlanTitle } from "enums/OrderPlanTitle";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
-import { OrderPlanIdName } from "types/app/OrderPlanIdName";
-import { TitleValue } from "types/app/TitleValue";
+import { OrderPlanIdName } from "types/OrderPlanIdName";
+import { TitleValue } from "types/TitleValue";
 import { PlanResearchModal } from "../modal/PlanResearchModal";
 import { ResultCardBox } from "./ResultCardBox";
 

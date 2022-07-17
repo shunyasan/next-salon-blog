@@ -1,7 +1,7 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import { ImageBox } from "components/molecules/box/ImageBox";
 import { FC } from "react";
-import { HomeFeatureText } from "types/app/HomeFeatureText";
+import { HomeFeatureText } from "types/HomeFeatureText";
 import { TopResource } from "../../../../resorces/TopResource";
 
 export const HomeSearchBoxList: FC = () => {

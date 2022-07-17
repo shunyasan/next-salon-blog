@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { priceService } from "services/service";
+import { priceDtoRepository } from "services/repository/priceDtoRepository";
 import { PriceDto } from "types/PriceDto";
+
+const { getPriceByClinic } = priceDtoRepository();
 
 export default async function getPriceByAboutIdAndClinicId(
   req: NextApiRequest,
@@ -11,7 +13,7 @@ export default async function getPriceByAboutIdAndClinicId(
 ) {
   const clinicId = req.query.id as string;
   const aboutId = req.query.aboutId as string;
-  const data = await priceService.getPriceByClinic(clinicId, aboutId);
+  const data = await getPriceByClinic(clinicId, aboutId);
 
   // const data: PriceDto[] = await getAxios(
   //   `price/clinic/${clinicId}?aboutId=${aboutId}`

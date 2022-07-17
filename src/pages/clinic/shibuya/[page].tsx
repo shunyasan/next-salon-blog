@@ -4,11 +4,9 @@ import ClinicListTemplate from "components/templete/pages/clinic/ClinicListTempl
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { ClinicServiceFunc } from "services/orm/ClinicServiceFunc";
-import { twitterService } from "services/orm/twitterService";
-import { clinicAreaService, clinicService } from "services/service";
-import { ClinicPageProps } from "types/app/ClinicPageProps";
+import { ClinicPageProps } from "types/ClinicPageProps";
 import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
+import { clinicPagePropsRepository } from "services/repository/clinicPagePropsRepository";
 
 const numOfClinicMax = 86;
 const numOfTakeData = 10;
@@ -19,7 +17,7 @@ const defaultPagenation = {
   block: 0,
 };
 
-const { getClinicPagesData } = ClinicServiceFunc();
+const { getClinicPagesData } = clinicPagePropsRepository();
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const num = Math.ceil(numOfClinicMax / numOfTakeData);
@@ -35,19 +33,7 @@ export const getStaticProps: GetStaticProps<ClinicPageProps> = async ({
     num,
     areaId
   );
-  // const area: Area[] = await clinicAreaService.getAllClinicArea();
-  // const page = num - 1 >= 0 ? num - 1 : 0;
-  // // const area: Area[] = await fetcher(`${thisURL}api/clinic-areas`);
 
-  // const clinics: ClinicNestPriceDto[] =
-  //   await clinicService.getAllClinicByAreaId(areaId, {
-  //     take: numOfTakeData,
-  //     skip: (num - 1) * numOfTakeData,
-  //   });
-  // const clinics: ClinicNestPriceDto[] = await fetcher(
-  //   `${thisURL}api/clinics/prices?take=${numOfTakeData}&skip=0`
-  // );
-  // const twitter = await getTwittersRamdom();
   return {
     props: {
       area,

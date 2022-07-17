@@ -4,11 +4,10 @@ import { Feature } from "enums/FeatureEnum";
 import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
-import { FeatureService } from "services/orm/feature-service";
-import fetcher from "services/fetcher";
-import { featureService } from "services/service";
+import fetcher from "services/common/fetcher";
 import useSWR from "swr";
 import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
+import { clinicNestPriceRepository } from "services/repository/clinicNestPriceRepository";
 
 const numOfTake = 10;
 
@@ -17,12 +16,14 @@ type Props = {
   count: number;
 };
 
+const { getFeature, getCountFeature } = clinicNestPriceRepository();
+
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const clinics = await featureService.getFeature(Feature.sutudentDiscount, {
+  const clinics = await getFeature(Feature.sutudentDiscount, {
     take: numOfTake,
     skip: 0,
   });
-  const count = await featureService.getCountFeature(Feature.sutudentDiscount);
+  const count = await getCountFeature(Feature.sutudentDiscount);
 
   // const clinics: ClinicNestPriceDto[] = await getFeature(
   //   Feature.sutudentDiscount,

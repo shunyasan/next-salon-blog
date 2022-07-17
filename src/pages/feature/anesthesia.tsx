@@ -4,11 +4,10 @@ import { Feature } from "enums/FeatureEnum";
 import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
-import { FeatureService } from "services/orm/feature-service";
-import fetcher from "services/fetcher";
-import { featureService } from "services/service";
+import fetcher from "services/common/fetcher";
 import useSWR from "swr";
 import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
+import { clinicNestPriceRepository } from "services/repository/clinicNestPriceRepository";
 
 const numOfTake = 10;
 
@@ -17,25 +16,15 @@ type Props = {
   count: number;
 };
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  // const clinics: ClinicNestPriceDto[] = await fetcher(
-  //   `${thisURL}api/features/${Feature.anesthesia}?take=${numOfTake}&skip=0`
-  // );
+const { getFeature, getCountFeature } = clinicNestPriceRepository();
 
-  const clinics = await featureService.getFeature(Feature.anesthesia, {
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  const clinics = await getFeature(Feature.anesthesia, {
     take: numOfTake,
     skip: 0,
   });
-  // const clinics: ClinicNestPriceDto[] = await getFeature(
-  //   Feature.anesthesia,
-  //   numOfTake,
-  //   0
-  // );
 
-  // const count: number = await fetcher(
-  //   `${thisURL}api/features/count/${Feature.anesthesia}`
-  // );
-  const count = await featureService.getCountFeature(Feature.anesthesia);
+  const count = await getCountFeature(Feature.anesthesia);
   return {
     props: {
       clinics,

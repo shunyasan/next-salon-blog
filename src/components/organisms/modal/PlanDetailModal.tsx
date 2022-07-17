@@ -2,7 +2,7 @@ import { Box, Button, Flex, Link, Stack, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FC } from "react";
 import { PriceDto } from "types/PriceDto";
-import { TitleValue } from "types/app/TitleValue";
+import { TitleValue } from "types/TitleValue";
 import { PairDataRowBoxList } from "../lists/PairDataRowBoxList";
 import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
 import { StaffGenderText } from "components/atoms/text/StaffGenderText";
@@ -22,7 +22,6 @@ type Props = {
 
 export const PlanDetailModal: FC<Props> = (props) => {
   const { price, url, options, isOpen, onClose } = props;
-  // const { ClinicOptionTitleValue } = ClinicDetailHooks();
   // //テスト時のみ
   // const { getRandomImg } = SearchSalonHooks();
   // const history = useHistory();

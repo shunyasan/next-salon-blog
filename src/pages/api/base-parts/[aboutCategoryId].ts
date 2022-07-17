@@ -1,6 +1,6 @@
 import { BaseParts } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { basePartsService } from "services/service";
+import { basePartsRepository } from "services/common/repository";
 
 export default async function getAllBasePartsByAboutCategoryId(
   req: NextApiRequest,
@@ -10,7 +10,7 @@ export default async function getAllBasePartsByAboutCategoryId(
 ): Promise<BaseParts[]> {
   const aboutCategoryId = req.query.aboutCategoryId as string;
   const gender = req.query.gender as string;
-  const data = await basePartsService.getAllBasePartsByAboutCategoryId(
+  const data = await basePartsRepository.getAllBasePartsByAboutCategoryId(
     aboutCategoryId,
     gender
   );

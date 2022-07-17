@@ -1,6 +1,6 @@
 import { Box, Button, HStack, Text, useDisclosure } from "@chakra-ui/react";
 import { FC, memo, useCallback, VFC } from "react";
-import { TitleValue } from "types/app/TitleValue";
+import { TitleValue } from "types/TitleValue";
 import { PriceDto } from "types/PriceDto";
 import { InlineTitleBadge } from "../../atoms/badge/InlineTitleBadge";
 import { PlanDetailModal } from "../../organisms/modal/PlanDetailModal";

@@ -9,7 +9,7 @@ import { OriginCategoryBox } from "components/organisms/box/OriginCategoryBox";
 import { useRouter } from "next/router";
 import React, { FC, useCallback, useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
-import fetcher from "services/fetcher";
+import fetcher from "services/common/fetcher";
 
 import useSWR from "swr";
 

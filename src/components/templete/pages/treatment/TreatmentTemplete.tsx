@@ -7,9 +7,8 @@ import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import { PartsBox } from "components/organisms/box/PartsBox";
 import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
 import { CategoryBox } from "components/organisms/box/CategoryBox";
-import { OrderPlanQueryService } from "services/app/orderPlanQueryService";
-import { OrderPlanIdNameService } from "services/app/orderPlanIdNameService";
-import { defaultDataService } from "services/app/defaultDataService";
+import { OrderPlanQueryService } from "services/orderPlanQueryService";
+import { defaultData } from "services/common/defaultData";
 
 type Props = {
   // title: string;
@@ -24,7 +23,7 @@ type Props = {
 };
 
 const { createParameter } = OrderPlanQueryService();
-const { defaultOrderPlanIdName } = defaultDataService();
+const { defaultOrderPlanIdName } = defaultData();
 
 const TreatmentTemplete: FC<Props> = ({
   // title,

@@ -1,12 +1,12 @@
 import { OriginCategory } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { originCategoryService } from "services/service";
+import { originCategoryRepository } from "services/common/repository";
 
 export default async function getAllOriginCategory(
   req: NextApiRequest,
   res: NextApiResponse<OriginCategory[]>
 ) {
-  const data = await originCategoryService.getAllOriginCategory();
+  const data = await originCategoryRepository.getAllOriginCategory();
 
   // const data: OriginCategory[] = await getAxios("origin-category");
   res.json(data);

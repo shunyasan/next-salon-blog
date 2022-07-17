@@ -1,9 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { featureValidation } from "services/app/features/feature";
-import { featureService } from "services/service";
+import { clinicNestPriceRepository } from "services/repository/clinicNestPriceRepository";
 import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
 
-export default async function getFeature(
+const { getFeature } = clinicNestPriceRepository();
+
+export default async function getFeatures(
   req: NextApiRequest,
   res: NextApiResponse<ClinicNestPriceDto[]>
 
@@ -15,13 +16,7 @@ export default async function getFeature(
   const take = Number(req.query.take);
   const skip = Number(req.query.skip);
 
-  const check =
-    typeof feature === "string" ? featureValidation(feature) : undefined;
-  if (!check) {
-    throw new Error("featureがありません");
-  }
-
-  const data = await featureService.getFeature(feature, { take, skip });
+  const data = await getFeature(feature, { take, skip });
 
   // const query = `take=${take}&skip=${skip}`;
   // const data: ClinicNestPriceDto[] = await getAxios(

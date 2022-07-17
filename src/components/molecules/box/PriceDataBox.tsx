@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Box, Flex, HStack, Stack, Text } from "@chakra-ui/react";
 import { PriceDto } from "types/PriceDto";
-import { OrderPlanIdName } from "types/app/OrderPlanIdName";
+import { OrderPlanIdName } from "types/OrderPlanIdName";
 
 type Props = {
   price: PriceDto;

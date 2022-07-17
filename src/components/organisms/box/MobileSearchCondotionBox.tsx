@@ -11,9 +11,9 @@ import {
 import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
 import { useRouter } from "next/router";
 import { FC, memo, useCallback, useState, VFC } from "react";
-import { HomeFeatureText } from "types/app/HomeFeatureText";
-import { OrderPlanIdName } from "types/app/OrderPlanIdName";
-import { TitleValue } from "types/app/TitleValue";
+import { HomeFeatureText } from "types/HomeFeatureText";
+import { OrderPlanIdName } from "types/OrderPlanIdName";
+import { TitleValue } from "types/TitleValue";
 import { PlanResearchModal } from "../modal/PlanResearchModal";
 
 type Props = {

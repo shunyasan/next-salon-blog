@@ -1,8 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { clinicService } from "services/service";
+import { clinicNestPriceRepository } from "services/repository/clinicNestPriceRepository";
 import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
 
-export default async function getAllClinicByAreaId(
+const { getAllClinicByAreaId } = clinicNestPriceRepository();
+
+export default async function getAllClinicsByAreaId(
   req: NextApiRequest,
   res: NextApiResponse<ClinicNestPriceDto[]>
 
@@ -13,7 +15,7 @@ export default async function getAllClinicByAreaId(
   const areaId = req.query.id as string;
   const take = Number(req.query.take);
   const skip = Number(req.query.skip);
-  const data = await clinicService.getAllClinicByAreaId(areaId, { take, skip });
+  const data = await getAllClinicByAreaId(areaId, { take, skip });
 
   // const query = `take=${take}&skip=${skip}`;
   // const data: ClinicNestPriceDto[] = await getAxios(

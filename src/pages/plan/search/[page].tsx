@@ -2,7 +2,7 @@ import { Box, Text, Flex } from "@chakra-ui/layout";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
 import { Button, Image, HStack, Stack } from "@chakra-ui/react";
 import { GetServerSideProps, NextPage } from "next";
-import { OrderPlanIdName } from "types/app/OrderPlanIdName";
+import { OrderPlanIdName } from "types/OrderPlanIdName";
 import { PriceDto } from "types/PriceDto";
 import { useRouter } from "next/router";
 import { SearchResultCard } from "components/organisms/box/SearchResultCard";
@@ -13,15 +13,8 @@ import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import { BgImgH1 } from "components/atoms/text/BgImgH1";
 // import { tweet } from "services/tweet";
 import { PricePlanCard } from "components/organisms/board/PricePlanCard";
-import {
-  aboutCategoryService,
-  basePartsService,
-  originCategoryService,
-  priceService,
-  titleValueService,
-} from "services/service";
 import { MobileSearchCondotionBox } from "components/organisms/box/MobileSearchCondotionBox";
-import { TitleValue } from "types/app/TitleValue";
+import { TitleValue } from "types/TitleValue";
 import {
   AboutCategory,
   BaseParts,
@@ -36,10 +29,17 @@ import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
 import { PlanSortBox } from "components/molecules/box/PlanSortBox";
 import { IdAndNameDto } from "types/IdAndNameDto";
 import { PlanSortSelect } from "components/atoms/select/PlanSortSelect";
-import { twitterService } from "services/orm/twitterService";
-import { instagramService } from "services/orm/instagramService";
-import { OrderPlanQueryService } from "services/app/orderPlanQueryService";
-import { OrderPlanIdNameService } from "services/app/orderPlanIdNameService";
+import { OrderPlanQueryService } from "services/orderPlanQueryService";
+import {
+  aboutCategoryRepository,
+  basePartsRepository,
+  originCategoryRepository,
+} from "services/common/repository";
+import { InstagramRepository } from "services/repository/InstagramRepository";
+import { twitterRepository } from "services/repository/twitterRepository";
+import { priceDtoRepository } from "services/repository/priceDtoRepository";
+import { titleValueService } from "services/titleValueService";
+import { orderPlanIdNameRepository } from "services/repository/orderPlanIdNameRepository";
 
 const numOfTakeData = 10;
 
@@ -64,10 +64,12 @@ type Props = {
   })[];
 };
 
-const { changeQueryToOrderPlanIdName } = OrderPlanIdNameService();
+const { changeQueryToOrderPlanIdName } = orderPlanIdNameRepository();
 const { createParameter, getOrderPlanQuery } = OrderPlanQueryService();
-const { getTwittersRamdom } = twitterService();
-const { getInstagramRamdom } = instagramService();
+const { getTwittersRamdom } = twitterRepository();
+const { getInstagramRamdom } = InstagramRepository();
+const { getCountMaxPlan, getPriceOrderPlan } = priceDtoRepository();
+const { getModalSearchConditionBoxData } = titleValueService();
 
 const createTitle = (idName: OrderPlanIdName) => {
   const data = Object.entries(idName).map(([key, value]) => {
@@ -78,11 +80,13 @@ const createTitle = (idName: OrderPlanIdName) => {
 };
 
 const getAllParts = async () => {
-  const originCategories = await originCategoryService.getAllOriginCategory();
-  const aboutCategories = await aboutCategoryService.getAboutCategoryByOriginId(
-    originCategories[0].id
-  );
-  const baseParts = await basePartsService.getAllBasePartsByAboutId(
+  const originCategories =
+    await originCategoryRepository.getAllOriginCategory();
+  const aboutCategories =
+    await aboutCategoryRepository.getAllAboutCategoryByOriginId(
+      originCategories[0].id
+    );
+  const baseParts = await basePartsRepository.getAllBasePartsByAboutId(
     aboutCategories[0].id
   );
   return { originCategories, aboutCategories, baseParts };
@@ -95,24 +99,19 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const num = context.params ? Number(context.params.page) : 1;
   const page = num - 1 >= 0 ? num - 1 : 0;
   const orderPlanQuery = getOrderPlanQuery(context.query);
-  // const query = createQueryString(context.query);
-  // const orderPlanQuery = getQueryOrderPlanInSearch(query);
-  // const swrQuery = createQuery(orderPlanQuery);
-  // const reqOrder = OrderPlanToOrderPlan(orderPlanQuery);
 
   //データ取得
-  const price = await priceService.getPriceOrderPlan(orderPlanQuery, {
+  const price = await getPriceOrderPlan(orderPlanQuery, {
     take: numOfTakeData,
     skip: page * numOfTakeData,
   });
-  const maxValue = await priceService.getCountMaxPlan(orderPlanQuery);
+  const maxValue = await getCountMaxPlan(orderPlanQuery);
   const allParts = await getAllParts();
 
   const orderDataIdName = await changeQueryToOrderPlanIdName(orderPlanQuery);
   // タイトル作成・条件結果の文字列
   const title = createTitle(orderDataIdName) || "";
-  const condition =
-    titleValueService.getModalSearchConditionBoxData(orderDataIdName);
+  const condition = getModalSearchConditionBoxData(orderDataIdName);
   const twitter = await getTwittersRamdom(3);
   const instagram = await getInstagramRamdom(4);
 

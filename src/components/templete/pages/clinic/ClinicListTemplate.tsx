@@ -9,10 +9,8 @@ import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Script from "next/script";
-import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
-import { ClinicAreaService } from "services/orm/clinic-area-service";
-import { ClinicService } from "services/orm/clinic-service";
-import fetcher from "services/fetcher";
+import { FC } from "react";
+import fetcher from "services/common/fetcher";
 // import { tweet } from "services/tweet";
 import useSWR from "swr";
 import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
@@ -46,11 +44,9 @@ type Props = {
 };
 
 // export const getStaticProps: GetStaticProps<Props> = async () => {
-//   const area: Area[] = await clinicAreaService.getAllClinicArea();
 //   // const area: Area[] = await fetcher(`${thisURL}api/clinic-areas`);
 
 //   const clinics: ClinicNestPriceDto[] =
-//     await clinicService.getAllClinicAndLimit({ take: numOfTakeData, skip: 0 });
 //   // const clinics: ClinicNestPriceDto[] = await fetcher(
 //   //   `${thisURL}api/clinics/prices?take=${numOfTakeData}&skip=0`
 //   // );

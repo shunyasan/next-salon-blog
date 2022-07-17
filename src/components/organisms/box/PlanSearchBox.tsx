@@ -4,12 +4,12 @@ import { ConditionText } from "components/molecules/box/ConditionTextBox";
 import { useRouter } from "next/router";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
 import { IdAndNameDto } from "types/IdAndNameDto";
-import { OrderPlanIdName } from "types/app/OrderPlanIdName";
+import { OrderPlanIdName } from "types/OrderPlanIdName";
 import { OrderPlanTitle } from "enums/OrderPlanTitle";
 import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
 import { ConditionPartsBox } from "components/molecules/box/ConditionPartsBox";
 import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
-import { OrderPlanQueryService } from "services/app/orderPlanQueryService";
+import { OrderPlanQueryService } from "services/orderPlanQueryService";
 import { PlanSortBox } from "components/molecules/box/PlanSortBox";
 import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 
