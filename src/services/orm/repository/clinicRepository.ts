@@ -15,7 +15,12 @@ export class ClinicRepository {
             id: "asc",
           },
         },
-        clinicOption: true,
+        options: {
+          distinct: ["kind"],
+          orderBy: {
+            price: "asc",
+          },
+        },
         clinicOpeningHours: true,
       },
       take: take,
@@ -35,8 +40,16 @@ export class ClinicRepository {
             id: "asc",
           },
         },
-        clinicOption: true,
         clinicOpeningHours: true,
+        options: {
+          distinct: ["kind"],
+          where: {
+            clinicId: clinicId,
+          },
+          orderBy: {
+            price: "asc",
+          },
+        },
       },
     });
     if (!query) {
@@ -47,20 +60,29 @@ export class ClinicRepository {
 
   async getFreeAnesthesia(take: number, skip: number, notJoin?: boolean) {
     const query = prisma.clinic.findMany({
-      where: {
-        clinicOption: {
-          anesthesia: {
-            contains: "無料",
-          },
-        },
-      },
+      // where: {
+      //   clinicOption: {
+      //     anesthesia: {
+      //       contains: "無料",
+      //     },
+      //   },
+      // },
       include: {
         picture: {
           orderBy: {
             id: "asc",
           },
         },
-        clinicOption: true,
+        options: {
+          distinct: ["kind"],
+          where: {
+            kind: "anesthesia",
+            price: 0,
+          },
+          orderBy: {
+            price: "asc",
+          },
+        },
         clinicOpeningHours: true,
       },
       take: take,
@@ -72,9 +94,10 @@ export class ClinicRepository {
   async getCountFreeAnesthesia() {
     const query = prisma.clinic.count({
       where: {
-        clinicOption: {
-          anesthesia: {
-            contains: "無料",
+        options: {
+          every: {
+            kind: "firstVisitFees",
+            price: 0,
           },
         },
       },
@@ -102,7 +125,12 @@ export class ClinicRepository {
             id: "asc",
           },
         },
-        clinicOption: true,
+        options: {
+          distinct: ["kind"],
+          orderBy: {
+            price: "asc",
+          },
+        },
         clinicOpeningHours: true,
       },
       take: take,
@@ -142,7 +170,12 @@ export class ClinicRepository {
             id: "asc",
           },
         },
-        clinicOption: true,
+        options: {
+          distinct: ["kind"],
+          orderBy: {
+            price: "asc",
+          },
+        },
         clinicOpeningHours: true,
       },
       take: take,
@@ -175,7 +208,12 @@ export class ClinicRepository {
             id: "asc",
           },
         },
-        clinicOption: true,
+        options: {
+          distinct: ["kind"],
+          orderBy: {
+            price: "asc",
+          },
+        },
         clinicOpeningHours: true,
       },
       take: take,
@@ -208,7 +246,12 @@ export class ClinicRepository {
             id: "asc",
           },
         },
-        clinicOption: true,
+        options: {
+          distinct: ["kind"],
+          orderBy: {
+            price: "asc",
+          },
+        },
         clinicOpeningHours: true,
       },
       take: take,
@@ -234,27 +277,26 @@ export class ClinicRepository {
 
   async getVisitFee(take: number, skip: number, notJoin?: boolean) {
     const query = prisma.clinic.findMany({
-      where: {
-        AND: [
-          {
-            clinicOption: {
-              firstVisitFees: {
-                contains: "無料",
-              },
-              subsequentVisitFees: {
-                contains: "無料",
-              },
-            },
-          },
-        ],
-      },
       include: {
+        options: {
+          where: {
+            OR: [
+              {
+                kind: "firstVisitFees",
+                price: 0,
+              },
+              {
+                kind: "revisitFees",
+                price: 0,
+              },
+            ],
+          },
+        },
         picture: {
           orderBy: {
             id: "asc",
           },
         },
-        clinicOption: true,
         clinicOpeningHours: true,
       },
       take: take,
@@ -266,23 +308,21 @@ export class ClinicRepository {
   async getCountVisitFee() {
     const query = prisma.clinic.count({
       where: {
-        OR: [
-          {
-            clinicOption: {
-              firstVisitFees: {
-                contains: "無料",
+        options: {
+          every: {
+            OR: [
+              {
+                kind: "firstVisitFees",
+                price: 0,
               },
-              subsequentVisitFees: {
-                contains: "無料",
+              {
+                kind: "revisitFees",
+                price: 0,
               },
-            },
+            ],
           },
-        ],
+        },
       },
-      // include: {
-      //   clinicOption: true,
-      //   clinicOpeningHours: true,
-      // },
     });
     return query;
   }
@@ -298,7 +338,12 @@ export class ClinicRepository {
             id: "asc",
           },
         },
-        clinicOption: true,
+        options: {
+          distinct: ["kind"],
+          orderBy: {
+            price: "asc",
+          },
+        },
         clinicOpeningHours: true,
       },
       take: take,

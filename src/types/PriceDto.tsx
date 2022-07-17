@@ -2,8 +2,8 @@ import {
   BaseParts_Parts,
   Clinic,
   ClinicOpeningHours,
-  ClinicOption,
   Clinic_Machine,
+  Option,
   Parts,
   Price,
 } from "@prisma/client";
@@ -19,7 +19,7 @@ import {
 //   };
 export type PriceDto = Price & {
   clinic: Clinic & {
-    clinicOption: ClinicOption | null;
+    options: Option[];
     clinicOpeningHours: ClinicOpeningHours[];
     machine: Clinic_Machine[];
   };

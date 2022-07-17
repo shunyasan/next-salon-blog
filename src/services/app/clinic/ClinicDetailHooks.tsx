@@ -1,6 +1,7 @@
-import { Clinic, ClinicOption } from "@prisma/client";
+import { Clinic, Option, OptionKind } from "@prisma/client";
 import { useCallback } from "react";
 import { TitleValue } from "types/app/TitleValue";
+import { ByOptionKind } from "types/ByOptionKind";
 
 export const ClinicDetailTab = () => {
   const tab: TitleValue[] = [
@@ -27,51 +28,98 @@ export const checkNoneValue = (val?: string | null) => {
   return val;
 };
 
+const checkOptionPrice = (options: Option[], key: string) => {
+  const find = options.find((option) => option.kind === key);
+  if (find) {
+    const price = optionPriceToString(find.price);
+    return price;
+  } else {
+    return "-";
+  }
+};
+
+const optionPriceToString = (val?: number) => {
+  switch (true) {
+    case val === 0:
+      return "無料";
+    case val!! > 50000:
+      return "有料";
+    case val!! > 0:
+      return val + "円";
+    default:
+      return "-";
+  }
+};
+
+// const choseOptionName = (key: string) => {
+//   switch (key) {
+//     case OptionKind.leakage:
+//       return "照射漏れ";
+//     case OptionKind.aftercare:
+//       return "アフターケア";
+//     case OptionKind.anesthesia:
+//       return "麻酔";
+//     case OptionKind.contractCancel:
+//       return "途中解約";
+//     case OptionKind.firstVisitFees:
+//       return "初診料";
+//     case OptionKind.revisitFees:
+//       return "再診料";
+//     case OptionKind.shaving:
+//       return "剃毛";
+//     case OptionKind.skinTrouble:
+//       return "トラブル対応";
+//     default:
+//       return "その他";
+//   }
+// };
+
 export const ClinicOptionTitleValue = (
-  clinicOption: ClinicOption
+  clinicOption: Option[]
 ): TitleValue[] => {
+  // const values = clinicOption.map((option) => {
+  //   const title = choseOptionName(option.kind);
+  //   const value = checkOptionPrice(option.price);
+  //   const data: TitleValue = {
+  //     title,
+  //     value,
+  //   };
+  //   return data;
+  // });
   const datas: TitleValue[] = [
-    { title: "初診料", value: checkNoneValue(clinicOption.firstVisitFees) },
+    {
+      title: "初診料",
+      value: checkOptionPrice(clinicOption, OptionKind.firstVisitFees),
+    },
     {
       title: "再診料",
-      value: checkNoneValue(clinicOption.subsequentVisitFees),
+      value: checkOptionPrice(clinicOption, OptionKind.revisitFees),
     },
     {
       title: "照射漏れ",
-      value: checkNoneValue(clinicOption.irradiationLeakage),
+      value: checkOptionPrice(clinicOption, OptionKind.leakage),
     },
     {
       title: "アフターケア",
-      value: checkNoneValue(clinicOption.aftercare),
+      value: checkOptionPrice(clinicOption, OptionKind.aftercare),
     },
-    { title: "麻酔", value: checkNoneValue(clinicOption.anesthesia) },
-    { title: "剃毛", value: checkNoneValue(clinicOption.shaving) },
+    {
+      title: "麻酔",
+      value: checkOptionPrice(clinicOption, OptionKind.anesthesia),
+    },
+    {
+      title: "剃毛",
+      value: checkOptionPrice(clinicOption, OptionKind.shaving),
+    },
     {
       title: "トラブル対応",
-      value: checkNoneValue(clinicOption.troubleTreatment),
+      value: checkOptionPrice(clinicOption, OptionKind.skinTrouble),
     },
-  ];
-  return datas;
-};
-
-export const ClinicPaymentTitleValue = (
-  clinic: Clinic & {
-    clinicOption: ClinicOption | null;
-  }
-) => {
-  const datas: TitleValue[] = [
-    {
-      title: "学割",
-      value: checkNoneValue(clinic.studentDiscount),
-    },
-    { title: "カード払い", value: checkNoneValue(clinic.cardPay) },
-    { title: "医療ローン", value: checkNoneValue(clinic.medhicalLoan) },
     {
       title: "途中解約",
-      value: checkNoneValue(clinic.clinicOption?.contractCancellation),
+      value: checkOptionPrice(clinicOption, OptionKind.contractCancel),
     },
   ];
-
   return datas;
 };
 

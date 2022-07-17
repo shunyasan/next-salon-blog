@@ -1,14 +1,14 @@
-import { PriceDto } from "./PriceDto";
+import { Price } from "@prisma/client";
 import { RelationClinic } from "./RelationClinic";
 
 export interface ClinicNestPriceDto {
   clinic: RelationClinic;
-  prices: PriceDto[];
+  prices: Price[];
 }
 
 export const ClinicToClinicNestPriceDto = (
   clinic: RelationClinic,
-  prices: PriceDto[]
+  prices: Price[]
 ): ClinicNestPriceDto => {
   const data: ClinicNestPriceDto = {
     clinic,

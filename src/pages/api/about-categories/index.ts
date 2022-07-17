@@ -1,6 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { IdAndNameRepository } from "services/orm/repository/IdAndNameRepository";
 import { aboutCategoryService } from "services/service";
 import { IdAndNameDto } from "types/IdAndNameDto";
+
+const { getAllAboutCategoriesIdAndName } = IdAndNameRepository();
 
 export default async function getAboutCategories(
   req: NextApiRequest,
@@ -8,7 +11,7 @@ export default async function getAboutCategories(
 ): Promise<IdAndNameDto[]> {
   const originCategoryId = req.query.originCategoryId as string;
   const aboutCategoryId = (req.query.aboutCategoryId as string) || "";
-  const data = await aboutCategoryService.getAllAboutCategoriesIdAndName(
+  const data = await getAllAboutCategoriesIdAndName(
     originCategoryId,
     aboutCategoryId
   );

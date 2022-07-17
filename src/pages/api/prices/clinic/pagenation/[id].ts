@@ -1,10 +1,11 @@
+import { Price } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { priceService } from "services/service";
 import { PriceDto } from "types/PriceDto";
 
 export default async function getPriceByClinicId(
   req: NextApiRequest,
-  res: NextApiResponse<PriceDto[]>
+  res: NextApiResponse<Price[]>
 
   // clinicId: string,
   // pagenation?: PagenationParameter

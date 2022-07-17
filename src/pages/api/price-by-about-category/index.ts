@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PriceDto } from "types/PriceDto";
 import { priceByAboutCategoryService, priceService } from "services/service";
 import { PriceByAboutCategory } from "types/PriceByAboutCategory";
 

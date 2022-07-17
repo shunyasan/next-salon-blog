@@ -23,7 +23,6 @@ import {
 } from "services/app/clinic/ClinicDetailHooks";
 import { getRandomImg } from "services/app/resources/SearchSalonHooks";
 import { IdAndNameDto } from "types/IdAndNameDto";
-import { PriceDto } from "types/PriceDto";
 import { TitleValue } from "types/app/TitleValue";
 import { NoticeClinicDetail } from "../box/NoticeClinicDetail";
 import { PairDataBoxList } from "../lists/PairDataBoxList";
@@ -41,7 +40,6 @@ type Props = {
   onClickOriginId: (originId: string) => void;
   onClickGender: (gender: string) => void;
   // aboutCategoryData: AboutCategory[];
-  // priceData: PriceDto[];
 };
 
 export const ClinicDetailCard: FC<Props> = (props) => {
@@ -76,15 +74,15 @@ export const ClinicDetailCard: FC<Props> = (props) => {
     //   title: "URL",
     //   value: clinicData.url,
     // },
-    {
-      title: "途中解約",
-      value: clinicData.clinicOption?.contractCancellation || "不明",
-    },
+    // {
+    //   title: "途中解約",
+    //   value: clinicData.clinicOption.contractCancel?.price ||   "不明",
+    // },
   ];
 
   useEffect(() => {
-    const option = clinicData.clinicOption
-      ? ClinicOptionTitleValue(clinicData.clinicOption)
+    const option = clinicData.options
+      ? ClinicOptionTitleValue(clinicData.options)
       : undefined;
     setOptionData(option);
 

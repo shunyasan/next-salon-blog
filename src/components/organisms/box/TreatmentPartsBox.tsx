@@ -13,7 +13,6 @@ import fetcher from "services/fetcher";
 
 import useSWR from "swr";
 
-import { QueryOrderPlan } from "types/app/QueryOrderPlan";
 import { IdAndNameDto } from "types/IdAndNameDto";
 
 type Props = {

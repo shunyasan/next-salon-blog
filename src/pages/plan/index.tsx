@@ -26,12 +26,10 @@ import {
 import useSWR from "swr";
 import { OrderPlanIdName } from "types/app/OrderPlanIdName";
 
-import { QueryOrderPlan } from "types/app/QueryOrderPlan";
 import { IdAndNameDto } from "types/IdAndNameDto";
 import style from "../../../styles/Home.module.css";
 
 type Props = {
-  // queryOrderPlan: QueryOrderPlan;
   originCategories: OriginCategory[];
   aboutCategories: AboutCategory[];
   baseParts: BaseParts[];

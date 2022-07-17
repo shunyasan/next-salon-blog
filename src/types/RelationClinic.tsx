@@ -1,12 +1,7 @@
-import {
-  Clinic,
-  ClinicOpeningHours,
-  ClinicOption,
-  Picture,
-} from "@prisma/client";
+import { Clinic, ClinicOpeningHours, Option, Picture } from "@prisma/client";
 
 export type RelationClinic = Clinic & {
   picture: Picture[];
-  clinicOption: ClinicOption | null;
+  options: Option[];
   clinicOpeningHours: ClinicOpeningHours[];
 };

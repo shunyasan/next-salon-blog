@@ -20,7 +20,6 @@ import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
 import { newOptionFunc } from "services/app/etc/etc";
 import { getRandomImg } from "services/app/resources/SearchSalonHooks";
 import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
-import { PriceDto } from "types/PriceDto";
 import { OptionText } from "types/app/OptionText";
 import { OrderPlanIdName } from "types/app/OrderPlanIdName";
 import { NoticeClinicDetail } from "../box/NoticeClinicDetail";
@@ -41,7 +40,6 @@ export const PlanCard: FC<Props> = (props) => {
   // const { getPriceByClinicId } = PriceApi();
   // const { getRandomImg } = SearchSalonHooks();
 
-  // const [additionalPrice, setAdditionalPrice] = useState<PriceDto[]>([]);
   const [payment, setPayment] = useState<OptionText[]>([]);
   // 画像準備期間のみ
   const [image, setImage] = useState<string[]>([]);
@@ -189,8 +187,8 @@ export const PlanCard: FC<Props> = (props) => {
               オプションサービス
             </Text>
             <Box pl={{ md: "3rem", sm: "1.5rem" }} mt=".5rem">
-              {clinic.clinic.clinicOption && (
-                <FreeServiceBoxList clinicOption={clinic.clinic.clinicOption} />
+              {clinic.clinic.options && (
+                <FreeServiceBoxList clinicOption={clinic.clinic.options} />
               )}
             </Box>
           </Box>

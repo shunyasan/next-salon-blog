@@ -38,7 +38,6 @@ type Props = {
   clinicData: RelationClinic;
   origin: IdAndNameDto[];
   // aboutCategory: AboutCategory[];
-  // price: PriceDto[];
   prices?: PriceByAboutCategory[];
 };
 
@@ -52,14 +51,9 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const param = params && params.id;
   const id = param && typeof param === "string" ? param : "";
   const clinicData: RelationClinic = await clinicService.getOneClinic(id);
-  console.log(clinicData);
   const origin: IdAndNameDto[] = await idAndNameService.getAllOriginCategory();
   // const aboutCategory: AboutCategory[] =
   //   await aboutCategoryService.getAboutCategoryByOriginId(origin[0].id);
-  // const price: PriceDto[] = await priceService.getPriceByClinic(
-  //   id,
-  //   aboutCategory[0].id
-  // );
   const prices = await priceByAboutCategoryService.getAllByClinic(
     "Z000001",
     id,
@@ -88,10 +82,6 @@ const ClinicDetail: NextPage<Props> = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [selectTab, setSelectTab] = useState<string>("TOP");
-  // const [originData, setOriginData] = useState<IdAndNameDto[]>([]);
-  // const [priceData, setPriceData] = useState<PriceDto[]>([]);
-  // const [gender, setGender] = useState<string>();
-  // const [modalPrice, setModalPrice] = useState<PriceDto>();
   const [originId, setOriginId] = useState<string>(OriginCategiryId.face);
   const [gender, setGender] = useState<string>("女性");
 
@@ -125,10 +115,6 @@ const ClinicDetail: NextPage<Props> = ({
     { text: "契約・支払い", url: "#payment" },
     { text: "アクセス", url: "#access" },
     { text: "料金", url: "#fee" },
-    // 鳥のアイコンだけでも良いかも
-    // { text: "予約情報", url: "#sns" },
-    // { text: "キャンペーン・おすすめ", url: "#" },
-    // { text: "Youtube", url: "#youtube" },
   ];
 
   if (!priceData) return <LoadingIcon />;

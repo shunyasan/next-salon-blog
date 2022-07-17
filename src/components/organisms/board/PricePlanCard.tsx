@@ -129,8 +129,8 @@ export const PricePlanCard: FC<Props> = (props) => {
               オプションサービス
             </Text>
             <Box pl={{ md: "3rem", sm: "1.5rem" }} mt=".5rem">
-              {price.clinic.clinicOption && (
-                <FreeServiceBoxList clinicOption={price.clinic.clinicOption} />
+              {price.clinic.options && (
+                <FreeServiceBoxList clinicOption={price.clinic.options} />
               )}
             </Box>
           </Box>

@@ -7,7 +7,6 @@ import useSWR from "swr";
 import { TitleValue } from "types/app/TitleValue";
 import { IdAndNameDto } from "types/IdAndNameDto";
 import { PriceByAboutCategory } from "types/PriceByAboutCategory";
-import { PriceDto } from "types/PriceDto";
 import { CategoryBox } from "../box/CategoryBox";
 import { SmallPlanCard } from "../box/SmallPlanCard";
 import { PlanDetailModal } from "../modal/PlanDetailModal";
@@ -20,7 +19,6 @@ type Props = {
   prices: PriceByAboutCategory[];
   options?: TitleValue[];
   // aboutCategoryData?: AboutCategory[];
-  // priceData?: PriceDto[];
 };
 
 export const ClinicPlanCard: FC<Props> = (props) => {

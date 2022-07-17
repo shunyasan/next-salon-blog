@@ -1,11 +1,11 @@
 import { Box, Flex, HStack, Text } from "@chakra-ui/react";
-import { ClinicOption } from "@prisma/client";
+import { Option } from "@prisma/client";
 import { StatusText } from "components/atoms/text/StatusText";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
 import { ClinicOptionTitleValue } from "services/app/clinic/ClinicDetailHooks";
 import { TitleValue } from "types/app/TitleValue";
 type Props = {
-  clinicOption: ClinicOption;
+  clinicOption: Option[];
 };
 
 export const FreeServiceBoxList: FC<Props> = (props) => {

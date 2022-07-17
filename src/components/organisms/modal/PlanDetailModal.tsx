@@ -23,8 +23,6 @@ type Props = {
 export const PlanDetailModal: FC<Props> = (props) => {
   const { price, url, options, isOpen, onClose } = props;
   // const { ClinicOptionTitleValue } = ClinicDetailHooks();
-  // const { ClinicPaymentTitleValue, ClinicOtherTitleValue } =
-  //   ClinicDetailHooks();
   // //テスト時のみ
   // const { getRandomImg } = SearchSalonHooks();
   // const history = useHistory();
@@ -52,19 +50,6 @@ export const PlanDetailModal: FC<Props> = (props) => {
   //   setImage(gets);
   // }, []);
   // //
-
-  // useEffect(() => {
-  //   const data = clinic.clinicOption
-  //     ? ClinicOptionTitleValue(clinic.clinicOption)
-  //     : undefined;
-  //   setOptionData(data);
-
-  //   const payment = ClinicPaymentTitleValue(clinic);
-  //   setPaymentData(payment);
-
-  //   const other = ClinicOtherTitleValue(clinic);
-  //   setOtherData(other);
-  // }, [clinic]);
 
   return (
     <Box

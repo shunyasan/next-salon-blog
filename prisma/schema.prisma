@@ -143,7 +143,7 @@ model Clinic {
   clinicGroup ClinicGroup? @relation(fields: [clinicGroupId], references: [id])
   machine Clinic_Machine[] 
   clinicOpeningHours ClinicOpeningHours[] 
-  clinicOption ClinicOption?  
+  // clinicOption ClinicOption?  
   price Price[]
   youtube Youtube[]
   twitter Twitter[]
@@ -237,19 +237,19 @@ model ClinicOpeningHours {
 }
 
 
-model ClinicOption {
-  id String @id
-  irradiationLeakage String?   //照射漏れ
-  aftercare String? //アフターケア
-  anesthesia String?  //麻酔
-  contractCancellation String?   //途中解約
-  firstVisitFees String?   //初診料
-  subsequentVisitFees String?   //再診料
-  shaving String?   //剃毛料
-  troubleTreatment String?   //トラブル対応
-  clinicId String @unique
-  clinic Clinic @relation(fields: [clinicId], references: [id])
-}
+// model ClinicOption {
+//   id String @id
+//   irradiationLeakage String?   //照射漏れ
+//   aftercare String? //アフターケア
+//   anesthesia String?  //麻酔
+//   contractCancellation String?   //途中解約
+//   firstVisitFees String?   //初診料
+//   subsequentVisitFees String?   //再診料
+//   shaving String?   //剃毛料
+//   troubleTreatment String?   //トラブル対応
+//   clinicId String @unique
+//   clinic Clinic @relation(fields: [clinicId], references: [id])
+// }
 
 model Option {
   id String @id

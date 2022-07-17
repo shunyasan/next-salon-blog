@@ -85,8 +85,13 @@ export class PriceService {
       include: {
         clinic: {
           include: {
-            clinicOption: true,
             clinicOpeningHours: true,
+            options: {
+              distinct: ["kind"],
+              orderBy: {
+                price: "asc",
+              },
+            },
             machine:
               targetMachine.length > 0
                 ? {
@@ -113,9 +118,9 @@ export class PriceService {
           interior: this.checkEmptyData(orderPlan.interior),
           cardPay: this.checkEmptyData(orderPlan.card),
           medhicalLoan: this.checkEmptyData(orderPlan.loan),
-          clinicOption: {
-            contractCancellation: this.checkEmptyData(orderPlan.contract),
-          },
+          // clinicOption: {
+          //   contractCancellation: this.checkEmptyData(orderPlan.contract),
+          // },
         },
       },
       take: take,
@@ -141,8 +146,16 @@ export class PriceService {
           interior: this.checkEmptyData(orderPlan.interior),
           cardPay: this.checkEmptyData(orderPlan.card),
           medhicalLoan: this.checkEmptyData(orderPlan.loan),
-          clinicOption: {
-            contractCancellation: this.checkEmptyData(orderPlan.contract),
+          // clinicOption: {
+          //   contractCancellation: this.checkEmptyData(orderPlan.contract),
+          // },
+          options: {
+            every: {
+              kind: "contractCancel",
+              price: {
+                gte: 0,
+              },
+            },
           },
         },
       },
@@ -209,17 +222,13 @@ export class PriceService {
     return getPrices as PriceDto[];
   }
 
-  async getPlanByClinicId(
-    clinicId: string,
-    pagenation?: PagenationParameter
-  ): Promise<PriceDto[]> {
+  async getPlanByClinicId(clinicId: string, pagenation?: PagenationParameter) {
     const data = await prisma.price.findMany({
       where: { clinicId: clinicId },
       take: pagenation ? pagenation.take : 2,
       skip: pagenation ? pagenation.skip : 0,
     });
-    const change = data as PriceDto[];
-    return change;
+    return data;
   }
 
   // selectPriceClass(table: string) {
