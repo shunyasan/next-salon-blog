@@ -4,11 +4,13 @@ import ClinicListTemplate from "components/templete/pages/clinic/ClinicListTempl
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { clinicPagePropsRepository } from "services/repository/clinicPagePropsRepository";
 import { ClinicPageProps } from "types/ClinicPageProps";
+import { clinicPagePropsRepository } from "services/repository/clinicPagePropsRepository";
 
-const numOfClinicMax = 349;
+const numOfClinicMax = 86;
 const numOfTakeData = 10;
+//渋谷
+const areaId = "AC000003";
 
 const defaultPagenation = {
   now: 0,
@@ -27,13 +29,14 @@ export const getStaticProps: GetStaticProps<ClinicPageProps> = async ({
   params,
 }) => {
   const num = params ? Number(params.page) : 0;
-  const { area, clinics, page, twitter, instagram } = await getClinicPagesData(
-    num
-  );
+  const { area, maxData, clinics, page, twitter, instagram } =
+    await getClinicPagesData(num, areaId, numOfClinicMax);
+
   return {
     props: {
       area,
       clinics,
+      maxData,
       page,
       twitter,
       instagram,
@@ -41,54 +44,31 @@ export const getStaticProps: GetStaticProps<ClinicPageProps> = async ({
   };
 };
 
-const ClinicsAll: NextPage<ClinicPageProps> = ({
+const ClinicsShibuya: NextPage<ClinicPageProps> = ({
   area,
   clinics,
+  maxData,
   page,
   twitter,
   instagram,
 }) => {
   const router = useRouter();
-  // const { getAllClinic, getAllClinicByAreaId } = ClinicApi();
-  // const { getAllArea } = ClinicAreaApi();
-
-  // const [clinicData, setClinicData] = useState<ClinicNestPriceDto[]>([]);
-  // const [areaData, setAreaData] = useState<Area[]>([]);
-
-  // const [clinicUrl, setClinicUrl] = useState<string>();
-
-  // const [page, setPage] = useState<number>(0);
-
-  // const { data: areaData, error: err_area } = useSWR<Area[]>(
-  //   `/api/clinic-areas`,
-  //   fetcher,
-  //   {
-  //     fallbackData: area,
-  //   }
-  // );
-
-  // const { data: clinicData, error: err_cli } = useSWR<ClinicNestPriceDto[]>(
-  //   `clinics/prices?take=${numOfTakeData}&skip=${numOfTakeData * page}`,
-  //   fetcher,
-  //   {
-  //     fallbackData: clinics,
-  //   }
-  // );
 
   if (!clinics) return <LoadingIcon />;
   return (
     <>
       <Head>
-        <title>医療脱毛クリニック一覧 | 脱毛コンサルタント</title>
+        <title>渋谷区の医療脱毛クリニック一覧 | 脱毛コンサルタント</title>
         <meta
           name="description"
           content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」にあるクリニック一覧です"
         />
       </Head>
       <ClinicListTemplate
-        title="医療脱毛クリニック一覧"
-        areaMax={numOfClinicMax}
-        area={area || []}
+        title="渋谷区の医療脱毛クリニック一覧"
+        areaId={areaId}
+        maxData={numOfClinicMax}
+        area={area?.data || []}
         clinics={clinics}
         page={page}
         twitter={twitter}
@@ -98,4 +78,4 @@ const ClinicsAll: NextPage<ClinicPageProps> = ({
     </>
   );
 };
-export default ClinicsAll;
+export default ClinicsShibuya;

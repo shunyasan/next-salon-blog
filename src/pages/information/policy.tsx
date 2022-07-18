@@ -22,7 +22,7 @@ const Privacy = () => {
       </Head>
       <Box>
         <BgImgH1 title="プライバシーポリシー" />
-        <Stack spacing={"1.5rem"} w="60%" mx="auto" mt="4rem" p={"2rem"}>
+        <Stack spacing={"1.5rem"} maxW="50em" mx="auto" mt="4rem" p={"2rem"}>
           <PolicyBox title="基本方針">
             <Text>
               当サイトは、個人情報の重要性を認識し、個人情報を保護することが社会的責務であると考え、個人情報に関する法令を遵守し、

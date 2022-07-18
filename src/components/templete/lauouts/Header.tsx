@@ -24,8 +24,8 @@ type Props = {
   // getGender: (gender: string) => void;
 };
 
-const clinicDefoultNum = "349";
-const planDefoultNum = "32442";
+const clinicDefoultNum = "86";
+const planDefoultNum = "6383";
 
 export const Header: FC<Props> = (props) => {
   const {
@@ -241,8 +241,8 @@ export const Header: FC<Props> = (props) => {
                   mb={"0.5rem"}
                   color={"originGold"}
                 >
-                  <Text>東京都激戦５区のクリニックから</Text>
-                  <Text>ほぼ全てのプランを分析</Text>
+                  <Text>東京都内のクリニックから</Text>
+                  <Text>プランを分析</Text>
                 </Flex>
                 <HStack
                   justifyContent={"center"}

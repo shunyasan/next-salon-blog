@@ -18,7 +18,10 @@ export const PriceDataBox: FC<Props> = (props) => {
       borderColor={"originGray"}
       p="0.5em"
     >
-      <Text fontWeight={"bold"}>{price.name}</Text>
+      <HStack justifyContent={"center"}>
+        <Text fontWeight={"bold"}>{price.name}</Text>
+        <Text fontSize={".7em"}>{price.terms && `※ ${price.terms}`}</Text>
+      </HStack>
       <Flex justifyContent={"center"} alignItems={"flex-end"}>
         {orderDataIdName.paySystem.id !== "総額" ? (
           <>
@@ -41,7 +44,7 @@ export const PriceDataBox: FC<Props> = (props) => {
           </>
         )}
         <Text pb=".3em" fontSize={"0.6em"}>
-          （{price.clinic.tax || "不明"}）
+          （{price.clinic.tax || "-"}）
         </Text>
       </Flex>
       <Flex fontSize={"0.8em"} justifyContent={"space-evenly"}>

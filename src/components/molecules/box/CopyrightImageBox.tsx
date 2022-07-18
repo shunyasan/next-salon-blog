@@ -4,7 +4,7 @@ import { FC, memo, VFC } from "react";
 
 type Props = {
   src: string;
-  fontSize: string;
+  fontSize: string | { md: string; sm: string };
   picture?: Picture;
   height: string | { md: string; sm: string };
   width: string | { md: string; sm: string };
@@ -43,8 +43,10 @@ export const CopyrightImageBox: FC<Props> = (props) => {
         // textShadow={"1px 1px 1px #000"}
         // bg={"#666"}
       >
-        <Text>{picture ? "出典元：" + picture.authority : undefined}</Text>
-        <Text>{picture?.authorityUrl}</Text>
+        <Text fontSize={fontSize}>
+          {picture ? "出典元：" + picture.authority : undefined}
+        </Text>
+        <Text fontSize={fontSize}>{picture?.authorityUrl}</Text>
       </Box>
     </Box>
   );

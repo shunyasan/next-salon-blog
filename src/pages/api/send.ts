@@ -55,7 +55,6 @@ export default async function handler(
       res.json(msg);
     } catch (error: any) {
       console.error(error);
-      console.error(error.response.body);
       res.status(error.status);
     }
   }

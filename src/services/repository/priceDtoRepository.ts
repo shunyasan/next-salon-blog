@@ -28,7 +28,7 @@ export const priceDtoRepository = () => {
       orderPlan.hair
     );
     const targetMachine =
-      machines.length > 0 ? machines.map((data) => `'${data.id}'`) : [];
+      machines.length > 0 ? machines.map((data) => data.id) : [];
 
     const sort = chackSort(orderPlan.sort);
     return {
@@ -55,22 +55,17 @@ export const priceDtoRepository = () => {
         clinic: {
           include: {
             clinicOpeningHours: true,
+            picture: {
+              orderBy: {
+                id: "asc",
+              },
+            },
             options: {
               distinct: ["kind"],
               orderBy: {
                 price: "asc",
               },
             },
-            machine:
-              targetMachine.length > 0
-                ? {
-                    where: {
-                      machineId: {
-                        in: targetMachine,
-                      },
-                    },
-                  }
-                : false,
           },
         },
         parts: {
@@ -87,9 +82,26 @@ export const priceDtoRepository = () => {
           interior: checkEmptyData(orderPlan.interior),
           cardPay: checkEmptyData(orderPlan.card),
           medhicalLoan: checkEmptyData(orderPlan.loan),
-          // clinicOption: {
-          //   contractCancellation: checkEmptyData(orderPlan.contract),
-          // },
+          options: checkEmptyData(orderPlan.contract)
+            ? {
+                some: {
+                  kind: "contractCancel",
+                  price: {
+                    gte: 0,
+                  },
+                },
+              }
+            : undefined,
+          // machine:
+          //   targetMachine.length > 0
+          //     ? {
+          //         some: {
+          //           machineId: {
+          //             in: targetMachine,
+          //           },
+          //         },
+          //       }
+          //     : undefined,
         },
       },
       take: take,
@@ -117,17 +129,16 @@ export const priceDtoRepository = () => {
           interior: checkEmptyData(orderPlan.interior),
           cardPay: checkEmptyData(orderPlan.card),
           medhicalLoan: checkEmptyData(orderPlan.loan),
-          // clinicOption: {
-          //   contractCancellation: checkEmptyData(orderPlan.contract),
-          // },
-          options: {
-            every: {
-              kind: "contractCancel",
-              price: {
-                gte: 0,
-              },
-            },
-          },
+          options: checkEmptyData(orderPlan.contract)
+            ? {
+                some: {
+                  kind: "contractCancel",
+                  price: {
+                    gte: 0,
+                  },
+                },
+              }
+            : undefined,
         },
       },
     });
@@ -147,6 +158,15 @@ export const priceDtoRepository = () => {
         clinicId: clinicId,
         gender: {
           not: excludeGender,
+        },
+        parts: {
+          baseParts: {
+            some: {
+              baseParts: {
+                aboutCategoryId: aboutId,
+              },
+            },
+          },
         },
       },
     });

@@ -12,7 +12,7 @@ const TwitterBox: FC<Props> = ({ account, width, height, clinicId, test }) => {
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://platform.twitter.com/widgets.js";
-    document.body.appendChild(script);
+    script && document.body.appendChild(script);
     // アンマウント時に一応scriptタグを消しておく
     return () => {
       document.body.removeChild(script);

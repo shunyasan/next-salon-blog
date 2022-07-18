@@ -81,39 +81,43 @@ const Form = () => {
             <title>お問合せ | 脱毛コンサルタント</title>
           </Head>
           <BgImgH1 title="お問合せ" />
-          <Stack mt="1.5rem" spacing={"1rem"}>
-            <Text textAlign="center">
-              掲載に関して何かございましたら、お気軽にお問合せください。
-            </Text>
-            <Text textAlign="center">1週間以内に折り返しご連絡致します。</Text>
-          </Stack>
-          <Stack
-            spacing="1em"
-            m="3rem auto"
-            as="form"
-            borderWidth="1px"
-            rounded="sm"
-            shadow="1px 1px 3px rgba(0,0,0,0.3)"
-            maxWidth={800}
-            p={6}
-            onSubmit={handleSubmit as any}
-          >
-            <InputControl name="name" label="お名前" />
-            <InputControl name="email" label="メールアドレス" />
-            <TextareaControl name="text" label="お問合せ内容" />
-            {complete ? (
-              <Box marginY={10}>送信完了</Box>
-            ) : (
-              <ButtonGroup>
-                <SubmitButton bg="originBlack" _hover={{ bg: "#555" }}>
-                  送信
-                </SubmitButton>
-                <ResetButton color="originBlack" _hover={{ bg: "#eee" }}>
-                  クリア
-                </ResetButton>
-              </ButtonGroup>
-            )}
-          </Stack>
+          <Box mx="1em">
+            <Stack mt="1.5rem" spacing={"1rem"}>
+              <Text textAlign="center">
+                掲載に関して何かございましたら、お気軽にお問合せください。
+              </Text>
+              <Text textAlign="center">
+                1週間以内に折り返しご連絡致します。
+              </Text>
+            </Stack>
+            <Stack
+              spacing="1em"
+              m="3rem auto"
+              as="form"
+              borderWidth="1px"
+              rounded="sm"
+              shadow="1px 1px 3px rgba(0,0,0,0.3)"
+              maxWidth={800}
+              p={6}
+              onSubmit={handleSubmit as any}
+            >
+              <InputControl name="name" label="お名前" />
+              <InputControl name="email" label="メールアドレス" />
+              <TextareaControl name="text" label="お問合せ内容" />
+              {complete ? (
+                <Box marginY={10}>送信完了</Box>
+              ) : (
+                <ButtonGroup>
+                  <SubmitButton bg="originBlack" _hover={{ bg: "#555" }}>
+                    送信
+                  </SubmitButton>
+                  <ResetButton color="originBlack" _hover={{ bg: "#eee" }}>
+                    クリア
+                  </ResetButton>
+                </ButtonGroup>
+              )}
+            </Stack>
+          </Box>
         </Box>
       )}
     </Formik>

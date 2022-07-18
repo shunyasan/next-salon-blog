@@ -11,7 +11,7 @@ const TitleAndValueBox: FC<Props> = ({ title, value, link }) => {
   return (
     <Flex>
       <Text
-        w="35%"
+        w="40%"
         bg={"originBlack"}
         color={"originWhite"}
         border={"1px"}
@@ -21,7 +21,7 @@ const TitleAndValueBox: FC<Props> = ({ title, value, link }) => {
       </Text>
       <Text
         as="a"
-        w="65%"
+        w="60%"
         border={"1px"}
         borderColor={"originBlack"}
         href={link || undefined}

@@ -30,14 +30,15 @@ const StreetView: FC<Props> = ({ src, clinicId }) => {
           </Link>
         </Box>
       )}
-      <div
-        dangerouslySetInnerHTML={{
-          __html: `<iframe 
-                    src="${src}"
-                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                  </iframe>`,
-        }}
-      ></div>
+      <iframe
+        src={src}
+        width="600"
+        height="450"
+        style={{ border: "0" }}
+        allowFullScreen
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+      ></iframe>
     </>
   );
 };

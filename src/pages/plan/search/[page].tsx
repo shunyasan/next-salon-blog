@@ -145,42 +145,6 @@ const SalonList: NextPage<Props> = (props) => {
 
   const router = useRouter();
 
-  // const [orderDataIdName, setOrderDataIdName] = useState<OrderPlanIdName>();
-  // const [orderPlanQuery, setOrderPlanData] = useState<OrderPlan>();
-  // const [planData, setPlanData] = useState<PriceDto[]>([]);
-  // const [maxValue, setMaxvalue] = useState<number | undefined>();
-  // const [pagenationData, setPagenationData] = useState<{
-  //   now: number;
-  //   block: number;
-  // }>({
-  //   now: 0,
-  //   block: 0,
-  // });
-
-  // const { data: price, error: err_pri } = useSWR<PriceDto[]>(
-  //   `/api/prices?${planParam}&take=${numOfTakeData}&skip=${
-  //     numOfTakeData * pagenationData.now
-  //   }`,
-  //   fetcher,
-  //   {
-  //     fallbackData: firstPrices,
-  //   }
-  // );
-
-  // const { data: maxValue, error: err_max } = useSWR<number>(
-  //   `/api/prices/max-count?${planParam}`,
-  //   fetcher,
-  //   {
-  //     fallbackData: firstMaxValue,
-  //   }
-  // );
-
-  // const serPagenationDefault = () => {
-  // setMaxvalue(undefined);
-  // setPagenationData({ now: 0, block: 0 });
-  // setPlanData([]);
-  // };
-
   const onChangeSort = (idName: IdAndNameDto) => {
     orderDataIdName.sort = idName;
     const query = createParameter(orderDataIdName);
@@ -189,29 +153,11 @@ const SalonList: NextPage<Props> = (props) => {
 
   const getPageNumber = useCallback(
     async (page: number, block?: number) => {
-      // setPlanData([]);
-      // getTreatmentPriceFunc(orderPlanQuery, numOfTakeData, numOfTakeData * page);
-      // if (block || block === 0) {
-      //   setPagenationData({ now: page, block: block });
-      // } else {
-      //   setPagenationData({ ...pagenationData, now: page });
-      // }
-
       const query = router.query;
       router.push({ pathname: `/plan/search/${page + 1}`, query: query });
     },
     [router]
   );
-
-  // useEffect(() => {
-  //   const script = document.createElement("script");
-  //   script.src = "https://platform.twitter.com/widgets.js";
-  //   document.body.appendChild(script);
-  //   // アンマウント時に一応scriptタグを消しておく
-  //   return () => {
-  //     document.body.removeChild(script);
-  //   };
-  // }, []);
 
   if (!price || (!maxValue && maxValue !== 0) || !allParts)
     return <LoadingIcon />;
@@ -252,21 +198,21 @@ const SalonList: NextPage<Props> = (props) => {
         </Flex>
       </Box>
       <Box textAlign={"center"}>
-        {maxValue > 0 ? (
-          <Pagenation
-            max={maxValue}
-            take={numOfTakeData}
-            nowPage={page}
-            pageBlock={Math.floor(page / 5)}
-            onClickNumber={(page: number, block?: number) =>
-              getPageNumber(page, block)
-            }
+        <Pagenation
+          max={maxValue}
+          take={numOfTakeData}
+          nowPage={page}
+          pageBlock={Math.floor(page / 5)}
+          onClickNumber={(page: number, block?: number) =>
+            getPageNumber(page, block)
+          }
+        >
+          <HStack
+            p="3rem 1rem"
+            alignItems={"flex-start"}
+            justifyContent={"space-evenly"}
           >
-            <HStack
-              p="3rem 1rem"
-              alignItems={"flex-start"}
-              justifyContent={"space-evenly"}
-            >
+            {maxValue > 0 ? (
               <Stack
                 // w={{ md: "65%", sm: "100%" }}
                 // w={{ md: "55rem", sm: "100%" }}
@@ -292,64 +238,61 @@ const SalonList: NextPage<Props> = (props) => {
                   />
                 ))}
               </Stack>
-              <Stack
-                spacing={"3rem"}
-                ml={"2rem"}
-                // w="25%"
-                w="22em"
-                minW="18em"
-                display={{ md: "flex", sm: "none" }}
+            ) : (
+              <Box>
+                <Text>こちらのプランは見つかりませんでした。</Text>
+                <Text>「条件を変更」をご利用ください</Text>
+              </Box>
+            )}
+            <Stack
+              spacing={"3rem"}
+              ml={"2rem"}
+              // w="25%"
+              w="22em"
+              minW="18em"
+              display={{ md: "flex", sm: "none" }}
+            >
+              <Box
+              //  w={{ md: "24rem", sm: "20rem" }} mx={"auto"}
               >
-                <Box
-                //  w={{ md: "24rem", sm: "20rem" }} mx={"auto"}
-                >
-                  <Text>詳細条件</Text>
-                  <SearchResultCard
-                    orderPlan={orderDataIdName}
-                    // resetPages={serPagenationDefault}
-                    originCategories={allParts.originCategories}
-                    aboutCategories={allParts.aboutCategories}
-                    baseParts={allParts.baseParts}
-                  />
-                  <Box my={"1rem"}>
-                    <Button as="a" variant={"secBase"} href="/plan">
-                      最初からやり直す
-                    </Button>
-                  </Box>
+                <Text>詳細条件</Text>
+                <SearchResultCard
+                  orderPlan={orderDataIdName}
+                  // resetPages={serPagenationDefault}
+                  originCategories={allParts.originCategories}
+                  aboutCategories={allParts.aboutCategories}
+                  baseParts={allParts.baseParts}
+                />
+                <Box my={"1rem"}>
+                  <Button as="a" variant={"secBase"} href="/plan">
+                    最初からやり直す
+                  </Button>
                 </Box>
-                <UnderLineItemBox title="最新情報" fontSize="1em">
-                  <Stack spacing={"3rem"}>
-                    {twitter.map((account, i) => (
-                      <TwitterBox
-                        key={i}
-                        account={account.code}
-                        clinicId={account.clinicId}
-                        height="500px"
-                      />
+              </Box>
+              <UnderLineItemBox title="最新情報" fontSize="1em">
+                <Stack spacing={"3rem"}>
+                  {twitter.map((account, i) => (
+                    <TwitterBox
+                      key={i}
+                      account={account.code}
+                      clinicId={account.clinicId}
+                      height="500px"
+                    />
+                  ))}
+                </Stack>
+              </UnderLineItemBox>
+              <Box mt="5rem">
+                <UnderLineItemBox title="キャンペーン・おすすめ" fontSize="1em">
+                  <Stack mt="1em">
+                    {instagram.map((data, i) => (
+                      <InstagramBox key={i} account={data.code} />
                     ))}
                   </Stack>
                 </UnderLineItemBox>
-                <Box mt="5rem">
-                  <UnderLineItemBox
-                    title="キャンペーン・おすすめ"
-                    fontSize="1em"
-                  >
-                    <Stack mt="1em">
-                      {instagram.map((data, i) => (
-                        <InstagramBox key={i} account={data.code} />
-                      ))}
-                    </Stack>
-                  </UnderLineItemBox>
-                </Box>
-              </Stack>
-            </HStack>
-          </Pagenation>
-        ) : (
-          <Box my={"3rem"}>
-            <Text>こちらのプランは見つかりませんでした。</Text>
-            <Text>「条件を変更」をご利用ください</Text>
-          </Box>
-        )}
+              </Box>
+            </Stack>
+          </HStack>
+        </Pagenation>
       </Box>
       {/* <Adsense /> */}
     </Box>

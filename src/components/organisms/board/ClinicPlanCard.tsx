@@ -55,8 +55,6 @@ export const ClinicPlanCard: FC<Props> = (props) => {
     setSelectedAboutId(prices[0].aboutCategory.id);
   }, [setSelectedAboutId, prices]);
 
-  // console.log("selectedAboutId\n" + selectedAboutId);
-
   if (!originData || !prices) return <LoadingIcon />;
   return (
     <>

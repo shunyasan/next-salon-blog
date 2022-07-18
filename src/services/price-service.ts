@@ -139,7 +139,7 @@ import { prisma } from "services/common/prisma";
 //         //   contractCancellation: this.checkEmptyData(orderPlan.contract),
 //         // },
 //         options: {
-//           every: {
+//           some: {
 //             kind: "contractCancel",
 //             price: {
 //               gte: 0,

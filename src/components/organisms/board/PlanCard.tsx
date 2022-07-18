@@ -16,7 +16,15 @@ import {
 } from "@chakra-ui/react";
 import { OpeningHoursTable } from "components/molecules/table/OpeningHoursTable";
 import { useRouter } from "next/router";
-import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
+import {
+  FC,
+  memo,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+  VFC,
+} from "react";
 import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
 import { OrderPlanIdName } from "types/OrderPlanIdName";
 import { NoticeClinicDetail } from "../box/NoticeClinicDetail";
@@ -26,41 +34,32 @@ import { CopyrightImageBox } from "components/molecules/box/CopyrightImageBox";
 import { titleValueService } from "services/titleValueService";
 import { TitleValue } from "types/TitleValue";
 import { resourcesData } from "services/common/resourcesData";
+import { RelationClinic } from "types/RelationClinic";
 
 type Props = {
-  clinic: ClinicNestPriceDto;
+  clinic: RelationClinic;
+  children?: ReactNode;
 };
 
 const take = 10;
 const skip = 2;
 
-const { newOptionFunc } = titleValueService();
 const { getRandomImg } = resourcesData();
 
 export const PlanCard: FC<Props> = (props) => {
-  const { clinic } = props;
+  const { clinic, children } = props;
   const router = useRouter();
   // const { getPriceByClinicId } = PriceApi();
   // const { getRandomImg } = SearchSalonHooks();
 
-  const [payment, setPayment] = useState<TitleValue[]>([]);
   // 画像準備期間のみ
   const [image, setImage] = useState<string[]>([]);
 
   useEffect(() => {
     const gets = [...Array(2)].map(() => getRandomImg());
     setImage(gets);
-  }, []);
+  }, [children]);
   //
-
-  const OptionFunc = useCallback(async () => {
-    const pay = newOptionFunc(clinic.clinic);
-    setPayment(pay);
-  }, [clinic]);
-
-  useEffect(() => {
-    OptionFunc();
-  }, [OptionFunc]);
 
   return (
     <Box
@@ -80,7 +79,7 @@ export const PlanCard: FC<Props> = (props) => {
         bg="originWhite"
         zIndex="50"
       >
-        {clinic.clinic.name}
+        {clinic.name}
       </Box>
       <Flex
         // minH={"15rem"}
@@ -109,44 +108,24 @@ export const PlanCard: FC<Props> = (props) => {
               width={"23em"}
               height={"15em"}
               src={image[0]}
-              picture={clinic.clinic.picture[0]}
+              picture={clinic.picture[0]}
               // src={TopResource.clinicImg}
               fontSize={"0.4em"}
             />
           </Box>
 
-          {clinic.clinic.picture[1] && (
+          {clinic.picture[1] && (
             <Box mt="1em">
               <CopyrightImageBox
                 width={"23em"}
                 height={"15em"}
                 src={image[1]}
-                picture={clinic.clinic.picture[1]}
+                picture={clinic.picture[1]}
                 // src={TopResource.clinicImg}
                 fontSize={"0.4em"}
               />
             </Box>
           )}
-          {/* <Image
-            w={"23em"}
-            h="15em"
-            // transform={"scale(1.1,1.1)"}
-            src={
-              clinic.clinic.picture[0] ? clinic.clinic.picture[0].url : image[0]
-            }
-            alt={"イメージ"}
-            objectFit={"contain"}
-          />
-          <Image
-            w={"23em"}
-            h="15em"
-            objectFit={"contain"}
-            mt={{ md: "1em", sm: "0" }}
-            src={
-              clinic.clinic.picture[1] ? clinic.clinic.picture[1].url : image[1]
-            }
-            alt={"クリニック画像-2"}
-          /> */}
         </Flex>
         {/* </Box> */}
         <Stack
@@ -165,9 +144,7 @@ export const PlanCard: FC<Props> = (props) => {
           // py={"1em"}
           justifyContent={"center"}
         >
-          {/* {price && orderDataIdName ? (
-            <PriceDataBox price={price} orderDataIdName={orderDataIdName} />
-          ) : undefined} */}
+          {children}
           <Flex
             justifyContent={"center"}
             fontSize={"0.8em"}
@@ -179,38 +156,46 @@ export const PlanCard: FC<Props> = (props) => {
               <Text>掲載情報に相違がある場合がございます。</Text>
             </Stack>
           </Flex>
-          <NoticeClinicDetail clinic={clinic.clinic} width={"46%"} py={"8px"} />
+          <NoticeClinicDetail clinic={clinic} width={"46%"} py={"8px"} />
           <Box pt="1em">
-            <Text
-              textAlign={"center"}
-              fontSize={"0.9em"}
-              color={"originBlack"}
-              fontWeight={"bold"}
-            >
-              オプションサービス
-            </Text>
-            <Box pl={{ md: "3rem", sm: "1.5rem" }} mt=".5rem">
-              {clinic.clinic.options && (
-                <FreeServiceBoxList clinicOption={clinic.clinic.options} />
-              )}
-            </Box>
-          </Box>
-          {payment && (
-            <Box>
+            <HStack justifyContent={"center"}>
               <Text
                 textAlign={"center"}
                 fontSize={"0.9em"}
                 color={"originBlack"}
                 fontWeight={"bold"}
               >
-                契約/支払い
+                オプションサービス
               </Text>
-              <Box pl="3rem" mt=".5rem">
-                {/* ↓ FreeServiceBoxListと同じ処理にしたい */}
-                <PayRerationsBoxList payments={payment} />
-              </Box>
+              <Text
+                textAlign={"center"}
+                fontSize={"0.5em"}
+                color={"originBlack"}
+              >
+                ※は条件あり
+              </Text>
+            </HStack>
+
+            <Box pl={{ md: "3rem", sm: "1.5rem" }} mt=".5rem">
+              {clinic.options && (
+                <FreeServiceBoxList clinicOption={clinic.options} />
+              )}
             </Box>
-          )}
+          </Box>
+          <Box>
+            <Text
+              textAlign={"center"}
+              fontSize={"0.9em"}
+              color={"originBlack"}
+              fontWeight={"bold"}
+            >
+              契約/支払い
+            </Text>
+            <Box pl={{ md: "3rem", sm: "1rem" }} mt=".5rem">
+              {/* ↓ FreeServiceBoxListと同じ処理にしたい */}
+              <PayRerationsBoxList clinic={clinic} />
+            </Box>
+          </Box>
           <Stack
             spacing={"0.5em"}
             justifyContent={"center"}
@@ -225,7 +210,7 @@ export const PlanCard: FC<Props> = (props) => {
               mx="auto"
               w={{ md: "95%", sm: "95%" }}
             >
-              <OpeningHoursTable datas={clinic.clinic.clinicOpeningHours} />
+              <OpeningHoursTable datas={clinic.clinicOpeningHours} />
             </Box>
             <Flex>
               <Text
@@ -237,7 +222,7 @@ export const PlanCard: FC<Props> = (props) => {
                 最寄り駅
               </Text>
               <Text fontSize={"0.8em"} textAlign={"left"}>
-                {clinic.clinic.nearestStation}
+                {clinic.nearestStation}
               </Text>
             </Flex>
           </Stack>
@@ -245,7 +230,7 @@ export const PlanCard: FC<Props> = (props) => {
           <Flex justifyContent={"center"}>
             <Box>
               <Link
-                href={clinic.clinic.url || ""}
+                href={clinic.url || ""}
                 _hover={{ textDecoration: "none" }}
                 _focus={{ outline: "none" }}
                 isExternal
@@ -261,9 +246,7 @@ export const PlanCard: FC<Props> = (props) => {
                 mx={"1.5rem"}
                 size={"lg"}
                 variant="secBase"
-                onClick={() =>
-                  router.push(`/clinic/detail/${clinic.clinic.id}`)
-                }
+                onClick={() => router.push(`/clinic/detail/${clinic.id}`)}
               >
                 詳細
               </Button>

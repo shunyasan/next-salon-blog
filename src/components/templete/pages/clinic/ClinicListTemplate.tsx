@@ -17,6 +17,7 @@ import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
 import InstagramBox from "components/InstagramBox";
 import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
 import TwitterBox from "components/TwitterBox";
+import { RelationClinic } from "types/RelationClinic";
 
 const numOfTakeData = 10;
 const defaultMax = 349;
@@ -29,9 +30,9 @@ const defaultPagenation = {
 type Props = {
   areaId?: string;
   title: string;
-  areaMax: number;
+  maxData: number;
   area: Area[];
-  clinics: ClinicNestPriceDto[];
+  clinics: RelationClinic[];
   page: number;
   twitter: (Twitter & {
     clinic: Clinic;
@@ -64,156 +65,37 @@ const ClinicListTemplate: FC<Props> = ({
   area,
   clinics,
   areaId,
-  areaMax,
+  maxData,
   page,
   twitter,
   instagram,
   getPage,
 }) => {
   const router = useRouter();
-  // const { getAllClinic, getAllClinicByAreaId } = ClinicApi();
-  // const { getAllArea } = ClinicAreaApi();
-
-  // const [clinicData, setClinicData] = useState<ClinicNestPriceDto[]>([]);
-  // const [areaData, setAreaData] = useState<Area[]>([]);
-
-  // const [clinicUrl, setClinicUrl] = useState<string>(
-  //   `clinics/prices?take=${numOfTakeData}&skip=0`
-  // );
-
-  // const [areaIdState, setAreaIdState] = useState<{
-  //   id: string | undefined;
-  //   max: number;
-  // }>({ id: undefined, max: defaultMax });
-
-  // const [pagenationData, setPagenationData] = useState<{
-  //   now: number;
-  //   block: number;
-  // }>(defaultPagenation);
-
-  // const { data: areaData, error: err_area } = useSWR<Area[]>(
-  //   `/api/clinic-areas`,
-  //   fetcher,
-  //   {
-  //     fallbackData: area,
-  //   }
-  //
-  // );
-
-  // const { data: clinicData, error: err_cli } = useSWR<ClinicNestPriceDto[]>(
-  //   `/api/${clinicUrl}`,
-  //   fetcher,
-  //   {
-  //     fallbackData: clinics,
-  //   }
-  // );
-  // const { data: areaData = [], error: err_ori } = useSWR<Area[]>(
-  //   `/api/clinics?take=${numOfTakeData}&skip=${numOfTakeData * pagenationData.now}`,
-  //   fetcher
-  // );
-
-  // const getArea = useCallback(async () => {
-  // const areas = await getAllArea();
-  //   setAreaData(areas);
-  // }, [getAllArea]);
-
-  // const getClinics = useCallback(
-  //   (page: number, areaId?: string) => {
-  //     let url: string;
-  //     if (areaId) {
-  //       url = `clinics/area/${areaId}?take=${numOfTakeData}&skip=${
-  //         numOfTakeData * page
-  //       }`;
-  //       // setClinicUrl(url);
-  //     } else {
-  //       url = `clinics/prices?take=${numOfTakeData}&skip=${
-  //         numOfTakeData * page
-  //       }`;
-  //       // setClinicUrl(url);
-  //     }
-  //     getClinicUrl(url);
-  //   },
-  //   [getClinicUrl]
-  // );
-
-  // const getPageNumber = useCallback(
-  //   (page: number, block?: number) => {
-  //     // getClinics(page, areaId);
-  //     let pagenation: {
-  //       now: number;
-  //       block: number;
-  //     };
-  //     if (block || block === 0) {
-  //       pagenation = { now: page, block: block };
-  //       setPagenationData({ now: page, block: block });
-  //     } else {
-  //       pagenation = { ...pagenationData, now: page };
-  //     }
-  //     getPage(page);
-  //     setPagenationData(pagenation);
-  //   },
-  //   [pagenationData, getPage]
-  // );
-
-  // const getClinicDataAndAreaId = useCallback(
-  //   (page: number, areaId?: string, max?: number) => {
-  //     getClinics(page, areaId);
-  //     setPagenationData({ now: 0, block: 0 });
-  //     // if (max) {
-  //     //   setAreaIdState({ id: areaId, max: max });
-  //     // }
-  //   },
-  //   [getClinics]
-  // );
-
-  // useEffect(() => {
-  //   const script = document.createElement("script");
-  //   script.src = "https://platform.twitter.com/widgets.js";
-  //   document.body.appendChild(script);
-  //   // アンマウント時に一応scriptタグを消しておく
-  //   return () => {
-  //     document.body.removeChild(script);
-  //   };
-  // }, []);
 
   if (!clinics) return <LoadingIcon />;
   return (
     <Box textAlign={"center"}>
       <BgImgH1 title={title} />
       <Flex justifyContent={"space-evenly"} wrap={"wrap"} my="2rem">
-        <Flex
-          as="a"
-          cursor={"pointer"}
-          border={!areaId ? "4px" : "1px"}
-          w={"8rem"}
-          h={"5rem"}
-          m={"1rem"}
-          alignItems={"center"}
-          justifyContent={"center"}
-          fontSize={"1.2rem"}
-          href={"/clinic/1"}
-          // onClick={() => getClinicDataAndAreaId(0, undefined, defaultMax)}
-        >
-          <Text>全ての区域</Text>
-        </Flex>
-        {/* {!areaIdState.id ? <Box fontSize={"1.3rem"}>▼</Box> : ""} */}
-        {area.map((data, int) => (
-          <AreaBox
-            key={int}
-            area={data.area}
-            fontSize={"1.2rem"}
-            description={data.description || ""}
-            arrow={areaId === data.id ? true : false}
-            onClick={() => router.push(`/clinic${data.url}/1`)}
-            // onClick={() =>
-            //   getClinicDataAndAreaId(0, data.id, data.registrationNumber)
-            // }
-          />
-        ))}
+        {area.length > 0 &&
+          area.map((data, int) => (
+            <AreaBox
+              key={int}
+              area={data.area}
+              fontSize={"1.2rem"}
+              description={data.description || ""}
+              arrow={areaId === data.id ? true : false}
+              onClick={() => router.push(`/clinic${data.url}/1`)}
+              // onClick={() =>
+              //   getClinicDataAndAreaId(0, data.id, data.registrationNumber)
+              // }
+            />
+          ))}
       </Flex>
       {/* <Adsense /> */}
       <Pagenation
-        max={areaMax}
+        max={maxData}
         take={numOfTakeData}
         nowPage={page}
         pageBlock={Math.floor(page / 5)}

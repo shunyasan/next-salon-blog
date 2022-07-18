@@ -32,7 +32,9 @@ export const titleValueService = () => {
     const find = options.find((option) => option.kind === key);
     if (find) {
       const price = optionPriceToString(find.price);
-      return price;
+      const more = find.moreCharge ? "〜" : "";
+      const term = find.terms ? "※" : "";
+      return price + more + term;
     } else {
       return "-";
     }
@@ -96,7 +98,7 @@ export const titleValueService = () => {
     return datas;
   };
 
-  const newOptionFunc = (clinic: RelationClinic) => {
+  const newOptionFunc = (clinic: Clinic) => {
     const payment: TitleValue[] = [
       {
         title: "カード払い",

@@ -1,32 +1,11 @@
 import { prisma } from "services/common/prisma";
+import { RelationClinic } from "types/RelationClinic";
 
 export class ClinicRepository {
   // constructor(private readonly prisma = prisma.clinic) {}
 
   async getAll() {
     return prisma.clinic.findMany();
-  }
-
-  async getAllClinicAndLimit(take: number, skip: number) {
-    const query = prisma.clinic.findMany({
-      include: {
-        picture: {
-          orderBy: {
-            id: "asc",
-          },
-        },
-        options: {
-          distinct: ["kind"],
-          orderBy: {
-            price: "asc",
-          },
-        },
-        clinicOpeningHours: true,
-      },
-      take: take,
-      skip: skip,
-    });
-    return query;
   }
 
   async getOneClinic(clinicId: string) {
@@ -60,13 +39,14 @@ export class ClinicRepository {
 
   async getFreeAnesthesia(take: number, skip: number, notJoin?: boolean) {
     const query = prisma.clinic.findMany({
-      // where: {
-      //   clinicOption: {
-      //     anesthesia: {
-      //       contains: "無料",
-      //     },
-      //   },
-      // },
+      where: {
+        options: {
+          some: {
+            kind: "anesthesia",
+            price: 0,
+          },
+        },
+      },
       include: {
         picture: {
           orderBy: {
@@ -75,10 +55,6 @@ export class ClinicRepository {
         },
         options: {
           distinct: ["kind"],
-          where: {
-            kind: "anesthesia",
-            price: 0,
-          },
           orderBy: {
             price: "asc",
           },
@@ -95,8 +71,8 @@ export class ClinicRepository {
     const query = prisma.clinic.count({
       where: {
         options: {
-          every: {
-            kind: "firstVisitFees",
+          some: {
+            kind: "anesthesia",
             price: 0,
           },
         },
@@ -113,6 +89,8 @@ export class ClinicRepository {
             cardPay: {
               contains: "OK",
             },
+          },
+          {
             medhicalLoan: {
               contains: "OK",
             },
@@ -147,6 +125,8 @@ export class ClinicRepository {
             cardPay: {
               contains: "OK",
             },
+          },
+          {
             medhicalLoan: {
               contains: "OK",
             },
@@ -277,9 +257,9 @@ export class ClinicRepository {
 
   async getVisitFee(take: number, skip: number, notJoin?: boolean) {
     const query = prisma.clinic.findMany({
-      include: {
+      where: {
         options: {
-          where: {
+          some: {
             OR: [
               {
                 kind: "firstVisitFees",
@@ -290,6 +270,14 @@ export class ClinicRepository {
                 price: 0,
               },
             ],
+          },
+        },
+      },
+      include: {
+        options: {
+          distinct: ["kind"],
+          orderBy: {
+            price: "asc",
           },
         },
         picture: {
@@ -309,7 +297,7 @@ export class ClinicRepository {
     const query = prisma.clinic.count({
       where: {
         options: {
-          every: {
+          some: {
             OR: [
               {
                 kind: "firstVisitFees",
@@ -323,31 +311,6 @@ export class ClinicRepository {
           },
         },
       },
-    });
-    return query;
-  }
-
-  async getAllClinicByAreaId(areaId: string, take: number, skip: number) {
-    const query = prisma.clinic.findMany({
-      where: {
-        areaId: areaId,
-      },
-      include: {
-        picture: {
-          orderBy: {
-            id: "asc",
-          },
-        },
-        options: {
-          distinct: ["kind"],
-          orderBy: {
-            price: "asc",
-          },
-        },
-        clinicOpeningHours: true,
-      },
-      take: take,
-      skip: skip,
     });
     return query;
   }

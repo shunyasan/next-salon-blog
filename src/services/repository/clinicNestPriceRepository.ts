@@ -6,10 +6,16 @@ import {
   ClinicToClinicNestPriceDto,
 } from "types/ClinicNestPriceDto";
 import { PagenationParameter } from "types/PagenationParameterDto";
+import { RelationClinic } from "types/RelationClinic";
 import { priceRepository } from "./priceRepository";
 import { relationClinicRepository } from "./relationClinicRepository";
 
-const { checkFeatureFunc, checkCountFeatureFunc } = relationClinicRepository();
+const {
+  checkFeatureFunc,
+  checkCountFeatureFunc,
+  getAllRelationClinicByAreaId,
+  getAllRelationClinic,
+} = relationClinicRepository();
 const { getPlanByClinicId } = priceRepository();
 
 export const clinicNestPriceRepository = () => {
@@ -19,11 +25,7 @@ export const clinicNestPriceRepository = () => {
     areaId: string,
     pagenation: PagenationParameter
   ): Promise<ClinicNestPriceDto[]> => {
-    const clinics = await clinicRepository.getAllClinicByAreaId(
-      areaId,
-      pagenation.take,
-      pagenation.skip
-    );
+    const clinics = await getAllRelationClinicByAreaId(areaId, pagenation);
     const nestPrice = await Promise.all(
       clinics.map(async (data) => {
         const prices = await getPlanByClinicId(data.id);
@@ -36,10 +38,7 @@ export const clinicNestPriceRepository = () => {
   const getAllClinicAndLimit = async (
     pagenation: PagenationParameter
   ): Promise<ClinicNestPriceDto[]> => {
-    const clinics = await clinicRepository.getAllClinicAndLimit(
-      pagenation.take,
-      pagenation.skip
-    );
+    const clinics = await getAllRelationClinic(pagenation);
     const nestPrice = await Promise.all(
       clinics.map(async (data) => {
         const prices = await getPlanByClinicId(data.id);
@@ -52,15 +51,15 @@ export const clinicNestPriceRepository = () => {
   const changeGetClinicsEachAreaId = async (
     num: number,
     areaId?: string
-  ): Promise<ClinicNestPriceDto[]> => {
+  ): Promise<RelationClinic[]> => {
     const numOfTakeData = 10;
     if (areaId) {
-      return getAllClinicByAreaId(areaId, {
+      return getAllRelationClinicByAreaId(areaId, {
         take: numOfTakeData,
         skip: (num - 1) * numOfTakeData,
       });
     } else {
-      return getAllClinicAndLimit({
+      return getAllRelationClinic({
         take: numOfTakeData,
         skip: (num - 1) * numOfTakeData,
       });

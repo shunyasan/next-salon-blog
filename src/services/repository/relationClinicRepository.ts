@@ -1,5 +1,7 @@
 import { Feature } from "enums/FeatureEnum";
+import { prisma } from "services/common/prisma";
 import { clinicRepository } from "services/common/repository";
+import { PagenationParameter } from "types/PagenationParameterDto";
 import { RelationClinic } from "types/RelationClinic";
 
 export const relationClinicRepository = () => {
@@ -45,8 +47,62 @@ export const relationClinicRepository = () => {
     }
   };
 
+  const getAllRelationClinicByAreaId = (
+    areaId: string,
+    pagenation: PagenationParameter
+  ): Promise<RelationClinic[]> => {
+    const query = prisma.clinic.findMany({
+      where: {
+        areaId: areaId,
+      },
+      include: {
+        picture: {
+          orderBy: {
+            id: "asc",
+          },
+        },
+        options: {
+          distinct: ["kind"],
+          orderBy: {
+            price: "asc",
+          },
+        },
+        clinicOpeningHours: true,
+      },
+      take: pagenation.take,
+      skip: pagenation.skip,
+    });
+    return query;
+  };
+
+  const getAllRelationClinic = (
+    pagenation: PagenationParameter
+  ): Promise<RelationClinic[]> => {
+    const query = prisma.clinic.findMany({
+      include: {
+        picture: {
+          orderBy: {
+            id: "asc",
+          },
+        },
+        options: {
+          distinct: ["kind"],
+          orderBy: {
+            price: "asc",
+          },
+        },
+        clinicOpeningHours: true,
+      },
+      take: pagenation.take,
+      skip: pagenation.skip,
+    });
+    return query;
+  };
+
   return {
     checkFeatureFunc,
     checkCountFeatureFunc,
+    getAllRelationClinicByAreaId,
+    getAllRelationClinic,
   };
 };

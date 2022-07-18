@@ -15,12 +15,14 @@ export const SmallPlanCard: FC<Props> = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const checkGender = useCallback(() => {
-    const func: any = {};
-    func[1] = "女性";
-    func[2] = "男性";
-    func[3] = "男性・女性";
-    const gender = func[price.gender] as string;
-    return gender;
+    switch (price.gender) {
+      case 2:
+        return "男性";
+      case 3:
+        return "男性・女性";
+      default:
+        return "女性";
+    }
   }, [price]);
   return (
     <>
@@ -41,7 +43,7 @@ export const SmallPlanCard: FC<Props> = (props) => {
       >
         <HStack spacing={"0"} justifyContent={"center"} w={"53%"}>
           <Text>{price.name}</Text>
-          <Text w={"40%"}>({checkGender()})</Text>
+          {/* <Text w={"40%"}>({checkGender()})</Text> */}
         </HStack>
         <Text w={"2.5em"}>{price.times}回</Text>
         <HStack>

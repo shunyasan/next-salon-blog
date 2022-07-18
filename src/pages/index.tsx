@@ -188,14 +188,20 @@ const Home: NextPage<Props> = ({
         {feature.map((feature, i) => (
           <Box key={feature.path}>
             <Box>
-              <Text
-                fontSize={"1.2rem"}
-                fontWeight={"bold"}
-                mb={"0.5rem"}
-                ml="1rem"
-              >
-                {feature.title}
-              </Text>
+              <HStack mb={"0.5rem"} ml="1rem" alignItems={"center"}>
+                <Text fontSize={"1.2rem"} fontWeight={"bold"}>
+                  {feature.title}
+                </Text>
+                <Text
+                  as="a"
+                  href={feature.path}
+                  color={"originGold"}
+                  fontSize={".8em"}
+                >
+                  すべての一覧
+                </Text>
+              </HStack>
+
               <Flex
                 // w={"40rem"}
                 // spacing={"1em"}
@@ -206,20 +212,20 @@ const Home: NextPage<Props> = ({
                 {feature.datas.map((data, i) => (
                   <Box
                     key={data.id + i}
-                    minW={{ md: "15rem", sm: "10rem" }}
-                    h={{ md: "18rem", sm: "14rem" }}
+                    minW={"15rem"}
+                    h={"18rem"}
                     shadow="xl"
                     cursor="pointer"
-                    onClick={() => router.push(`/${data.url}`)}
+                    onClick={() => router.push(`/clinic/detail/${data.id}`)}
                     m=".5em"
                   >
                     <CopyrightImageBox
-                      width={"auto"}
-                      height={"auto"}
+                      width={"15rem"}
+                      height={"8rem"}
                       src={imgs[i]}
                       picture={data.picture[0]}
                       // src={TopResource.clinicImg}
-                      fontSize={"0.7em"}
+                      fontSize={{ md: "0.4em", sm: "1px" }}
                     />
                     <Stack p={{ md: "1em", sm: ".5em" }}>
                       <Text

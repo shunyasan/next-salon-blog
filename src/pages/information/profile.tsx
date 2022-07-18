@@ -14,14 +14,15 @@ const Profile = () => {
       <Box textAlign={"center"}>
         <BgImgH1 title="運営者情報・お問い合わせ" />
         <Box my="3rem">
-          <Logo fontSize={{ md: "3rem", sm: "3rem" }} color={"originBlack"} />
+          <Logo fontSize={{ md: "3rem", sm: "2rem" }} color={"originBlack"} />
         </Box>
       </Box>
       <Stack
+        fontSize={{ md: "1rem", sm: ".9rem" }}
         p={"2rem"}
         textAlign={"center"}
         mx="auto"
-        w={"40rem"}
+        maxW={{ md: "40rem", sm: "30rem" }}
         spacing={"1rem"}
       >
         <TitleAndValueBox
@@ -39,12 +40,6 @@ const Profile = () => {
           value={"こちら"}
           link={"/information/policy"}
         />
-        {/* <Link href="#" fontSize={"0.8rem"}>
-          <Text>プライバシーポリシーはこちら</Text>
-        </Link>
-        <Link href="/information/for-clinics" fontSize={"0.8rem"}>
-          <Text>掲載クリニック様へはこちら</Text>
-        </Link> */}
       </Stack>
     </Box>
   );

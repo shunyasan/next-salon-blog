@@ -3,7 +3,7 @@ import { RelationClinic } from "./RelationClinic";
 
 export interface ClinicNestPriceDto {
   clinic: RelationClinic;
-  prices: Price[];
+  prices?: Price[];
 }
 
 export const ClinicToClinicNestPriceDto = (

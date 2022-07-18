@@ -133,7 +133,7 @@ model Clinic {
   reserve String?
   review Int?
   roomType String?
-  staffGender Int  @default(0) //'0:不明 1:女性 2:男性 3:女性男性',
+  staffGender Int  @default(0) //'0:- 1:女性 2:男性 3:女性男性',
   tax String?
   tel String?
   url String

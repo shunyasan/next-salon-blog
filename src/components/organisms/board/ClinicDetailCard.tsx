@@ -64,10 +64,10 @@ export const ClinicDetailCard: FC<Props> = (props) => {
   //
 
   const payDatas: TitleValue[] = [
-    { title: "カード払い", value: clinicData.cardPay || "不明" },
+    { title: "カード払い", value: clinicData.cardPay || "-" },
     {
       title: "医療ローン",
-      value: clinicData.medhicalLoan || "不明",
+      value: clinicData.medhicalLoan || "-",
     },
     // {
     //   title: "URL",
@@ -75,7 +75,7 @@ export const ClinicDetailCard: FC<Props> = (props) => {
     // },
     // {
     //   title: "途中解約",
-    //   value: clinicData.clinicOption.contractCancel?.price ||   "不明",
+    //   value: clinicData.clinicOption.contractCancel?.price ||   "-",
     // },
   ];
 

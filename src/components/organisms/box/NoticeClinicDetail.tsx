@@ -36,10 +36,10 @@ export const NoticeClinicDetail: FC<Props> = (props) => {
           key={clinic.name}
           title={"予約"}
           icon={MdOutlineBookmarkAdded}
-          text={clinic.reserve || "不明"}
+          text={clinic.reserve || "-"}
           first={"優良"}
           second={"良好"}
-          other={"不明"}
+          other={"-"}
           fontSize={fontSize}
           fontWeight={fontWeigth === undefined ? true : fontWeigth}
         />,
@@ -47,10 +47,10 @@ export const NoticeClinicDetail: FC<Props> = (props) => {
           key={clinic.name}
           title={"内装"}
           icon={MdOutlineKingBed}
-          text={clinic.interior || "不明"}
+          text={clinic.interior || "-"}
           first={"豪華"}
           second={"綺麗"}
-          other={"不明"}
+          other={"-"}
           fontSize={fontSize}
           fontWeight={fontWeigth === undefined ? true : fontWeigth}
         />,
@@ -58,10 +58,10 @@ export const NoticeClinicDetail: FC<Props> = (props) => {
           key={clinic.name}
           title={"施術室"}
           icon={MdOutlineDoorBack}
-          text={clinic.roomType || "不明"}
+          text={clinic.roomType || "-"}
           first={"完全個室"}
           second={"個室"}
-          other={"不明"}
+          other={"-"}
           fontSize={fontSize}
           fontWeight={fontWeigth === undefined ? true : fontWeigth}
         />,
