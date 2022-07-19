@@ -81,22 +81,22 @@ export const ConditionPartsBox: FC<Props> = (props) => {
               <Text>{orderPlan.parts.name}</Text>
             </Flex>
           </Stack>
-          <Link as="a" color={"originGold"} onClick={onOpen}>
+          <Text color={"originGold"} onClick={onOpen}>
             変更
-          </Link>
+          </Text>
         </Flex>
         {/* </Flex> */}
       </Flex>
-      {originCategories && aboutCategories && baseParts && (
-        <TreatmentPartsBox
-          originCategories={originCategories}
-          aboutCategories={aboutCategories}
-          baseParts={baseParts}
-          onClick={(origin, about, parts) => onClick(origin, about, parts)}
-          isOpen={isOpen}
-          onClose={onClose}
-        />
-      )}
+      {/* {originCategories && aboutCategories && baseParts && ( */}
+      <TreatmentPartsBox
+        originCategories={originCategories}
+        aboutCategories={aboutCategories}
+        baseParts={baseParts}
+        onClick={(origin, about, parts) => onClick(origin, about, parts)}
+        isOpen={isOpen}
+        onClose={onClose}
+      />
+      {/* )} */}
     </>
   );
 };

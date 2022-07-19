@@ -41,9 +41,6 @@ type Props = {
   children?: ReactNode;
 };
 
-const take = 10;
-const skip = 2;
-
 const { getRandomImg } = resourcesData();
 
 export const PlanCard: FC<Props> = (props) => {
@@ -63,7 +60,7 @@ export const PlanCard: FC<Props> = (props) => {
 
   return (
     <Box
-      p={"0 1rem 1rem"}
+      // p={"0 1rem 1rem"}
       borderRadius={8}
       shadow={"0 4px 8px 2px rgb(180,180,180)"}
       color={"#333"}
@@ -71,7 +68,7 @@ export const PlanCard: FC<Props> = (props) => {
       <Box
         textAlign={"left"}
         py={".5em"}
-        pl={".5em"}
+        pl={"1em"}
         fontSize={"1.1em"}
         fontWeight={"bold"}
         pos="sticky"
@@ -95,7 +92,7 @@ export const PlanCard: FC<Props> = (props) => {
           </Box> */}
         <Flex
           w={{ md: "23em", sm: "100%" }}
-          // h="15em"
+          h="15em"
           // spacing={"2em"}
           textAlign={"left"}
           mb={{ md: "1em", sm: "0" }}
@@ -105,7 +102,7 @@ export const PlanCard: FC<Props> = (props) => {
         >
           <Box>
             <CopyrightImageBox
-              width={"23em"}
+              width={"24em"}
               height={"15em"}
               src={image[0]}
               picture={clinic.picture[0]}
@@ -115,9 +112,9 @@ export const PlanCard: FC<Props> = (props) => {
           </Box>
 
           {clinic.picture[1] && (
-            <Box mt="1em">
+            <Box mt={{ md: "1em", sm: "0" }}>
               <CopyrightImageBox
-                width={"23em"}
+                width={"24em"}
                 height={"15em"}
                 src={image[1]}
                 picture={clinic.picture[1]}
@@ -140,8 +137,8 @@ export const PlanCard: FC<Props> = (props) => {
             md: "25rem",
             sm: "100%",
           }}
-          px={"0.5em"}
-          // py={"1em"}
+          px={"1em"}
+          py={"1em"}
           justifyContent={"center"}
         >
           {children}
@@ -176,7 +173,10 @@ export const PlanCard: FC<Props> = (props) => {
               </Text>
             </HStack>
 
-            <Box pl={{ md: "3rem", sm: "1.5rem" }} mt=".5rem">
+            <Box
+              // pl={{ md: "3rem", sm: "1.5rem" }}
+              mt=".5rem"
+            >
               {clinic.options && (
                 <FreeServiceBoxList clinicOption={clinic.options} />
               )}
@@ -191,7 +191,10 @@ export const PlanCard: FC<Props> = (props) => {
             >
               契約/支払い
             </Text>
-            <Box pl={{ md: "3rem", sm: "1rem" }} mt=".5rem">
+            <Box
+              // pl={{ md: "3rem", sm: "1rem" }}
+              mt=".5rem"
+            >
               {/* ↓ FreeServiceBoxListと同じ処理にしたい */}
               <PayRerationsBoxList clinic={clinic} />
             </Box>

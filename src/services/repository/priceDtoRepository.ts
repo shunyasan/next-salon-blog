@@ -42,7 +42,6 @@ export const priceDtoRepository = () => {
   const getAllPrices = async (
     orderPlan: OrderPlanQuery,
     // tableName: string,
-    orderBy?: string,
     take?: number,
     skip?: number
   ): Promise<PriceDto[]> => {
@@ -183,11 +182,9 @@ export const priceDtoRepository = () => {
     if (!orderPlan) {
       return [];
     }
-    const sortPrice = orderPlan.paySystem === "総額" ? "price" : "oncePrice";
 
     const getPrices = await getAllPrices(
       orderPlan,
-      sortPrice,
       pagenation.take,
       pagenation.skip
     );

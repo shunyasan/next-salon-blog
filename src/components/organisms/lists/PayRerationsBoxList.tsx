@@ -33,20 +33,20 @@ export const PayRerationsBoxList: FC<Props> = (props) => {
           // h={"4rem"}
           justifyContent={"left"}
           // spacing={"3px"}
-          fontSize={data.title !== "-" ? "0.8em" : "0.8em"}
+          fontSize={data.title !== "ー" ? "0.8em" : "0.8em"}
           // onClick={onClick}
           // mx={"auto"}
           // cursor={"pointer"}
         >
           <Text
-            w="5em"
-            fontWeight={data.title !== "-" ? "bold" : ""}
+            minW="7em"
+            fontWeight={data.title !== "ー" ? "bold" : ""}
             flexShrink="0"
           >
             {data.title}
           </Text>
-          <Box ml="1rem" display={"inline-block"}>
-            <StatusText text={data.value} first={""} second={""} other={"-"} />
+          <Box display={"inline-block"}>
+            <StatusText text={data.value} first={""} second={""} other={"ー"} />
           </Box>
         </Flex>
       ))}

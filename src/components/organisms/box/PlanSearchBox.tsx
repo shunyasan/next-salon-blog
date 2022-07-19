@@ -114,32 +114,6 @@ export const PlanSearchBox: FC<Props> = (props) => {
           </Box>
         </UnderLineItemBox>
       </Box>
-      {/* <Box>
-        <Text fontSize={"1.2em"}>施術したい部位を教えてください</Text>
-        <UnderLineItemBox title="部位" fontSize="1.5em">
-          <Box mt=".7em">
-            <ConditionPartsBox
-              title="部位"
-              orderPlan={orderData}
-              originCategories={originCategories}
-              aboutCategories={aboutCategories}
-              baseParts={baseParts}
-              onClick={(
-                origin: IdAndNameDto,
-                about: IdAndNameDto,
-                parts: IdAndNameDto
-              ) =>
-                setOrderData({
-                  ...orderData,
-                  originParts: origin,
-                  AboutCategory: about,
-                  parts: parts,
-                })
-              }
-            />
-          </Box>
-        </UnderLineItemBox>
-      </Box> */}
       <Box>
         <UnderLineItemBox title="クリニック" fontSize="1.5em">
           <Text fontSize={"1.2em"}>

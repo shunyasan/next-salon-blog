@@ -46,12 +46,14 @@ const TreatmentPartsBox: FC<Props> = (props) => {
   const [origin, setOrigin] = useState<IdAndNameDto>({
     id: originCategories[0].id,
     name: originCategories[0].name,
-    // id: originCategories[0].id,
-    // name: originCategories[0].name,
+    // id: "Z000001",
+    // name: "顔",
   });
   const [about, setAbout] = useState<IdAndNameDto>({
     id: aboutCategories[0].id,
     name: aboutCategories[0].name,
+    // id: "A000001",
+    // name: "顔（鼻から上）",
   });
 
   const { data: aboutCategoryData, error: err_abo } = useSWR<AboutCategory[]>(

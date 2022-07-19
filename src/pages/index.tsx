@@ -1,6 +1,5 @@
 import { Box, Flex, HStack, Image, Link, Stack, Text } from "@chakra-ui/react";
 import axios from "axios";
-import { Adsense } from "components/Adsense";
 import { HomeSearchBoxList } from "components/organisms/lists/HomeSearchBoxList";
 import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";

@@ -21,10 +21,10 @@ export const defaultData = () => {
 
   const defaultSort = {
     none: { id: "none", name: "こだわらない" },
-    price_asc: { id: "price_asc", name: "安い順（総額" },
-    price_desc: { id: "price_desc", name: "高い順（総額" },
-    oncePrice_asc: { id: "oncePrice_asc", name: "安い順（１回分" },
-    oncePrice_desc: { id: "oncePrice_desc", name: "高い順（１回分" },
+    price_asc: { id: "price_asc", name: "安い順（総額）" },
+    price_desc: { id: "price_desc", name: "高い順（総額）" },
+    oncePrice_asc: { id: "oncePrice_asc", name: "安い順（１回分）" },
+    oncePrice_desc: { id: "oncePrice_desc", name: "高い順（１回分）" },
   };
 
   return {

@@ -44,7 +44,7 @@ export const PairDataRowBoxList_2: FC<Props> = (props) => {
               text={data.value}
               first={""}
               second={"無料"}
-              other={"-"}
+              other={"ー"}
             />
           </Box>
         </Flex>

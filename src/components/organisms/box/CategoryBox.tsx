@@ -1,5 +1,6 @@
 import { Box, Button, Image, Text } from "@chakra-ui/react";
 import { AboutCategory } from "@prisma/client";
+// import Image from "next/image";
 import { FC, memo, VFC } from "react";
 
 type Props = {
@@ -30,6 +31,9 @@ export const CategoryBox: FC<Props> = (props) => {
       shadow={arrow ? "0 0 3px 2px #888" : ""}
     >
       <Image
+        // width={"100%"}
+        // height="70%"
+        // objectFit="cover"
         alt={"部位"}
         src={gender === "男性" ? category.imgUrlMen : category.imgUrlLady}
       />

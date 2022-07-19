@@ -39,7 +39,8 @@ type Props = {
   // aboutCategoryData: AboutCategory[];
 };
 
-const { ClinicOptionTitleValue, ClinicOtherTitleValue } = titleValueService();
+const { ClinicOptionTitleValue, ClinicOtherTitleValue, newOptionFunc } =
+  titleValueService();
 const { getRandomImg } = resourcesData();
 
 export const ClinicDetailCard: FC<Props> = (props) => {
@@ -49,6 +50,7 @@ export const ClinicDetailCard: FC<Props> = (props) => {
 
   const [otherData, setOtherData] = useState<TitleValue[]>();
   const [optionData, setOptionData] = useState<TitleValue[]>();
+  const [payment, setPayment] = useState<TitleValue[]>();
 
   const [image, setImage] = useState<string[]>([]);
   const [topImg, setTopImg] = useState<string>();
@@ -63,27 +65,12 @@ export const ClinicDetailCard: FC<Props> = (props) => {
   }, []);
   //
 
-  const payDatas: TitleValue[] = [
-    { title: "カード払い", value: clinicData.cardPay || "-" },
-    {
-      title: "医療ローン",
-      value: clinicData.medhicalLoan || "-",
-    },
-    // {
-    //   title: "URL",
-    //   value: clinicData.url,
-    // },
-    // {
-    //   title: "途中解約",
-    //   value: clinicData.clinicOption.contractCancel?.price ||   "-",
-    // },
-  ];
-
   useEffect(() => {
-    const option = clinicData.options
-      ? ClinicOptionTitleValue(clinicData.options)
-      : undefined;
+    const option = ClinicOptionTitleValue(clinicData.options);
     setOptionData(option);
+
+    const pay = newOptionFunc(clinicData);
+    setPayment(pay);
 
     const other = ClinicOtherTitleValue(clinicData);
     setOtherData(other);
@@ -199,12 +186,12 @@ export const ClinicDetailCard: FC<Props> = (props) => {
         </UnderLineItemBox>
         <UnderLineItemBox title={"契約・支払い"} ankerId={"payment"}>
           <Flex justifyContent={"center"} pl={{ md: "2em", sm: ".5em" }}>
-            <PairDataRowBoxList_2
-              datas={payDatas}
-              my={{ md: "1em", sm: "0.8em" }}
-              // width={{ md: "33.3%", sm: "11.5rem" }}
-              // justifyContent={"space-between"}
-            />
+            {payment && (
+              <PairDataRowBoxList_2
+                datas={payment}
+                my={{ md: "1em", sm: "0.8em" }}
+              />
+            )}
           </Flex>
         </UnderLineItemBox>
         <UnderLineItemBox title={"アクセス"} ankerId={"access"}>

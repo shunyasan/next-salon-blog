@@ -2,8 +2,6 @@ import { Clinic, Option, OptionKind } from "@prisma/client";
 import { OrderPlanTitle } from "enums/OrderPlanTitle";
 import { OrderPlanIdName } from "types/OrderPlanIdName";
 import { TitleValue } from "types/TitleValue";
-import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
-import { RelationClinic } from "types/RelationClinic";
 
 export const titleValueService = () => {
   const getModalSearchConditionBoxData = (orderPlanData: OrderPlanIdName) => {
@@ -36,7 +34,7 @@ export const titleValueService = () => {
       const term = find.terms ? "※" : "";
       return price + more + term;
     } else {
-      return "-";
+      return "ー";
     }
   };
 
@@ -49,13 +47,13 @@ export const titleValueService = () => {
       case val!! > 0:
         return val + "円";
       default:
-        return "-";
+        return "ー";
     }
   };
 
   const checkNoneValue = (val?: string | null) => {
     if (!val || val === "なし") {
-      return "-";
+      return "ー";
     }
     return val;
   };
@@ -101,6 +99,14 @@ export const titleValueService = () => {
   const newOptionFunc = (clinic: Clinic) => {
     const payment: TitleValue[] = [
       {
+        title: "学生料金",
+        value: checkNoneValue(clinic.studentDiscount),
+      },
+      {
+        title: "キャンペーン",
+        value: checkNoneValue(clinic.campaign),
+      },
+      {
         title: "カード払い",
         value: checkNoneValue(clinic.cardPay),
       },
@@ -109,10 +115,6 @@ export const titleValueService = () => {
         value: checkNoneValue(clinic.medhicalLoan),
       },
     ];
-    // const contractCancel = {
-    //   name: "途中解約",
-    //   text: checkNoneValue(clinic.options.contractCancellation),
-    // };
     return payment;
   };
 

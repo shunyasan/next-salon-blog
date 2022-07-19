@@ -35,14 +35,15 @@ export const FreeServiceBoxList: FC<Props> = (props) => {
             // h={"4rem"}
             justifyContent={"left"}
             // spacing={"3px"}
-            fontSize={data.value !== "-" ? "0.8em" : "0.8em"}
+            fontSize={data.value !== "ー" ? "0.8em" : "0.8em"}
             // onClick={onClick}
             // mx={"auto"}
             // cursor={"pointer"}
           >
             <Text
               whiteSpace={"nowrap"}
-              fontWeight={data.value !== "-" ? "bold" : ""}
+              fontWeight={data.value !== "ー" ? "bold" : ""}
+              w="50%"
             >
               {data.title}
             </Text>
@@ -56,8 +57,8 @@ export const FreeServiceBoxList: FC<Props> = (props) => {
               <StatusText
                 text={data.value}
                 first={"無料"}
-                second={data.value === "-" ? "" : data.value}
-                other={"-"}
+                second={data.value === "ー" ? "" : data.value}
+                other={"ー"}
               />
             </Box>
           </Flex>

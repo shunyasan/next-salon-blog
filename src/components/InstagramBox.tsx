@@ -274,7 +274,7 @@ const InstagramBox: FC<Props> = ({ account, clinicId }) => {
           </a>
         </div>
       </blockquote>
-      <Script async src="https://www.instagram.com/embed.js"></Script>
+      <Script async src="//www.instagram.com/embed.js"></Script>
     </Box>
   );
 };

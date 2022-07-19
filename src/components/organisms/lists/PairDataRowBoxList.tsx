@@ -36,11 +36,11 @@ export const PairDataRowBoxList: FC<Props> = (props) => {
         >
           <Text
             fontSize={{
-              md: data.value && data.value !== "-" ? ".9em" : ".8em",
-              sm: data.value && data.value !== "-" ? ".9em" : ".8em",
+              md: data.value && data.value !== "ー" ? ".9em" : ".8em",
+              sm: data.value && data.value !== "ー" ? ".9em" : ".8em",
             }}
             w="40%"
-            fontWeight={data.value && data.value !== "-" ? "bold" : ""}
+            fontWeight={data.value && data.value !== "ー" ? "bold" : ""}
           >
             {data.title}
           </Text>
@@ -48,8 +48,8 @@ export const PairDataRowBoxList: FC<Props> = (props) => {
             <StatusText
               text={data.value}
               first={"無料"}
-              second={data.value === "-" ? "" : data.value}
-              other={"-"}
+              second={data.value === "ー" ? "" : data.value}
+              other={"ー"}
             />
           </Box>
         </Flex>

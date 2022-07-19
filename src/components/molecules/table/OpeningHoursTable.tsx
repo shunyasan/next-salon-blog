@@ -38,14 +38,14 @@ export const OpeningHoursTable: FC<Props> = (props) => {
             <Td>
               {format(hours.startHours)}〜{format(hours.endHours)}
             </Td>
-            <Td>{hours.mon ? "〇" : "-"}</Td>
-            <Td>{hours.thu ? "〇" : "-"}</Td>
-            <Td>{hours.wed ? "〇" : "-"}</Td>
-            <Td>{hours.thir ? "〇" : "-"}</Td>
-            <Td>{hours.fri ? "〇" : "-"}</Td>
-            <Td>{hours.sat ? "〇" : "-"}</Td>
-            <Td>{hours.sun ? "〇" : "-"}</Td>
-            <Td>{hours.hol ? "〇" : "-"}</Td>
+            <Td>{hours.mon ? "〇" : "ー"}</Td>
+            <Td>{hours.thu ? "〇" : "ー"}</Td>
+            <Td>{hours.wed ? "〇" : "ー"}</Td>
+            <Td>{hours.thir ? "〇" : "ー"}</Td>
+            <Td>{hours.fri ? "〇" : "ー"}</Td>
+            <Td>{hours.sat ? "〇" : "ー"}</Td>
+            <Td>{hours.sun ? "〇" : "ー"}</Td>
+            <Td>{hours.hol ? "〇" : "ー"}</Td>
           </Tr>
         ))}
       </Tbody>

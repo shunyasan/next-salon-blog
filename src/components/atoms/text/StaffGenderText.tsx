@@ -9,7 +9,7 @@ type Props = {
 export const StaffGenderText: FC<Props> = (props) => {
   const { staffGender } = props;
   const [gender, setGender] = useState<{ gender: string; color: string }>({
-    gender: "-",
+    gender: "ー",
     color: "",
   });
 
