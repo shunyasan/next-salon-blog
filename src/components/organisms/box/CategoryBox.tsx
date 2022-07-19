@@ -1,6 +1,6 @@
-import { Box, Button, Image, Text } from "@chakra-ui/react";
+import { Box, Button, Text } from "@chakra-ui/react";
 import { AboutCategory } from "@prisma/client";
-// import Image from "next/image";
+import Image from "next/image";
 import { FC, memo, VFC } from "react";
 
 type Props = {
@@ -30,13 +30,16 @@ export const CategoryBox: FC<Props> = (props) => {
       transitionTimingFunction={"linear"}
       shadow={arrow ? "0 0 3px 2px #888" : ""}
     >
-      <Image
-        // width={"100%"}
-        // height="70%"
-        // objectFit="cover"
-        alt={"部位"}
-        src={gender === "男性" ? category.imgUrlMen : category.imgUrlLady}
-      />
+      <Box>
+        <Image
+          width={"100%"}
+          height="70%"
+          layout="responsive"
+          objectFit="contain"
+          alt={"部位"}
+          src={gender === "男性" ? category.imgUrlMen : category.imgUrlLady}
+        />
+      </Box>
       <Text py={"0.7rem"} fontSize={{ md: "1em", sm: "0.8em" }}>
         {category.name}
       </Text>

@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  HStack,
-  Image,
-  Link,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, Link, Stack, Text } from "@chakra-ui/react";
 import {
   AboutCategory,
   Clinic,
@@ -29,6 +20,7 @@ import { RelationClinic } from "types/RelationClinic";
 import { CopyrightImageBox } from "components/molecules/box/CopyrightImageBox";
 import { titleValueService } from "services/titleValueService";
 import { resourcesData } from "services/common/resourcesData";
+import Image from "next/image";
 
 type Props = {
   clinicData: RelationClinic;
@@ -87,14 +79,6 @@ export const ClinicDetailCard: FC<Props> = (props) => {
           // src={TopResource.clinicImg}
           fontSize={"0.7em"}
         />
-        {/* <Image
-          src={topImg}
-          w={"28rem"}
-          h={"18rem"}
-          objectFit={"contain"}
-          mx={"auto"}
-          alt={clinicData.name}
-        /> */}
       </Box>
       <Flex
         overflow={"scroll"}
@@ -119,16 +103,17 @@ export const ClinicDetailCard: FC<Props> = (props) => {
           //     fontSize={"0.7em"}
           //   />
           // </Box>
-          <Image
-            key={data.id}
-            w={"4em"}
-            h={"2.5em"}
-            src={data.url}
-            mx={"1em"}
-            objectFit={"contain"}
-            onClick={() => setSelectPicture(data)}
-            alt={clinicData.name}
-          />
+          <Box key={data.id} mx={"1em"} width={"4em"} height={"2.5em"}>
+            <Image
+              layout="responsive"
+              width="100%"
+              height="60%"
+              objectFit={"contain"}
+              src={data.url}
+              onClick={() => setSelectPicture(data)}
+              alt={clinicData.name}
+            />
+          </Box>
         ))}
       </Flex>
       <Box

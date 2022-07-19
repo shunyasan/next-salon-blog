@@ -107,7 +107,7 @@ export const PlanCard: FC<Props> = (props) => {
               src={image[0]}
               picture={clinic.picture[0]}
               // src={TopResource.clinicImg}
-              fontSize={"0.4em"}
+              fontSize={"0.7em"}
             />
           </Box>
 
@@ -119,7 +119,7 @@ export const PlanCard: FC<Props> = (props) => {
                 src={image[1]}
                 picture={clinic.picture[1]}
                 // src={TopResource.clinicImg}
-                fontSize={"0.4em"}
+                fontSize={"0.7em"}
               />
             </Box>
           )}

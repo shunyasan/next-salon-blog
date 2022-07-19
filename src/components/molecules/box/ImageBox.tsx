@@ -1,4 +1,5 @@
-import { Box, Flex, HStack, Image, Stack, Text } from "@chakra-ui/react";
+import { Box, Flex, HStack, Stack, Text } from "@chakra-ui/react";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC, useState, VFC } from "react";
 import { HomeFeatureText } from "types/HomeFeatureText";
@@ -19,7 +20,7 @@ export const ImageBox: FC<Props> = (props) => {
 
   return (
     <Box
-      maxW={width}
+      w={width}
       mt="2rem"
       mx={"1vw"}
       shadow={"0 4px 8px 2px rgb(180,180,180)"}
@@ -29,13 +30,18 @@ export const ImageBox: FC<Props> = (props) => {
       _hover={{ shadow: "none" }}
       onClick={pushLink}
     >
-      <Image
-        objectFit={"cover"}
-        h={{ md: "11em", sm: "6em" }}
-        // h="14vw"
-        src={homeFeature.img}
-        alt="イメージ画像"
-      />
+      <Box w={width} h={{ md: "11em", sm: "6em" }}>
+        <Image
+          layout="responsive"
+          objectFit={"cover"}
+          src={homeFeature.img}
+          alt="イメージ画像"
+          width="100%"
+          height="80%"
+          // h="14vw"
+        />
+      </Box>
+
       <Stack
         justifyContent={"center"}
         p={{ md: "0.9em", sm: ".5em" }}

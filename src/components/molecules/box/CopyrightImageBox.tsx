@@ -1,5 +1,6 @@
-import { Box, Image, Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { Picture } from "@prisma/client";
+import Image from "next/image";
 import { FC, memo, VFC } from "react";
 
 type Props = {
@@ -25,8 +26,9 @@ export const CopyrightImageBox: FC<Props> = (props) => {
     >
       <Image
         src={picture?.url || src}
-        height={height}
-        width={width}
+        // height={height}
+        // width={width}
+        layout="fill"
         objectFit={"contain"}
         alt="イメージ画像"
       />

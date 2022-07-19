@@ -23,7 +23,7 @@ export const Logo: FC<Props> = (props) => {
     >
       <Box>
         <Text>脱毛コンサルタント</Text>
-        <Flex justifyContent={"center"} mx="auto">
+        <Flex justifyContent={"center"} mx="auto" width="50px" height="20px">
           <Image
             // layout="fill"
             width="50px"

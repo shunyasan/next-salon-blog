@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, Image, Link, Stack, Text } from "@chakra-ui/react";
+import { Box, Flex, HStack, Link, Stack, Text } from "@chakra-ui/react";
 import axios from "axios";
 import { HomeSearchBoxList } from "components/organisms/lists/HomeSearchBoxList";
 import type { GetStaticProps, NextPage } from "next";
@@ -24,6 +24,7 @@ import { featureDtoRepository } from "services/repository/featureDtoRepository";
 import { InstagramRepository } from "services/repository/InstagramRepository";
 import { twitterRepository } from "services/repository/twitterRepository";
 import { featureViewDataService } from "services/featureViewDataService";
+import Image from "next/image";
 
 type Props = {
   // data: FeatureViewData[];
@@ -93,6 +94,7 @@ const Home: NextPage<Props> = ({
           left={{ md: "10%", sm: "5%" }}
           fontSize={{ md: "1.5rem", sm: "1rem" }}
           fontWeight="bold"
+          zIndex={"100"}
           color={"#fff"}
         >
           <Stack
@@ -105,14 +107,20 @@ const Home: NextPage<Props> = ({
             <Text>あなたのための脱毛プランをご提案。</Text>
           </Stack>
         </Box>
-        <Image
-          src={topImg}
+        <Box
           w={{ md: "100%", sm: "90rem" }}
           h={{ md: "25rem", sm: "12rem" }}
-          objectFit={"cover"}
           boxShadow="2xl"
-          alt="TOP"
-        />
+        >
+          <Image
+            layout="fill"
+            // width={"100%"}
+            // height="80%"
+            objectFit={"cover"}
+            src={topImg}
+            alt="TOP"
+          />
+        </Box>
       </Flex>
       {/* <Box w={{ md: "80%", sm: "95%" }} mx="auto"> */}
       {/* <Box w={"80%"} mt={"4rem"} mx={"auto"}>
@@ -187,7 +195,7 @@ const Home: NextPage<Props> = ({
         {feature.map((feature, i) => (
           <Box key={feature.path}>
             <Box>
-              <HStack mb={"0.5rem"} ml="1rem" alignItems={"center"}>
+              <Box mb={"0.2em"} ml="1rem" alignItems={"center"}>
                 <Text fontSize={"1.2rem"} fontWeight={"bold"}>
                   {feature.title}
                 </Text>
@@ -199,8 +207,7 @@ const Home: NextPage<Props> = ({
                 >
                   すべての一覧
                 </Text>
-              </HStack>
-
+              </Box>
               <Flex
                 // w={"40rem"}
                 // spacing={"1em"}
@@ -224,7 +231,7 @@ const Home: NextPage<Props> = ({
                       src={imgs[i]}
                       picture={data.picture[0]}
                       // src={TopResource.clinicImg}
-                      fontSize={{ md: "0.4em", sm: "1px" }}
+                      fontSize={{ md: "0.4em", sm: ".7em" }}
                     />
                     <Stack p={{ md: "1em", sm: ".5em" }}>
                       <Text
