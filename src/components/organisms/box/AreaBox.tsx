@@ -14,7 +14,6 @@ export const AreaBox: FC<Props> = (props) => {
   const { area, arrow, description, onClick, fontSize } = props;
   return (
     <Flex
-      as="a"
       fontSize={fontSize || undefined}
       cursor={"pointer"}
       border={arrow ? "4px" : "1px"}

@@ -67,6 +67,7 @@ export const MobileSearchCondotionBox: FC<Props> = ({
               color={"originGold"}
               flexShrink={"0"}
               onClick={onOpen}
+              cursor="pointer"
             >
               変更
             </Text>
@@ -98,6 +99,7 @@ export const MobileSearchCondotionBox: FC<Props> = ({
               color={"originGold"}
               flexShrink={"0"}
               onClick={onOpen}
+              cursor="pointer"
             >
               変更
             </Text>

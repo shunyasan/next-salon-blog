@@ -60,7 +60,6 @@ const OrderSalonPage: FC<Props> = (props) => {
           戻る
         </Button> */}
         <Link
-          as="a"
           fontWeight={"bold"}
           href="/plan"
           color={"originGold"}

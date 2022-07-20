@@ -21,8 +21,10 @@ export const PartsBox: FC<Props> = (props) => {
       color={"originGold"}
       onClick={search}
     >
-      <Text as="a">・</Text>
-      <Link textDecoration="underline">{parts.name}</Link>
+      <Text textDecoration="underline">
+        <Text as="span">・</Text>
+        {parts.name}
+      </Text>
     </Box>
   );
 };

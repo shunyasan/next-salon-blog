@@ -36,7 +36,7 @@ export const StatusText: FC<Props> = (props) => {
   }, [first, second, text]);
 
   return (
-    <Text as={"a"} bg={statusColor} px={"5px"} fontSize={fontSize}>
+    <Text bg={statusColor} px={"5px"} fontSize={fontSize}>
       {text || other}
     </Text>
   );

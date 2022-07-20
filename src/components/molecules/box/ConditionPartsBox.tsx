@@ -81,7 +81,7 @@ export const ConditionPartsBox: FC<Props> = (props) => {
               <Text>{orderPlan.parts.name}</Text>
             </Flex>
           </Stack>
-          <Text color={"originGold"} onClick={onOpen}>
+          <Text color={"originGold"} onClick={onOpen} cursor="pointer">
             変更
           </Text>
         </Flex>

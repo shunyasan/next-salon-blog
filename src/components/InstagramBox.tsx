@@ -33,6 +33,7 @@ const InstagramBox: FC<Props> = ({ account, clinicId }) => {
         </Box>
       )}
       <blockquote
+        title="instagram"
         className="instagram-media"
         data-instgrm-permalink={`https://www.instagram.com/p/${account}/?utm_source=ig_embed&amp;utm_campaign=loading`}
         data-instgrm-version="14"

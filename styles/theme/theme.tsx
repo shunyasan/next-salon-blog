@@ -39,7 +39,7 @@ const theme = extendTheme({
     originLiteBlack: "#252525",
     originGray: "#b7b7b7",
     originLiteGray: "#e1e1e1",
-    originGold: "#a59968",
+    originGold: "#806902",
     originDarkGold: "#7d7140",
     SeeThroughGold: "#ebdfc2",
     SeeThroughBlue: "#d9eeff",

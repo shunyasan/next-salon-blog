@@ -3,7 +3,7 @@ import Document, { Html, Head, Main, NextScript } from "next/document";
 class MyDocument extends Document {
   render() {
     return (
-      <Html>
+      <Html lang="ja">
         <Head>
           {/* font-family: 'Noto Serif JP, serif; */}
           <link rel="preconnect" href="https://fonts.googleapis.com"></link>

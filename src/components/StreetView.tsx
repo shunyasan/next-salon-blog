@@ -31,6 +31,7 @@ const StreetView: FC<Props> = ({ src, clinicId }) => {
         </Box>
       )}
       <iframe
+        title="street_view"
         src={src}
         width="600"
         height="450"

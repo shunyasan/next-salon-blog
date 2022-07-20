@@ -26,8 +26,8 @@ export const Logo: FC<Props> = (props) => {
         <Flex justifyContent={"center"} mx="auto" width="50px" height="20px">
           <Image
             // layout="fill"
-            width="50px"
-            height="20px"
+            width="100%"
+            height="100%"
             objectFit={"contain"}
             src="/consaltant.png"
             alt="脱毛コンサルタント"
