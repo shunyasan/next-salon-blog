@@ -50,7 +50,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const id = param && typeof param === "string" ? param : "";
   const clinicData: RelationClinic = await clinicRepository.getOneClinic(id);
   const origin: IdAndNameDto[] =
-    await originCategoryRepository.getAllIdAndName();
+    await originCategoryRepository.getIdAndNameByClinicId(id);
   const prices = await getAllByClinic("Z000001", id, "女性");
 
   // const clinicData: Clinic = await fetcher(`${thisURL}api/clinics/${id}`);
@@ -118,6 +118,7 @@ const ClinicDetail: NextPage<Props> = ({
         <title>{clinicData.name} | 脱毛コンサルタント</title>
         <meta name="description" content={clinicData.name + "の詳細です"} />
       </Head>
+      <LoadingIcon />
       <Box
         my={"3rem"}
         mx={"auto"}

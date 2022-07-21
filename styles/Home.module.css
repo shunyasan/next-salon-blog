@@ -383,3 +383,23 @@
   height: 200px;
   background-image: linear-gradient(180deg, transparent 0 60%, #fff 100%);
 }
+
+.hideModal {
+  animation-name: hideModalAnime;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  /* animation-fill-mode: forwards; */
+  /* display: block; */
+}
+@keyframes hideModalAnime {
+  0% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0;
+  }
+  100% {
+    /* display: none; */
+    opacity: 0;
+  }
+}

@@ -73,6 +73,7 @@ const ClinicListTemplate: FC<Props> = ({
   return (
     <Box textAlign={"center"}>
       <BgImgH1 title={title} />
+      <LoadingIcon />
       <Flex justifyContent={"space-evenly"} wrap={"wrap"} my="2rem">
         {area.length > 0 &&
           area.map((data, int) => (

@@ -11,7 +11,6 @@ import { ConditionPartsBox } from "components/molecules/box/ConditionPartsBox";
 import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
 import { OrderPlanQueryService } from "services/orderPlanQueryService";
 import { PlanSortBox } from "components/molecules/box/PlanSortBox";
-import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 
 type Props = {
   orderPlan: OrderPlanIdName;

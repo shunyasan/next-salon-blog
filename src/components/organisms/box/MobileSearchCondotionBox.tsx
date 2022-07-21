@@ -9,7 +9,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
-import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import { useRouter } from "next/router";
 import { FC, memo, useCallback, useState, VFC } from "react";
 import { HomeFeatureText } from "types/HomeFeatureText";

@@ -9,6 +9,7 @@ import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
 import { CategoryBox } from "components/organisms/box/CategoryBox";
 import { OrderPlanQueryService } from "services/orderPlanQueryService";
 import { defaultData } from "services/common/defaultData";
+import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 
 type Props = {
   // title: string;
@@ -132,6 +133,7 @@ const TreatmentTemplete: FC<Props> = ({
   // if (!origin || !viewAboutCategory || !viewBaseParts) return <LoadingIcon />;
   return (
     <Box>
+      <LoadingIcon />
       {children}
       <Box textAlign={"center"}>
         <Flex

@@ -17,6 +17,7 @@ import { Logo } from "../../atoms/logos/Logo";
 import { HamburgerIcon } from "../../atoms/icons/HamburgerIcon";
 import { HeaderDrawer } from "../../molecules/drawers/HeaderDrawer";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 
 type Props = {
   // children?: ReactNode;
@@ -66,15 +67,15 @@ export const Header: FC<Props> = (props) => {
     //   text: "掲載クリニック様へ",
     // },
     {
-      path: "/information/profile",
+      path: "information/profile",
       text: "運営者情報",
     },
     {
-      path: "/information/form",
+      path: "information/form",
       text: "お問い合わせ",
     },
     {
-      path: "/information/policy",
+      path: "information/policy",
       text: "プライバシーポリシー",
     },
   ];
@@ -140,6 +141,7 @@ export const Header: FC<Props> = (props) => {
 
   return (
     <Box as="header">
+      <LoadingIcon />
       <Box>
         <Box>
           <Flex
