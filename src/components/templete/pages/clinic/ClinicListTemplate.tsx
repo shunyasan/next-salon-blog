@@ -34,12 +34,8 @@ type Props = {
   area: Area[];
   clinics: RelationClinic[];
   page: number;
-  twitter: (Twitter & {
-    clinic: Clinic;
-  })[];
-  instagram: (Instagram & {
-    clinic: Clinic;
-  })[];
+  twitter: Twitter[];
+  instagram: Instagram[];
   getPage: (page: number) => void;
   // defaultPagenation: { now: number; block: number };
 };

@@ -29,35 +29,33 @@ import { IdAndNameDto } from "types/IdAndNameDto";
 import style from "../../../styles/Home.module.css";
 
 type Props = {
-  originCategories: OriginCategory[];
-  aboutCategories: AboutCategory[];
-  baseParts: BaseParts[];
+  // originCategories: OriginCategory[];
+  // aboutCategories: AboutCategory[];
+  // baseParts: BaseParts[];
   defaultOrderData: OrderPlanIdName;
-  instagram: (Instagram & {
-    clinic: Clinic;
-  })[];
+  instagram: Instagram[];
 };
 
 const { defaultOrderPlanIdName } = defaultData();
 const { getInstagramRamdom } = InstagramRepository();
 export const getStaticProps: GetStaticProps<Props> = async (context) => {
-  const originCategories =
-    await originCategoryRepository.getAllOriginCategory();
-  const aboutCategories =
-    await aboutCategoryRepository.getAllAboutCategoryByOriginId(
-      originCategories[0].id
-    );
-  const baseParts = await basePartsRepository.getAllBasePartsByAboutId(
-    aboutCategories[0].id
-  );
+  // const originCategories =
+  //   await originCategoryRepository.getAllOriginCategory();
+  // const aboutCategories =
+  //   await aboutCategoryRepository.getAllAboutCategoryByOriginId(
+  //     originCategories[0].id
+  //   );
+  // const baseParts = await basePartsRepository.getAllBasePartsByAboutId(
+  //   aboutCategories[0].id
+  // );
 
   const instagram = await getInstagramRamdom(2);
   const defaultOrderData = defaultOrderPlanIdName;
   return {
     props: {
-      originCategories,
-      aboutCategories,
-      baseParts,
+      // originCategories,
+      // aboutCategories,
+      // baseParts,
       defaultOrderData,
       instagram,
     },
@@ -66,9 +64,9 @@ export const getStaticProps: GetStaticProps<Props> = async (context) => {
 
 const SearchSalon: NextPage<Props> = (props) => {
   const {
-    originCategories,
-    aboutCategories,
-    baseParts,
+    // originCategories,
+    // aboutCategories,
+    // baseParts,
     defaultOrderData,
     instagram,
   } = props;
@@ -103,8 +101,8 @@ const SearchSalon: NextPage<Props> = (props) => {
   //   aboutCategories && setAboutId(aboutCategories[0].id);
   // }, [aboutCategories]);
 
-  if (!originCategories || !aboutCategories || !baseParts)
-    return <LoadingIcon />;
+  // if (!originCategories || !aboutCategories || !baseParts)
+  // return <LoadingIcon />;
   return (
     <>
       <Head>
@@ -118,9 +116,9 @@ const SearchSalon: NextPage<Props> = (props) => {
       <Box mx="auto" w={{ md: "60%", sm: "95%" }} my="3em">
         <PlanSearchBox
           orderPlan={defaultOrderData}
-          originCategories={originCategories}
-          aboutCategories={aboutCategories}
-          baseParts={baseParts}
+          // originCategories={originCategories}
+          // aboutCategories={aboutCategories}
+          // baseParts={baseParts}
         />
         <Flex mt="2rem" justifyContent={"space-around"} wrap="wrap">
           {instagram.map((data, i) => (

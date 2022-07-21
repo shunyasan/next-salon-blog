@@ -30,9 +30,9 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   // resetPages: () => void;
-  originCategories: OriginCategory[];
-  aboutCategories: AboutCategory[];
-  baseParts: BaseParts[];
+  // originCategories: OriginCategory[];
+  // aboutCategories: AboutCategory[];
+  // baseParts: BaseParts[];
 };
 
 export const PlanResearchModal: FC<Props> = (props) => {
@@ -41,66 +41,10 @@ export const PlanResearchModal: FC<Props> = (props) => {
     isOpen,
     onClose,
     // resetPages,
-    originCategories,
-    aboutCategories,
-    baseParts,
+    // originCategories,
+    // aboutCategories,
+    // baseParts,
   } = props;
-  const router = useRouter();
-
-  // const [orderData, setOrderData] = useState<OrderPlanIdName>(orderPlan);
-  // const [partsAndCategory, setPartsAndCategory] = useState<{
-  //   originCategory: IdAndNameDto[];
-  //   aboutCategory: IdAndNameDto[];
-  //   parts: IdAndNameDto[];
-  // }>();
-
-  // const getAllPartsAndCategory = useCallback(
-  //   async (orderParams: OrderPlanIdName) => {
-  //     const data = await getResearchCardData(
-  //       orderParams.originParts.id,
-  //       orderParams.aboutCategory.id,
-  //       orderParams.parts?.id
-  //     );
-  //     setPartsAndCategory(data);
-  //     setOrderData({
-  //       ...orderParams,
-  //       originParts: data.originCategory[0],
-  //       aboutCategory: data.aboutCategory[0],
-  //       parts: data.parts[0],
-  //     });
-  //     return data;
-  //   },
-  //   []
-  // );
-
-  // const getSetOrderData = async (key: string, name: string, id: string) => {
-  //   if (orderData) {
-  //     const checkedParts: OrderPlanIdName = checkNewAboutPartsData(
-  //       orderData,
-  //       key,
-  //       name,
-  //       id
-  //     );
-
-  //     await getAllPartsAndCategory(checkedParts);
-  //   }
-  // };
-
-  // const researchPlan = async () => {
-  //   if (orderData) {
-  //     const param = createParameter(orderData);
-  //      onClose();
-  //     // resetPages();
-  //     router.push({
-  //       pathname: "/plan/search/1",
-  //       search: `?${param}`,
-  //     });
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getAllPartsAndCategory(orderPlan);
-  // }, [getAllPartsAndCategory, orderPlan]);
 
   return (
     // <Modal isOpen={isOpen} onClose={onClose}>
@@ -142,9 +86,9 @@ export const PlanResearchModal: FC<Props> = (props) => {
         />
         <PlanSearchBox
           orderPlan={orderPlan}
-          originCategories={originCategories}
-          aboutCategories={aboutCategories}
-          baseParts={baseParts}
+          // originCategories={originCategories}
+          // aboutCategories={aboutCategories}
+          // baseParts={baseParts}
           onClose={onClose}
         />
       </Box>

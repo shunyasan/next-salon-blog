@@ -7,10 +7,6 @@ export type ClinicPageProps = {
   clinics: RelationClinic[];
   page: number;
   maxData: number;
-  twitter: (Twitter & {
-    clinic: Clinic;
-  })[];
-  instagram: (Instagram & {
-    clinic: Clinic;
-  })[];
+  twitter: Twitter[];
+  instagram: Instagram[];
 };

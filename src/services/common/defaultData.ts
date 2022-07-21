@@ -6,7 +6,7 @@ export const defaultData = () => {
     paySystem: { id: "総額", name: "総額" },
     originParts: { id: "Z000001", name: "顔" },
     aboutCategory: { id: "A000001", name: "顔（鼻から上）" },
-    parts: { id: "B000005", name: "眉全体" },
+    parts: { id: "B000003", name: "額" },
     skinCollor: { id: "薄茶色", name: "平均的な肌色" },
     hair: { id: "標準", name: "どちらとも言えない毛" },
     roomType: { id: "none", name: "こだわらない" },

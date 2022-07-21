@@ -21,7 +21,7 @@ export const PartsBox: FC<Props> = (props) => {
       color={"originGold"}
       onClick={search}
     >
-      <Text textDecoration="underline">
+      <Text textDecoration="underline" cursor={"pointer"}>
         <Text as="span">・</Text>
         {parts.name}
       </Text>

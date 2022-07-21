@@ -8,7 +8,7 @@ export const InstagramRepository = () => {
     orderBy: "asc" | "desc"
   ) => {
     const data = await prisma.instagram.findMany({
-      include: { clinic: true },
+      // include: { clinic: true },
       take: take,
       skip: skip,
       orderBy: {

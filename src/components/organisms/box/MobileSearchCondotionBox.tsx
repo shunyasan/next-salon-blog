@@ -9,6 +9,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
+import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 import { useRouter } from "next/router";
 import { FC, memo, useCallback, useState, VFC } from "react";
 import { HomeFeatureText } from "types/HomeFeatureText";
@@ -21,28 +22,25 @@ type Props = {
   // resetPages: () => void;
   condition: TitleValue[];
   partsName: string;
-  originCategories: OriginCategory[];
-  aboutCategories: AboutCategory[];
-  baseParts: BaseParts[];
+  // originCategories: OriginCategory[];
+  // aboutCategories: AboutCategory[];
+  // baseParts: BaseParts[];
+  // setLoading: () => void;
 };
 export const MobileSearchCondotionBox: FC<Props> = ({
   orderPlan,
   // resetPages,
   condition,
   partsName,
-  originCategories,
-  aboutCategories,
-  baseParts,
+  // setLoading,
 }) => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // const datas:{title:string,value:string} = [
-  //   {title:"",value:""},
-  //   {title:"",value:""},
-  //   {title:"",value:""},
-  //   {title:"",value:""},
-  // ]
+  const onClickSearch = () => {
+    // setLoading();
+    onClose();
+  };
 
   return (
     <>
@@ -111,17 +109,15 @@ export const MobileSearchCondotionBox: FC<Props> = ({
         </Button>
       </Flex> */}
       </Stack>
-      {originCategories && aboutCategories && baseParts && (
-        <PlanResearchModal
-          orderPlan={orderPlan}
-          isOpen={isOpen}
-          onClose={onClose}
-          // resetPages={resetPages}
-          originCategories={originCategories}
-          aboutCategories={aboutCategories}
-          baseParts={baseParts}
-        />
-      )}
+      <PlanResearchModal
+        orderPlan={orderPlan}
+        isOpen={isOpen}
+        onClose={onClickSearch}
+        // resetPages={resetPages}
+        // originCategories={originCategories}
+        // aboutCategories={aboutCategories}
+        // baseParts={baseParts}
+      />
     </>
   );
 };

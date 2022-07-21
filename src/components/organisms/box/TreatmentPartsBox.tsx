@@ -16,10 +16,10 @@ import useSWR from "swr";
 import { IdAndNameDto } from "types/IdAndNameDto";
 
 type Props = {
-  // 初期値は渡す
-  originCategories: OriginCategory[];
-  aboutCategories: AboutCategory[];
-  baseParts: BaseParts[];
+  // 管理しず楽なりそうなので初期値はここでとる
+  // originCategories: OriginCategory[];
+  // aboutCategories: AboutCategory[];
+  // baseParts: BaseParts[];
   // partsクリック時にデータを受け取る
   onClick: (
     origin: IdAndNameDto,
@@ -31,46 +31,38 @@ type Props = {
 };
 
 const TreatmentPartsBox: FC<Props> = (props) => {
-  const {
-    aboutCategories,
-    baseParts,
-    originCategories,
-    onClick,
-    isOpen,
-    onClose,
-  } = props;
+  const { onClick, isOpen, onClose } = props;
   const router = useRouter();
 
   const [gender, setGender] = useState<string>("女性");
   //配列番号を所持
   const [origin, setOrigin] = useState<IdAndNameDto>({
-    id: originCategories[0].id,
-    name: originCategories[0].name,
-    // id: "Z000001",
-    // name: "顔",
+    // id: originCategories[0].id,
+    // name: originCategories[0].name,
+    id: "Z000001",
+    name: "顔",
   });
   const [about, setAbout] = useState<IdAndNameDto>({
-    id: aboutCategories[0].id,
-    name: aboutCategories[0].name,
-    // id: "A000001",
-    // name: "顔（鼻から上）",
+    // id: aboutCategories[0].id,
+    // name: aboutCategories[0].name,
+    id: "A000001",
+    name: "顔（鼻から上）",
   });
+
+  const { data: originCategoryData, error: err_ori } = useSWR<IdAndNameDto[]>(
+    `/api/id-and-name/origin-category/`,
+    fetcher
+  );
 
   const { data: aboutCategoryData, error: err_abo } = useSWR<AboutCategory[]>(
     `/api/about-categories/originId/${origin.id}`,
-    fetcher,
-    {
-      fallbackData: aboutCategories,
-    }
+    fetcher
   );
 
   // パラメータ直す
   const { data: basePartsData, error: err_parts } = useSWR<BaseParts[]>(
     `/api/base-parts/${about.id}?gender=${gender}`,
-    fetcher,
-    {
-      fallbackData: baseParts,
-    }
+    fetcher
   );
 
   const onClickParts = useCallback(
@@ -93,7 +85,8 @@ const TreatmentPartsBox: FC<Props> = (props) => {
       });
   }, [aboutCategoryData]);
 
-  if (!aboutCategoryData || !basePartsData) return <LoadingIcon />;
+  if (!originCategoryData || !aboutCategoryData || !basePartsData)
+    return <LoadingIcon />;
   return (
     <Box
       width="100%"
@@ -142,7 +135,7 @@ const TreatmentPartsBox: FC<Props> = (props) => {
             w={{ md: "70%", sm: "95%" }}
             justifyContent={"center"}
           >
-            {originCategories.map((data, int) => (
+            {originCategoryData.map((data, int) => (
               <OriginCategoryBox
                 key={int}
                 name={data.name}

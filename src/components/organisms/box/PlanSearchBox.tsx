@@ -15,17 +15,16 @@ import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
 
 type Props = {
   orderPlan: OrderPlanIdName;
-  originCategories: OriginCategory[];
-  aboutCategories: AboutCategory[];
-  baseParts: BaseParts[];
+  // originCategories: OriginCategory[];
+  // aboutCategories: AboutCategory[];
+  // baseParts: BaseParts[];
   onClose?: () => void;
 };
 
 const { createParameter } = OrderPlanQueryService();
 
 export const PlanSearchBox: FC<Props> = (props) => {
-  const { orderPlan, originCategories, aboutCategories, baseParts, onClose } =
-    props;
+  const { orderPlan, onClose } = props;
   const router = useRouter();
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -34,15 +33,19 @@ export const PlanSearchBox: FC<Props> = (props) => {
   const onClickSearchPlan = async () => {
     if (orderData) {
       const query = createParameter(orderData);
-      onClose && onClose();
       // resetPages();
       setLoading(true);
+      onClose && onClose();
       router.push({
         pathname: "/plan/search/1",
         query: query,
       });
     }
   };
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   // 全ての要素をchildrenにしてコンポーネントをまとめる
   return (
@@ -69,9 +72,9 @@ export const PlanSearchBox: FC<Props> = (props) => {
             <ConditionPartsBox
               title="部位"
               orderPlan={orderData}
-              originCategories={originCategories}
-              aboutCategories={aboutCategories}
-              baseParts={baseParts}
+              // originCategories={originCategories}
+              // aboutCategories={aboutCategories}
+              // baseParts={baseParts}
               onClick={(
                 origin: IdAndNameDto,
                 about: IdAndNameDto,

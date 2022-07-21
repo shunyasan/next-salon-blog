@@ -36,7 +36,12 @@ export const StatusText: FC<Props> = (props) => {
   }, [first, second, text]);
 
   return (
-    <Text bg={statusColor} px={"5px"} fontSize={fontSize}>
+    <Text
+      display={"inline-block"}
+      bg={statusColor}
+      px={"5px"}
+      fontSize={fontSize}
+    >
       {text || other}
     </Text>
   );

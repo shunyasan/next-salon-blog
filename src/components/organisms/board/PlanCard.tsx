@@ -35,12 +35,14 @@ import { titleValueService } from "services/titleValueService";
 import { TitleValue } from "types/TitleValue";
 import { resourcesData } from "services/common/resourcesData";
 import { RelationClinic } from "types/RelationClinic";
+import { TopResource } from "../../../../resorces/TopResource";
 
 type Props = {
   clinic: RelationClinic;
   children?: ReactNode;
 };
 
+const img = TopResource.clinicImg1;
 const { getRandomImg } = resourcesData();
 
 export const PlanCard: FC<Props> = (props) => {
@@ -104,7 +106,7 @@ export const PlanCard: FC<Props> = (props) => {
             <CopyrightImageBox
               width={"24em"}
               height={"15em"}
-              src={image[0]}
+              src={img}
               picture={clinic.picture[0]}
               // src={TopResource.clinicImg}
               fontSize={"0.7em"}
@@ -116,7 +118,7 @@ export const PlanCard: FC<Props> = (props) => {
               <CopyrightImageBox
                 width={"24em"}
                 height={"15em"}
-                src={image[1]}
+                src={img}
                 picture={clinic.picture[1]}
                 // src={TopResource.clinicImg}
                 fontSize={"0.7em"}

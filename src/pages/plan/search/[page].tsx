@@ -51,17 +51,13 @@ type Props = {
   price: PriceDto[];
   maxValue: number;
   condition: TitleValue[];
-  allParts: {
-    originCategories: OriginCategory[];
-    aboutCategories: AboutCategory[];
-    baseParts: BaseParts[];
-  };
-  twitter: (Twitter & {
-    clinic: Clinic;
-  })[];
-  instagram: (Instagram & {
-    clinic: Clinic;
-  })[];
+  twitter: Twitter[];
+  instagram: Instagram[];
+  // allParts: {
+  //   originCategories: OriginCategory[];
+  //   aboutCategories: AboutCategory[];
+  //   baseParts: BaseParts[];
+  // };
 };
 
 const { changeQueryToOrderPlanIdName } = orderPlanIdNameRepository();
@@ -79,18 +75,22 @@ const createTitle = (idName: OrderPlanIdName) => {
   return res;
 };
 
-const getAllParts = async () => {
-  const originCategories =
-    await originCategoryRepository.getAllOriginCategory();
-  const aboutCategories =
-    await aboutCategoryRepository.getAllAboutCategoryByOriginId(
-      originCategories[0].id
-    );
-  const baseParts = await basePartsRepository.getAllBasePartsByAboutId(
-    aboutCategories[0].id
-  );
-  return { originCategories, aboutCategories, baseParts };
-};
+// const getAllParts = async () => {
+//   // const originCategories: OriginCategory[] = [];
+//   const aboutCategories: AboutCategory[] = [];
+//   const baseParts: BaseParts[] = [];
+
+//   const originCategories =
+//     await originCategoryRepository.getAllOriginCategory();
+//   // const aboutCategories =
+//   //   await aboutCategoryRepository.getAllAboutCategoryByOriginId(
+//   //     originCategories[0].id
+//   //   );
+//   // const baseParts = await basePartsRepository.getAllBasePartsByAboutId(
+//   //   aboutCategories[0].id
+//   // );
+//   return { originCategories, aboutCategories, baseParts };
+// };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
@@ -106,7 +106,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     skip: page * numOfTakeData,
   });
   const maxValue = await getCountMaxPlan(orderPlanQuery);
-  const allParts = await getAllParts();
+  // const allParts = await getAllParts();
 
   const orderDataIdName = await changeQueryToOrderPlanIdName(orderPlanQuery);
   // タイトル作成・条件結果の文字列
@@ -123,7 +123,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
       price,
       maxValue,
       condition,
-      allParts,
+      // allParts,
       twitter,
       instagram,
     },
@@ -138,9 +138,9 @@ const SalonList: NextPage<Props> = (props) => {
     price,
     maxValue,
     condition,
-    allParts,
     twitter,
     instagram,
+    // allParts,
   } = props;
 
   const router = useRouter();
@@ -159,8 +159,7 @@ const SalonList: NextPage<Props> = (props) => {
     [router]
   );
 
-  if (!price || (!maxValue && maxValue !== 0) || !allParts)
-    return <LoadingIcon />;
+  if (!price || (!maxValue && maxValue !== 0)) return <LoadingIcon />;
   return (
     <Box
       mb={"2rem"}
@@ -187,9 +186,10 @@ const SalonList: NextPage<Props> = (props) => {
           // resetPages={serPagenationDefault}
           condition={condition}
           partsName={orderDataIdName.parts.name || "未指定"}
-          originCategories={allParts.originCategories}
-          aboutCategories={allParts.aboutCategories}
-          baseParts={allParts.baseParts}
+          // originCategories={allParts.originCategories}
+          // aboutCategories={allParts.aboutCategories}
+          // baseParts={allParts.baseParts}
+          // setLoading={() => setLoading(true)}
         />
         <Flex mt="1em" justifyContent={"center"}>
           <Button as="a" variant={"secBase"} href="/plan">
@@ -259,9 +259,9 @@ const SalonList: NextPage<Props> = (props) => {
                 <SearchResultCard
                   orderPlan={orderDataIdName}
                   // resetPages={serPagenationDefault}
-                  originCategories={allParts.originCategories}
-                  aboutCategories={allParts.aboutCategories}
-                  baseParts={allParts.baseParts}
+                  // originCategories={allParts.originCategories}
+                  // aboutCategories={allParts.aboutCategories}
+                  // baseParts={allParts.baseParts}
                 />
                 <Box my={"1rem"}>
                   <Button as="a" variant={"secBase"} href="/plan">

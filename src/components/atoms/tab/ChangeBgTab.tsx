@@ -22,7 +22,7 @@ export const ChangeBgTab: FC<Props> = (props) => {
       href={url}
       onClick={onClick}
       fontWeight={"bold"}
-      color={selectTab !== value ? "#777" : "originGold"}
+      color={selectTab !== value ? "#555" : "originGold"}
       bg={selectTab !== value ? "#ccc" : "originWhite"}
       _hover={{
         bg: selectTab !== value ? "#eee" : "",

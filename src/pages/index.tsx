@@ -31,12 +31,8 @@ type Props = {
   imgs: string[];
   feature: FeatureViewData[];
   topImg: string;
-  twitter: (Twitter & {
-    clinic: Clinic;
-  })[];
-  instagram: (Instagram & {
-    clinic: Clinic;
-  })[];
+  twitter: Twitter[];
+  instagram: Instagram[];
 };
 
 const { getTwittersRamdom } = twitterRepository();
@@ -166,9 +162,9 @@ const Home: NextPage<Props> = ({
                 width={{ md: "25em", sm: "18em" }}
                 mt={{ md: "2em", sm: "1em" }}
               >
-                <Box>
+                {/* <Box>
                   <Text fontWeight={"bold"}>【{data.clinic.name}】</Text>
-                </Box>
+                </Box> */}
                 <TwitterBox
                   account={data.code}
                   clinicId={data.clinicId}

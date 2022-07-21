@@ -18,18 +18,15 @@ import { ResultCardBox } from "./ResultCardBox";
 type Props = {
   orderPlan: OrderPlanIdName;
   // resetPages: () => void;
-  originCategories: OriginCategory[];
-  aboutCategories: AboutCategory[];
-  baseParts: BaseParts[];
+  // originCategories: OriginCategory[];
+  // aboutCategories: AboutCategory[];
+  // baseParts: BaseParts[];
 };
 
 export const SearchResultCard: FC<Props> = (props) => {
   const {
     orderPlan,
     // resetPages,
-    originCategories,
-    aboutCategories,
-    baseParts,
   } = props;
 
   // const [baseData, setBaseData] = useState<TitleValue[]>([]);
@@ -209,9 +206,9 @@ export const SearchResultCard: FC<Props> = (props) => {
         isOpen={isOpen}
         onClose={onClose}
         // resetPages={resetPages}
-        originCategories={originCategories}
-        aboutCategories={aboutCategories}
-        baseParts={baseParts}
+        // originCategories={originCategories}
+        // aboutCategories={aboutCategories}
+        // baseParts={baseParts}
       />
     </>
   );

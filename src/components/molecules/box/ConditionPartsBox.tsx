@@ -18,9 +18,9 @@ import { IdAndNameDto } from "types/IdAndNameDto";
 type Props = {
   title: string;
   orderPlan: OrderPlanIdName;
-  originCategories: OriginCategory[];
-  aboutCategories: AboutCategory[];
-  baseParts: BaseParts[];
+  // originCategories: OriginCategory[];
+  // aboutCategories: AboutCategory[];
+  // baseParts: BaseParts[];
   onClick: (
     origin: IdAndNameDto,
     about: IdAndNameDto,
@@ -29,10 +29,10 @@ type Props = {
 };
 export const ConditionPartsBox: FC<Props> = (props) => {
   const {
+    // originCategories,
+    // aboutCategories,
+    // baseParts,
     title,
-    originCategories,
-    aboutCategories,
-    baseParts,
     onClick,
     orderPlan,
   } = props;
@@ -89,9 +89,9 @@ export const ConditionPartsBox: FC<Props> = (props) => {
       </Flex>
       {/* {originCategories && aboutCategories && baseParts && ( */}
       <TreatmentPartsBox
-        originCategories={originCategories}
-        aboutCategories={aboutCategories}
-        baseParts={baseParts}
+        // originCategories={originCategories}
+        // aboutCategories={aboutCategories}
+        // baseParts={baseParts}
         onClick={(origin, about, parts) => onClick(origin, about, parts)}
         isOpen={isOpen}
         onClose={onClose}
