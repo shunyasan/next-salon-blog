@@ -10,7 +10,7 @@ export const LoadingIcon: FC = () => {
       left="0"
       right="0"
       bottom="0"
-      zIndex={"10"}
+      zIndex={"200"}
     >
       <Box pos="fixed" top="50%" left="50%" transform="translate(-50%, -50%)">
         <Spinner size="xl" color="originWhite" />

@@ -27,14 +27,12 @@ export const PlanSearchBox: FC<Props> = (props) => {
   const { orderPlan, onClose } = props;
   const router = useRouter();
 
-  const [loading, setLoading] = useState<boolean>(false);
   const [orderData, setOrderData] = useState<OrderPlanIdName>(orderPlan);
 
   const onClickSearchPlan = async () => {
     if (orderData) {
       const query = createParameter(orderData);
       // resetPages();
-      setLoading(true);
       onClose && onClose();
       router.push({
         pathname: "/plan/search/1",
@@ -43,14 +41,9 @@ export const PlanSearchBox: FC<Props> = (props) => {
     }
   };
 
-  useEffect(() => {
-    setLoading(false);
-  }, []);
-
   // 全ての要素をchildrenにしてコンポーネントをまとめる
   return (
     <Stack m={"auto"} textAlign={"center"} spacing={"3em"} fontSize={"0.9em"}>
-      {loading && <LoadingIcon />}
       <Box>
         <UnderLineItemBox title="自分" fontSize="1.5em">
           <Text fontSize={"1.2em"}>

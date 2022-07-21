@@ -144,6 +144,7 @@ const SalonList: NextPage<Props> = (props) => {
   } = props;
 
   const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onChangeSort = (idName: IdAndNameDto) => {
     orderDataIdName.sort = idName;
@@ -158,6 +159,16 @@ const SalonList: NextPage<Props> = (props) => {
     },
     [router]
   );
+
+  useEffect(() => {
+    setLoading(false);
+    router.events.on("routeChangeStart", () => {
+      setLoading(true);
+    });
+    router.events.on("routeChangeComplete", () => {
+      setLoading(false);
+    });
+  }, [router]);
 
   if (!price || (!maxValue && maxValue !== 0)) return <LoadingIcon />;
   return (
@@ -180,6 +191,7 @@ const SalonList: NextPage<Props> = (props) => {
         <meta name="description" content={`【${title}】のプランを検索`} />
       </Head>
       {/* <Adsense /> */}
+      {loading && <LoadingIcon />}
       <Box mt="2rem" w="95%" mx="auto" display={{ md: "none", sm: "block" }}>
         <MobileSearchCondotionBox
           orderPlan={orderDataIdName}

@@ -73,6 +73,7 @@ const SearchSalon: NextPage<Props> = (props) => {
   const router = useRouter();
 
   const [change, setChange] = useState<string>(style.fade);
+  const [loading, setLoading] = useState<boolean>(false);
   // const [gender, setGender] = useState<string>("女性");
   //配列番号を所持
   // const [orderPlanIdName, setOrderPlanIdName] =
@@ -103,6 +104,17 @@ const SearchSalon: NextPage<Props> = (props) => {
 
   // if (!originCategories || !aboutCategories || !baseParts)
   // return <LoadingIcon />;
+
+  useEffect(() => {
+    setLoading(false);
+    router.events.on("routeChangeStart", () => {
+      setLoading(true);
+    });
+    router.events.on("routeChangeComplete", () => {
+      setLoading(false);
+    });
+  }, [router]);
+
   return (
     <>
       <Head>
@@ -113,6 +125,7 @@ const SearchSalon: NextPage<Props> = (props) => {
         />
       </Head>
       <BgImgH1 title="プランを探す" />
+      {loading && <LoadingIcon />}
       <Box mx="auto" w={{ md: "60%", sm: "95%" }} my="3em">
         <PlanSearchBox
           orderPlan={defaultOrderData}

@@ -85,8 +85,8 @@ const TreatmentPartsBox: FC<Props> = (props) => {
       });
   }, [aboutCategoryData]);
 
-  if (!originCategoryData || !aboutCategoryData || !basePartsData)
-    return <LoadingIcon />;
+  // if (!originCategoryData || !aboutCategoryData || !basePartsData)
+  //   return <LoadingIcon />;
   return (
     <Box
       width="100%"
@@ -98,6 +98,10 @@ const TreatmentPartsBox: FC<Props> = (props) => {
       zIndex="100"
       bg="rgba(30,30,30,0.5)"
     >
+      {(!originCategoryData || !aboutCategoryData || !basePartsData) && (
+        <LoadingIcon />
+      )}
+
       {/* クリニック情報は重複するから入れない  
     部位の施術範囲とか常々情報が変わるものを入れる*/}
       <Box
@@ -135,16 +139,17 @@ const TreatmentPartsBox: FC<Props> = (props) => {
             w={{ md: "70%", sm: "95%" }}
             justifyContent={"center"}
           >
-            {originCategoryData.map((data, int) => (
-              <OriginCategoryBox
-                key={int}
-                name={data.name}
-                onClick={() => setOrigin({ id: data.id, name: data.name })}
-                arrow={origin.id === data.id}
-                fontSize={"1.2rem"}
-                width={{ md: "16.6%", sm: "33.3%" }}
-              />
-            ))}
+            {originCategoryData &&
+              originCategoryData.map((data, int) => (
+                <OriginCategoryBox
+                  key={int}
+                  name={data.name}
+                  onClick={() => setOrigin({ id: data.id, name: data.name })}
+                  arrow={origin.id === data.id}
+                  fontSize={"1.2rem"}
+                  width={{ md: "16.6%", sm: "33.3%" }}
+                />
+              ))}
           </Flex>
           <Flex
             w={{ md: "80%", sm: "100%" }}
@@ -153,16 +158,17 @@ const TreatmentPartsBox: FC<Props> = (props) => {
             wrap={"wrap"}
             justifyContent={"space-evenly"}
           >
-            {aboutCategoryData.map((abo, i) => (
-              <CategoryBox
-                key={i}
-                category={abo}
-                gender={gender}
-                width={{ md: "10rem", sm: "7.5rem" }}
-                arrow={about.id === abo.id}
-                onClick={() => setAbout({ id: abo.id, name: abo.name })}
-              />
-            ))}
+            {aboutCategoryData &&
+              aboutCategoryData.map((abo, i) => (
+                <CategoryBox
+                  key={i}
+                  category={abo}
+                  gender={gender}
+                  width={{ md: "10rem", sm: "7.5rem" }}
+                  arrow={about.id === abo.id}
+                  onClick={() => setAbout({ id: abo.id, name: abo.name })}
+                />
+              ))}
           </Flex>
           <Flex
             w={{ md: "50%", sm: "90%" }}
@@ -173,16 +179,17 @@ const TreatmentPartsBox: FC<Props> = (props) => {
             justifyContent={"left"}
             // visibility={aboutArray === i ? "visible" : "hidden"}
           >
-            {basePartsData.map((parts, i) => (
-              <Flex key={i}>
-                <PartsButton
-                  text={parts.name}
-                  onClick={() =>
-                    onClickParts({ id: parts.id, name: parts.name })
-                  }
-                />
-              </Flex>
-            ))}
+            {basePartsData &&
+              basePartsData.map((parts, i) => (
+                <Flex key={i}>
+                  <PartsButton
+                    text={parts.name}
+                    onClick={() =>
+                      onClickParts({ id: parts.id, name: parts.name })
+                    }
+                  />
+                </Flex>
+              ))}
           </Flex>
         </Box>
       </Box>
