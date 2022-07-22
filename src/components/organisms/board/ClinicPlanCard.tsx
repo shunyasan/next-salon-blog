@@ -6,159 +6,177 @@ import fetcher from "services/common/fetcher";
 import useSWR from "swr";
 import { TitleValue } from "types/TitleValue";
 import { IdAndNameDto } from "types/IdAndNameDto";
-import { PriceByAboutCategory } from "types/PriceByAboutCategory";
 import { CategoryBox } from "../box/CategoryBox";
 import { SmallPlanCard } from "../box/SmallPlanCard";
-import { PlanDetailModal } from "../modal/PlanDetailModal";
+import { AboutCategory, Price } from "@prisma/client";
+import { OriginCategoryBox } from "../box/OriginCategoryBox";
 
 type Props = {
-  originData: IdAndNameDto[];
   url: string;
-  onClickOriginId: (originId: string) => void;
-  onClickGender: (gender: string) => void;
-  prices: PriceByAboutCategory[];
+  clinicId: string;
   options?: TitleValue[];
+  // originData: IdAndNameDto[];
+  // onClickOriginId: (originId: string) => void;
+  // onClickGender: (gender: string) => void;
   // aboutCategoryData?: AboutCategory[];
 };
 
 export const ClinicPlanCard: FC<Props> = (props) => {
-  const { url, options, originData, prices, onClickOriginId, onClickGender } =
-    props;
-  // const { getAboutCategoryByOriginId } = AboutCategoryApi();
-  // const { getAllOriginCategoryIdAndName } = IdAndNameApi();
-  // const { getPriceByAboutIdAndClinicId } = PriceApi();
+  const {
+    url,
+    options,
+    clinicId,
+    // prices,
+    // originData,
+    // onClickOriginId,
+    // onClickGender,
+  } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [selectTab, setSelectTab] = useState<string>(originData[0].id);
-  const [selectedAboutId, setSelectedAboutId] = useState<string>();
   const [gender, setGender] = useState<string>("女性");
 
-  const changeTab = useCallback(
-    async (originId: string) => {
-      onClickOriginId(originId);
-      setSelectTab(originId);
-      // const data = await getAboutCategory(originId);
-      // changeAboutCategory(data[0].id);
-    },
-    [onClickOriginId]
+  const [origin, setOrigin] = useState<IdAndNameDto>({
+    id: "Z000001",
+    name: "顔",
+  });
+  const [about, setAbout] = useState<IdAndNameDto>({
+    id: "A000001",
+    name: "顔（鼻から上）",
+  });
+
+  const { data: originCategoryData, error: err_ori } = useSWR<IdAndNameDto[]>(
+    `/api/origin-category/id-and-name/clinicId/${clinicId}`,
+    fetcher
   );
 
-  const changeGender = useCallback(
-    (gender: string) => {
-      onClickGender(gender);
-      setGender(gender);
-    },
-    [onClickGender]
+  const { data: aboutCategoryData, error: err_abo } = useSWR<AboutCategory[]>(
+    `/api/about-categories/clinic/${clinicId}?originId=${origin.id}`,
+    fetcher
+  );
+
+  // パラメータ直す
+  const { data: price, error: err_parts } = useSWR<Price[]>(
+    `/api/prices/clinic/${clinicId}?aboutId=${about.id}&gender=${gender}`,
+    fetcher
   );
 
   useEffect(() => {
-    setSelectedAboutId(prices[0].aboutCategory.id);
-  }, [setSelectedAboutId, prices]);
+    aboutCategoryData &&
+      setAbout({
+        id: aboutCategoryData[0].id,
+        name: aboutCategoryData[0].name,
+      });
+  }, [aboutCategoryData]);
 
-  if (!originData || !prices) return <LoadingIcon />;
+  //   const aboutCategories =
+  //   await aboutCategoryRepository.getAboutCategoryByOriginIdAndPrice(
+  //     "Z000001",
+  //     id
+  //   );
+  // const prices = await getPriceByClinic(id, aboutCategories[0].id, 2);
+
+  // const [selectTab, setSelectTab] = useState<string>(originData[0].id);
+  // const [selectedAboutId, setSelectedAboutId] = useState<string>();
+
+  // const changeTab = useCallback(
+  //   async (originId: string) => {
+  //     onClickOriginId(originId);
+  //     setSelectTab(originId);
+  //     // const data = await getAboutCategory(originId);
+  //     // changeAboutCategory(data[0].id);
+  //   },
+  //   [onClickOriginId]
+  // );
+
+  // const changeGender = useCallback(
+  //   (gender: string) => {
+  //     onClickGender(gender);
+  //     setGender(gender);
+  //   },
+  //   [onClickGender]
+  // );
+
+  // useEffect(() => {
+  //   setSelectedAboutId(prices[0].aboutCategory.id);
+  // }, [setSelectedAboutId, prices]);
+
+  if (!originCategoryData || !aboutCategoryData || !price)
+    return <LoadingIcon />;
   return (
-    <>
+    <Box mb={"2em"} textAlign="center">
       <Box>
         <GenderPlateBox
           gender={gender}
-          fontSize={"1em"}
-          onClick={(gender: string) => changeGender(gender)}
+          fontSize={{ md: "1.3rem", sm: "1rem" }}
+          onClick={(gender: string) => setGender(gender)}
         />
       </Box>
-      <Flex justifyContent={"space-evenly"} wrap={"wrap"}>
-        {originData.map((data, i) => (
-          <Box
-            key={data.id}
-            width={{ md: "16.6%", sm: "33.3%" }}
-            py={"1em"}
-            mb={"0.5em"}
-            color={selectTab === data.id ? "originBlack" : ""}
-            fontWeight={selectTab === data.id ? "bold" : ""}
-            borderBottom={selectTab === data.id ? "2px" : ""}
-            borderColor={selectTab === data.id ? "originBlack" : ""}
-            transition={"0.5s"}
-            cursor={"pointer"}
-            _hover={{
-              bg: selectTab === data.id ? "" : "#aaa",
-              transition: "0.5s",
-            }}
-            textAlign={"center"}
-            onClick={() => changeTab(data.id)}
-          >
-            <Box display={"inline-block"}>{data.name}</Box>
-          </Box>
-        ))}
+      <Flex
+        mt="2rem"
+        mx={"auto"}
+        wrap={"wrap"}
+        w={{ md: "70%", sm: "95%" }}
+        justifyContent={"center"}
+      >
+        {originCategoryData &&
+          originCategoryData.map((data, int) => (
+            <OriginCategoryBox
+              key={int}
+              name={data.name}
+              onClick={() => setOrigin({ id: data.id, name: data.name })}
+              arrow={origin.id === data.id}
+              fontSize={"1.2rem"}
+              width={{ md: "16.6%", sm: "33.3%" }}
+            />
+          ))}
       </Flex>
       <Flex
-        // w={"80%"}
-        // mx="auto"
+        w={{ md: "80%", sm: "100%" }}
+        mx="auto"
+        mt="2em"
         wrap={"wrap"}
         justifyContent={"space-evenly"}
       >
-        {prices.map((data, i) => (
-          <CategoryBox
-            key={data.aboutCategory.id}
-            category={data.aboutCategory}
-            gender={gender}
-            width={{ md: "10rem", sm: "7.5rem" }}
-            arrow={selectedAboutId === data.aboutCategory.id}
-            onClick={() => setSelectedAboutId(data.aboutCategory.id)}
-            //  search={search && (() => search(about.originId, about.id))}
-          />
-          // <AboutTreatmentParts
-          //   key={i}
-          //   about={data.aboutCategory}
-          //   gender={"男性"}
-          //   selectedId={selectedAboutId}
-          //   onClick={(id: string) => changeAboutCategory(id)}
-          // />
-        ))}
+        {aboutCategoryData &&
+          aboutCategoryData.map((abo, i) => (
+            <CategoryBox
+              key={i}
+              category={abo}
+              gender={gender}
+              width={{ md: "10rem", sm: "7.5rem" }}
+              arrow={about.id === abo.id}
+              onClick={() => setAbout({ id: abo.id, name: abo.name })}
+            />
+          ))}
       </Flex>
-      {prices.map((data, i) =>
-        data.prices.length !== 0 ? (
-          <Flex
-            key={data.aboutCategory.name}
-            display={
-              data.aboutCategory.id === selectedAboutId ? "flex" : "none"
-            }
-            wrap={"wrap"}
-            justifyContent={"space-evenly"}
-          >
-            {data.prices.map((price, i) => (
-              <Box
-                key={price.id}
-                w={{ md: "45%", sm: "30em" }}
-                m={{ md: "0.5rem", sm: "0.3rem 0" }}
-              >
-                <SmallPlanCard
-                  price={price}
-                  url={url}
-                  options={options}
-                  // onClick={() => openPlanDetailModal(price)}
-                />
-              </Box>
-            ))}
-            {/* {modalPrice && (
-              <PlanDetailModal
-                isOpen={isOpen}
-                onClose={onClose}
-                price={modalPrice}
-                clinic={clinicData}
+      <Flex
+        w={"90%"}
+        mx="auto"
+        textAlign="center"
+        // mt="1rem"
+        wrap={"wrap"}
+        justifyContent={"center"}
+        // visibility={aboutArray === i ? "visible" : "hidden"}
+      >
+        {price.length > 0 ? (
+          price.map((data, i) => (
+            <Box
+              key={data.id}
+              w={{ md: "45%", sm: "30em" }}
+              m={{ md: "0.5rem", sm: "0.3rem 0" }}
+            >
+              <SmallPlanCard
+                price={data}
+                url={url}
+                options={options}
+                // onClick={() => openPlanDetailModal(price)}
               />
-            )} */}
-          </Flex>
+            </Box>
+          ))
         ) : (
-          <Center
-            key={i}
-            display={
-              data.aboutCategory.id === selectedAboutId ? "flex" : "none"
-            }
-            mt={"2em"}
-          >
-            こちらのプランはありません
-          </Center>
-        )
-      )}
-    </>
+          <Center mt={"2em"}>こちらのプランはありません</Center>
+        )}
+      </Flex>
+    </Box>
   );
 };

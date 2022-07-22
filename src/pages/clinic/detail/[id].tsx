@@ -20,24 +20,19 @@ import { OriginCategiryId } from "enums/OriginCategiryIdEnum";
 import fetcher from "services/common/fetcher";
 import Head from "next/head";
 import { Layout } from "components/templete/lauouts/Layout";
-import { PriceByAboutCategory } from "types/PriceByAboutCategory";
-import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
+import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
 import { ChangeBgTab } from "components/atoms/tab/ChangeBgTab";
 import { RelationClinic } from "types/RelationClinic";
 import {
   clinicRepository,
   originCategoryRepository,
 } from "services/common/repository";
-import { priceByAboutCategoryRepository } from "services/repository/priceByAboutCategoryRepository";
 
 type Props = {
   clinicData: RelationClinic;
-  origin: IdAndNameDto[];
+  // origin: IdAndNameDto[];
   // aboutCategory: AboutCategory[];
-  prices?: PriceByAboutCategory[];
 };
-
-const { getAllByClinic } = priceByAboutCategoryRepository();
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const datas: Clinic[] = await clinicRepository.getAll();
@@ -49,42 +44,42 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const param = params && params.id;
   const id = param && typeof param === "string" ? param : "";
   const clinicData: RelationClinic = await clinicRepository.getOneClinic(id);
-  const origin: IdAndNameDto[] =
-    await originCategoryRepository.getIdAndNameByClinicId(id);
-  const prices = await getAllByClinic("Z000001", id, "女性");
+  // const origin: IdAndNameDto[] =
+  //   await originCategoryRepository.getIdAndNameByClinicId(id);
+  // const prices = await getAllByClinic("Z000001", id, "女性");
 
   // const clinicData: Clinic = await fetcher(`${thisURL}api/clinics/${id}`);
   return {
     props: {
       clinicData: clinicData,
-      origin,
+      // origin,
       // aboutCategory,
       // price,
-      prices,
+      // prices,
     },
   };
 };
 
 const ClinicDetail: NextPage<Props> = ({
   clinicData,
-  origin,
+  // origin,
   // aboutCategory,
   // price,
-  prices,
+  // prices,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [selectTab, setSelectTab] = useState<string>("TOP");
-  const [originId, setOriginId] = useState<string>(OriginCategiryId.face);
-  const [gender, setGender] = useState<string>("女性");
+  // const [originId, setOriginId] = useState<string>(OriginCategiryId.face);
+  // const [gender, setGender] = useState<string>("女性");
 
-  const { data: priceData, error: err_pri } = useSWR<PriceByAboutCategory[]>(
-    `/api/price-by-about-category?originId=${originId}&clinicId=${clinicData.id}&gender=${gender}`,
-    fetcher,
-    {
-      fallbackData: prices,
-    }
-  );
+  // const { data: priceData, error: err_pri } = useSWR<PriceByAboutCategory[]>(
+  //   `/api/price-by-about-category?originId=${originId}&clinicId=${clinicData.id}&gender=${gender}`,
+  //   fetcher,
+  //   {
+  //     fallbackData: prices,
+  //   }
+  // );
 
   //以降追加したい項目
   //・施術の流れ
@@ -110,7 +105,7 @@ const ClinicDetail: NextPage<Props> = ({
     { text: "料金", url: "#fee" },
   ];
 
-  if (!priceData) return <LoadingIcon />;
+  // if (!priceData) return <LoadingModalIcon />;
 
   return (
     <>
@@ -118,7 +113,7 @@ const ClinicDetail: NextPage<Props> = ({
         <title>{clinicData.name} | 脱毛コンサルタント</title>
         <meta name="description" content={clinicData.name + "の詳細です"} />
       </Head>
-      <LoadingIcon />
+      <LoadingModalIcon />
       <Box
         my={"3rem"}
         mx={"auto"}
@@ -189,12 +184,12 @@ const ClinicDetail: NextPage<Props> = ({
             >
               <ClinicDetailCard
                 clinicData={clinicData}
-                originData={origin}
+                // originData={origin}
                 // aboutCategoryData={aboutCategory}
                 // priceData={priceData || []}
-                prices={priceData}
-                onClickOriginId={(originId: string) => setOriginId(originId)}
-                onClickGender={(gender: string) => setGender(gender)}
+                // prices={priceData}
+                // onClickOriginId={(originId: string) => setOriginId(originId)}
+                // onClickGender={(gender: string) => setGender(gender)}
               />
             </Box>
           </Flex>

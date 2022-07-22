@@ -1,7 +1,7 @@
-import { AboutCategory } from "@prisma/client";
+import { AboutCategory, Price } from "@prisma/client";
 import { PriceDto } from "./PriceDto";
 
 export type PriceByAboutCategory = {
   aboutCategory: AboutCategory;
-  prices: PriceDto[];
+  prices: Price[];
 };

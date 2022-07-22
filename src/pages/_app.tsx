@@ -5,7 +5,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import theme from "../../styles/theme/theme";
 import Head from "next/head";
 import Script from "next/script";
-import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
+import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -38,7 +38,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         charSet="utf-8"
       ></Script> */}
       <Layout>
-        <LoadingIcon />
+        <LoadingModalIcon />
         <Component {...pageProps} />
       </Layout>
     </ChakraProvider>

@@ -1,4 +1,4 @@
-import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
+import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
 import { Feature } from "enums/FeatureEnum";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
@@ -48,7 +48,7 @@ const InstallmentsFeature: NextPage<ClinicPageProps> = ({
 }) => {
   const router = useRouter();
 
-  if (!clinics) return <LoadingIcon />;
+  if (!clinics) return <LoadingModalIcon />;
   return (
     <>
       <Head>

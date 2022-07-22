@@ -44,6 +44,31 @@ export class AboutCategoryRepository {
     return data;
   }
 
+  async getAboutCategoryByOriginIdAndPrice(originId: string, clinicId: string) {
+    const data = await prisma.aboutCategory.findMany({
+      where: {
+        originId: originId,
+        baseParts: {
+          some: {
+            parts: {
+              some: {
+                parts: {
+                  price: {
+                    some: {
+                      clinicId: clinicId,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      orderBy: [{ id: "asc" }],
+    });
+    return data;
+  }
+
   async getJoinBasicParts(originId: string, excludeGender: number) {
     const data = await prisma.aboutCategory.findMany({
       include: {

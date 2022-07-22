@@ -4,7 +4,7 @@ import { IdAndNameDto } from "./IdAndNameDto";
 // name: 表示用の文字列
 export type OrderPlanIdName = {
   gender: IdAndNameDto;
-  paySystem: IdAndNameDto;
+  // paySystem: IdAndNameDto;
   originParts: IdAndNameDto;
   aboutCategory: IdAndNameDto;
   parts: IdAndNameDto;
@@ -18,6 +18,13 @@ export type OrderPlanIdName = {
   contract: IdAndNameDto;
   option: IdAndNameDto;
   sort: IdAndNameDto;
+  leakage: IdAndNameDto;
+  aftercare: IdAndNameDto;
+  anesthesia: IdAndNameDto;
+  firstVisitFees: IdAndNameDto;
+  revisitFees: IdAndNameDto;
+  shaving: IdAndNameDto;
+  skinTrouble: IdAndNameDto;
 };
 
 // export type OrderPlanIdName = {

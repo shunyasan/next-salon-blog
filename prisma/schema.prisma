@@ -265,11 +265,12 @@ enum OptionKind {
   leakage
   aftercare
   anesthesia
-  contractCancel
+  contract
   firstVisitFees
   revisitFees
   shaving
   skinTrouble
+  
 }
 
 //同スキーマ

@@ -4,7 +4,7 @@ export type ByOptionKind = {
   leakage?: Option;
   aftercare?: Option;
   anesthesia?: Option;
-  contractCancel?: Option;
+  contract?: Option;
   firstVisitFees?: Option;
   revisitFees?: Option;
   shaving?: Option;

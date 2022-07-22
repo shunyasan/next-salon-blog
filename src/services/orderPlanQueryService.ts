@@ -11,7 +11,7 @@ export const OrderPlanQueryService = () => {
 
     const orderPlan: OrderPlanQuery = {
       gender: checkEmptyData(query.gender) || data.gender.id,
-      paySystem: checkEmptyData(query.paySystem) || data.paySystem.id,
+      // paySystem: checkEmptyData(query.paySystem) || data.paySystem.id,
       originParts: checkEmptyData(query.originParts) || data.originParts.id,
       aboutCategory:
         checkEmptyData(query.aboutCategory) || data.aboutCategory.id,
@@ -26,6 +26,14 @@ export const OrderPlanQueryService = () => {
       contract: checkEmptyData(query.contract) || data.contract.id,
       option: checkEmptyData(query.option) || data.option.id,
       sort: checkEmptyData(query.sort) || data.sort.id,
+      leakage: checkEmptyData(query.leakage) || data.leakage.id,
+      aftercare: checkEmptyData(query.aftercare) || data.aftercare.id,
+      anesthesia: checkEmptyData(query.anesthesia) || data.anesthesia.id,
+      firstVisitFees:
+        checkEmptyData(query.firstVisitFees) || data.firstVisitFees.id,
+      revisitFees: checkEmptyData(query.revisitFees) || data.revisitFees.id,
+      shaving: checkEmptyData(query.shaving) || data.shaving.id,
+      skinTrouble: checkEmptyData(query.skinTrouble) || data.skinTrouble.id,
     };
     return orderPlan;
   };
@@ -52,7 +60,7 @@ export const OrderPlanQueryService = () => {
   const createParameter = (idName: OrderPlanIdName) => {
     const data: OrderPlanQuery = {
       gender: idName.gender.id,
-      paySystem: idName.paySystem.id,
+      // paySystem: idName.paySystem.id,
       originParts: idName.originParts.id,
       aboutCategory: idName.aboutCategory.id,
       parts: idName.parts.id,
@@ -66,6 +74,13 @@ export const OrderPlanQueryService = () => {
       contract: idName.contract.id,
       option: idName.option.id,
       sort: idName.sort.id,
+      leakage: idName.leakage.id,
+      aftercare: idName.aftercare.id,
+      anesthesia: idName.anesthesia.id,
+      firstVisitFees: idName.firstVisitFees.id,
+      revisitFees: idName.revisitFees.id,
+      shaving: idName.shaving.id,
+      skinTrouble: idName.skinTrouble.id,
     };
     return data;
   };

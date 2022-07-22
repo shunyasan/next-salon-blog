@@ -6,7 +6,7 @@ import { memo, useCallback, useEffect, useState, VFC } from "react";
 import fetcher from "services/common/fetcher";
 import useSWR from "swr";
 import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
-import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
+import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
 import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import { OriginCategiryId } from "enums/OriginCategiryIdEnum";
 import TreatmentTemplete from "components/templete/pages/treatment/TreatmentTemplete";
@@ -56,7 +56,7 @@ const TreatmentFaceParts: NextPage<Props> = ({ about }) => {
     [gender]
   );
 
-  if (!aboutCategories) return <LoadingIcon />;
+  if (!aboutCategories) return <LoadingModalIcon />;
   return (
     <TreatmentTemplete
       selectedOriginId={originId}

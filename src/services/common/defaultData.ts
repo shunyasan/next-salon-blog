@@ -3,7 +3,7 @@ import { OrderPlanIdName } from "types/OrderPlanIdName";
 export const defaultData = () => {
   const defaultOrderPlanIdName: OrderPlanIdName = {
     gender: { id: "女性", name: "女性" },
-    paySystem: { id: "総額", name: "総額" },
+    // paySystem: { id: "総額", name: "総額" },
     originParts: { id: "Z000001", name: "顔" },
     aboutCategory: { id: "A000001", name: "顔（鼻から上）" },
     parts: { id: "B000003", name: "額" },
@@ -17,6 +17,13 @@ export const defaultData = () => {
     contract: { id: "none", name: "こだわらない" },
     option: { id: "none", name: "こだわらない" },
     sort: { id: "none", name: "こだわらない" },
+    leakage: { id: "none", name: "こだわらない" },
+    aftercare: { id: "none", name: "こだわらない" },
+    anesthesia: { id: "none", name: "こだわらない" },
+    firstVisitFees: { id: "none", name: "こだわらない" },
+    revisitFees: { id: "none", name: "こだわらない" },
+    shaving: { id: "none", name: "こだわらない" },
+    skinTrouble: { id: "none", name: "こだわらない" },
   };
 
   const defaultSort = {
@@ -27,8 +34,18 @@ export const defaultData = () => {
     oncePrice_desc: { id: "oncePrice_desc", name: "高い順（１回分）" },
   };
 
+  const defaultOption = {
+    none: { id: "none", name: "こだわらない" },
+    free: { id: "0", name: "無料" },
+    one: { id: "1000", name: "1000円まで" },
+    two: { id: "2000", name: "2000円まで" },
+    thr: { id: "3000", name: "3000円まで" },
+    for: { id: "4000", name: "4000円まで" },
+  };
+
   return {
     defaultOrderPlanIdName,
     defaultSort,
+    defaultOption,
   };
 };

@@ -8,9 +8,10 @@ import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
 import { StaffGenderText } from "components/atoms/text/StaffGenderText";
 import { Icon } from "@chakra-ui/icons";
 import { MdClose } from "react-icons/md";
+import { Price } from "@prisma/client";
 
 type Props = {
-  price: PriceDto;
+  price: Price;
   // clinic: Clinic & {
   //   clinicOpeningHours: ClinicOpeningHours[];
   // };

@@ -2,6 +2,9 @@ import { Clinic, Option, OptionKind } from "@prisma/client";
 import { OrderPlanTitle } from "enums/OrderPlanTitle";
 import { OrderPlanIdName } from "types/OrderPlanIdName";
 import { TitleValue } from "types/TitleValue";
+import { optionService } from "./optionService";
+
+const { checkOptionPrice, optionPriceToString } = optionService();
 
 export const titleValueService = () => {
   const getModalSearchConditionBoxData = (orderPlanData: OrderPlanIdName) => {
@@ -24,31 +27,6 @@ export const titleValueService = () => {
     const data: string = title[key];
 
     return data;
-  };
-
-  const checkOptionPrice = (options: Option[], key: string) => {
-    const find = options.find((option) => option.kind === key);
-    if (find) {
-      const price = optionPriceToString(find.price);
-      const more = find.moreCharge ? "〜" : "";
-      const term = find.terms ? "※" : "";
-      return price + more + term;
-    } else {
-      return "ー";
-    }
-  };
-
-  const optionPriceToString = (val?: number) => {
-    switch (true) {
-      case val === 0:
-        return "無料";
-      case val!! > 50000:
-        return "有料";
-      case val!! > 0:
-        return val + "円";
-      default:
-        return "ー";
-    }
   };
 
   const checkNoneValue = (val?: string | null) => {
@@ -90,7 +68,7 @@ export const titleValueService = () => {
       },
       {
         title: "途中解約",
-        value: checkOptionPrice(clinicOption, OptionKind.contractCancel),
+        value: checkOptionPrice(clinicOption, OptionKind.contract),
       },
     ];
     return datas;
@@ -137,11 +115,37 @@ export const titleValueService = () => {
     return datas;
   };
 
+  // const checkOptionPrice = (options: Option[], key: string) => {
+  //   const find = options.find((option) => option.kind === key);
+  //   if (find) {
+  //     const price = optionPriceToString(find.price);
+  //     const more = find.moreCharge ? "〜" : "";
+  //     const term = find.terms ? "※" : "";
+  //     return price + more + term;
+  //   } else {
+  //     return "ー";
+  //   }
+  // };
+
+  // const optionPriceToString = (val?: number) => {
+  //   switch (true) {
+  //     case val === 0:
+  //       return "無料";
+  //     case val!! > 50000:
+  //       return "有料";
+  //     case val!! > 0:
+  //       return val + "円";
+  //     default:
+  //       return "ー";
+  //   }
+  // };
+
   return {
     getModalSearchConditionBoxData,
     findOrderPlanTitle,
     ClinicOptionTitleValue,
     ClinicOtherTitleValue,
     newOptionFunc,
+    optionPriceToString,
   };
 };

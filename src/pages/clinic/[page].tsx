@@ -1,5 +1,5 @@
 import { Clinic, Area, Twitter } from "@prisma/client";
-import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
+import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
 import ClinicListTemplate from "components/templete/pages/clinic/ClinicListTemplate";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
@@ -54,7 +54,7 @@ const ClinicsShibuya: NextPage<ClinicPageProps> = ({
 }) => {
   const router = useRouter();
 
-  if (!clinics) return <LoadingIcon />;
+  if (!clinics) return <LoadingModalIcon />;
   return (
     <>
       <Head>

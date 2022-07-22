@@ -34,12 +34,12 @@ export const PairDataRowBoxList_2: FC<Props> = (props) => {
         >
           <Text
             fontSize={{ md: ".8em", sm: ".7em" }}
-            w="40%"
+            w="50%"
             fontWeight={fontWeight ? "bold" : ""}
           >
             {data.title}
           </Text>
-          <Box w="60%" textAlign={"left"} fontSize={{ md: "1em", sm: ".9em" }}>
+          <Box w="50%" textAlign={"left"} fontSize={{ md: "1em", sm: ".9em" }}>
             <StatusText
               text={data.value}
               first={""}

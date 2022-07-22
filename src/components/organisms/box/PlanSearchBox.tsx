@@ -10,7 +10,9 @@ import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
 import { ConditionPartsBox } from "components/molecules/box/ConditionPartsBox";
 import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
 import { OrderPlanQueryService } from "services/orderPlanQueryService";
-import { PlanSortBox } from "components/molecules/box/PlanSortBox";
+import { PlanHeadingBox } from "components/molecules/box/PlanHeadingBox";
+import { PlanSortSelect } from "components/atoms/select/PlanSortSelect";
+import { OptionConditionBox } from "./OptionConditionBox";
 
 type Props = {
   orderPlan: OrderPlanIdName;
@@ -158,7 +160,11 @@ export const PlanSearchBox: FC<Props> = (props) => {
       <Box>
         <UnderLineItemBox title="プラン" fontSize="1.5em">
           <Text fontSize={"1.2em"}>支払い方法・その他を選択してください</Text>
-          <Box mt=".7em">
+          <Box mt=".7em" w="100%">
+            <OptionConditionBox
+              orderData={orderData}
+              onChange={(orderData: OrderPlanIdName) => setOrderData(orderData)}
+            />
             <ConditionText
               title={OrderPlanTitle.card}
               orderData={orderData.card.id}
@@ -181,25 +187,15 @@ export const PlanSearchBox: FC<Props> = (props) => {
                 setOrderData({ ...orderData, loan: { id, name } })
               }
             />
-            <ConditionText
-              title={OrderPlanTitle.contract}
-              orderData={orderData.contract.id}
-              texts={[
-                { id: "none", text: "こだわらない" },
-                { id: "OK", text: "可能" },
-              ]}
-              onClick={(name: string, id: string) =>
-                setOrderData({ ...orderData, contract: { id, name } })
-              }
-            />
           </Box>
         </UnderLineItemBox>
       </Box>
       <Box>
         <UnderLineItemBox title="表示" fontSize="1.5em">
-          <Text fontSize={"1.2em"}>表示形式を選択してください</Text>
-          <Box mt=".7em">
-            <ConditionText
+          <Text mb=".7em" fontSize={"1.2em"}>
+            表示形式を選択してください
+          </Text>
+          {/* <ConditionText
               title={OrderPlanTitle.paySystem}
               orderData={orderData.paySystem.id}
               texts={[
@@ -209,17 +205,21 @@ export const PlanSearchBox: FC<Props> = (props) => {
               onClick={(name: string, id: string) =>
                 setOrderData({ ...orderData, paySystem: { id, name } })
               }
-            />
-            <PlanSortBox
-              orderData={orderData.sort}
-              onChange={(idName: IdAndNameDto) =>
-                setOrderData({
-                  ...orderData,
-                  sort: idName,
-                })
-              }
-            />
-          </Box>
+            /> */}
+          <PlanHeadingBox title="並べ替え">
+            <Text>料金</Text>
+            <Box>
+              <PlanSortSelect
+                idName={orderData.sort}
+                onChange={(idName: IdAndNameDto) =>
+                  setOrderData({
+                    ...orderData,
+                    sort: idName,
+                  })
+                }
+              />
+            </Box>
+          </PlanHeadingBox>
         </UnderLineItemBox>
       </Box>
       <Flex

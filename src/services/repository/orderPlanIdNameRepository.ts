@@ -1,3 +1,4 @@
+import { defaultData } from "services/common/defaultData";
 import { aboutCategoryRepositoryFunc } from "services/repository/aboutCategoryRepositoryFunc";
 import { getBasePartsNameById } from "services/repository/basePartsRepository";
 import { getOriginCategoryNameById } from "services/repository/originCategoryRepository";
@@ -5,6 +6,7 @@ import { OrderPlanIdName } from "types/OrderPlanIdName";
 import { OrderPlanQuery } from "types/OrderPlanQuery";
 
 const { getAboutCategoryNameById } = aboutCategoryRepositoryFunc();
+const { defaultOption } = defaultData();
 
 export const orderPlanIdNameRepository = () => {
   const checkNoneString = (val: string) => {
@@ -29,6 +31,23 @@ export const orderPlanIdNameRepository = () => {
     }
   };
 
+  const chackOptionValue = (value: string) => {
+    switch (value) {
+      case defaultOption.free.id:
+        return defaultOption.free;
+      case defaultOption.one.id:
+        return defaultOption.one;
+      case defaultOption.two.id:
+        return defaultOption.two;
+      case defaultOption.thr.id:
+        return defaultOption.thr;
+      case defaultOption.for.id:
+        return defaultOption.for;
+      default:
+        return defaultOption.none;
+    }
+  };
+
   const changeQueryToOrderPlanIdName = async (orderParams: OrderPlanQuery) => {
     const originCategory = await getOriginCategoryNameById(
       orderParams.originParts
@@ -43,10 +62,10 @@ export const orderPlanIdNameRepository = () => {
         id: orderParams.gender,
         name: checkNoneString(orderParams.gender),
       },
-      paySystem: {
-        id: orderParams.paySystem,
-        name: checkNoneString(orderParams.paySystem),
-      },
+      // paySystem: {
+      //   id: orderParams.paySystem,
+      //   name: checkNoneString(orderParams.paySystem),
+      // },
       originParts: {
         id: orderParams.originParts,
         name: originCategory || "",
@@ -96,6 +115,13 @@ export const orderPlanIdNameRepository = () => {
         id: orderParams.sort,
         name: checkSortString(orderParams.sort),
       },
+      leakage: chackOptionValue(orderParams.leakage),
+      aftercare: chackOptionValue(orderParams.aftercare),
+      anesthesia: chackOptionValue(orderParams.anesthesia),
+      firstVisitFees: chackOptionValue(orderParams.firstVisitFees),
+      revisitFees: chackOptionValue(orderParams.revisitFees),
+      shaving: chackOptionValue(orderParams.shaving),
+      skinTrouble: chackOptionValue(orderParams.skinTrouble),
     };
     return data;
   };

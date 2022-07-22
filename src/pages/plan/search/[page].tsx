@@ -9,7 +9,7 @@ import { SearchResultCard } from "components/organisms/box/SearchResultCard";
 import { Pagenation } from "components/templete/pagenation/Pagenation";
 import useSWR from "swr";
 import Head from "next/head";
-import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
+import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
 import { BgImgH1 } from "components/atoms/text/BgImgH1";
 // import { tweet } from "services/tweet";
 import { PricePlanCard } from "components/organisms/board/PricePlanCard";
@@ -26,15 +26,9 @@ import {
 import InstagramBox from "components/InstagramBox";
 import TwitterBox from "components/TwitterBox";
 import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
-import { PlanSortBox } from "components/molecules/box/PlanSortBox";
 import { IdAndNameDto } from "types/IdAndNameDto";
 import { PlanSortSelect } from "components/atoms/select/PlanSortSelect";
 import { OrderPlanQueryService } from "services/orderPlanQueryService";
-import {
-  aboutCategoryRepository,
-  basePartsRepository,
-  originCategoryRepository,
-} from "services/common/repository";
 import { InstagramRepository } from "services/repository/InstagramRepository";
 import { twitterRepository } from "services/repository/twitterRepository";
 import { priceDtoRepository } from "services/repository/priceDtoRepository";
@@ -74,23 +68,6 @@ const createTitle = (idName: OrderPlanIdName) => {
   const res = data.reduce((a, b) => (b ? a + "," + b : ""));
   return res;
 };
-
-// const getAllParts = async () => {
-//   // const originCategories: OriginCategory[] = [];
-//   const aboutCategories: AboutCategory[] = [];
-//   const baseParts: BaseParts[] = [];
-
-//   const originCategories =
-//     await originCategoryRepository.getAllOriginCategory();
-//   // const aboutCategories =
-//   //   await aboutCategoryRepository.getAllAboutCategoryByOriginId(
-//   //     originCategories[0].id
-//   //   );
-//   // const baseParts = await basePartsRepository.getAllBasePartsByAboutId(
-//   //   aboutCategories[0].id
-//   // );
-//   return { originCategories, aboutCategories, baseParts };
-// };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
@@ -170,7 +147,7 @@ const SalonList: NextPage<Props> = (props) => {
   //   });
   // }, [router]);
 
-  if (!price || (!maxValue && maxValue !== 0)) return <LoadingIcon />;
+  if (!price || (!maxValue && maxValue !== 0)) return <LoadingModalIcon />;
   return (
     <Box
       mb={"2rem"}
@@ -191,7 +168,7 @@ const SalonList: NextPage<Props> = (props) => {
         <meta name="description" content={`【${title}】のプランを検索`} />
       </Head>
       {/* <Adsense /> */}
-      <LoadingIcon />
+      <LoadingModalIcon />
       <Box mt="2rem" w="95%" mx="auto" display={{ md: "none", sm: "block" }}>
         <MobileSearchCondotionBox
           orderPlan={orderDataIdName}

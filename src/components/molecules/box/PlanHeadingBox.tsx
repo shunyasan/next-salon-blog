@@ -1,13 +1,15 @@
 import { Box, Center, Flex, HStack, Select, Text } from "@chakra-ui/react";
 import { PlanSortSelect } from "components/atoms/select/PlanSortSelect";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { IdAndNameDto } from "types/IdAndNameDto";
 
 type Props = {
-  orderData: IdAndNameDto;
-  onChange: (idName: IdAndNameDto) => void;
+  title: string;
+  children: ReactNode;
+  // orderData: IdAndNameDto;
+  // onChange: (idName: IdAndNameDto) => void;
 };
-export const PlanSortBox: FC<Props> = ({ onChange, orderData }) => {
+export const PlanHeadingBox: FC<Props> = ({ title, children }) => {
   // const onChangeSort = useCallback(
   //   (value: string) => {
   //     setSelectSortPlan(value);
@@ -27,7 +29,7 @@ export const PlanSortBox: FC<Props> = ({ onChange, orderData }) => {
         border="1px"
         borderColor={"#ddd"}
       >
-        並べ替え
+        {title}
       </Center>
       <Flex
         p=".5em"
@@ -39,9 +41,7 @@ export const PlanSortBox: FC<Props> = ({ onChange, orderData }) => {
         ml="-1px"
         wrap={"wrap"}
       >
-        <Box>
-          <PlanSortSelect idName={orderData} onChange={onChange} />
-        </Box>
+        {children}
       </Flex>
     </Flex>
   );

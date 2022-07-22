@@ -1,6 +1,6 @@
 import { Box, Checkbox, Flex, HStack, Stack, Text } from "@chakra-ui/react";
 import { Clinic, Area, Instagram, Twitter } from "@prisma/client";
-import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
+import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
 import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import { PlanCard } from "components/organisms/board/PlanCard";
 import { AreaBox } from "components/organisms/box/AreaBox";
@@ -69,11 +69,11 @@ const ClinicListTemplate: FC<Props> = ({
 }) => {
   const router = useRouter();
 
-  if (!clinics) return <LoadingIcon />;
+  if (!clinics) return <LoadingModalIcon />;
   return (
     <Box textAlign={"center"}>
       <BgImgH1 title={title} />
-      <LoadingIcon />
+      <LoadingModalIcon />
       <Flex justifyContent={"space-evenly"} wrap={"wrap"} my="2rem">
         {area.length > 0 &&
           area.map((data, int) => (

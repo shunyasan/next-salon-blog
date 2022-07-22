@@ -140,7 +140,7 @@ import { prisma } from "services/common/prisma";
 //         // },
 //         options: {
 //           some: {
-//             kind: "contractCancel",
+//             kind: "contract",
 //             price: {
 //               gte: 0,
 //             },

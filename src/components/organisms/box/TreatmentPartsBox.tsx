@@ -2,7 +2,7 @@ import { Box, Center, Flex, HStack, Text } from "@chakra-ui/layout";
 import { Icon } from "@chakra-ui/react";
 import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
 import { PartsButton } from "components/atoms/button/PartsButton";
-import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
+import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
 import { GenderPlateBox } from "components/molecules/box/GenderPlateBox";
 import { CategoryBox } from "components/organisms/box/CategoryBox";
 import { OriginCategoryBox } from "components/organisms/box/OriginCategoryBox";
@@ -86,7 +86,7 @@ const TreatmentPartsBox: FC<Props> = (props) => {
   }, [aboutCategoryData]);
 
   // if (!originCategoryData || !aboutCategoryData || !basePartsData)
-  //   return <LoadingIcon />;
+  //   return <LoadingModalIcon />;
   return (
     <Box
       width="100%"
@@ -99,7 +99,7 @@ const TreatmentPartsBox: FC<Props> = (props) => {
       bg="rgba(30,30,30,0.5)"
     >
       {(!originCategoryData || !aboutCategoryData || !basePartsData) && (
-        <LoadingIcon />
+        <LoadingModalIcon />
       )}
 
       {/* クリニック情報は重複するから入れない  

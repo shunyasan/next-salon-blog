@@ -89,10 +89,10 @@ export const SearchResultCard: FC<Props> = (props) => {
   ];
 
   const view: TitleValue[] = [
-    {
-      title: OrderPlanTitle.paySystem,
-      value: orderPlan.paySystem.name,
-    },
+    // {
+    //   title: OrderPlanTitle.paySystem,
+    //   value: orderPlan.paySystem.name,
+    // },
     {
       title: OrderPlanTitle.sort,
       value: orderPlan.sort.name,

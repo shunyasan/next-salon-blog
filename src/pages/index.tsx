@@ -25,7 +25,7 @@ import { InstagramRepository } from "services/repository/InstagramRepository";
 import { twitterRepository } from "services/repository/twitterRepository";
 import { featureViewDataService } from "services/featureViewDataService";
 import Image from "next/image";
-import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
+import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
 
 type Props = {
   // data: FeatureViewData[];
@@ -77,7 +77,7 @@ const Home: NextPage<Props> = ({
 
   return (
     <Box>
-      <LoadingIcon />
+      <LoadingModalIcon />
       <Head>
         <title>脱毛コンサルタント</title>
         <meta

@@ -12,27 +12,18 @@ type Props = {
 const { defaultSort } = defaultData();
 
 export const PlanSortSelect: FC<Props> = ({ idName, onChange }) => {
-  // const datas = [
-  //   { id: "none", name: "こだわらない" },
-  //   { id: "price_asc", name: "安い順（総額）" },
-  //   { id: "price_desc", name: "高い順（総額）" },
-  //   { id: "oncePrice_asc", name: "安い順（１回分）" },
-  //   { id: "oncePrice_desc", name: "高い順（１回分）" },
-  // ];
-
-  const datas = defaultSort;
   const onChangeSort = (value: string) => {
     switch (value) {
-      case datas.price_asc.id:
-        return onChange(datas.price_asc);
-      case datas.price_desc.id:
-        return onChange(datas.price_desc);
-      case datas.oncePrice_asc.id:
-        return onChange(datas.oncePrice_asc);
-      case datas.oncePrice_desc.id:
-        return onChange(datas.oncePrice_desc);
+      case defaultSort.price_asc.id:
+        return onChange(defaultSort.price_asc);
+      case defaultSort.price_desc.id:
+        return onChange(defaultSort.price_desc);
+      case defaultSort.oncePrice_asc.id:
+        return onChange(defaultSort.oncePrice_asc);
+      case defaultSort.oncePrice_desc.id:
+        return onChange(defaultSort.oncePrice_desc);
       default:
-        return onChange(datas.none);
+        return onChange(defaultSort.none);
     }
   };
 
@@ -43,7 +34,7 @@ export const PlanSortSelect: FC<Props> = ({ idName, onChange }) => {
       onChange={(e) => onChangeSort(e.target.value)}
       value={idName.id}
     >
-      {Object.entries(datas).map(([key, value]) => (
+      {Object.entries(defaultSort).map(([key, value]) => (
         <option key={value.id} value={value.id}>
           {value.name}
         </option>

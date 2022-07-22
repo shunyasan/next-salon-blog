@@ -6,7 +6,7 @@ import {
   Instagram,
   OriginCategory,
 } from "@prisma/client";
-import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
+import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
 import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import InstagramBox from "components/InstagramBox";
 import { PlanSearchBox } from "components/organisms/box/PlanSearchBox";
@@ -103,7 +103,7 @@ const SearchSalon: NextPage<Props> = (props) => {
   // }, [aboutCategories]);
 
   // if (!originCategories || !aboutCategories || !baseParts)
-  // return <LoadingIcon />;
+  // return <LoadingModalIcon />;
 
   // useEffect(() => {
   //   setLoading(false);
@@ -125,7 +125,7 @@ const SearchSalon: NextPage<Props> = (props) => {
         />
       </Head>
       <BgImgH1 title="プランを探す" />
-      {/* <LoadingIcon /> */}
+      {/* <LoadingModalIcon /> */}
       <Box mx="auto" w={{ md: "60%", sm: "95%" }} my="3em">
         <PlanSearchBox
           orderPlan={defaultOrderData}

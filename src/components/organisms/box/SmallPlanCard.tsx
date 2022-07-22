@@ -4,9 +4,10 @@ import { TitleValue } from "types/TitleValue";
 import { PriceDto } from "types/PriceDto";
 import { InlineTitleBadge } from "../../atoms/badge/InlineTitleBadge";
 import { PlanDetailModal } from "../../organisms/modal/PlanDetailModal";
+import { Price } from "@prisma/client";
 
 type Props = {
-  price: PriceDto;
+  price: Price;
   url: string;
   options?: TitleValue[];
 };

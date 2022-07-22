@@ -17,8 +17,8 @@ export const byOptionKindService = () => {
       case OptionKind.anesthesia:
         byKind.anesthesia = option;
         break;
-      case OptionKind.contractCancel:
-        byKind.contractCancel = option;
+      case OptionKind.contract:
+        byKind.contract = option;
         break;
       case OptionKind.firstVisitFees:
         byKind.firstVisitFees = option;

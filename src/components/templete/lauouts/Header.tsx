@@ -17,7 +17,7 @@ import { Logo } from "../../atoms/logos/Logo";
 import { HamburgerIcon } from "../../atoms/icons/HamburgerIcon";
 import { HeaderDrawer } from "../../molecules/drawers/HeaderDrawer";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
+import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
 
 type Props = {
   // children?: ReactNode;
@@ -141,7 +141,7 @@ export const Header: FC<Props> = (props) => {
 
   return (
     <Box as="header">
-      <LoadingIcon />
+      <LoadingModalIcon />
       <Box>
         <Box>
           <Flex

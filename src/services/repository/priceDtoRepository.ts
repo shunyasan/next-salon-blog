@@ -1,27 +1,29 @@
+import { OptionKind } from "@prisma/client";
 import { prisma } from "services/common/prisma";
 import { OrderPlanQuery } from "types/OrderPlanQuery";
 import { PagenationParameter } from "types/PagenationParameterDto";
 import { PriceDto } from "types/PriceDto";
 import { sortPlanService } from "../sortPlanService";
 import { IdAndNameRepository } from "./IdAndNameRepository";
+import { optionRepository } from "./optionRepository";
 
+const { getOptionClinicIds } = optionRepository();
 const { getIdfindBySkinColorAndHairType } = IdAndNameRepository();
 const { chackSort } = sortPlanService();
 
 export const priceDtoRepository = () => {
   // constructor(private readonly prisma = prisma.clinicArea) {}
 
-  const checkEmptyData = (val?: string | string[]) => {
-    const data = val as string;
-    if (data && data !== "" && data !== "none") {
-      return data;
+  const checkEmptyData = (val?: string) => {
+    // const val = val as string;
+    if (val && val !== "" && val !== "none") {
+      return val;
     }
   };
 
   const beforeGetPrices = async (orderPlan: OrderPlanQuery) => {
     const excludeGender: number = orderPlan.gender === "男性" ? 1 : 2;
-    const excludeStaff: number = 0;
-    // const excludeStaff: number = orderPlan.staff === "男性" ? 1 : 2;
+    const excludeStaff: number = orderPlan.staff === "男性" ? 1 : 2;
 
     const machines = await getIdfindBySkinColorAndHairType(
       orderPlan.skinCollor,
@@ -31,11 +33,14 @@ export const priceDtoRepository = () => {
       machines.length > 0 ? machines.map((data) => data.id) : [];
 
     const sort = chackSort(orderPlan.sort);
+
+    const options = await getOptionClinicIds(orderPlan);
     return {
       excludeGender,
       excludeStaff,
       targetMachine,
       sort,
+      options,
     };
   };
 
@@ -45,7 +50,7 @@ export const priceDtoRepository = () => {
     take?: number,
     skip?: number
   ): Promise<PriceDto[]> => {
-    const { excludeGender, excludeStaff, targetMachine, sort } =
+    const { excludeGender, excludeStaff, options, targetMachine, sort } =
       await beforeGetPrices(orderPlan);
 
     const ans = await prisma.price.findMany({
@@ -76,31 +81,16 @@ export const priceDtoRepository = () => {
       where: {
         partsId: checkEmptyData(orderPlan.parts),
         clinic: {
-          staffGender: excludeStaff || undefined,
+          id: {
+            in: options,
+          },
+          staffGender: {
+            not: excludeStaff || undefined,
+          },
           roomType: checkEmptyData(orderPlan.roomType),
           interior: checkEmptyData(orderPlan.interior),
           cardPay: checkEmptyData(orderPlan.card),
           medhicalLoan: checkEmptyData(orderPlan.loan),
-          options: checkEmptyData(orderPlan.contract)
-            ? {
-                some: {
-                  kind: "contractCancel",
-                  price: {
-                    gte: 0,
-                  },
-                },
-              }
-            : undefined,
-          // machine:
-          //   targetMachine.length > 0
-          //     ? {
-          //         some: {
-          //           machineId: {
-          //             in: targetMachine,
-          //           },
-          //         },
-          //       }
-          //     : undefined,
         },
       },
       take: take,
@@ -116,14 +106,19 @@ export const priceDtoRepository = () => {
   const getCountMaxPlan = async (
     orderPlan: OrderPlanQuery
   ): Promise<number> => {
-    const { excludeGender, excludeStaff, targetMachine } =
+    const { excludeGender, excludeStaff, options, targetMachine } =
       await beforeGetPrices(orderPlan);
 
     const ans = await prisma.price.count({
       where: {
         partsId: checkEmptyData(orderPlan.parts),
         clinic: {
-          staffGender: excludeStaff || undefined,
+          id: {
+            in: options,
+          },
+          staffGender: {
+            not: excludeStaff || undefined,
+          },
           roomType: checkEmptyData(orderPlan.roomType),
           interior: checkEmptyData(orderPlan.interior),
           cardPay: checkEmptyData(orderPlan.card),
@@ -131,7 +126,7 @@ export const priceDtoRepository = () => {
           options: checkEmptyData(orderPlan.contract)
             ? {
                 some: {
-                  kind: "contractCancel",
+                  kind: "contract",
                   price: {
                     gte: 0,
                   },
@@ -148,10 +143,11 @@ export const priceDtoRepository = () => {
   const getPriceByClinic = async (
     clinicId: string,
     aboutId: string,
-    excludeGender?: number
-  ): Promise<PriceDto[]> => {
+    gender: string
+  ) => {
     // const table = await aboutCategoryRepository.getPriceTableName(aboutId);
-    // const data = selectPriceClass(table);
+    const excludeGender = gender === "男性" ? 1 : 2;
+
     const price = await prisma.price.findMany({
       where: {
         clinicId: clinicId,
@@ -169,8 +165,7 @@ export const priceDtoRepository = () => {
         },
       },
     });
-    const res = price as PriceDto[];
-    return res;
+    return price;
   };
 
   const getPriceOrderPlan = async (
@@ -191,5 +186,11 @@ export const priceDtoRepository = () => {
     return getPrices as PriceDto[];
   };
 
-  return { getAllPrices, getCountMaxPlan, getPriceByClinic, getPriceOrderPlan };
+  return {
+    getAllPrices,
+    getCountMaxPlan,
+    getPriceByClinic,
+    getPriceOrderPlan,
+    checkEmptyData,
+  };
 };

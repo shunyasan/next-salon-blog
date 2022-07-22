@@ -15,19 +15,19 @@ import { PairDataBoxList } from "../lists/PairDataBoxList";
 import { PairDataRowBoxList } from "../lists/PairDataRowBoxList";
 import { PairDataRowBoxList_2 } from "../lists/PairDataRowBoxList_2";
 import { ClinicPlanCard } from "./ClinicPlanCard";
-import { PriceByAboutCategory } from "types/PriceByAboutCategory";
 import { RelationClinic } from "types/RelationClinic";
 import { CopyrightImageBox } from "components/molecules/box/CopyrightImageBox";
 import { titleValueService } from "services/titleValueService";
 import { resourcesData } from "services/common/resourcesData";
 import Image from "next/image";
+import { OptionDetailBox } from "components/molecules/box/OptionDetailBox";
+import { OptionDetailList } from "../lists/OptionDetailList";
 
 type Props = {
   clinicData: RelationClinic;
-  originData: IdAndNameDto[];
-  prices: PriceByAboutCategory[];
-  onClickOriginId: (originId: string) => void;
-  onClickGender: (gender: string) => void;
+  // originData: IdAndNameDto[];
+  // onClickOriginId: (originId: string) => void;
+  // onClickGender: (gender: string) => void;
   // aboutCategoryData: AboutCategory[];
 };
 
@@ -36,8 +36,7 @@ const { ClinicOptionTitleValue, ClinicOtherTitleValue, newOptionFunc } =
 const { getRandomImg } = resourcesData();
 
 export const ClinicDetailCard: FC<Props> = (props) => {
-  const { clinicData, originData, prices, onClickOriginId, onClickGender } =
-    props;
+  const { clinicData } = props;
   // const { getRandomImg } = SearchSalonHooks();
 
   const [otherData, setOtherData] = useState<TitleValue[]>();
@@ -161,10 +160,12 @@ export const ClinicDetailCard: FC<Props> = (props) => {
         </Box>
         <UnderLineItemBox title={"オプションサービス"} ankerId={"option"}>
           {optionData && (
-            <Flex justifyContent={"center"} pl={{ md: "2em", sm: ".5em" }}>
-              <PairDataRowBoxList
-                datas={optionData}
+            <Flex justifyContent={"center"} wrap={"wrap"}>
+              <OptionDetailList
+                options={clinicData.options}
                 my={{ md: "1em", sm: "0.8em" }}
+                // fontSize?={string}
+                // my?={{ md: string; sm: string }  }
               />
             </Flex>
           )}
@@ -191,14 +192,15 @@ export const ClinicDetailCard: FC<Props> = (props) => {
         <UnderLineItemBox title={"料金"} ankerId={"fee"}>
           <Box px={{ md: "1em", sm: "0" }}>
             <ClinicPlanCard
+              clinicId={clinicData.id}
               url={clinicData.url || "#"}
               options={optionData}
-              originData={originData}
-              onClickOriginId={(originId: string) => onClickOriginId(originId)}
-              onClickGender={(gender: string) => onClickGender(gender)}
+              // originData={originData}
+              // onClickOriginId={(originId: string) => onClickOriginId(originId)}
+              // onClickGender={(gender: string) => onClickGender(gender)}
               // aboutCategoryData={aboutCategoryData}
               // priceData={priceData || []}
-              prices={prices}
+              // prices={prices}
             />
           </Box>
         </UnderLineItemBox>

@@ -6,14 +6,15 @@ const { getPriceByClinic } = priceDtoRepository();
 
 export default async function getPriceByAboutIdAndClinicId(
   req: NextApiRequest,
-  res: NextApiResponse<PriceDto[]>
+  res: NextApiResponse
 
   // clinicId: string,
   // aboutId: string
 ) {
   const clinicId = req.query.id as string;
   const aboutId = req.query.aboutId as string;
-  const data = await getPriceByClinic(clinicId, aboutId);
+  const gender = req.query.gender as string;
+  const data = await getPriceByClinic(clinicId, aboutId, gender);
 
   // const data: PriceDto[] = await getAxios(
   //   `price/clinic/${clinicId}?aboutId=${aboutId}`

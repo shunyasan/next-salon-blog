@@ -9,7 +9,7 @@ import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
 import { CategoryBox } from "components/organisms/box/CategoryBox";
 import { OrderPlanQueryService } from "services/orderPlanQueryService";
 import { defaultData } from "services/common/defaultData";
-import { LoadingIcon } from "components/atoms/icons/LoadingIcon";
+import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
 
 type Props = {
   // title: string;
@@ -130,10 +130,10 @@ const TreatmentTemplete: FC<Props> = ({
   //   { fallbackData: parts }
   // );
 
-  // if (!origin || !viewAboutCategory || !viewBaseParts) return <LoadingIcon />;
+  // if (!origin || !viewAboutCategory || !viewBaseParts) return <LoadingModalIcon />;
   return (
     <Box>
-      <LoadingIcon />
+      <LoadingModalIcon />
       {children}
       <Box textAlign={"center"}>
         <Flex

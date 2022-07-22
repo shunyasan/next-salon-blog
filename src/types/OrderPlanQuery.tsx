@@ -1,6 +1,8 @@
+import { OptionKind } from "@prisma/client";
+
 export type OrderPlanQuery = {
   gender: string;
-  paySystem: string;
+  // paySystem: string;
   originParts: string;
   aboutCategory: string;
   parts: string;
@@ -14,4 +16,11 @@ export type OrderPlanQuery = {
   contract: string;
   option: string;
   sort: string;
+  leakage: string;
+  aftercare: string;
+  anesthesia: string;
+  firstVisitFees: string;
+  revisitFees: string;
+  shaving: string;
+  skinTrouble: string;
 };
