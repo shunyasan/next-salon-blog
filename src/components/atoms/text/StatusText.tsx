@@ -24,15 +24,6 @@ export const StatusText: FC<Props> = (props) => {
         setStatusColor("");
         break;
     }
-    // const func: any = {};
-    // func[first] = "SeeThroughGold";
-    // func[second] = "SeeThroughBlue";
-    // const bg = func[text];
-    // if (bg) {
-    //   setStatusColor(bg);
-    // } else {
-    //   setStatusColor("");
-    // }
   }, [first, second, text]);
 
   return (

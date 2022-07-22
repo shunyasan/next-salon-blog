@@ -37,70 +37,83 @@ export const optionRepository = () => {
   };
 
   const getGroupByOption = async (orderPlan: OrderPlanQuery) => {
+    const numOfCondition = numOfOptions(orderPlan);
     const option = await prisma.option.groupBy({
       by: ["clinicId"],
-      where: {
-        OR: [
-          {
-            kind: checkOptionData(OptionKind.contract, orderPlan.contract),
-          },
-          {
-            kind: checkOptionData(
-              OptionKind.firstVisitFees,
-              orderPlan.firstVisitFees
-            ),
-            price: {
-              lte: checkNumberData(orderPlan.firstVisitFees),
-            },
-          },
-          {
-            kind: checkOptionData(
-              OptionKind.revisitFees,
-              orderPlan.revisitFees
-            ),
-            price: {
-              lte: checkNumberData(orderPlan.revisitFees),
-            },
-          },
-          {
-            kind: checkOptionData(OptionKind.aftercare, orderPlan.aftercare),
-            price: {
-              lte: checkNumberData(orderPlan.aftercare),
-            },
-          },
-          {
-            kind: checkOptionData(OptionKind.anesthesia, orderPlan.anesthesia),
-            price: {
-              lte: checkNumberData(orderPlan.anesthesia),
-            },
-          },
-          {
-            kind: checkOptionData(OptionKind.leakage, orderPlan.leakage),
-            price: {
-              lte: checkNumberData(orderPlan.leakage),
-            },
-          },
-          {
-            kind: checkOptionData(OptionKind.shaving, orderPlan.shaving),
-            price: {
-              lte: checkNumberData(orderPlan.shaving),
-            },
-          },
-          {
-            kind: checkOptionData(
-              OptionKind.skinTrouble,
-              orderPlan.skinTrouble
-            ),
-            price: {
-              lte: checkNumberData(orderPlan.skinTrouble),
-            },
-          },
-        ],
-      },
+      where:
+        numOfCondition > 0
+          ? {
+              OR: [
+                {
+                  kind: checkOptionData(
+                    OptionKind.contract,
+                    orderPlan.contract
+                  ),
+                },
+                {
+                  kind: checkOptionData(
+                    OptionKind.firstVisitFees,
+                    orderPlan.firstVisitFees
+                  ),
+                  price: {
+                    lte: checkNumberData(orderPlan.firstVisitFees),
+                  },
+                },
+                {
+                  kind: checkOptionData(
+                    OptionKind.revisitFees,
+                    orderPlan.revisitFees
+                  ),
+                  price: {
+                    lte: checkNumberData(orderPlan.revisitFees),
+                  },
+                },
+                {
+                  kind: checkOptionData(
+                    OptionKind.aftercare,
+                    orderPlan.aftercare
+                  ),
+                  price: {
+                    lte: checkNumberData(orderPlan.aftercare),
+                  },
+                },
+                {
+                  kind: checkOptionData(
+                    OptionKind.anesthesia,
+                    orderPlan.anesthesia
+                  ),
+                  price: {
+                    lte: checkNumberData(orderPlan.anesthesia),
+                  },
+                },
+                {
+                  kind: checkOptionData(OptionKind.leakage, orderPlan.leakage),
+                  price: {
+                    lte: checkNumberData(orderPlan.leakage),
+                  },
+                },
+                {
+                  kind: checkOptionData(OptionKind.shaving, orderPlan.shaving),
+                  price: {
+                    lte: checkNumberData(orderPlan.shaving),
+                  },
+                },
+                {
+                  kind: checkOptionData(
+                    OptionKind.skinTrouble,
+                    orderPlan.skinTrouble
+                  ),
+                  price: {
+                    lte: checkNumberData(orderPlan.skinTrouble),
+                  },
+                },
+              ],
+            }
+          : undefined,
       having: {
         clinicId: {
           _count: {
-            gte: numOfOptions(orderPlan),
+            gte: numOfCondition,
           },
         },
       },
@@ -114,5 +127,5 @@ export const optionRepository = () => {
     return res;
   };
 
-  return { getOptionClinicIds };
+  return { getOptionClinicIds, numOfOptions };
 };

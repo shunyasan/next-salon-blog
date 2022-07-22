@@ -1,4 +1,4 @@
-import { Box, Center, Text } from "@chakra-ui/layout";
+import { Box, Center, Flex, Text } from "@chakra-ui/layout";
 import { FC, memo, useEffect, useState, VFC } from "react";
 // import style from "../../../../styles/Home.module.css";
 
@@ -8,38 +8,47 @@ type Props = {
 
 export const StaffGenderText: FC<Props> = (props) => {
   const { staffGender } = props;
-  const [gender, setGender] = useState<{ gender: string; color: string }>({
-    gender: "ー",
-    color: "",
+  const [gender, setGender] = useState<{
+    fir: { val: string; color: string };
+    sec: { val: string; color: string };
+  }>({
+    fir: { val: "女", color: "#aa0000" },
+    sec: { val: "性", color: "#aa0000" },
   });
 
   useEffect(() => {
-    if (staffGender === 1 || staffGender === 3) {
-      setGender({ gender: "女性", color: "#aa0000" });
-    } else if (staffGender === 2 || staffGender === 3) {
-      setGender({ gender: "男性", color: "#005dff" });
+    switch (staffGender) {
+      case 3:
+        setGender({
+          fir: { val: "女性", color: "#aa0000" },
+          sec: { val: "男性", color: "#005dff" },
+        });
+        break;
+      case 2:
+        setGender({
+          fir: { val: "男", color: "#005dff" },
+          sec: { val: "性", color: "#005dff" },
+        });
+        break;
+      default:
+        setGender({
+          fir: { val: "女", color: "#aa0000" },
+          sec: { val: "性", color: "#aa0000" },
+        });
+        break;
     }
   }, [staffGender]);
 
   return (
-    <Box fontSize={"0.85em"}>
-      <Text fontWeight={"bold"} color={gender.color} display={"inline"}>
-        {gender.gender}
-      </Text>
-
-      {/* <Text fontWeight={"bold"} color="#aa0000" display={"inline"}>
-        {staffGender === 1 || staffGender === 3 ? "女性" : ""}
-      </Text>
-      {staffGender === 2 || staffGender === 3 ? (
-        <Text fontWeight={"bold"} color="#" display={"inline"}>
-          男性
+    <Box fontSize={"0.8em"}>
+      <Flex fontWeight={"bold"}>
+        <Text display={"inline"} color={gender.fir.color}>
+          {gender.fir.val}
         </Text>
-      ) : (
-        ""
-      )} 
-      <Text ml={"5px"} display={"inline"} fontSize={"0.8rem"}>
-        が施術
-      </Text> */}
+        <Text display={"inline"} color={gender.sec.color}>
+          {gender.sec.val}
+        </Text>
+      </Flex>
     </Box>
   );
 };

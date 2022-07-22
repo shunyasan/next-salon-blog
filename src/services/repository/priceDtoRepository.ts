@@ -7,7 +7,7 @@ import { sortPlanService } from "../sortPlanService";
 import { IdAndNameRepository } from "./IdAndNameRepository";
 import { optionRepository } from "./optionRepository";
 
-const { getOptionClinicIds } = optionRepository();
+const { getOptionClinicIds, numOfOptions } = optionRepository();
 const { getIdfindBySkinColorAndHairType } = IdAndNameRepository();
 const { chackSort } = sortPlanService();
 
@@ -33,8 +33,10 @@ export const priceDtoRepository = () => {
       machines.length > 0 ? machines.map((data) => data.id) : [];
 
     const sort = chackSort(orderPlan.sort);
+    const numOfOpt = numOfOptions(orderPlan);
+    const options =
+      numOfOpt > 0 ? await getOptionClinicIds(orderPlan) : undefined;
 
-    const options = await getOptionClinicIds(orderPlan);
     return {
       excludeGender,
       excludeStaff,
