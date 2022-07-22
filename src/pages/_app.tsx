@@ -11,7 +11,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
       <Head>
-        <meta name="theme-color" content="originBlack" />
+        <meta name="theme-color" content="#111111" />
+        <meta
+          name="google-site-verification"
+          content="Wzt1e8X-GdJRd-dyZxrwBUbKNNNjn_W6b0c2E7k3XN0"
+        />
       </Head>
       {/* <!-- Global site tag (gtag.js) - Google Analytics --> */}
       <Script
