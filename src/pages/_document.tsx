@@ -6,20 +6,20 @@ class MyDocument extends Document {
       <Html lang="ja">
         <Head>
           {/* font-family: 'Noto Serif JP, serif; */}
-          <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+          {/* <link rel="preconnect" href="https://fonts.googleapis.com"></link>
           <link rel="preconnect" href="https://fonts.gstatic.com"></link>
           <link
             href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400&display=swap"
             rel="stylesheet"
-          ></link>
+          ></link> */}
 
           {/* font-family: 'Zen Kaku Gothic New', sans-serif; */}
-          <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+          {/* <link rel="preconnect" href="https://fonts.googleapis.com"></link>
           <link rel="preconnect" href="https://fonts.gstatic.com"></link>
           <link
             href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap"
             rel="stylesheet"
-          ></link>
+          ></link> */}
         </Head>
         <body>
           <Main />

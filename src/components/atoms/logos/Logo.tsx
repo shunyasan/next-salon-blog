@@ -16,7 +16,6 @@ export const Logo: FC<Props> = (props) => {
       color={color}
       display={"inline-block"}
       my={4}
-      fontFamily="'Zen Kaku Gothic New', sans-serif"
       fontWeight={"bold"}
       fontSize={fontSize}
       textAlign={"center"}

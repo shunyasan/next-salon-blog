@@ -77,6 +77,7 @@ export const PlanCard: FC<Props> = (props) => {
         top="0"
         bg="originWhite"
         zIndex="50"
+        borderRadius={8}
       >
         {clinic.name}
       </Box>

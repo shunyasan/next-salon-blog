@@ -17,3 +17,10 @@ a {
 * {
   box-sizing: border-box;
 }
+
+@font-face {
+  font-family: "Zen_Kaku_Gothic_New";
+  src: url("../public/fonts/Zen_Kaku_Gothic_New/ZenKakuGothicNew-Regular.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
