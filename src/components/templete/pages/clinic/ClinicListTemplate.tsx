@@ -9,7 +9,7 @@ import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Script from "next/script";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import fetcher from "services/common/fetcher";
 // import { tweet } from "services/tweet";
 import useSWR from "swr";
@@ -18,6 +18,7 @@ import InstagramBox from "components/InstagramBox";
 import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
 import TwitterBox from "components/TwitterBox";
 import { RelationClinic } from "types/RelationClinic";
+import { Gender } from "types/Gender";
 
 const numOfTakeData = 10;
 const defaultMax = 349;
@@ -68,6 +69,7 @@ const ClinicListTemplate: FC<Props> = ({
   getPage,
 }) => {
   const router = useRouter();
+  const gender = router.query.gender as Gender;
 
   if (!clinics) return <LoadingModalIcon />;
   return (
@@ -83,7 +85,7 @@ const ClinicListTemplate: FC<Props> = ({
               fontSize={"1.2rem"}
               description={data.description || ""}
               arrow={areaId === data.id ? true : false}
-              onClick={() => router.push(`/clinic${data.url}/1`)}
+              onClick={() => router.push(`/${gender}/clinic${data.url}/1`)}
               // onClick={() =>
               //   getClinicDataAndAreaId(0, data.id, data.registrationNumber)
               // }
@@ -117,19 +119,14 @@ const ClinicListTemplate: FC<Props> = ({
             spacing={"3rem"}
           >
             {clinics.map((data, int) => (
-              <PlanCard clinic={data} key={int} />
+              <PlanCard clinic={data} key={int} genderParam={gender} />
             ))}
           </Stack>
           <Box display={{ md: "block", sm: "none" }} w="22rem" minW="15em">
             <UnderLineItemBox title="最新情報" fontSize="1em">
               <Stack spacing={"3rem"}>
                 {twitter.map((account, i) => (
-                  <TwitterBox
-                    key={i}
-                    account={account.code}
-                    clinicId={account.clinicId}
-                    height="30em"
-                  />
+                  <TwitterBox key={i} twitter={account} height="30em" />
                 ))}
               </Stack>
             </UnderLineItemBox>
@@ -137,7 +134,7 @@ const ClinicListTemplate: FC<Props> = ({
               <UnderLineItemBox title="キャンペーン・おすすめ" fontSize="1em">
                 <Stack spacing={"3rem"} mt={"1rem"}>
                   {instagram.map((data, i) => (
-                    <InstagramBox key={i} account={data.code} />
+                    <InstagramBox key={i} instagram={data} />
                   ))}
                 </Stack>
               </UnderLineItemBox>

@@ -8,7 +8,6 @@ type Props = {
   //↓消す予定
   onOpen?: () => void;
   search?: () => void;
-  // 1:女性 2:男性
 };
 export const PartsBox: FC<Props> = (props) => {
   const { parts, width, search, onOpen } = props;

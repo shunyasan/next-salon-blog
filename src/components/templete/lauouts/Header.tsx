@@ -18,6 +18,8 @@ import { HamburgerIcon } from "../../atoms/icons/HamburgerIcon";
 import { HeaderDrawer } from "../../molecules/drawers/HeaderDrawer";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
+import { SelextGenderBox } from "components/molecules/box/SelextGenderBox";
+import { Gender } from "types/Gender";
 
 type Props = {
   // children?: ReactNode;
@@ -37,10 +39,10 @@ export const Header: FC<Props> = (props) => {
   // const [planMeterTrigger, setPlanMeterTrigger] = useState<boolean>(false);
   // const [clinicNum, setClinicNum] = useState<string>(clinicDefoultNum);
   // const [planNum, setPlanNum] = useState<string>(planDefoultNum);
-  const [gender, setGender] = useState<string>("女性");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
+  const gender = router.query.gender as Gender;
 
   const datas = [
     {
@@ -82,62 +84,8 @@ export const Header: FC<Props> = (props) => {
 
   const onClickTransition = (path: string) => {
     onClose();
-    router.push(`/${path}`);
+    router.push(`/${gender}/${path}`);
   };
-
-  const changeGenderState = useCallback(
-    (genderParam: string) => {
-      if (gender !== genderParam) {
-        // getGender(genderParam);
-        // setGender(genderParam);
-        router.push({
-          pathname: router.pathname,
-          query: { ...router.query, ge: genderParam },
-        });
-      }
-    },
-    [gender, router]
-  );
-
-  useEffect(() => {
-    const gender: string = router.query.ge as string;
-    setGender(gender || "女性");
-  }, [router]);
-
-  // クリニック数のカウンター
-  // useEffect(() => {
-  //   if (topPage) {
-  //     setClinicMeterTrigger(true);
-  //     setPlanMeterTrigger(true);
-  //     setTimeout(() => {
-  //       setClinicMeterTrigger(false);
-  //     }, 2000);
-  //     setTimeout(() => {
-  //       setPlanMeterTrigger(false);
-  //     }, 3000);
-  //   }
-  // }, [topPage]);
-
-  // useEffect(() => {
-  //   if (topPage) {
-  //     const random = [...Array(5)].map(() =>
-  //       Math.floor(Math.random() * 10).toString()
-  //     );
-  //     const clinicRandom = random.slice(0, 3);
-  //     const planRandom = random.slice(0, 5);
-
-  //     if (clinicMeterTrigger) {
-  //       setClinicNum(clinicRandom.join(""));
-  //     } else {
-  //       setClinicNum(clinicDefoultNum);
-  //     }
-  //     if (planMeterTrigger) {
-  //       setPlanNum(planRandom.join(""));
-  //     } else {
-  //       setPlanNum(planDefoultNum);
-  //     }
-  //   }
-  // }, [clinicMeterTrigger, planMeterTrigger, topPage, clinicNum, planNum]);
 
   return (
     <Box as="header">
@@ -154,14 +102,14 @@ export const Header: FC<Props> = (props) => {
             // bg={{ md: "originWhite", sm: "originBlack" }}
           >
             <Link
-              href="/"
+              href={`/${gender}`}
               _hover={{
                 textDecoration: "none",
               }}
               // w={{ md: "inherit", sm: "100%" }}
               minW={{ md: "11rem", sm: "11rem" }}
               // my={{ md: "1rem", sm: "0" }}
-              mx={"2em"}
+              mx={"1em"}
               _focus={{ outline: "none" }}
             >
               <Logo
@@ -172,20 +120,21 @@ export const Header: FC<Props> = (props) => {
             <Flex
               // p="1em"
               h="100%"
-              w="5.1em"
+              w="8em"
               cursor={"pointer"}
               bg="originBlack"
               color="originWhite"
               alignItems={"center"}
-              justifyContent="center"
-              pt="7px"
+              justifyContent="space-between"
+              pt="7px" //黒下線に合わせて調整
+              pl="4vw" //Hamburgerに合わせて調整
               // _hover={{ transition: "1s", opacity: 0.8 }}
               // _hover={{ transition: "1s", bg: "originLiteBlack" }}
               display={{ md: "none", sm: "flex" }}
               textAlign="center"
-              onClick={onOpen}
             >
-              <HamburgerIcon />
+              <SelextGenderBox />
+              <HamburgerIcon width="3.5em" onClick={onOpen} />
               {/* <HamburgerIcon /> */}
             </Flex>
             <Flex

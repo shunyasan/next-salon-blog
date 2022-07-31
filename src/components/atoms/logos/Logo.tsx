@@ -5,7 +5,7 @@ import { FC, memo } from "react";
 
 type Props = {
   fontSize: string | { md: string; sm: string };
-  color: string;
+  color: "originBlack" | "originWhite";
   // fontSize: {md: string, sm: string}
 };
 
@@ -16,7 +16,7 @@ export const Logo: FC<Props> = (props) => {
       color={color}
       display={"inline-block"}
       my={4}
-      fontWeight={"bold"}
+      fontWeight={color === "originWhite" ? "normal" : "bold"}
       fontSize={fontSize}
       textAlign={"center"}
     >
@@ -28,7 +28,11 @@ export const Logo: FC<Props> = (props) => {
             width="100%"
             height="100%"
             objectFit={"contain"}
-            src="/consaltant.png"
+            src={
+              color === "originWhite"
+                ? "/consaltant_nega.png"
+                : "/consaltant.png"
+            }
             alt="脱毛コンサルタント"
           />
         </Flex>

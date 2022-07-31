@@ -2,9 +2,11 @@ import { FC, memo, ReactNode, useEffect, useState } from "react";
 import { Box, Flex, Text, Link, useDisclosure, HStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Logo } from "../../atoms/logos/Logo";
+import { Gender } from "types/Gender";
 
 export const Footer: FC = () => {
   const router = useRouter();
+  const gender = router.query.gender as Gender;
 
   const datas = [
     {
@@ -80,7 +82,11 @@ export const Footer: FC = () => {
           my={{ md: "inherit", sm: "1rem" }}
           mx={"auto"}
         >
-          <Link href="/" textDecoration={"none"} _focus={{ outline: "none" }}>
+          <Link
+            href={`/${gender}`}
+            textDecoration={"none"}
+            _focus={{ outline: "none" }}
+          >
             <Logo
               fontSize={{ md: "2rem", sm: "1.6rem" }}
               color={"originWhite"}

@@ -2,22 +2,22 @@ import { FC, VFC } from "react";
 import { IconButton, Box, Flex, Stack } from "@chakra-ui/react";
 
 type Props = {
-  // width: string;
+  width: string;
+  onClick?: () => void;
   // paddingY?: string;
-  // onClick?: () => void;
 };
 
 export const HamburgerIcon: FC<Props> = (props) => {
-  // const {  width, paddingY } = props;
+  const { width, onClick } = props;
   return (
     <Stack
       justifyContent={"center"}
       // onClick={onClick}
       spacing={"7px"}
-      p={"1em 1.5em"}
-      w={"5rem"}
-      mx={"auto"}
+      p={"3vw 4vw"}
+      w={width}
       cursor={"pointer"}
+      onClick={onClick}
     >
       <Box borderBottom={"1px"} borderColor={"white"}></Box>
       <Box borderBottom={"1px"} borderColor={"white"}></Box>

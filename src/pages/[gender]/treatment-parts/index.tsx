@@ -1,5 +1,10 @@
 import { Box, Button, Flex, HStack, Text } from "@chakra-ui/react";
-import { GetServerSideProps, GetStaticProps, NextPage } from "next";
+import {
+  GetServerSideProps,
+  GetStaticPaths,
+  GetStaticProps,
+  NextPage,
+} from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
@@ -12,30 +17,41 @@ import { OriginCategiryId } from "enums/OriginCategiryIdEnum";
 import TreatmentTemplete from "components/templete/pages/treatment/TreatmentTemplete";
 import { IdAndNameDto } from "types/IdAndNameDto";
 import { aboutCategoryRepository } from "services/common/repository";
+import { Gender } from "types/Gender";
 
 type Props = {
   // origin: IdAndNameDto[];
   about: (AboutCategory & {
     baseParts: BaseParts[];
   })[];
+  gender: Gender;
 };
 
 const originId = OriginCategiryId.face;
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  const about = await aboutCategoryRepository.getJoinBasicParts(originId, 2);
+export const getStaticPaths: GetStaticPaths = async () => {
+  const arr: Gender[] = ["men", "lady"];
+  const paths = arr.map((ge) => `/${ge}/treatment-parts`);
+  return { paths: paths, fallback: false };
+};
+
+export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
+  const gender = params ? (params.gender as Gender) : "lady";
+  const excludeGender = gender === "men" ? 1 : 2;
+  const about = await aboutCategoryRepository.getJoinBasicParts(
+    originId,
+    excludeGender
+  );
   return {
     props: {
       about,
+      gender,
     },
   };
 };
 
-const TreatmentFaceParts: NextPage<Props> = ({ about }) => {
+const TreatmentFaceParts: NextPage<Props> = ({ about, gender }) => {
   // const [aboutId, setAboutId] = useState<string>(about[0].id);
-  const [gender, setGender] = useState<string>("女性");
-  const [aboutString, setAboutString] = useState<string>("test");
-  const router = useRouter();
 
   const { data: aboutCategories, error: err_abo } = useSWR<
     (AboutCategory & {
@@ -43,21 +59,26 @@ const TreatmentFaceParts: NextPage<Props> = ({ about }) => {
     })[]
   >(
     `/api/about-categories/originId?originId=${originId}&gender=${gender}`,
-    fetcher,
+    async (url) => {
+      const data = await fetcher(url);
+      return data;
+      // setAboutId(data[0].id);
+    },
     { fallbackData: about }
   );
 
-  const changeGenderState = useCallback(
-    (genderParam: string) => {
-      if (gender !== genderParam) {
-        setGender(genderParam);
-      }
-    },
-    [gender]
-  );
+  // const changeGenderState = useCallback(
+  //   (genderParam: string) => {
+  //     if (gender !== genderParam) {
+  //       setGender(genderParam);
+  //     }
+  //   },
+  //   [gender]
+  // );
 
   if (!aboutCategories) return <LoadingModalIcon />;
   return (
+    // <Layout getGender={(gender: string) => setGender(gender)}>
     <TreatmentTemplete
       selectedOriginId={originId}
       about={aboutCategories}
@@ -71,30 +92,6 @@ const TreatmentFaceParts: NextPage<Props> = ({ about }) => {
         />
       </Head>
       <BgImgH1 title="顔の脱毛可能な部位" />
-      <HStack mt="2rem" justifyContent={"center"}>
-        <Box
-          cursor={"pointer"}
-          p={"0.5rem 1rem"}
-          color={gender === "女性" ? "originWhite" : ""}
-          bg={gender === "女性" ? "originBlack" : ""}
-          onClick={() => changeGenderState("女性")}
-          transition={"0.2s"}
-          transitionTimingFunction={"linear"}
-        >
-          女性
-        </Box>
-        <Box
-          cursor={"pointer"}
-          p={"0.5rem 1rem"}
-          color={gender === "男性" ? "originWhite" : ""}
-          bg={gender === "男性" ? "originBlack" : ""}
-          onClick={() => changeGenderState("男性")}
-          transition={"0.2s"}
-          transitionTimingFunction={"linear"}
-        >
-          男性
-        </Box>
-      </HStack>
     </TreatmentTemplete>
   );
 };

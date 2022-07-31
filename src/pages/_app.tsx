@@ -6,12 +6,17 @@ import theme from "../../styles/theme/theme";
 import Head from "next/head";
 import Script from "next/script";
 import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
+import { useRouter } from "next/router";
+import { Gender } from "types/Gender";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+  const gender = (router.query.gender as Gender) || "lady";
+
   return (
     <ChakraProvider theme={theme}>
       <Head>
-        <meta name="theme-color" content="#111111" />
+        <meta name="theme-color" content={"#111111"} />
         <meta
           name="google-site-verification"
           content="Wzt1e8X-GdJRd-dyZxrwBUbKNNNjn_W6b0c2E7k3XN0"

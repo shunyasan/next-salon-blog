@@ -10,6 +10,7 @@ import { CategoryBox } from "components/organisms/box/CategoryBox";
 import { OrderPlanQueryService } from "services/orderPlanQueryService";
 import { defaultData } from "services/common/defaultData";
 import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
+import { Gender } from "types/Gender";
 
 type Props = {
   // title: string;
@@ -19,7 +20,8 @@ type Props = {
   about: (AboutCategory & {
     baseParts: BaseParts[];
   })[];
-  gender: string;
+  gender: Gender;
+
   // parts: BaseParts[];
 };
 
@@ -51,13 +53,13 @@ const TreatmentTemplete: FC<Props> = ({
   // ];
 
   const searchForPlanFunc = (
-    gender: string,
+    gender: Gender,
     originId: string,
     aboutCategoryId: string,
     partsId: string
   ) => {
     const defaultOrderData = defaultOrderPlanIdName;
-    defaultOrderData.gender;
+    defaultOrderData.gender.id = gender;
     defaultOrderData.originParts.id = originId;
     defaultOrderData.aboutCategory.id = aboutCategoryId;
     defaultOrderData.parts.id = partsId;
@@ -65,7 +67,7 @@ const TreatmentTemplete: FC<Props> = ({
     const query = createParameter(defaultOrderData);
     // const query = searchForPlan(gender, originId, aboutCategoryId, partsId);
     router.push({
-      pathname: "/plan/search/1",
+      pathname: `/${gender}/plan/search/1`,
       query: query,
     });
   };
@@ -147,7 +149,9 @@ const TreatmentTemplete: FC<Props> = ({
             <OriginCategoryBox
               key={int}
               name={data.name}
-              onClick={() => router.push(`/treatment-parts/${data.path}`)}
+              onClick={() =>
+                router.push(`/${gender}/treatment-parts/${data.path}`)
+              }
               arrow={selectedOriginId === data.id}
               fontSize={"1.2rem"}
               width={{ md: "16.6%", sm: "33.3%" }}

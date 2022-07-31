@@ -36,6 +36,7 @@ const theme = extendTheme({
     transparent: "transparent",
     originWhite: "#f7fafc",
     originBlack: "#111",
+    // originRed: "#39000b",
     originLiteBlack: "#252525",
     originGray: "#b7b7b7",
     originLiteGray: "#e1e1e1",

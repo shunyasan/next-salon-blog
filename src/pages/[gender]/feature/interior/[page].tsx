@@ -2,20 +2,19 @@ import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
 import { Feature } from "enums/FeatureEnum";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
-import { memo, useCallback, useEffect, useState, VFC } from "react";
-import fetcher from "services/common/fetcher";
-import useSWR from "swr";
-import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
-import { clinicNestPriceRepository } from "services/repository/clinicNestPriceRepository";
 import { clinicPagePropsRepository } from "services/repository/clinicPagePropsRepository";
 import { relationClinicRepository } from "services/repository/relationClinicRepository";
 import { ClinicPageProps } from "types/ClinicPageProps";
-import { useRouter } from "next/router";
 import ClinicListTemplate from "components/templete/pages/clinic/ClinicListTemplate";
+import { useRouter } from "next/router";
+
+type Props = ClinicPageProps & {
+  gender: string;
+};
 
 const numOfTake = 10;
-const feature = Feature.visitFee;
-const title = "初診・再診料無料のクリニック";
+const feature = Feature.interior;
+const title = "内装が豪華なクリニック";
 
 const { getClinicPagesDataForFeature } = clinicPagePropsRepository();
 const { checkCountFeatureFunc } = relationClinicRepository();
@@ -23,13 +22,16 @@ const { checkCountFeatureFunc } = relationClinicRepository();
 export const getStaticPaths: GetStaticPaths = async () => {
   const count = await checkCountFeatureFunc(feature);
   const num = Math.ceil(count / numOfTake);
-  const paths = [...Array(num)].map((_, i) => `/feature/visitFee/${i + 1}`);
+  const men = [...Array(num)].map((_, i) => `/men/feature/${feature}/${i + 1}`);
+  const lady = [...Array(num)].map(
+    (_, i) => `/lady/feature/${feature}/${i + 1}`
+  );
+  const paths = men.concat(lady);
   return { paths: paths, fallback: false };
 };
 
-export const getStaticProps: GetStaticProps<ClinicPageProps> = async ({
-  params,
-}) => {
+export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
+  const gender = params ? (params.gender as string) : "lady";
   const num = params ? Number(params.page) : 0;
   const { clinics, page, maxData, twitter, instagram } =
     await getClinicPagesDataForFeature(feature, num);
@@ -40,16 +42,18 @@ export const getStaticProps: GetStaticProps<ClinicPageProps> = async ({
       maxData,
       twitter,
       instagram,
+      gender,
     },
   };
 };
 
-const VisitFeeFeature: NextPage<ClinicPageProps> = ({
+const InteriorFeature: NextPage<Props> = ({
   clinics,
   page,
   maxData,
   twitter,
   instagram,
+  gender,
 }) => {
   const router = useRouter();
 
@@ -57,10 +61,10 @@ const VisitFeeFeature: NextPage<ClinicPageProps> = ({
   return (
     <>
       <Head>
-        <title>初診料が無料のクリニック | 脱毛コンサルタント</title>
+        <title>内装の豪華なクリニック | 脱毛コンサルタント</title>
         <meta
           name="description"
-          content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」からおすすめする初診料が無料のクリニックです。少しでも安いプランをご希望の方にておすすめです。"
+          content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」からおすすめする内装が豪華なクリニックです"
         />
       </Head>
       <ClinicListTemplate
@@ -71,9 +75,11 @@ const VisitFeeFeature: NextPage<ClinicPageProps> = ({
         page={page}
         twitter={twitter}
         instagram={instagram}
-        getPage={(page) => router.push(`/feature/visitFee/${page + 1}`)}
+        getPage={(page) =>
+          router.push(`/${gender}/feature/interior/${page + 1}`)
+        }
       />
     </>
   );
 };
-export default VisitFeeFeature;
+export default InteriorFeature;

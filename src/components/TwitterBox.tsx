@@ -1,14 +1,18 @@
 import { Box, Flex, Link, Text } from "@chakra-ui/react";
+import { Twitter } from "@prisma/client";
+import { useRouter } from "next/router";
 import { FC, useEffect } from "react";
+import { Gender } from "types/Gender";
 
 type Props = {
-  account: string;
-  clinicId?: string;
+  twitter: Twitter;
   width?: string;
   height?: string;
-  test?: string;
 };
-const TwitterBox: FC<Props> = ({ account, width, height, clinicId, test }) => {
+const TwitterBox: FC<Props> = ({ twitter, width, height }) => {
+  const router = useRouter();
+  const gender = router.query.gender as Gender;
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://platform.twitter.com/widgets.js";
@@ -21,25 +25,23 @@ const TwitterBox: FC<Props> = ({ account, width, height, clinicId, test }) => {
 
   return (
     <Box>
-      {clinicId && (
-        <Box mb=".5em" textAlign={"left"}>
-          <Link
-            ml="1em"
-            color={"originGold"}
-            fontSize={".7em"}
-            href={`clinic/detail/${clinicId}`}
-          >
-            詳しくみる
-          </Link>
-        </Box>
-      )}
+      <Box mb=".5em" textAlign={"left"}>
+        <Link
+          ml="1em"
+          color={"originGold"}
+          fontSize={".7em"}
+          href={`/${gender}/clinic/detail/${twitter.clinicId}`}
+        >
+          このクリニックを詳しくみる
+        </Link>
+      </Box>
       <Link
         className="twitter-timeline"
         data-height={height}
         data-width={width}
-        href={`https://twitter.com/${account}?ref_src=twsrc%5Etfw`}
+        href={`https://twitter.com/${twitter.code}?ref_src=twsrc%5Etfw`}
       >
-        Tweets by {account}
+        Tweets by {twitter.code}
       </Link>
     </Box>
   );

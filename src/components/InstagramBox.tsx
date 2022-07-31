@@ -1,41 +1,44 @@
 import { Box, Flex, Link, Text } from "@chakra-ui/react";
+import { Instagram } from "@prisma/client";
+import { useRouter } from "next/router";
 import Script from "next/script";
 import { FC, useEffect } from "react";
 import { render } from "react-dom";
+import { Gender } from "types/Gender";
 
 type Props = {
-  account: string;
-  clinicId?: string;
+  instagram: Instagram;
 };
-const InstagramBox: FC<Props> = ({ account, clinicId }) => {
-  // useEffect(() => {
-  //   const script = document.createElement("script");
-  //   script.src = "//www.instagram.com/embed.js";
-  //   script && document.body.appendChild(script);
-  //   // アンマウント時に一応scriptタグを消しておく
-  //   return () => {
-  //     document.body.removeChild(script);
-  //   };
-  // }, []);
+const InstagramBox: FC<Props> = ({ instagram }) => {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://www.instagram.com/embed.js";
+    script && document.body.appendChild(script);
+    // アンマウント時に一応scriptタグを消しておく
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  const router = useRouter();
+  const gender = router.query.gender as Gender;
 
   return (
     <Box>
-      {clinicId && (
-        <Box mb=".5em" textAlign={"left"}>
-          <Link
-            ml="1em"
-            color={"originGold"}
-            fontSize={".7em"}
-            href={`clinic/detail/${clinicId}`}
-          >
-            詳しくみる
-          </Link>
-        </Box>
-      )}
+      <Box mb=".5em" textAlign={"left"}>
+        <Link
+          ml="1em"
+          color={"originGold"}
+          fontSize={".7em"}
+          href={`/${gender}/clinic/detail/${instagram.clinicId}`}
+        >
+          このクリニックを詳しくみる
+        </Link>
+      </Box>
       <blockquote
         title="instagram"
         className="instagram-media"
-        data-instgrm-permalink={`https://www.instagram.com/p/${account}/?utm_source=ig_embed&amp;utm_campaign=loading`}
+        data-instgrm-permalink={`https://www.instagram.com/p/${instagram.code}/?utm_source=ig_embed&amp;utm_campaign=loading`}
         data-instgrm-version="14"
         style={{
           background: "#FFF",
@@ -51,7 +54,7 @@ const InstagramBox: FC<Props> = ({ account, clinicId }) => {
       >
         <div style={{ padding: "16px" }}>
           <a
-            href={`https://www.instagram.com/p/${account}/?utm_source=ig_embed&amp;utm_campaign=loading`}
+            href={`https://www.instagram.com/p/${instagram.code}/?utm_source=ig_embed&amp;utm_campaign=loading`}
             style={{
               background: "#FFFFFF",
               lineHeight: "0",
@@ -275,7 +278,7 @@ const InstagramBox: FC<Props> = ({ account, clinicId }) => {
           </a>
         </div>
       </blockquote>
-      <Script async src="//www.instagram.com/embed.js"></Script>
+      <Script async src="https://www.instagram.com/embed.js"></Script>
     </Box>
   );
 };

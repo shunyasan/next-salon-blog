@@ -1,7 +1,7 @@
-import { OptionKind } from "@prisma/client";
+import { Gender } from "./Gender";
 
 export type OrderPlanQuery = {
-  gender: string;
+  gender: Gender;
   // paySystem: string;
   originParts: string;
   aboutCategory: string;

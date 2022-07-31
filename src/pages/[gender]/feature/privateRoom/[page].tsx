@@ -13,9 +13,13 @@ import { ClinicPageProps } from "types/ClinicPageProps";
 import { useRouter } from "next/router";
 import ClinicListTemplate from "components/templete/pages/clinic/ClinicListTemplate";
 
+type Props = ClinicPageProps & {
+  gender: string;
+};
+
 const numOfTake = 10;
-const feature = Feature.sutudentDiscount;
-const title = "学生料金（学割）のあるクリニック";
+const feature = Feature.privateRoom;
+const title = "完全個室のクリニック";
 
 const { getClinicPagesDataForFeature } = clinicPagePropsRepository();
 const { checkCountFeatureFunc } = relationClinicRepository();
@@ -23,15 +27,16 @@ const { checkCountFeatureFunc } = relationClinicRepository();
 export const getStaticPaths: GetStaticPaths = async () => {
   const count = await checkCountFeatureFunc(feature);
   const num = Math.ceil(count / numOfTake);
-  const paths = [...Array(num)].map(
-    (_, i) => `/feature/sutudentDiscount/${i + 1}`
+  const men = [...Array(num)].map((_, i) => `/men/feature/${feature}/${i + 1}`);
+  const lady = [...Array(num)].map(
+    (_, i) => `/lady/feature/${feature}/${i + 1}`
   );
+  const paths = men.concat(lady);
   return { paths: paths, fallback: false };
 };
 
-export const getStaticProps: GetStaticProps<ClinicPageProps> = async ({
-  params,
-}) => {
+export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
+  const gender = params ? (params.gender as string) : "lady";
   const num = params ? Number(params.page) : 0;
   const { clinics, page, maxData, twitter, instagram } =
     await getClinicPagesDataForFeature(feature, num);
@@ -42,16 +47,18 @@ export const getStaticProps: GetStaticProps<ClinicPageProps> = async ({
       maxData,
       twitter,
       instagram,
+      gender,
     },
   };
 };
 
-const SutudentDiscountFeature: NextPage<ClinicPageProps> = ({
+const PrivateRoomFeature: NextPage<Props> = ({
   clinics,
   page,
   maxData,
   twitter,
   instagram,
+  gender,
 }) => {
   const router = useRouter();
 
@@ -59,10 +66,10 @@ const SutudentDiscountFeature: NextPage<ClinicPageProps> = ({
   return (
     <>
       <Head>
-        <title>学生料金のあるクリニック | 脱毛コンサルタント</title>
+        <title>完全個室のあるクリニック | 脱毛コンサルタント</title>
         <meta
           name="description"
-          content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」からおすすめする学生料金のあるクリニックです。学割などをご希望の方にておすすめです。"
+          content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」からおすすめする完全個室のあるクリニックです。VIOなどで気にされる方におすすめです。"
         />
       </Head>
       <ClinicListTemplate
@@ -73,9 +80,11 @@ const SutudentDiscountFeature: NextPage<ClinicPageProps> = ({
         page={page}
         twitter={twitter}
         instagram={instagram}
-        getPage={(page) => router.push(`/feature/sutudentDiscount/${page + 1}`)}
+        getPage={(page) =>
+          router.push(`/${gender}/feature/privateRoom/${page + 1}`)
+        }
       />
     </>
   );
 };
-export default SutudentDiscountFeature;
+export default PrivateRoomFeature;

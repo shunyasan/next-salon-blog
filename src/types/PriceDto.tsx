@@ -20,7 +20,4 @@ import { RelationClinic } from "./RelationClinic";
 //   };
 export type PriceDto = Price & {
   clinic: RelationClinic;
-  parts: Parts & {
-    baseParts: BaseParts_Parts[];
-  };
 };

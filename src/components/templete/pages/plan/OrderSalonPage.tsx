@@ -3,6 +3,7 @@ import { Box, Center, Link, Flex, HStack, Text } from "@chakra-ui/layout";
 import { CompleteBadge } from "components/atoms/badge/CompleteBadge";
 import { useRouter } from "next/router";
 import React, { FC, ReactNode, useEffect, useState } from "react";
+import { Gender } from "types/Gender";
 import style from "../../../../../styles/Home.module.css";
 
 type Props = {
@@ -14,6 +15,8 @@ type Props = {
 
 const OrderSalonPage: FC<Props> = (props) => {
   const { showPage, children } = props;
+  const router = useRouter();
+  const gender = router.query.gender as Gender;
 
   // const router = useRouter();
 
@@ -61,7 +64,7 @@ const OrderSalonPage: FC<Props> = (props) => {
         </Button> */}
         <Link
           fontWeight={"bold"}
-          href="/plan"
+          href={`/${gender}/plan`}
           color={"originGold"}
           textDecoration="underline"
         >

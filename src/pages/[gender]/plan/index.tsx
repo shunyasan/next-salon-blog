@@ -10,7 +10,7 @@ import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
 import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import InstagramBox from "components/InstagramBox";
 import { PlanSearchBox } from "components/organisms/box/PlanSearchBox";
-import { GetStaticProps, NextPage } from "next";
+import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -26,7 +26,8 @@ import useSWR from "swr";
 import { OrderPlanIdName } from "types/OrderPlanIdName";
 
 import { IdAndNameDto } from "types/IdAndNameDto";
-import style from "../../../styles/Home.module.css";
+import style from "../../../../styles/Home.module.css";
+import { Gender } from "types/Gender";
 
 type Props = {
   // originCategories: OriginCategory[];
@@ -38,6 +39,13 @@ type Props = {
 
 const { defaultOrderPlanIdName } = defaultData();
 const { getInstagramRamdom } = InstagramRepository();
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const arr: Gender[] = ["men", "lady"];
+  const paths = arr.map((ge) => `/${ge}/plan`);
+  return { paths: paths, fallback: false };
+};
+
 export const getStaticProps: GetStaticProps<Props> = async (context) => {
   // const originCategories =
   //   await originCategoryRepository.getAllOriginCategory();
@@ -72,49 +80,6 @@ const SearchSalon: NextPage<Props> = (props) => {
   } = props;
   const router = useRouter();
 
-  const [change, setChange] = useState<string>(style.fade);
-  // const [loading, setLoading] = useState<boolean>(false);
-  // const [gender, setGender] = useState<string>("女性");
-  //配列番号を所持
-  // const [orderPlanIdName, setOrderPlanIdName] =
-  //   useState<OrderPlanIdName>(defaultOrderData);
-  // const [originId, setOriginId] = useState<string>(originCategories[0].id);
-  // const [aboutId, setAboutId] = useState<string>(aboutCategoryData[0].id);
-
-  // // 次ボタン　パラメーター
-  // const selectParamsData = (query: string) => {
-  //   // createPageQuery(query, page);
-  //   // setPrevParamsData(decode);
-  //   setChange(style.slide);
-  //   const queryString = createQueryString(router.query);
-  //   const decode = decodeURI(queryString);
-  //   const createParams = `${decode}${query}`;
-  //   const encode = encodeURI(createParams);
-  //   // setShowPage(page || 0);
-
-  //   router.push({
-  //     pathname: "/plan/self",
-  //     search: encode,
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   aboutCategories && setAboutId(aboutCategories[0].id);
-  // }, [aboutCategories]);
-
-  // if (!originCategories || !aboutCategories || !baseParts)
-  // return <LoadingModalIcon />;
-
-  // useEffect(() => {
-  //   setLoading(false);
-  //   router.events.on("routeChangeStart", () => {
-  //     setLoading(true);
-  //   });
-  //   router.events.on("routeChangeComplete", () => {
-  //     setLoading(false);
-  //   });
-  // }, [router]);
-
   return (
     <>
       <Head>
@@ -136,7 +101,7 @@ const SearchSalon: NextPage<Props> = (props) => {
         <Flex mt="2rem" justifyContent={"space-around"} wrap="wrap">
           {instagram.map((data, i) => (
             <Box key={i} w={{ md: "45%", sm: "95%" }}>
-              <InstagramBox account={data.code} />
+              <InstagramBox instagram={data} />
             </Box>
           ))}
         </Flex>

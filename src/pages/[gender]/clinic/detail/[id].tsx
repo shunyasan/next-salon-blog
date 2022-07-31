@@ -9,24 +9,15 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { AboutCategory, Clinic, ClinicOpeningHours } from "@prisma/client";
-import ClinicTemplate from "components/templete/pages/clinic/ClinicTemplate";
+import { Clinic } from "@prisma/client";
 import { ClinicDetailCard } from "components/organisms/board/ClinicDetailCard";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import useSWR from "swr";
-import { IdAndNameDto } from "types/IdAndNameDto";
-import { useCallback, useEffect, useState } from "react";
-import { OriginCategiryId } from "enums/OriginCategiryIdEnum";
-import fetcher from "services/common/fetcher";
+import { useState } from "react";
 import Head from "next/head";
-import { Layout } from "components/templete/lauouts/Layout";
 import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
 import { ChangeBgTab } from "components/atoms/tab/ChangeBgTab";
 import { RelationClinic } from "types/RelationClinic";
-import {
-  clinicRepository,
-  originCategoryRepository,
-} from "services/common/repository";
+import { clinicRepository } from "services/common/repository";
 
 type Props = {
   clinicData: RelationClinic;
@@ -36,7 +27,10 @@ type Props = {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const datas: Clinic[] = await clinicRepository.getAll();
-  const paths = datas.map((data) => `/clinic/detail/${data.id}`);
+  const men = datas.map((data) => `/men/clinic/detail/${data.id}`);
+  const lady = datas.map((data) => `/lady/clinic/detail/${data.id}`);
+  const paths = men.concat(lady);
+
   return { paths: paths, fallback: false };
 };
 
@@ -157,7 +151,7 @@ const ClinicDetail: NextPage<Props> = ({
             top="0"
             id="navTop"
             wrap={"wrap"}
-            zIndex={"200"}
+            zIndex={"100"}
           >
             {tab.map((data, i) => (
               <ChangeBgTab

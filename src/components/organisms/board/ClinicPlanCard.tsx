@@ -10,6 +10,8 @@ import { CategoryBox } from "../box/CategoryBox";
 import { SmallPlanCard } from "../box/SmallPlanCard";
 import { AboutCategory, Price } from "@prisma/client";
 import { OriginCategoryBox } from "../box/OriginCategoryBox";
+import { Gender } from "types/Gender";
+import { useRouter } from "next/router";
 
 type Props = {
   url: string;
@@ -32,8 +34,10 @@ export const ClinicPlanCard: FC<Props> = (props) => {
     // onClickGender,
   } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const router = useRouter();
+  const gender = (router.query.gender as Gender) || "lady";
 
-  const [gender, setGender] = useState<string>("女性");
+  // const [gender, setGender] = useState<Gender>("lady");
 
   const [origin, setOrigin] = useState<IdAndNameDto>({
     id: "Z000001",
@@ -104,13 +108,13 @@ export const ClinicPlanCard: FC<Props> = (props) => {
     return <LoadingIcon />;
   return (
     <Box mb={"2em"} textAlign="center">
-      <Box>
+      {/* <Box>
         <GenderPlateBox
           gender={gender}
           fontSize={{ md: "1.3rem", sm: "1rem" }}
-          onClick={(gender: string) => setGender(gender)}
+          onClick={(gender: Gender) => setGender(gender)}
         />
-      </Box>
+      </Box> */}
       <Flex
         mt="2rem"
         mx={"auto"}

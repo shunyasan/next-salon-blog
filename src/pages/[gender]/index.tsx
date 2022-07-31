@@ -1,26 +1,37 @@
 import { Box, Flex, HStack, Link, Stack, Text } from "@chakra-ui/react";
 import axios from "axios";
 import { HomeSearchBoxList } from "components/organisms/lists/HomeSearchBoxList";
-import type { GetStaticProps, NextPage } from "next";
+import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { TopResource } from "../../resorces/TopResource";
+import { FC, useState } from "react";
+import fetcher from "services/common/fetcher";
+import { resourcesData } from "services/common/resourcesData";
+import useSWR, { SWRConfig } from "swr";
+import { FeatureDto } from "types/FeatureDto";
 import { UnderLineText } from "components/atoms/text/UnderLineText";
+import { Layout } from "components/templete/lauouts/Layout";
+// import Twitter from "components/Twitter";
+// import { tweet } from "services/tweet";
+import { CopyrightImageBox } from "components/molecules/box/CopyrightImageBox";
 import InstagramBox from "components/InstagramBox";
 import { Clinic, Instagram, Twitter } from "@prisma/client";
 import TwitterBox from "components/TwitterBox";
+import StreetView from "components/StreetView";
+import { featureDtoRepository } from "services/repository/featureDtoRepository";
 import { InstagramRepository } from "services/repository/InstagramRepository";
 import { twitterRepository } from "services/repository/twitterRepository";
+import { featureViewDataService } from "services/featureViewDataService";
 import Image from "next/image";
 import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
+import { FeatureViewData } from "types/FeatureViewData";
+import { TopResource } from "../../../resorces/TopResource";
 import { Gender } from "types/Gender";
-import { ImageBox } from "components/molecules/box/ImageBox";
-import style from "../../styles/Home.module.css";
 
 type Props = {
   // data: FeatureViewData[];
-  // imgs: string[];
-  // feature: FeatureViewData[];
+  imgs: string[];
+  feature: FeatureViewData[];
   topImg: string;
   twitter: Twitter[];
   instagram: Instagram[];
@@ -28,21 +39,32 @@ type Props = {
 
 const { getTwittersRamdom } = twitterRepository();
 const { getInstagramRamdom } = InstagramRepository();
+const { getAllFeature } = featureDtoRepository();
+const { getFeatureString } = featureViewDataService();
+const { getRandomImg } = resourcesData();
 
-// const getAllFeatureFunc = async () => {
-//   const data: FeatureDto = await getAllFeature();
-//   return getFeatureString(data);
-// };
+const getAllFeatureFunc = async () => {
+  const data: FeatureDto = await getAllFeature();
+  return getFeatureString(data);
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const arr: Gender[] = ["men", "lady"];
+  const paths = arr.map((ge) => `/${ge}`);
+  return { paths: paths, fallback: false };
+};
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  // const feature = await getAllFeatureFunc();
+  const feature = await getAllFeatureFunc();
   // const imgs = getRandomImg();
-  // const imgs = [...Array(10)].map((_, i) => getRandomImg());
+  const imgs = [...Array(10)].map((_, i) => getRandomImg());
   const topImg = TopResource.topImg;
   const twitter = await getTwittersRamdom(3);
   const instagram = await getInstagramRamdom(4);
   return {
     props: {
+      feature,
+      imgs,
       topImg,
       twitter,
       instagram,
@@ -51,8 +73,8 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 };
 
 const Home: NextPage<Props> = ({
-  // imgs,
-  // feature,
+  imgs,
+  feature,
   topImg,
   twitter,
   instagram,
@@ -105,6 +127,22 @@ const Home: NextPage<Props> = ({
           />
         </Box>
       </Flex>
+      {/* <Box w={{ md: "80%", sm: "95%" }} mx="auto"> */}
+      {/* <Box w={"80%"} mt={"4rem"} mx={"auto"}>
+          <Flex wrap={"wrap"} justifyContent={"center"} alignItems={"center"}>
+            <Stack
+              p={{ md: "1rem", sm: "1rem 0" }}
+              spacing={"1rem"}
+              fontSize={"0.9rem"}
+            >
+              <Text>度々生じてしまうトラブルやアンマッチ。</Text>
+              <Text>
+                決して安くはない経験だからこそ、あなたのための正しい脱毛を。
+              </Text>
+              <Text textAlign={"center"}></Text>
+            </Stack>
+          </Flex>
+        </Box> */}
       <Stack
         w={{ md: "80%", sm: "95%" }}
         spacing={{ md: "3em", sm: "2em" }}
@@ -155,14 +193,76 @@ const Home: NextPage<Props> = ({
         mx="auto"
         mt={{ md: "2em", sm: "1.5em" }}
       >
-        <Flex justifyContent={"space-around"} wrap="wrap">
-          <Box w={{ md: "45%", sm: "95%" }}>
-            <InstagramBox instagram={instagram[0]} />
+        {feature.map((feature, i) => (
+          <Box key={feature.path}>
+            <Box>
+              <Box mb={"0.2em"} ml="1rem" alignItems={"center"}>
+                <Text fontSize={"1.2rem"} fontWeight={"bold"}>
+                  {feature.title}
+                </Text>
+                <Text
+                  as="a"
+                  href={feature.path}
+                  color={"originGold"}
+                  fontSize={".8em"}
+                >
+                  すべての一覧
+                </Text>
+              </Box>
+              <Flex
+                // w={"40rem"}
+                // spacing={"1em"}
+                wrap={"nowrap"}
+                overflowX={"scroll"}
+                // py="1em"
+              >
+                {feature.datas.map((data, i) => (
+                  <Box
+                    key={data.id + i}
+                    minW={"15rem"}
+                    h={"18rem"}
+                    shadow="xl"
+                    cursor="pointer"
+                    onClick={() =>
+                      router.push(`/${gender}/clinic/detail/${data.id}`)
+                    }
+                    m=".5em"
+                  >
+                    <CopyrightImageBox
+                      width={"15rem"}
+                      height={"8rem"}
+                      src={imgs[i]}
+                      picture={data.picture[0]}
+                      // src={TopResource.clinicImg}
+                      fontSize={{ md: "0.4em", sm: ".7em" }}
+                    />
+                    <Stack p={{ md: "1em", sm: ".5em" }}>
+                      <Text
+                        fontWeight={"bold"}
+                        fontSize={{ md: "0.8em", sm: "0.7em" }}
+                      >
+                        {data.name}
+                      </Text>
+                      <Text pt={"0.6em"} fontSize={"0.6em"}>
+                        {data.nearestStation}
+                      </Text>
+                    </Stack>
+                  </Box>
+                ))}
+              </Flex>
+            </Box>
+            {i === 2 && (
+              <Flex justifyContent={"space-around"} wrap="wrap">
+                <Box w={{ md: "45%", sm: "95%" }}>
+                  <InstagramBox instagram={instagram[0]} />
+                </Box>
+                <Box w={{ md: "45%", sm: "95%" }}>
+                  <InstagramBox instagram={instagram[1]} />
+                </Box>
+              </Flex>
+            )}
           </Box>
-          <Box w={{ md: "45%", sm: "95%" }}>
-            <InstagramBox instagram={instagram[1]} />
-          </Box>
-        </Flex>
+        ))}
         <Flex justifyContent={"space-around"} wrap="wrap">
           <Box w={{ md: "45%", sm: "95%" }}>
             <InstagramBox instagram={instagram[2]} />
@@ -172,50 +272,6 @@ const Home: NextPage<Props> = ({
           </Box>
         </Flex>
       </Stack>
-      <Box
-        width="100%"
-        height="100%"
-        position="fixed"
-        top="0"
-        left="0"
-        // onClick={onClose}
-        zIndex="100"
-        bg="rgba(30,30,30,0.5)"
-        className={style.fade}
-      >
-        <Box
-          py="2em"
-          px={{ md: "3rem", sm: "1.5rem" }}
-          bg="originWhite"
-          w={{ md: "70%", sm: "95%" }}
-          mx="auto"
-          my="2rem"
-          textAlign={"center"}
-          borderRadius={"sm"}
-        >
-          <Text fontWeight={"bold"}>あなたの性別を選択してください</Text>
-          <Box>
-            <Flex justifyContent={"center"}>
-              <ImageBox
-                img={
-                  "https://d4lnyw05kel00.cloudfront.net/image/lady/lady.webp"
-                }
-                text={"女性"}
-                path={"/lady"}
-                width={"13em"}
-              />
-            </Flex>
-            <Flex justifyContent={"center"}>
-              <ImageBox
-                img={"https://d4lnyw05kel00.cloudfront.net/image/men/men.webp"}
-                text={"男性"}
-                path={"/men"}
-                width={"13em"}
-              />
-            </Flex>
-          </Box>
-        </Box>
-      </Box>
       {/* <Adsense /> */}
     </Box>
   );

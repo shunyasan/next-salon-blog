@@ -15,16 +15,6 @@ export const SmallPlanCard: FC<Props> = (props) => {
   const { price, url, options } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const checkGender = useCallback(() => {
-    switch (price.gender) {
-      case 2:
-        return "男性";
-      case 3:
-        return "男性・女性";
-      default:
-        return "女性";
-    }
-  }, [price]);
   return (
     <>
       <HStack

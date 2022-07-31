@@ -1,4 +1,5 @@
 import { ParsedUrlQuery } from "querystring";
+import { Gender } from "types/Gender";
 import { OrderPlanIdName } from "types/OrderPlanIdName";
 import { OrderPlanQuery } from "types/OrderPlanQuery";
 import { defaultData } from "./common/defaultData";
@@ -10,7 +11,7 @@ export const OrderPlanQueryService = () => {
     const data = defaultOrderPlanIdName;
 
     const orderPlan: OrderPlanQuery = {
-      gender: checkEmptyData(query.gender) || data.gender.id,
+      gender: checkGenderData(query.gender) || data.gender.id,
       // paySystem: checkEmptyData(query.paySystem) || data.paySystem.id,
       originParts: checkEmptyData(query.originParts) || data.originParts.id,
       aboutCategory:
@@ -55,6 +56,11 @@ export const OrderPlanQueryService = () => {
   const checkEmptyData = (val?: string | string[]) => {
     const data = val as string;
     return data && data !== "" ? data : undefined;
+  };
+
+  const checkGenderData = (val?: string | string[]) => {
+    const data = val as Gender;
+    return data;
   };
 
   const createParameter = (idName: OrderPlanIdName) => {

@@ -12,6 +12,7 @@ import { MdClose } from "react-icons/md";
 import fetcher from "services/common/fetcher";
 
 import useSWR from "swr";
+import { Gender } from "types/Gender";
 
 import { IdAndNameDto } from "types/IdAndNameDto";
 
@@ -33,8 +34,9 @@ type Props = {
 const TreatmentPartsBox: FC<Props> = (props) => {
   const { onClick, isOpen, onClose } = props;
   const router = useRouter();
+  const gender = (router.query.gender as Gender) || "lady";
 
-  const [gender, setGender] = useState<string>("女性");
+  // const [gender, setGender] = useState<Gender>("lady");
   //配列番号を所持
   const [origin, setOrigin] = useState<IdAndNameDto>({
     // id: originCategories[0].id,
@@ -125,13 +127,13 @@ const TreatmentPartsBox: FC<Props> = (props) => {
         </Box>
         <Box mb={"2em"} textAlign="center">
           <Text mb="2em">希望する部位を選択してください</Text>
-          <Box>
+          {/* <Box>
             <GenderPlateBox
               gender={gender}
               fontSize={{ md: "1.3rem", sm: "1rem" }}
-              onClick={(gender: string) => setGender(gender)}
+              onClick={(gender: Gender) => setGender(gender)}
             />
-          </Box>
+          </Box> */}
           <Flex
             mt="2rem"
             mx={"auto"}

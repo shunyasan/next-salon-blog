@@ -22,8 +22,8 @@ export const priceDtoRepository = () => {
   };
 
   const beforeGetPrices = async (orderPlan: OrderPlanQuery) => {
-    const excludeGender: number = orderPlan.gender === "男性" ? 1 : 2;
-    const excludeStaff: number = orderPlan.staff === "男性" ? 1 : 2;
+    const excludeGender: number = orderPlan.gender === "men" ? 1 : 2;
+    const excludeStaff: number = orderPlan.staff === "men" ? 1 : 2;
 
     const machines = await getIdfindBySkinColorAndHairType(
       orderPlan.skinCollor,
@@ -74,14 +74,18 @@ export const priceDtoRepository = () => {
             },
           },
         },
-        parts: {
-          include: {
-            baseParts: true,
-          },
-        },
       },
       where: {
-        partsId: checkEmptyData(orderPlan.parts),
+        gender: {
+          not: excludeGender || undefined,
+        },
+        parts: {
+          baseParts: {
+            some: {
+              basePartsId: checkEmptyData(orderPlan.parts),
+            },
+          },
+        },
         clinic: {
           id: {
             in: options,
@@ -113,7 +117,9 @@ export const priceDtoRepository = () => {
 
     const ans = await prisma.price.count({
       where: {
-        partsId: checkEmptyData(orderPlan.parts),
+        gender: {
+          not: excludeGender || undefined,
+        },
         clinic: {
           id: {
             in: options,
@@ -136,6 +142,13 @@ export const priceDtoRepository = () => {
               }
             : undefined,
         },
+        parts: {
+          baseParts: {
+            some: {
+              basePartsId: checkEmptyData(orderPlan.parts),
+            },
+          },
+        },
       },
     });
 
@@ -148,7 +161,7 @@ export const priceDtoRepository = () => {
     gender: string
   ) => {
     // const table = await aboutCategoryRepository.getPriceTableName(aboutId);
-    const excludeGender = gender === "男性" ? 1 : 2;
+    const excludeGender = gender === "men" ? 1 : 2;
 
     const price = await prisma.price.findMany({
       where: {

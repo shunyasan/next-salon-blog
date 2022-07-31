@@ -36,9 +36,11 @@ import { TitleValue } from "types/TitleValue";
 import { resourcesData } from "services/common/resourcesData";
 import { RelationClinic } from "types/RelationClinic";
 import { TopResource } from "../../../../resorces/TopResource";
+import { Gender } from "types/Gender";
 
 type Props = {
   clinic: RelationClinic;
+  genderParam: Gender;
   children?: ReactNode;
 };
 
@@ -46,7 +48,7 @@ const img = TopResource.clinicImg1;
 const { getRandomImg } = resourcesData();
 
 export const PlanCard: FC<Props> = (props) => {
-  const { clinic, children } = props;
+  const { clinic, children, genderParam } = props;
   const router = useRouter();
   // const { getPriceByClinicId } = PriceApi();
   // const { getRandomImg } = SearchSalonHooks();
@@ -252,7 +254,9 @@ export const PlanCard: FC<Props> = (props) => {
                 mx={"1.5rem"}
                 size={"lg"}
                 variant="secBase"
-                onClick={() => router.push(`/clinic/detail/${clinic.id}`)}
+                onClick={() =>
+                  router.push(`/${genderParam}/clinic/detail/${clinic.id}`)
+                }
               >
                 詳細
               </Button>

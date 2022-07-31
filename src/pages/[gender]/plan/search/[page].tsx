@@ -34,6 +34,7 @@ import { twitterRepository } from "services/repository/twitterRepository";
 import { priceDtoRepository } from "services/repository/priceDtoRepository";
 import { titleValueService } from "services/titleValueService";
 import { orderPlanIdNameRepository } from "services/repository/orderPlanIdNameRepository";
+import { Gender } from "types/Gender";
 
 const numOfTakeData = 10;
 
@@ -47,6 +48,7 @@ type Props = {
   condition: TitleValue[];
   twitter: Twitter[];
   instagram: Instagram[];
+  gender: Gender;
   // allParts: {
   //   originCategories: OriginCategory[];
   //   aboutCategories: AboutCategory[];
@@ -69,13 +71,15 @@ const createTitle = (idName: OrderPlanIdName) => {
   return res;
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async (
-  context
-) => {
+export const getServerSideProps: GetServerSideProps<Props> = async ({
+  params,
+  query,
+}) => {
   //クエリ作成
-  const num = context.params ? Number(context.params.page) : 1;
+  const num = params ? Number(params.page) : 1;
+  const gender = params ? (params.gender as Gender) : "lady";
   const page = num - 1 >= 0 ? num - 1 : 0;
-  const orderPlanQuery = getOrderPlanQuery(context.query);
+  const orderPlanQuery = getOrderPlanQuery(query);
 
   //データ取得
   const price = await getPriceOrderPlan(orderPlanQuery, {
@@ -103,6 +107,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
       // allParts,
       twitter,
       instagram,
+      gender,
     },
   };
 };
@@ -117,6 +122,7 @@ const SalonList: NextPage<Props> = (props) => {
     condition,
     twitter,
     instagram,
+    gender,
     // allParts,
   } = props;
 
@@ -126,16 +132,19 @@ const SalonList: NextPage<Props> = (props) => {
   const onChangeSort = (idName: IdAndNameDto) => {
     orderDataIdName.sort = idName;
     const query = createParameter(orderDataIdName);
-    router.push({ pathname: `/plan/search/${page + 1}`, query: query });
+    router.push({
+      pathname: `/${gender}/plan/search/${page + 1}`,
+      query: query,
+    });
   };
 
-  const getPageNumber = useCallback(
-    async (page: number, block?: number) => {
-      const query = router.query;
-      router.push({ pathname: `/plan/search/${page + 1}`, query: query });
-    },
-    [router]
-  );
+  const getPageNumber = async (page: number, block?: number) => {
+    const query = router.query;
+    router.push({
+      pathname: `/${gender}/plan/search/${page + 1}`,
+      query: query,
+    });
+  };
 
   // useEffect(() => {
   //   setLoading(false);
@@ -261,12 +270,7 @@ const SalonList: NextPage<Props> = (props) => {
               <UnderLineItemBox title="最新情報" fontSize="1em">
                 <Stack spacing={"3rem"}>
                   {twitter.map((account, i) => (
-                    <TwitterBox
-                      key={i}
-                      account={account.code}
-                      clinicId={account.clinicId}
-                      height="500px"
-                    />
+                    <TwitterBox key={i} twitter={account} height="500px" />
                   ))}
                 </Stack>
               </UnderLineItemBox>
@@ -274,7 +278,7 @@ const SalonList: NextPage<Props> = (props) => {
                 <UnderLineItemBox title="キャンペーン・おすすめ" fontSize="1em">
                   <Stack mt="1em">
                     {instagram.map((data, i) => (
-                      <InstagramBox key={i} account={data.code} />
+                      <InstagramBox key={i} instagram={data} />
                     ))}
                   </Stack>
                 </UnderLineItemBox>

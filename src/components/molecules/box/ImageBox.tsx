@@ -5,17 +5,20 @@ import { FC, useState, VFC } from "react";
 import { HomeFeatureText } from "types/HomeFeatureText";
 
 type Props = {
-  homeFeature: HomeFeatureText;
-  width: { md: string; sm: string };
-  height?: { md: string; sm: string };
+  img: string;
+  text: string;
+  description?: string;
+  path: string;
+  width: string | { md: string; sm: string };
+  height?: string | { md: string; sm: string };
   // textHeight: string;
 };
 export const ImageBox: FC<Props> = (props) => {
-  const { homeFeature, width, height } = props;
+  const { img, text, description, path, width, height } = props;
   const router = useRouter();
 
   const pushLink = () => {
-    router.push(homeFeature.path);
+    router.push(path);
   };
 
   return (
@@ -30,11 +33,11 @@ export const ImageBox: FC<Props> = (props) => {
       _hover={{ shadow: "none" }}
       onClick={pushLink}
     >
-      <Box w={width} h={{ md: "11em", sm: "6em" }}>
+      <Box w={width}>
         <Image
           layout="responsive"
           objectFit={"cover"}
-          src={homeFeature.img}
+          src={img}
           alt="イメージ画像"
           width="100%"
           height="80%"
@@ -54,21 +57,25 @@ export const ImageBox: FC<Props> = (props) => {
           justifyContent={"center"}
           fontSize={{ md: "1em", sm: ".8em" }}
         >
-          {homeFeature.text}
+          {text}
         </Flex>
-        <Box
-          display={{ md: "block", sm: "none" }}
-          borderBottom={"1px"}
-          borderColor={"#bbb"}
-        ></Box>
-        <Text
-          display={{ md: "inline-block", sm: "none" }}
-          fontSize={"0.7em"}
-          h={height}
-          textAlign={"left"}
-        >
-          {homeFeature.description}
-        </Text>
+        {description && (
+          <>
+            <Box
+              display={{ md: "block", sm: "none" }}
+              borderBottom={"1px"}
+              borderColor={"#bbb"}
+            ></Box>
+            <Text
+              display={{ md: "inline-block", sm: "none" }}
+              fontSize={"0.7em"}
+              h={height}
+              textAlign={"left"}
+            >
+              {description}
+            </Text>
+          </>
+        )}
       </Stack>
     </Box>
   );

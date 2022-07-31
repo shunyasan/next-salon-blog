@@ -10,6 +10,8 @@ import {
   Link,
   Stack,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { Gender } from "types/Gender";
 
 type Props = {
   isOpen: boolean;
@@ -19,6 +21,8 @@ type Props = {
 
 export const HeaderDrawer: FC<Props> = (props) => {
   const { isOpen, onClose, onClick } = props;
+  const router = useRouter();
+  const gender = router.query.gender as Gender;
 
   const datas = [
     {
@@ -62,7 +66,7 @@ export const HeaderDrawer: FC<Props> = (props) => {
                     px={"1.3rem"}
                     py={"0.1rem"}
                     cursor="pointer"
-                    href={`/${data.path}`}
+                    href={`/${gender}/${data.path}`}
                     _hover={{
                       transition: "0.5s",
                       backgroundColor: "rgba(220,220,220,0.2)",

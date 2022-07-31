@@ -13,6 +13,7 @@ import { OrderPlanQueryService } from "services/orderPlanQueryService";
 import { PlanHeadingBox } from "components/molecules/box/PlanHeadingBox";
 import { PlanSortSelect } from "components/atoms/select/PlanSortSelect";
 import { OptionConditionBox } from "./OptionConditionBox";
+import { Gender } from "types/Gender";
 
 type Props = {
   orderPlan: OrderPlanIdName;
@@ -36,7 +37,7 @@ export const PlanSearchBox: FC<Props> = (props) => {
       // resetPages();
       onClose && onClose();
       router.push({
-        pathname: "/plan/search/1",
+        pathname: `/${orderData.gender.id}/plan/search/1`,
         query: query,
       });
     }
@@ -51,18 +52,17 @@ export const PlanSearchBox: FC<Props> = (props) => {
             脱毛を考えている箇所について選択してください
           </Text>
           <Box mt=".7em">
-            <ConditionText
+            {/* <ConditionText
               title={OrderPlanTitle.gender}
               orderData={orderData.gender.id}
               texts={[
-                { id: "女性", text: "女性" },
-                { id: "男性", text: "男性" },
+                { id: "lady", text: "女性" },
+                { id: "men", text: "男性" },
               ]}
-              onClick={(name: string, id: string) =>
+              onClick={(name: string, id: Gender) =>
                 setOrderData({ ...orderData, gender: { id, name } })
               }
-            />
-
+            /> */}
             <ConditionPartsBox
               title="部位"
               orderPlan={orderData}
@@ -147,8 +147,8 @@ export const PlanSearchBox: FC<Props> = (props) => {
               orderData={orderData.staff.id}
               texts={[
                 { id: "none", text: "こだわらない" },
-                { id: "女性", text: "女性" },
-                { id: "男性", text: "男性" },
+                { id: "lady", text: "女性" },
+                { id: "men", text: "男性" },
               ]}
               onClick={(name: string, id: string) =>
                 setOrderData({ ...orderData, staff: { id, name } })

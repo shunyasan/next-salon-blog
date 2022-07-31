@@ -46,7 +46,7 @@ export class BasePartsRepository {
   }
 
   async getAllBasePartsByAboutCategoryId(id: string, genderParam?: string) {
-    const genderNum = genderParam && genderParam === "男性" ? 1 : 2;
+    const genderNum = genderParam && genderParam === "men" ? 1 : 2;
     return await prisma.baseParts.findMany({
       where: genderParam
         ? {

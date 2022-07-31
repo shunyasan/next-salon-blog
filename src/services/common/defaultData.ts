@@ -2,7 +2,7 @@ import { OrderPlanIdName } from "types/OrderPlanIdName";
 
 export const defaultData = () => {
   const defaultOrderPlanIdName: OrderPlanIdName = {
-    gender: { id: "女性", name: "女性" },
+    gender: { id: "lady", name: "女性" },
     // paySystem: { id: "総額", name: "総額" },
     originParts: { id: "Z000001", name: "顔" },
     aboutCategory: { id: "A000003", name: "顔セット" },

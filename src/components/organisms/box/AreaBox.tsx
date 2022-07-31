@@ -8,7 +8,6 @@ type Props = {
   onClick: () => void;
   fontSize: string;
   // getId: (id: string) => void;
-  // 1:女性 2:男性
 };
 export const AreaBox: FC<Props> = (props) => {
   const { area, arrow, description, onClick, fontSize } = props;

@@ -2,16 +2,16 @@ import { Box, Button, Text } from "@chakra-ui/react";
 import { AboutCategory } from "@prisma/client";
 import Image from "next/image";
 import { FC, memo, VFC } from "react";
+import { Gender } from "types/Gender";
 
 type Props = {
   category: AboutCategory;
-  gender: string;
+  gender: Gender;
   width: { md: string; sm: string };
   arrow: boolean;
   onClick: () => void;
   search?: () => void;
   // getId: (id: string) => void;
-  // 1:女性 2:男性
 };
 export const CategoryBox: FC<Props> = (props) => {
   const { category, gender, width, arrow, onClick, search } = props;
@@ -37,7 +37,7 @@ export const CategoryBox: FC<Props> = (props) => {
           layout="responsive"
           objectFit="contain"
           alt={"部位"}
-          src={gender === "男性" ? category.imgUrlMen : category.imgUrlLady}
+          src={gender === "men" ? category.imgUrlMen : category.imgUrlLady}
         />
       </Box>
       <Text py={"0.7rem"} fontSize={{ md: "1em", sm: "0.8em" }}>
