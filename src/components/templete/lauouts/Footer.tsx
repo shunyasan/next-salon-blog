@@ -6,7 +6,7 @@ import { Gender } from "types/Gender";
 
 export const Footer: FC = () => {
   const router = useRouter();
-  const gender = router.query.gender as Gender;
+  const gender = (router.query.gender as Gender) || "lady";
 
   const datas = [
     {

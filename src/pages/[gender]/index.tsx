@@ -80,7 +80,7 @@ const Home: NextPage<Props> = ({
   instagram,
 }) => {
   const router = useRouter();
-  const gender = router.query.gender as Gender;
+  const gender = (router.query.gender as Gender) || "lady";
 
   return (
     <Box>
@@ -202,7 +202,7 @@ const Home: NextPage<Props> = ({
                 </Text>
                 <Text
                   as="a"
-                  href={feature.path}
+                  href={`/${gender}/${feature.path}`}
                   color={"originGold"}
                   fontSize={".8em"}
                 >

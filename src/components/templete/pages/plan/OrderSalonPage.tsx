@@ -16,7 +16,7 @@ type Props = {
 const OrderSalonPage: FC<Props> = (props) => {
   const { showPage, children } = props;
   const router = useRouter();
-  const gender = router.query.gender as Gender;
+  const gender = (router.query.gender as Gender) || "lady";
 
   // const router = useRouter();
 

@@ -42,7 +42,7 @@ export const Header: FC<Props> = (props) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
-  const gender = router.query.gender as Gender;
+  const gender = (router.query.gender as Gender) || "lady";
 
   const datas = [
     {

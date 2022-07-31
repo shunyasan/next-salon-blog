@@ -69,7 +69,7 @@ const ClinicListTemplate: FC<Props> = ({
   getPage,
 }) => {
   const router = useRouter();
-  const gender = router.query.gender as Gender;
+  const gender = (router.query.gender as Gender) || "lady";
 
   if (!clinics) return <LoadingModalIcon />;
   return (
