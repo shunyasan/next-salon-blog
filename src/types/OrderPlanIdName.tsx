@@ -5,7 +5,7 @@ import { IdAndNameDto } from "./IdAndNameDto";
 // name: 表示用の文字列
 export type OrderPlanIdName = {
   gender: { id: Gender; name: string };
-  // paySystem: IdAndNameDto;
+  area: IdAndNameDto;
   originParts: IdAndNameDto;
   aboutCategory: IdAndNameDto;
   parts: IdAndNameDto;

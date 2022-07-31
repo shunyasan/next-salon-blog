@@ -219,8 +219,6 @@ const Home: NextPage<Props> = ({
                 {feature.datas.map((data, i) => (
                   <Box
                     key={data.id + i}
-                    // minW={"15rem"}
-                    // h={"18rem"}
                     shadow="xl"
                     cursor="pointer"
                     onClick={() =>

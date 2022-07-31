@@ -1,6 +1,6 @@
 export enum OrderPlanTitle {
   gender = "性別",
-  paySystem = "重視する料金体系",
+  area = "地域",
   originCategory = "カテゴリ",
   aboutCategory = "範囲",
   parts = "部位",

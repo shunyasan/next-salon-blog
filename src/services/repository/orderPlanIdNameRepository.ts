@@ -16,6 +16,24 @@ export const orderPlanIdNameRepository = () => {
     return val;
   };
 
+  const checkGenderString = (value: string) => {
+    switch (value) {
+      case "men":
+        return "男性";
+      default:
+        return "女性";
+    }
+  };
+
+  const checkAreaString = (value: string) => {
+    switch (value) {
+      case "AC000003":
+        return "渋谷区";
+      default:
+        return "渋谷区";
+    }
+  };
+
   const checkSortString = (value: string) => {
     switch (value) {
       case "price_asc":
@@ -60,12 +78,12 @@ export const orderPlanIdNameRepository = () => {
     const data: OrderPlanIdName = {
       gender: {
         id: orderParams.gender,
-        name: checkNoneString(orderParams.gender),
+        name: checkGenderString(orderParams.gender),
       },
-      // paySystem: {
-      //   id: orderParams.paySystem,
-      //   name: checkNoneString(orderParams.paySystem),
-      // },
+      area: {
+        id: orderParams.area,
+        name: checkAreaString(orderParams.area),
+      },
       originParts: {
         id: orderParams.originParts,
         name: originCategory || "",

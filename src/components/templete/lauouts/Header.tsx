@@ -155,6 +155,7 @@ export const Header: FC<Props> = (props) => {
                 display={{ md: "flex", sm: "none" }}
                 mr="1.5em"
               >
+                <SelextGenderBox />
                 {profiles.map((data, i) => (
                   <Box
                     key={i}
@@ -166,7 +167,7 @@ export const Header: FC<Props> = (props) => {
                       transition: "0.5s",
                       backgroundColor: "rgba(220,220,220,0.2)",
                     }}
-                    href={`/${data.path}`}
+                    href={`/${gender}/${data.path}`}
                     // onClick={() => onClickPush(data.path)}
                   >
                     {data.text}
@@ -241,7 +242,7 @@ export const Header: FC<Props> = (props) => {
                   px={"1.3rem"}
                   py={"0.1rem"}
                   cursor="pointer"
-                  href={`/${data.path}`}
+                  href={`/${gender}/${data.path}`}
                   // onClick={() => onClickTransition(data.path)}
                   _hover={{
                     transition: "0.5s",

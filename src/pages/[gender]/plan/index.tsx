@@ -1,12 +1,5 @@
 import { Button, Flex, Box } from "@chakra-ui/react";
-import {
-  AboutCategory,
-  BaseParts,
-  Clinic,
-  Instagram,
-  OriginCategory,
-} from "@prisma/client";
-import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
+import { Instagram } from "@prisma/client";
 import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import InstagramBox from "components/InstagramBox";
 import { PlanSearchBox } from "components/organisms/box/PlanSearchBox";
@@ -15,18 +8,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { defaultData } from "services/common/defaultData";
-import fetcher from "services/common/fetcher";
 import { InstagramRepository } from "services/repository/InstagramRepository";
-import {
-  aboutCategoryRepository,
-  basePartsRepository,
-  originCategoryRepository,
-} from "services/common/repository";
-import useSWR from "swr";
 import { OrderPlanIdName } from "types/OrderPlanIdName";
-
-import { IdAndNameDto } from "types/IdAndNameDto";
-import style from "../../../../styles/Home.module.css";
 import { Gender } from "types/Gender";
 
 type Props = {

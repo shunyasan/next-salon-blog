@@ -12,7 +12,7 @@ export const OrderPlanQueryService = () => {
 
     const orderPlan: OrderPlanQuery = {
       gender: checkGenderData(query.gender) || data.gender.id,
-      // paySystem: checkEmptyData(query.paySystem) || data.paySystem.id,
+      area: checkEmptyData(query.area) || data.area.id,
       originParts: checkEmptyData(query.originParts) || data.originParts.id,
       aboutCategory:
         checkEmptyData(query.aboutCategory) || data.aboutCategory.id,
@@ -66,7 +66,7 @@ export const OrderPlanQueryService = () => {
   const createParameter = (idName: OrderPlanIdName) => {
     const data: OrderPlanQuery = {
       gender: idName.gender.id,
-      // paySystem: idName.paySystem.id,
+      area: idName.area.id,
       originParts: idName.originParts.id,
       aboutCategory: idName.aboutCategory.id,
       parts: idName.parts.id,

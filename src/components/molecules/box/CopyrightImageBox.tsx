@@ -26,8 +26,6 @@ export const CopyrightImageBox: FC<Props> = (props) => {
     >
       <Image
         src={picture?.url || src}
-        // height={height}
-        // width={width}
         layout="fill"
         objectFit={"contain"}
         alt="イメージ画像"

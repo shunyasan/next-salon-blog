@@ -36,7 +36,8 @@ export const SelextGenderBox: FC = () => {
       borderRadius={"sm"}
       borderColor={"originWhite"}
       w="3.5em"
-      py={".2em "}
+      py={".2em"}
+      cursor={"pointer"}
       onClick={() => changeGenderState()}
     >
       <Icon fontSize={"2.2em"} as={gender?.icon} />

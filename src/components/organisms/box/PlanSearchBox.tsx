@@ -14,6 +14,7 @@ import { PlanHeadingBox } from "components/molecules/box/PlanHeadingBox";
 import { PlanSortSelect } from "components/atoms/select/PlanSortSelect";
 import { OptionConditionBox } from "./OptionConditionBox";
 import { Gender } from "types/Gender";
+import { AreaCheckBox } from "components/molecules/checkBox/AreaCheckBox";
 
 type Props = {
   orderPlan: OrderPlanIdName;
@@ -46,6 +47,59 @@ export const PlanSearchBox: FC<Props> = (props) => {
   // 全ての要素をchildrenにしてコンポーネントをまとめる
   return (
     <Stack m={"auto"} textAlign={"center"} spacing={"3em"} fontSize={"0.9em"}>
+      <Box>
+        <UnderLineItemBox title="クリニック" fontSize="1.5em">
+          <Text fontSize={"1.2em"}>
+            どのようなクリニックで施術を受けたいか選択してください
+          </Text>
+          <Box mt=".7em">
+            <PlanHeadingBox title="地域">
+              <AreaCheckBox
+                onChange={(idName: IdAndNameDto) =>
+                  setOrderData({ ...orderData, area: idName })
+                }
+              />
+            </PlanHeadingBox>
+            <ConditionText
+              title={OrderPlanTitle.roomType}
+              orderData={orderData.roomType.id}
+              texts={[
+                { id: "none", text: "こだわらない" },
+                { id: "個室", text: "個室" },
+                { id: "完全個室", text: "完全個室" },
+              ]}
+              onClick={(name: string, id: string) =>
+                setOrderData({ ...orderData, roomType: { id, name } })
+              }
+            />
+            <ConditionText
+              title={OrderPlanTitle.interior}
+              orderData={orderData.interior.id}
+              texts={[
+                { id: "none", text: "こだわらない" },
+                { id: "標準", text: "標準" },
+                { id: "綺麗", text: "綺麗" },
+                { id: "豪華", text: "豪華" },
+              ]}
+              onClick={(name: string, id: string) =>
+                setOrderData({ ...orderData, interior: { id, name } })
+              }
+            />
+            <ConditionText
+              title={OrderPlanTitle.staff}
+              orderData={orderData.staff.id}
+              texts={[
+                { id: "none", text: "こだわらない" },
+                { id: "lady", text: "女性" },
+                { id: "men", text: "男性" },
+              ]}
+              onClick={(name: string, id: string) =>
+                setOrderData({ ...orderData, staff: { id, name } })
+              }
+            />
+          </Box>
+        </UnderLineItemBox>
+      </Box>
       <Box>
         <UnderLineItemBox title="自分" fontSize="1.5em">
           <Text fontSize={"1.2em"}>
@@ -106,52 +160,6 @@ export const PlanSearchBox: FC<Props> = (props) => {
               ]}
               onClick={(name: string, id: string) =>
                 setOrderData({ ...orderData, hair: { id, name } })
-              }
-            />
-          </Box>
-        </UnderLineItemBox>
-      </Box>
-      <Box>
-        <UnderLineItemBox title="クリニック" fontSize="1.5em">
-          <Text fontSize={"1.2em"}>
-            どのようなクリニックで施術を受けたいか選択してください
-          </Text>
-          <Box mt=".7em">
-            <ConditionText
-              title={OrderPlanTitle.roomType}
-              orderData={orderData.roomType.id}
-              texts={[
-                { id: "none", text: "こだわらない" },
-                { id: "個室", text: "個室" },
-                { id: "完全個室", text: "完全個室" },
-              ]}
-              onClick={(name: string, id: string) =>
-                setOrderData({ ...orderData, roomType: { id, name } })
-              }
-            />
-            <ConditionText
-              title={OrderPlanTitle.interior}
-              orderData={orderData.interior.id}
-              texts={[
-                { id: "none", text: "こだわらない" },
-                { id: "標準", text: "標準" },
-                { id: "綺麗", text: "綺麗" },
-                { id: "豪華", text: "豪華" },
-              ]}
-              onClick={(name: string, id: string) =>
-                setOrderData({ ...orderData, interior: { id, name } })
-              }
-            />
-            <ConditionText
-              title={OrderPlanTitle.staff}
-              orderData={orderData.staff.id}
-              texts={[
-                { id: "none", text: "こだわらない" },
-                { id: "lady", text: "女性" },
-                { id: "men", text: "男性" },
-              ]}
-              onClick={(name: string, id: string) =>
-                setOrderData({ ...orderData, staff: { id, name } })
               }
             />
           </Box>

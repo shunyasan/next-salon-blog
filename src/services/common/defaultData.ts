@@ -3,7 +3,7 @@ import { OrderPlanIdName } from "types/OrderPlanIdName";
 export const defaultData = () => {
   const defaultOrderPlanIdName: OrderPlanIdName = {
     gender: { id: "lady", name: "女性" },
-    // paySystem: { id: "総額", name: "総額" },
+    area: { id: "AC000003", name: "渋谷区" },
     originParts: { id: "Z000001", name: "顔" },
     aboutCategory: { id: "A000003", name: "顔セット" },
     parts: { id: "B000025", name: "顔全体" },
@@ -43,9 +43,14 @@ export const defaultData = () => {
     for: { id: "4000", name: "4000円まで" },
   };
 
+  const defaultArea = {
+    shibuya: { id: "AC000003", name: "渋谷区" },
+  };
+
   return {
     defaultOrderPlanIdName,
     defaultSort,
     defaultOption,
+    defaultArea,
   };
 };

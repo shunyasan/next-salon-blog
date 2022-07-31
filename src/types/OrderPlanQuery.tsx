@@ -2,7 +2,7 @@ import { Gender } from "./Gender";
 
 export type OrderPlanQuery = {
   gender: Gender;
-  // paySystem: string;
+  area: string;
   originParts: string;
   aboutCategory: string;
   parts: string;
