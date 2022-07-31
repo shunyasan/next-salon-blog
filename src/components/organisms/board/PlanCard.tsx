@@ -177,7 +177,6 @@ export const PlanCard: FC<Props> = (props) => {
                 ※は条件あり
               </Text>
             </HStack>
-
             <Box
               // pl={{ md: "3rem", sm: "1.5rem" }}
               mt=".5rem"

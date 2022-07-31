@@ -66,7 +66,7 @@ export const Footer: FC = () => {
               // px={"1.3rem"}
               py={"0.2em"}
               cursor="pointer"
-              href={`/${data.path}`}
+              href={`/${gender}/${data.path}`}
               // onClick={() => onClickPush(data.path)}
               _hover={{
                 transition: "0.5s",
@@ -113,7 +113,7 @@ export const Footer: FC = () => {
                 transition: "0.5s",
                 backgroundColor: "rgba(220,220,220,0.2)",
               }}
-              href={`/${data.path}`}
+              href={`/${gender}/${data.path}`}
               // onClick={() => onClickPush(data.path)}
             >
               {data.text}
