@@ -219,18 +219,19 @@ const Home: NextPage<Props> = ({
                 {feature.datas.map((data, i) => (
                   <Box
                     key={data.id + i}
-                    minW={"15rem"}
-                    h={"18rem"}
+                    // minW={"15rem"}
+                    // h={"18rem"}
                     shadow="xl"
                     cursor="pointer"
                     onClick={() =>
                       router.push(`/${gender}/clinic/detail/${data.id}`)
                     }
+                    pb="1rem"
                     m=".5em"
                   >
                     <CopyrightImageBox
                       width={"15rem"}
-                      height={"8rem"}
+                      height={"10rem"}
                       src={imgs[i]}
                       picture={data.picture[0]}
                       // src={TopResource.clinicImg}
