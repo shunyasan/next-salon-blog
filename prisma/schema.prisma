@@ -134,6 +134,8 @@ model Clinic {
   review Int?
   roomType String?
   staffGender Int  @default(0) //'0:- 1:女性 2:男性 3:女性男性',
+  doctorGender Gender? /// 医師の性別 
+  restriction Gender? /// 女性専用 | 男性専用
   tax String?
   tel String?
   url String
@@ -151,6 +153,12 @@ model Clinic {
   google Google[]
   picture Picture[]
   options Option[]
+}
+
+enum Gender {
+  men
+  lady
+  both
 }
 
 model Youtube {
@@ -270,7 +278,9 @@ enum OptionKind {
   revisitFees
   shaving
   skinTrouble
-  
+  sameDayTreatment
+  counseling
+  cancel
 }
 
 //同スキーマ
@@ -282,9 +292,30 @@ model Price {
   price Int //総額料金
   oncePrice Int //1回料金
   terms String? //備考
+  expiration Float @default(0) //有効期限 単位は年 0は期限なし
   partsId String
   parts Parts  @relation(fields: [partsId], references: [id])
   clinicId String
   clinic Clinic  @relation(fields: [clinicId], references: [id])
+}
+
+model CardPay {
+  id String @id
+  visa Boolean
+  master Boolean
+  nicos Boolean
+  dc Boolean
+  uc Boolean
+  ufj Boolean
+  amex Boolean
+  jcb Boolean
+  diners Boolean
+}
+
+model QRPay {
+  id String @id
+  line Boolean
+  wechatPay Boolean
+  aliPay Boolean
 }
 
