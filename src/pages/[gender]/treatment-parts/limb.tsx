@@ -4,7 +4,7 @@ import Head from "next/head";
 import { memo, useCallback, useEffect, useState, VFC } from "react";
 import fetcher from "services/common/fetcher";
 import useSWR from "swr";
-import { AboutCategory, BaseParts } from "@prisma/client";
+import { AboutCategory, BaseParts, BasicCategory } from "@prisma/client";
 import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
 import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import { OriginCategiryId } from "enums/OriginCategiryIdEnum";
@@ -14,7 +14,7 @@ import { Gender } from "types/Gender";
 
 type Props = {
   about: (AboutCategory & {
-    baseParts: BaseParts[];
+    basicCategory: BasicCategory[];
   })[];
   gender: Gender;
 };
@@ -29,10 +29,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const gender = params ? (params.gender as Gender) : "lady";
-  const excludeGender = gender === "men" ? 1 : 2;
   const about = await aboutCategoryRepository.getJoinBasicParts(
-    originId,
-    excludeGender
+    originId
+    // gender
   );
   return {
     props: {
@@ -47,7 +46,7 @@ const TreatmentLimbParts: NextPage<Props> = ({ about, gender }) => {
 
   const { data: aboutCategories, error: err_abo } = useSWR<
     (AboutCategory & {
-      baseParts: BaseParts[];
+      basicCategory: BasicCategory[];
     })[]
   >(
     `/api/about-categories/originId?originId=${originId}&gender=${gender}`,

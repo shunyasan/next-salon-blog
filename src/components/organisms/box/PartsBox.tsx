@@ -1,9 +1,9 @@
 import { Box, Button, Flex, Link, Stack, Text } from "@chakra-ui/react";
-import { BaseParts } from "@prisma/client";
+import { BaseParts, BasicCategory } from "@prisma/client";
 import { FC, memo, VFC } from "react";
 
 type Props = {
-  parts: BaseParts;
+  parts: BasicCategory;
   width: string | { md: string; sm: string };
   //↓消す予定
   onOpen?: () => void;
@@ -12,18 +12,16 @@ type Props = {
 export const PartsBox: FC<Props> = (props) => {
   const { parts, width, search, onOpen } = props;
   return (
-    <Box
-      // pl={{ md: "4em", sm: "2em" }}
+    <Flex
       w={width}
       p={"1em .2em"}
       textAlign={"left"}
       color={"originGold"}
       onClick={search}
+      cursor={"pointer"}
     >
-      <Text textDecoration="underline" cursor={"pointer"}>
-        <Text as="span">・</Text>
-        {parts.name}
-      </Text>
-    </Box>
+      <Text>・</Text>
+      <Text textDecoration="underline">{parts.name}</Text>
+    </Flex>
   );
 };

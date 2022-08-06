@@ -6,7 +6,7 @@ export const defaultData = () => {
     area: { id: "AC000003", name: "渋谷区" },
     originParts: { id: "Z000001", name: "顔" },
     aboutCategory: { id: "A000003", name: "顔セット" },
-    parts: { id: "B000025", name: "顔全体" },
+    parts: { id: "BSC000011", name: "顔全体" },
     skinCollor: { id: "薄茶色", name: "平均的な肌色" },
     hair: { id: "標準", name: "どちらとも言えない毛" },
     roomType: { id: "none", name: "こだわらない" },

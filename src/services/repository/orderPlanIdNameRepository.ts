@@ -1,12 +1,12 @@
 import { defaultData } from "services/common/defaultData";
-import { aboutCategoryRepositoryFunc } from "services/repository/aboutCategoryRepositoryFunc";
-import { getBasePartsNameById } from "services/repository/basePartsRepository";
+import { aboutCategoryRepository } from "services/common/repository";
 import { getOriginCategoryNameById } from "services/repository/originCategoryRepository";
 import { OrderPlanIdName } from "types/OrderPlanIdName";
 import { OrderPlanQuery } from "types/OrderPlanQuery";
+import { BasicCategoryRepository } from "./basicCategoryRepository";
 
-const { getAboutCategoryNameById } = aboutCategoryRepositoryFunc();
 const { defaultOption } = defaultData();
+const { getBasicCategoryName } = BasicCategoryRepository();
 
 export const orderPlanIdNameRepository = () => {
   const checkNoneString = (val: string) => {
@@ -70,10 +70,11 @@ export const orderPlanIdNameRepository = () => {
     const originCategory = await getOriginCategoryNameById(
       orderParams.originParts
     );
-    const aboutCategory = await getAboutCategoryNameById(
-      orderParams.aboutCategory
-    );
-    const baseParts = await getBasePartsNameById(orderParams.parts);
+    const aboutCategory =
+      await aboutCategoryRepository.getAboutCategoryNameById(
+        orderParams.aboutCategory
+      );
+    const basicCategory = await getBasicCategoryName(orderParams.parts);
 
     const data: OrderPlanIdName = {
       gender: {
@@ -92,7 +93,7 @@ export const orderPlanIdNameRepository = () => {
         id: orderParams.aboutCategory,
         name: aboutCategory || "",
       },
-      parts: { id: orderParams.parts, name: baseParts || "" },
+      parts: { id: orderParams.parts, name: basicCategory || "" },
       skinCollor: {
         id: orderParams.skinCollor,
         name: checkNoneString(orderParams.skinCollor),

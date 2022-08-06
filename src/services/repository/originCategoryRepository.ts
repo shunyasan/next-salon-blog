@@ -28,18 +28,6 @@ export class OriginCategoryRepository {
     return data;
   }
 
-  async getAllRelationParts() {
-    return prisma.originCategory.findMany({
-      include: {
-        aboutCategories: {
-          include: {
-            baseParts: true,
-          },
-        },
-      },
-    });
-  }
-
   async getAllIdAndName(): Promise<IdAndNameDto[]> {
     const get = await prisma.originCategory.findMany({
       select: { id: true, name: true },
@@ -54,14 +42,18 @@ export class OriginCategoryRepository {
       where: {
         aboutCategories: {
           some: {
-            baseParts: {
+            basicCategory: {
               some: {
-                parts: {
+                baseParts: {
                   some: {
                     parts: {
-                      price: {
-                        some: {
-                          clinicId: clinicId,
+                      some: {
+                        parts: {
+                          price: {
+                            some: {
+                              clinicId: clinicId,
+                            },
+                          },
                         },
                       },
                     },

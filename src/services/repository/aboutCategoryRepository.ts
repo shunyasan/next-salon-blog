@@ -1,8 +1,17 @@
+import { Gender } from "@prisma/client";
 import { prisma } from "services/common/prisma";
 import { IdAndNameDto } from "types/IdAndNameDto";
 
 export class AboutCategoryRepository {
   // constructor(private readonly prisma = prisma.aboutCategory) {}
+
+  async getAboutCategoryNameById(id: string) {
+    const data = await prisma.aboutCategory.findFirst({
+      select: { name: true },
+      where: { id: id },
+    });
+    return data?.name;
+  }
 
   async getAllAboutCategory() {
     return await prisma.aboutCategory.findMany();
@@ -48,14 +57,18 @@ export class AboutCategoryRepository {
     const data = await prisma.aboutCategory.findMany({
       where: {
         originId: originId,
-        baseParts: {
+        basicCategory: {
           some: {
-            parts: {
+            baseParts: {
               some: {
                 parts: {
-                  price: {
-                    some: {
-                      clinicId: clinicId,
+                  some: {
+                    parts: {
+                      price: {
+                        some: {
+                          clinicId: clinicId,
+                        },
+                      },
                     },
                   },
                 },
@@ -69,16 +82,10 @@ export class AboutCategoryRepository {
     return data;
   }
 
-  async getJoinBasicParts(originId: string, excludeGender: number) {
+  async getJoinBasicParts(originId: string) {
     const data = await prisma.aboutCategory.findMany({
       include: {
-        baseParts: {
-          where: {
-            gender: {
-              not: excludeGender,
-            },
-          },
-        },
+        basicCategory: true,
       },
       where: { originId: originId },
       orderBy: [{ id: "asc" }],

@@ -26,6 +26,15 @@ model AboutCategory {
   set Boolean
   originId String
   origin OriginCategory @relation(fields: [originId], references: [id])
+  // baseParts BaseParts[]
+  basicCategory BasicCategory[]
+}
+
+model BasicCategory {
+  id String  @id
+  name String
+  aboutCategoryId String
+  aboutCategory AboutCategory @relation(fields: [aboutCategoryId], references: [id])
   baseParts BaseParts[]
 }
 
@@ -33,9 +42,12 @@ model BaseParts {
   id String @id
   name String //部位名
   description String? //備考
-  gender Int @default(3)
-  aboutCategoryId String
-  aboutCategory AboutCategory @relation(fields: [aboutCategoryId], references: [id])
+  gender Gender @default(both)
+  rangeAttention Boolean @default(true)
+  basicCategoryId String
+  basicCategory BasicCategory @relation(fields: [basicCategoryId], references: [id])
+  // aboutCategoryId String
+  // aboutCategory AboutCategory @relation(fields: [aboutCategoryId], references: [id])
   parts BaseParts_Parts[] 
 }
 
@@ -50,7 +62,6 @@ model BaseParts_Parts {
 model Parts {
   id String @id
   name String //部位名
-  places Int //箇所数
   description String?
   baseParts BaseParts_Parts[] 
   price Price[]
@@ -133,7 +144,7 @@ model Clinic {
   reserve String?
   review Int?
   roomType String?
-  staffGender Int  @default(0) //'0:- 1:女性 2:男性 3:女性男性',
+  staffGender Gender? @default(both)
   doctorGender Gender? /// 医師の性別 
   restriction Gender? /// 女性専用 | 男性専用
   tax String?
@@ -153,6 +164,8 @@ model Clinic {
   google Google[]
   picture Picture[]
   options Option[]
+  creditPay CreditPay?
+  qrPay QRPay?
 }
 
 enum Gender {
@@ -263,7 +276,7 @@ model Option {
   id String @id
   price Int
   terms String?
-  moreCharge Boolean
+  moreCharge Boolean @default(false)
   kind OptionKind
   clinicId String
   clinic Clinic @relation(fields: [clinicId], references: [id])
@@ -287,19 +300,21 @@ enum OptionKind {
 model Price {
   id String @id
   name String  //部位名
-  gender Int  //性別 1:女性 2:男性 3:女性男性
+  gender Gender @default(both)
   times Int  //回数 0:年間プラン
   price Int //総額料金
   oncePrice Int //1回料金
   terms String? //備考
   expiration Float @default(0) //有効期限 単位は年 0は期限なし
+  firstLimited Boolean @default(false) // 初回限定のコースか否か
+  afterCourse Boolean @default(false) //コース終了後の価格か否か
   partsId String
   parts Parts  @relation(fields: [partsId], references: [id])
   clinicId String
   clinic Clinic  @relation(fields: [clinicId], references: [id])
 }
 
-model CardPay {
+model CreditPay {
   id String @id
   visa Boolean
   master Boolean
@@ -310,6 +325,8 @@ model CardPay {
   amex Boolean
   jcb Boolean
   diners Boolean
+  clinicId String @unique
+  clinic Clinic  @relation(fields: [clinicId], references: [id])
 }
 
 model QRPay {
@@ -317,5 +334,8 @@ model QRPay {
   line Boolean
   wechatPay Boolean
   aliPay Boolean
+  clinicId String @unique
+  clinic Clinic  @relation(fields: [clinicId], references: [id])
+
 }
 

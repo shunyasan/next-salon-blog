@@ -1,4 +1,4 @@
-import { OptionKind } from "@prisma/client";
+import { Gender, OptionKind } from "@prisma/client";
 import { prisma } from "services/common/prisma";
 import { OrderPlanQuery } from "types/OrderPlanQuery";
 import { PagenationParameter } from "types/PagenationParameterDto";
@@ -22,9 +22,6 @@ export const priceDtoRepository = () => {
   };
 
   const beforeGetPrices = async (orderPlan: OrderPlanQuery) => {
-    const excludeGender: number = orderPlan.gender === "men" ? 1 : 2;
-    const excludeStaff: number = orderPlan.staff === "men" ? 1 : 2;
-
     const machines = await getIdfindBySkinColorAndHairType(
       orderPlan.skinCollor,
       orderPlan.hair
@@ -38,8 +35,6 @@ export const priceDtoRepository = () => {
       numOfOpt > 0 ? await getOptionClinicIds(orderPlan) : undefined;
 
     return {
-      excludeGender,
-      excludeStaff,
       targetMachine,
       sort,
       options,
@@ -52,8 +47,7 @@ export const priceDtoRepository = () => {
     take?: number,
     skip?: number
   ): Promise<PriceDto[]> => {
-    const { excludeGender, excludeStaff, options, targetMachine, sort } =
-      await beforeGetPrices(orderPlan);
+    const { options, targetMachine, sort } = await beforeGetPrices(orderPlan);
 
     const ans = await prisma.price.findMany({
       // const ans = {
@@ -76,13 +70,13 @@ export const priceDtoRepository = () => {
         },
       },
       where: {
-        gender: {
-          not: excludeGender || undefined,
-        },
+        OR: [{ gender: orderPlan.gender }, { gender: "both" }],
         parts: {
           baseParts: {
             some: {
-              basePartsId: checkEmptyData(orderPlan.parts),
+              baseParts: {
+                basicCategoryId: checkEmptyData(orderPlan.parts),
+              },
             },
           },
         },
@@ -90,9 +84,7 @@ export const priceDtoRepository = () => {
           id: {
             in: options,
           },
-          staffGender: {
-            not: excludeStaff || undefined,
-          },
+          OR: [{ staffGender: orderPlan.gender }, { staffGender: "both" }],
           roomType: checkEmptyData(orderPlan.roomType),
           interior: checkEmptyData(orderPlan.interior),
           cardPay: checkEmptyData(orderPlan.card),
@@ -112,21 +104,16 @@ export const priceDtoRepository = () => {
   const getCountMaxPlan = async (
     orderPlan: OrderPlanQuery
   ): Promise<number> => {
-    const { excludeGender, excludeStaff, options, targetMachine } =
-      await beforeGetPrices(orderPlan);
+    const { options, targetMachine } = await beforeGetPrices(orderPlan);
 
     const ans = await prisma.price.count({
       where: {
-        gender: {
-          not: excludeGender || undefined,
-        },
+        OR: [{ gender: orderPlan.gender }, { gender: "both" }],
         clinic: {
           id: {
             in: options,
           },
-          staffGender: {
-            not: excludeStaff || undefined,
-          },
+          OR: [{ staffGender: orderPlan.gender }, { staffGender: "both" }],
           roomType: checkEmptyData(orderPlan.roomType),
           interior: checkEmptyData(orderPlan.interior),
           cardPay: checkEmptyData(orderPlan.card),
@@ -145,7 +132,9 @@ export const priceDtoRepository = () => {
         parts: {
           baseParts: {
             some: {
-              basePartsId: checkEmptyData(orderPlan.parts),
+              baseParts: {
+                basicCategoryId: checkEmptyData(orderPlan.parts),
+              },
             },
           },
         },
@@ -158,7 +147,7 @@ export const priceDtoRepository = () => {
   const getPriceByClinic = async (
     clinicId: string,
     aboutId: string,
-    gender: string
+    gender: Gender
   ) => {
     // const table = await aboutCategoryRepository.getPriceTableName(aboutId);
     const excludeGender = gender === "men" ? 1 : 2;
@@ -166,14 +155,14 @@ export const priceDtoRepository = () => {
     const price = await prisma.price.findMany({
       where: {
         clinicId: clinicId,
-        gender: {
-          not: excludeGender,
-        },
+        OR: [{ gender: gender }, { gender: "both" }],
         parts: {
           baseParts: {
             some: {
               baseParts: {
-                aboutCategoryId: aboutId,
+                basicCategory: {
+                  aboutCategoryId: aboutId,
+                },
               },
             },
           },

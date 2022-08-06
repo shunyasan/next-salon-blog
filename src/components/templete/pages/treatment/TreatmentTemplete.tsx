@@ -5,7 +5,12 @@ import { useRouter } from "next/router";
 import { FC, ReactNode, useCallback, useState } from "react";
 import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import { PartsBox } from "components/organisms/box/PartsBox";
-import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
+import {
+  AboutCategory,
+  BaseParts,
+  BasicCategory,
+  OriginCategory,
+} from "@prisma/client";
 import { CategoryBox } from "components/organisms/box/CategoryBox";
 import { OrderPlanQueryService } from "services/orderPlanQueryService";
 import { defaultData } from "services/common/defaultData";
@@ -18,7 +23,7 @@ type Props = {
   children: ReactNode;
   // origin?: IdAndNameDto[];
   about: (AboutCategory & {
-    baseParts: BaseParts[];
+    basicCategory: BasicCategory[];
   })[];
   gender: Gender;
 
@@ -82,11 +87,11 @@ const TreatmentTemplete: FC<Props> = ({
 
   // これはどうにかする
   const mockOrigin = [
-    { id: "Z000001", name: "顔", path: "" },
-    { id: "Z000002", name: "四肢", path: "limb" },
-    { id: "Z000003", name: "体幹", path: "body" },
+    { id: "Z000001", name: "顔・首", path: "" },
+    { id: "Z000002", name: "腕・脚", path: "limb" },
+    { id: "Z000003", name: "体幹・おしり", path: "body" },
     { id: "Z000004", name: "VIO", path: "vio" },
-    { id: "Z000005", name: "全身", path: "all-body" },
+    { id: "Z000005", name: "全身・半身", path: "all-body" },
     { id: "Z000006", name: "その他", path: "other" },
   ];
 
@@ -126,12 +131,6 @@ const TreatmentTemplete: FC<Props> = ({
   //   { fallbackData: about }
   // );
 
-  // const { data: viewBaseParts, error: err_base } = useSWR<BaseParts[]>(
-  //   `/api/base-parts/${aboutId}?gender=${gender}`,
-  //   fetcher,
-  //   { fallbackData: parts }
-  // );
-
   // if (!origin || !viewAboutCategory || !viewBaseParts) return <LoadingModalIcon />;
   return (
     <Box>
@@ -159,7 +158,7 @@ const TreatmentTemplete: FC<Props> = ({
           ))}
         </Flex>
         <Flex
-          w={"80%"}
+          w={{ md: "80%", sm: "100%" }}
           mx="auto"
           mt="2rem"
           wrap={"wrap"}
@@ -192,7 +191,7 @@ const TreatmentTemplete: FC<Props> = ({
               wrap={"wrap"}
               display={aboutArray === i ? "flex" : "none"}
             >
-              {abo.baseParts.map((parts, i) => (
+              {abo.basicCategory.map((parts, i) => (
                 // ここをクリックでmodal？いや、下に表示させたほうがスクロールできて見栄えがいい？
                 // 含む系の表記は無しにして、modal時に含む系の情報を載せる
                 // そこからプランを探すに遷移

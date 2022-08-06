@@ -1,13 +1,9 @@
+import { Gender } from "@prisma/client";
 import { prisma } from "services/common/prisma";
 import { IdAndNameDto } from "types/IdAndNameDto";
 
 export class BasePartsRepository {
   // constructor(private readonly prisma = prisma.baseParts) {}
-
-  //削除予定
-  getTest() {
-    return prisma.baseParts;
-  }
 
   async getAllBaseParts() {
     return prisma.baseParts.findMany();
@@ -21,19 +17,23 @@ export class BasePartsRepository {
     return data;
   }
 
-  async getAllBasePartsIdAndName(
-    aboutCategoryId: string
-  ): Promise<IdAndNameDto[]> {
-    const data = await prisma.baseParts.findMany({
-      select: { id: true, name: true },
-      where: { aboutCategoryId: aboutCategoryId },
-    });
-    return data;
-  }
+  // async getAllBasePartsIdAndName(
+  //   aboutCategoryId: string
+  // ): Promise<IdAndNameDto[]> {
+  //   const data = await prisma.baseParts.findMany({
+  //     select: { id: true, name: true },
+  //     where: { aboutCategoryId: aboutCategoryId },
+  //   });
+  //   return data;
+  // }
 
   async getAllBasePartsByAboutId(aboutCategoryId: string) {
     const data = await prisma.baseParts.findMany({
-      where: { aboutCategoryId: aboutCategoryId },
+      where: {
+        basicCategory: {
+          aboutCategoryId: aboutCategoryId,
+        },
+      },
     });
     return data;
   }
@@ -41,24 +41,21 @@ export class BasePartsRepository {
   async getAllIdAndNameById(id: string): Promise<IdAndNameDto[]> {
     return await prisma.baseParts.findMany({
       select: { id: true, name: true },
-      where: { aboutCategoryId: id },
+      where: {
+        basicCategory: {
+          aboutCategoryId: id,
+        },
+      },
     });
   }
 
-  async getAllBasePartsByAboutCategoryId(id: string, genderParam?: string) {
-    const genderNum = genderParam && genderParam === "men" ? 1 : 2;
+  async getAllBasePartsByAboutCategoryId(id: string) {
     return await prisma.baseParts.findMany({
-      where: genderParam
-        ? {
-            aboutCategoryId: id,
-            gender: {
-              not: genderNum,
-            },
-          }
-        : {
-            aboutCategoryId: id,
-            gender: 3,
-          },
+      where: {
+        basicCategory: {
+          aboutCategoryId: id,
+        },
+      },
     });
   }
 
@@ -71,11 +68,3 @@ export class BasePartsRepository {
     return change;
   }
 }
-
-export const getBasePartsNameById = async (id: string) => {
-  const data = await prisma.baseParts.findFirst({
-    select: { name: true },
-    where: { id: id },
-  });
-  return data?.name;
-};

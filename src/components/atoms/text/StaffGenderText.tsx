@@ -1,9 +1,10 @@
 import { Box, Center, Flex, Text } from "@chakra-ui/layout";
+import { Gender } from "@prisma/client";
 import { FC, memo, useEffect, useState, VFC } from "react";
 // import style from "../../../../styles/Home.module.css";
 
 type Props = {
-  staffGender: number;
+  staffGender: Gender;
 };
 
 export const StaffGenderText: FC<Props> = (props) => {
@@ -18,22 +19,28 @@ export const StaffGenderText: FC<Props> = (props) => {
 
   useEffect(() => {
     switch (staffGender) {
-      case 3:
+      case "both":
         setGender({
           fir: { val: "女性", color: "#aa0000" },
           sec: { val: "男性", color: "#005dff" },
         });
         break;
-      case 2:
+      case "men":
         setGender({
           fir: { val: "男", color: "#005dff" },
           sec: { val: "性", color: "#005dff" },
         });
         break;
-      default:
+      case "lady":
         setGender({
           fir: { val: "女", color: "#aa0000" },
           sec: { val: "性", color: "#aa0000" },
+        });
+        break;
+      default:
+        setGender({
+          fir: { val: "不", color: "originBlack" },
+          sec: { val: "明", color: "originBlack" },
         });
         break;
     }

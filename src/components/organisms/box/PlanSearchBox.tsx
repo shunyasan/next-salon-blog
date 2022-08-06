@@ -8,7 +8,6 @@ import { OrderPlanIdName } from "types/OrderPlanIdName";
 import { OrderPlanTitle } from "enums/OrderPlanTitle";
 import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
 import { ConditionPartsBox } from "components/molecules/box/ConditionPartsBox";
-import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
 import { OrderPlanQueryService } from "services/orderPlanQueryService";
 import { PlanHeadingBox } from "components/molecules/box/PlanHeadingBox";
 import { PlanSortSelect } from "components/atoms/select/PlanSortSelect";

@@ -1,6 +1,11 @@
 import { Box, Center, Flex, HStack, Text } from "@chakra-ui/layout";
 import { Icon } from "@chakra-ui/react";
-import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
+import {
+  AboutCategory,
+  BaseParts,
+  BasicCategory,
+  OriginCategory,
+} from "@prisma/client";
 import { PartsButton } from "components/atoms/button/PartsButton";
 import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
 import { GenderPlateBox } from "components/molecules/box/GenderPlateBox";
@@ -62,8 +67,8 @@ const TreatmentPartsBox: FC<Props> = (props) => {
   );
 
   // パラメータ直す
-  const { data: basePartsData, error: err_parts } = useSWR<BaseParts[]>(
-    `/api/base-parts/${about.id}?gender=${gender}`,
+  const { data: basicCategory, error: err_parts } = useSWR<BasicCategory[]>(
+    `/api/basic-category/${about.id}?gender=${gender}`,
     fetcher
   );
 
@@ -87,7 +92,7 @@ const TreatmentPartsBox: FC<Props> = (props) => {
       });
   }, [aboutCategoryData]);
 
-  // if (!originCategoryData || !aboutCategoryData || !basePartsData)
+  // if (!originCategoryData || !aboutCategoryData || !basicCategory)
   //   return <LoadingModalIcon />;
   return (
     <Box
@@ -100,7 +105,7 @@ const TreatmentPartsBox: FC<Props> = (props) => {
       zIndex="100"
       bg="rgba(30,30,30,0.5)"
     >
-      {(!originCategoryData || !aboutCategoryData || !basePartsData) && (
+      {(!originCategoryData || !aboutCategoryData || !basicCategory) && (
         <LoadingModalIcon />
       )}
 
@@ -181,8 +186,8 @@ const TreatmentPartsBox: FC<Props> = (props) => {
             justifyContent={"left"}
             // visibility={aboutArray === i ? "visible" : "hidden"}
           >
-            {basePartsData &&
-              basePartsData.map((parts, i) => (
+            {basicCategory &&
+              basicCategory.map((parts, i) => (
                 <Flex key={i}>
                   <PartsButton
                     text={parts.name}

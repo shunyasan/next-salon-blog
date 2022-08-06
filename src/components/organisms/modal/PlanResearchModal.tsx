@@ -20,9 +20,6 @@ import { MdClose } from "react-icons/md";
 import { useLocation } from "react-router-dom";
 import { IdAndNameDto } from "types/IdAndNameDto";
 import { OrderPlanIdName } from "types/OrderPlanIdName";
-import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
-import { ConditionPartsBox } from "components/molecules/box/ConditionPartsBox";
-import { AboutCategory, BaseParts, OriginCategory } from "@prisma/client";
 import { PlanSearchBox } from "../box/PlanSearchBox";
 
 type Props = {

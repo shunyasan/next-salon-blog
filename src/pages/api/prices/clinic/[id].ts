@@ -1,3 +1,4 @@
+import { Gender } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { priceDtoRepository } from "services/repository/priceDtoRepository";
 import { PriceDto } from "types/PriceDto";
@@ -13,7 +14,7 @@ export default async function getPriceByAboutIdAndClinicId(
 ) {
   const clinicId = req.query.id as string;
   const aboutId = req.query.aboutId as string;
-  const gender = req.query.gender as string;
+  const gender = req.query.gender as Gender;
   const data = await getPriceByClinic(clinicId, aboutId, gender);
 
   // const data: PriceDto[] = await getAxios(

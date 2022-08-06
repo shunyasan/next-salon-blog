@@ -72,38 +72,6 @@ export const ClinicPlanCard: FC<Props> = (props) => {
       });
   }, [aboutCategoryData]);
 
-  //   const aboutCategories =
-  //   await aboutCategoryRepository.getAboutCategoryByOriginIdAndPrice(
-  //     "Z000001",
-  //     id
-  //   );
-  // const prices = await getPriceByClinic(id, aboutCategories[0].id, 2);
-
-  // const [selectTab, setSelectTab] = useState<string>(originData[0].id);
-  // const [selectedAboutId, setSelectedAboutId] = useState<string>();
-
-  // const changeTab = useCallback(
-  //   async (originId: string) => {
-  //     onClickOriginId(originId);
-  //     setSelectTab(originId);
-  //     // const data = await getAboutCategory(originId);
-  //     // changeAboutCategory(data[0].id);
-  //   },
-  //   [onClickOriginId]
-  // );
-
-  // const changeGender = useCallback(
-  //   (gender: string) => {
-  //     onClickGender(gender);
-  //     setGender(gender);
-  //   },
-  //   [onClickGender]
-  // );
-
-  // useEffect(() => {
-  //   setSelectedAboutId(prices[0].aboutCategory.id);
-  // }, [setSelectedAboutId, prices]);
-
   if (!originCategoryData || !aboutCategoryData || !price)
     return <LoadingIcon />;
   return (

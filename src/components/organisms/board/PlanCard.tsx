@@ -50,8 +50,6 @@ const { getRandomImg } = resourcesData();
 export const PlanCard: FC<Props> = (props) => {
   const { clinic, children, genderParam } = props;
   const router = useRouter();
-  // const { getPriceByClinicId } = PriceApi();
-  // const { getRandomImg } = SearchSalonHooks();
 
   // 画像準備期間のみ
   const [image, setImage] = useState<string[]>([]);
