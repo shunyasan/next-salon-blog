@@ -16,6 +16,9 @@ import { OrderPlanQueryService } from "services/orderPlanQueryService";
 import { defaultData } from "services/common/defaultData";
 import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
 import { Gender } from "types/Gender";
+import fetcher from "services/common/fetcher";
+import useSWR from "swr";
+import { IdAndNameDto } from "types/IdAndNameDto";
 
 type Props = {
   // title: string;
@@ -48,15 +51,6 @@ const TreatmentTemplete: FC<Props> = ({
   // const [originId, setOriginId] = useState<string>(selectOriginId);
   // const [gender, setGender] = useState<string>("女性");
 
-  // const origin = [
-  //   { id: "Z000001", name: "顔", path: "" },
-  //   { id: "Z000002", name: "四肢", path: "limb" },
-  //   { id: "Z000003", name: "体幹", path: "body" },
-  //   { id: "Z000004", name: "VIO", path: "vio" },
-  //   { id: "Z000005", name: "全身", path: "all-body" },
-  //   { id: "Z000006", name: "その他", path: "other" },
-  // ];
-
   const searchForPlanFunc = (
     gender: Gender,
     originId: string,
@@ -85,41 +79,10 @@ const TreatmentTemplete: FC<Props> = ({
     [onOpen]
   );
 
-  // これはどうにかする
-  const mockOrigin = [
-    { id: "Z000001", name: "顔・首", path: "" },
-    { id: "Z000002", name: "腕・脚", path: "limb" },
-    { id: "Z000003", name: "体幹・おしり", path: "body" },
-    { id: "Z000004", name: "VIO", path: "vio" },
-    { id: "Z000005", name: "全身・半身", path: "all-body" },
-    { id: "Z000006", name: "その他", path: "other" },
-  ];
-
-  // const defaultOrderPlanIdName = {
-  //   gender: { id: "女性", name: "女性" },
-  //   paySystem: { id: "総額", name: "総額" },
-  //   originParts: { id: "Z000001", name: "顔" },
-  //   aboutCategory: { id: "A000001", name: "顔（鼻から上）" },
-  //   parts: { id: "B000005", name: "眉全体" },
-  //   skinCollor: { id: "薄茶色", name: "平均的な肌色" },
-  //   hair: { id: "標準", name: "どちらとも言えない毛" },
-  //   roomType: { id: "none", name: "こだわらない" },
-  //   interior: { id: "none", name: "こだわらない" },
-  //   staff: { id: "none", name: "こだわらない" },
-  //   card: { id: "none", name: "こだわらない" },
-  //   loan: { id: "none", name: "こだわらない" },
-  //   contract: { id: "none", name: "こだわらない" },
-  //   option: { id: "none", name: "こだわらない" },
-  //   sort: { id: "none", name: "こだわらない" },
-  // };
-  //   const changeGenderState = useCallback(
-  //   (genderParam: string) => {
-  //     if (gender !== genderParam) {
-  //       setGender(genderParam);
-  //     }
-  //   },
-  //   [gender]
-  // );
+  const { data: origin, error: err_abo } = useSWR<OriginCategory[]>(
+    `/api/origin-category`,
+    fetcher
+  );
 
   // const { data: viewAboutCategory, error: err_abo } = useSWR<AboutCategory[]>(
   //   `/api/about-categories/originId/${originId}`,
@@ -131,7 +94,7 @@ const TreatmentTemplete: FC<Props> = ({
   //   { fallbackData: about }
   // );
 
-  // if (!origin || !viewAboutCategory || !viewBaseParts) return <LoadingModalIcon />;
+  if (!origin) return <LoadingModalIcon />;
   return (
     <Box>
       <LoadingModalIcon />
@@ -144,7 +107,7 @@ const TreatmentTemplete: FC<Props> = ({
           w={{ md: "70%", sm: "95%" }}
           justifyContent={"center"}
         >
-          {mockOrigin.map((data, int) => (
+          {origin.map((data, int) => (
             <OriginCategoryBox
               key={int}
               name={data.name}

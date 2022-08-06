@@ -4,8 +4,8 @@ export const defaultData = () => {
   const defaultOrderPlanIdName: OrderPlanIdName = {
     gender: { id: "lady", name: "女性" },
     area: { id: "AC000003", name: "渋谷区" },
-    originParts: { id: "Z000001", name: "顔" },
-    aboutCategory: { id: "A000003", name: "顔セット" },
+    originParts: { id: "ORC000001", name: "顔・首" },
+    aboutCategory: { id: "ABC000002", name: "セット（顔）" },
     parts: { id: "BSC000011", name: "顔全体" },
     skinCollor: { id: "薄茶色", name: "平均的な肌色" },
     hair: { id: "標準", name: "どちらとも言えない毛" },

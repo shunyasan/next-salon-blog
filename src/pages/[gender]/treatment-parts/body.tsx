@@ -76,13 +76,13 @@ const TreatmentBodyParts: NextPage<Props> = ({ about, gender }) => {
       gender={gender}
     >
       <Head>
-        <title>体幹の脱毛可能な部位 | 脱毛コンサルタント</title>
+        <title>胴体の脱毛可能な部位 | 脱毛コンサルタント</title>
         <meta
           name="description"
           content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」大手から優良小規模で脱毛可能な部位です。おすすめの部位から意外な部位まで掲載しています。"
         />
       </Head>
-      <BgImgH1 title="体幹の脱毛可能な部位" />
+      <BgImgH1 title="胴体の脱毛可能な部位" />
     </TreatmentTemplete>
   );
 };

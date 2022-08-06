@@ -1,8 +1,8 @@
 export enum OriginCategiryId {
-  face = "Z000001",
-  limb = "Z000002",
-  body = "Z000003",
-  vio = "Z000004",
-  allBody = "Z000005",
-  other = "Z000006",
+  face = "ORC000001",
+  limb = "ORC000002",
+  body = "ORC000003",
+  vio = "ORC000004",
+  allBody = "ORC000005",
+  other = "ORC000006",
 }

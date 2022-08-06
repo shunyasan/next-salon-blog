@@ -40,7 +40,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const clinicData: RelationClinic = await clinicRepository.getOneClinic(id);
   // const origin: IdAndNameDto[] =
   //   await originCategoryRepository.getIdAndNameByClinicId(id);
-  // const prices = await getAllByClinic("Z000001", id, "女性");
+  // const prices = await getAllByClinic("ORC000001", id, "女性");
 
   // const clinicData: Clinic = await fetcher(`${thisURL}api/clinics/${id}`);
   return {

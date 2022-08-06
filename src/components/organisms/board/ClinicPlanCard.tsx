@@ -40,12 +40,12 @@ export const ClinicPlanCard: FC<Props> = (props) => {
   // const [gender, setGender] = useState<Gender>("lady");
 
   const [origin, setOrigin] = useState<IdAndNameDto>({
-    id: "Z000001",
-    name: "顔",
+    id: "ORC000001",
+    name: "顔・首",
   });
   const [about, setAbout] = useState<IdAndNameDto>({
-    id: "A000001",
-    name: "顔（鼻から上）",
+    id: "ABC000001",
+    name: "単部位（顔）",
   });
 
   const { data: originCategoryData, error: err_ori } = useSWR<IdAndNameDto[]>(

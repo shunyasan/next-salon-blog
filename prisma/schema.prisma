@@ -13,6 +13,7 @@ datasource db {
 model OriginCategory {
   id String @id
   name String //広域カテゴリ名
+  path String @default("") //リンクのパス
   imgUrlLady String //女性の画像
   imgUrlMen String //男性の画像
   aboutCategories AboutCategory[]

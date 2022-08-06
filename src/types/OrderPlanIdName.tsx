@@ -1,7 +1,7 @@
 import { Gender } from "./Gender";
 import { IdAndNameDto } from "./IdAndNameDto";
 
-// id: A000001など検索に使う文字列
+// id: ABC0000011など検索に使う文字列
 // name: 表示用の文字列
 export type OrderPlanIdName = {
   gender: { id: Gender; name: string };
