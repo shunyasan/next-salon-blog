@@ -3,6 +3,7 @@ import { IconButton, Box, Flex, Stack, Text } from "@chakra-ui/react";
 import { StaffGenderText } from "components/atoms/text/StaffGenderText";
 import { StatusText } from "components/atoms/text/StatusText";
 import { Icon } from "@chakra-ui/icons";
+import { Gender } from "@prisma/client";
 
 type Props = {
   title: string;
@@ -13,7 +14,7 @@ type Props = {
   second?: string;
   fontSize?: { md: string; sm: string };
   other?: string;
-  gender?: boolean;
+  gender?: Gender;
   // width: string;
   // paddingY?: string;
   // onClick?: () => void;
@@ -56,8 +57,8 @@ export const PlanConditionBox: FC<Props> = (props) => {
         </Text>
       </Flex>
 
-      {gender && typeof text === "number" ? (
-        <StaffGenderText staffGender={text} />
+      {gender ? (
+        <StaffGenderText staffGender={gender} />
       ) : (
         <Flex alignItems={"center"}>
           <StatusText

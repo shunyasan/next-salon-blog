@@ -121,6 +121,7 @@ model Machine {
   name String @default("クリニック名") //機器名
   clinic Clinic_Machine[] 
   irradiations Machine_Irradiation[]
+  prices Price[]
 }
 
 model  Clinic_Machine {
@@ -145,7 +146,7 @@ model Clinic {
   reserve String?
   review Int?
   roomType String?
-  staffGender Gender? @default(both)
+  staffGender Gender @default(both)
   doctorGender Gender? /// 医師の性別 
   restriction Gender? /// 女性専用 | 男性専用
   tax String?
@@ -292,9 +293,9 @@ enum OptionKind {
   revisitFees
   shaving
   skinTrouble
-  sameDayTreatment
-  counseling
-  cancel
+  // sameDayTreatment
+  // counseling
+  // cancel
 }
 
 //同スキーマ
@@ -306,9 +307,12 @@ model Price {
   price Int //総額料金
   oncePrice Int //1回料金
   terms String? //備考
-  expiration Float @default(0) //有効期限 単位は年 0は期限なし
+  expiration Int @default(0) //有効期限 単位は月 0は期限なし
   firstLimited Boolean @default(false) // 初回限定のコースか否か
   afterCourse Boolean @default(false) //コース終了後の価格か否か
+  onlyWeekday Boolean @default(false) //平日のみか否か
+  machineId String? //脱毛器の指定がある場合に記載 外部キー戻す↓
+  machine Machine?  @relation(fields: [machineId], references: [id])
   partsId String
   parts Parts  @relation(fields: [partsId], references: [id])
   clinicId String

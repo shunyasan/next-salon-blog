@@ -28,7 +28,7 @@ export const NoticeClinicDetail: FC<Props> = (props) => {
           title={"施術者"}
           icon={TbNurse}
           text={clinic.staffGender}
-          gender={true}
+          gender={clinic.staffGender}
           fontSize={fontSize}
           fontWeight={fontWeigth === undefined ? true : fontWeigth}
         />,
