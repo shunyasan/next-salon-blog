@@ -311,6 +311,7 @@ model Price {
   firstLimited Boolean @default(false) // 初回限定のコースか否か
   afterCourse Boolean @default(false) //コース終了後の価格か否か
   onlyWeekday Boolean @default(false) //平日のみか否か
+  dependRange Boolean @default(false) //範囲によって料金が異なるか
   machineId String? //脱毛器の指定がある場合に記載 外部キー戻す↓
   machine Machine?  @relation(fields: [machineId], references: [id])
   partsId String

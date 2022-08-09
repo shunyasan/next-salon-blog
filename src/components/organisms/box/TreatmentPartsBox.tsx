@@ -22,10 +22,6 @@ import { Gender } from "types/Gender";
 import { IdAndNameDto } from "types/IdAndNameDto";
 
 type Props = {
-  // 管理しず楽なりそうなので初期値はここでとる
-  // originCategories: OriginCategory[];
-  // aboutCategories: AboutCategory[];
-  // baseParts: BaseParts[];
   // partsクリック時にデータを受け取る
   onClick: (
     origin: IdAndNameDto,
@@ -105,10 +101,6 @@ const TreatmentPartsBox: FC<Props> = (props) => {
       zIndex="100"
       bg="rgba(30,30,30,0.5)"
     >
-      {(!originCategoryData || !aboutCategoryData || !basicCategory) && (
-        <LoadingModalIcon />
-      )}
-
       {/* クリニック情報は重複するから入れない  
     部位の施術範囲とか常々情報が変わるものを入れる*/}
       <Box
@@ -120,6 +112,9 @@ const TreatmentPartsBox: FC<Props> = (props) => {
         my="2rem"
         overflow={"scroll"}
       >
+        {(!originCategoryData || !aboutCategoryData || !basicCategory) && (
+          <LoadingModalIcon />
+        )}
         <Box textAlign={"right"} pt="1em" pos="sticky" top="0">
           <Icon
             cursor={"pointer"}

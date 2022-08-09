@@ -28,7 +28,7 @@ type Props = {
 };
 
 const clinicDefoultNum = "86";
-const planDefoultNum = "6383";
+const planDefoultNum = "6064";
 
 export const Header: FC<Props> = (props) => {
   const {
@@ -107,7 +107,7 @@ export const Header: FC<Props> = (props) => {
                 textDecoration: "none",
               }}
               // w={{ md: "inherit", sm: "100%" }}
-              minW={{ md: "11rem", sm: "11rem" }}
+              minW={"11rem"}
               // my={{ md: "1rem", sm: "0" }}
               mx={"1em"}
               _focus={{ outline: "none" }}
@@ -119,8 +119,8 @@ export const Header: FC<Props> = (props) => {
             </Link>
             <Flex
               // p="1em"
+              // w="8em"
               h="100%"
-              w="8em"
               cursor={"pointer"}
               bg="originBlack"
               color="originWhite"
