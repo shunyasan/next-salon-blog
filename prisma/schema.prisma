@@ -312,6 +312,8 @@ model Price {
   afterCourse Boolean @default(false) //コース終了後の価格か否か
   onlyWeekday Boolean @default(false) //平日のみか否か
   dependRange Boolean @default(false) //範囲によって料金が異なるか
+  treatmentTime Int @default(0) //施術にかかる時間 単位/分
+  daysRequired Int @default(1) //所要日数 (全身は2日間かかるとこもあるらしい)
   machineId String? //脱毛器の指定がある場合に記載 外部キー戻す↓
   machine Machine?  @relation(fields: [machineId], references: [id])
   partsId String

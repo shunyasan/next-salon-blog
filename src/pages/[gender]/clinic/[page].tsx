@@ -68,7 +68,7 @@ const ClinicsShibuya: NextPage<Props> = ({
         <title>渋谷区の医療脱毛クリニック一覧 | 脱毛コンサルタント</title>
         <meta
           name="description"
-          content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」にあるクリニック一覧です"
+          content="「渋谷・表参道・原宿」などの首都圏にあるクリニック一覧です"
         />
       </Head>
       <ClinicListTemplate

@@ -64,7 +64,7 @@ const InteriorFeature: NextPage<Props> = ({
         <title>内装の豪華なクリニック | 脱毛コンサルタント</title>
         <meta
           name="description"
-          content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」からおすすめする内装が豪華なクリニックです"
+          content="「渋谷・表参道・原宿」などの首都圏からおすすめする内装が豪華なクリニックです"
         />
       </Head>
       <ClinicListTemplate

@@ -69,7 +69,7 @@ const PrivateRoomFeature: NextPage<Props> = ({
         <title>完全個室のあるクリニック | 脱毛コンサルタント</title>
         <meta
           name="description"
-          content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」からおすすめする完全個室のあるクリニックです。VIOなどで気にされる方におすすめです。"
+          content="「渋谷・表参道・原宿」などの首都圏からおすすめする完全個室のあるクリニックです。VIOなどで気にされる方におすすめです。"
         />
       </Head>
       <ClinicListTemplate

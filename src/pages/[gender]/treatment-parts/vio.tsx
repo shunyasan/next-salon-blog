@@ -79,7 +79,7 @@ const TreatmentVioParts: NextPage<Props> = ({ about, gender }) => {
         <title>VIOの脱毛可能な部位 | 脱毛コンサルタント</title>
         <meta
           name="description"
-          content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」大手から優良小規模で脱毛可能な部位です。おすすめの部位から意外な部位まで掲載しています。"
+          content="「渋谷・表参道・原宿」などの首都圏大手から優良小規模で脱毛可能な部位です。おすすめの部位から意外な部位まで掲載しています。"
         />
       </Head>
       <BgImgH1 title="VIOの脱毛可能な部位" />

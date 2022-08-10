@@ -69,7 +69,7 @@ const VisitFeeFeature: NextPage<Props> = ({
         <title>初診料が無料のクリニック | 脱毛コンサルタント</title>
         <meta
           name="description"
-          content="「渋谷・恵比寿・新宿・銀座・六本木・池袋」からおすすめする初診料が無料のクリニックです。少しでも安いプランをご希望の方にておすすめです。"
+          content="「渋谷・表参道・原宿」などの首都圏からおすすめする初診料が無料のクリニックです。少しでも安いプランをご希望の方にておすすめです。"
         />
       </Head>
       <ClinicListTemplate

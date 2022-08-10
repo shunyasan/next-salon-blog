@@ -13,7 +13,7 @@ const InstagramBox: FC<Props> = ({ instagram }) => {
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://www.instagram.com/embed.js";
-    script && document.body.appendChild(script);
+    document.body.appendChild(script);
     // アンマウント時に一応scriptタグを消しておく
     return () => {
       document.body.removeChild(script);
