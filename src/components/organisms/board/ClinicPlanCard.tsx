@@ -39,6 +39,9 @@ export const ClinicPlanCard: FC<Props> = (props) => {
 
   // const [gender, setGender] = useState<Gender>("lady");
 
+  // ↓のやり方でバグあり
+  // ファイヤークリニックの箇所
+
   const [origin, setOrigin] = useState<IdAndNameDto>({
     id: "ORC000001",
     name: "顔・首",
@@ -65,7 +68,7 @@ export const ClinicPlanCard: FC<Props> = (props) => {
   );
 
   useEffect(() => {
-    aboutCategoryData &&
+    aboutCategoryData?.length &&
       setAbout({
         id: aboutCategoryData[0].id,
         name: aboutCategoryData[0].name,

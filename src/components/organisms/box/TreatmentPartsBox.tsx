@@ -81,7 +81,7 @@ const TreatmentPartsBox: FC<Props> = (props) => {
   );
 
   useEffect(() => {
-    aboutCategoryData &&
+    aboutCategoryData?.length &&
       setAbout({
         id: aboutCategoryData[0].id,
         name: aboutCategoryData[0].name,

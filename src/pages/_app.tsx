@@ -21,6 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           name="google-site-verification"
           content="Wzt1e8X-GdJRd-dyZxrwBUbKNNNjn_W6b0c2E7k3XN0"
         />
+        <meta httpEquiv="Content-Security-Policy"></meta>
       </Head>
       {/* <!-- Global site tag (gtag.js) - Google Analytics --> */}
       <Script
