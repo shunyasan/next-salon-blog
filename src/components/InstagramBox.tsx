@@ -10,22 +10,27 @@ type Props = {
   instagram: Instagram;
 };
 const InstagramBox: FC<Props> = ({ instagram }) => {
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://www.instagram.com/embed.js";
-    document.body.appendChild(script);
-    // アンマウント時に一応scriptタグを消しておく
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+  // useEffect(() => {
+  //   // 投稿の描画が終わったらスクリプトを読みこませる。
+  //   if (instagram.code) {
+  //     const script = document.createElement("script");
+  //     script.type = "text/javascript";
+
+  //     var attr = document.createAttribute("src");
+  //     attr.value = "//www.instagram.com/embed.js";
+  //     script.setAttributeNode(attr);
+
+  //     const head = document.getElementsByTagName("head")[0];
+  //     head.appendChild(script);
+  //   }
+  // }, [instagram.code]);
 
   const router = useRouter();
   const gender = (router.query.gender as Gender) || "lady";
 
   return (
     <Box>
-      <Box mb=".5em" textAlign={"left"}>
+      {/* <Box mb=".5em" textAlign={"left"}>
         <Link
           ml="1em"
           color={"originGold"}
@@ -278,7 +283,7 @@ const InstagramBox: FC<Props> = ({ instagram }) => {
           </a>
         </div>
       </blockquote>
-      <Script async src="https://www.instagram.com/embed.js"></Script>
+      <Script async src="//www.instagram.com/embed.js"></Script> */}
     </Box>
   );
 };
