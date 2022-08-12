@@ -20,6 +20,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
 import { SelextGenderBox } from "components/molecules/box/SelextGenderBox";
 import { Gender } from "types/Gender";
+import { NumOfDatasBox } from "components/molecules/box/NumOfDatasBox";
 
 type Props = {
   // children?: ReactNode;
@@ -92,6 +93,9 @@ export const Header: FC<Props> = (props) => {
       <LoadingModalIcon />
       <Box>
         <Box>
+          <Box display={{ md: "none", sm: "box" }}>
+            <NumOfDatasBox />
+          </Box>
           <Flex
             // wrap={"wrap"}
             justifyContent={"space-between"}
@@ -174,54 +178,7 @@ export const Header: FC<Props> = (props) => {
                   </Box>
                 ))}
               </HStack>
-
-              <Box
-                // spacing={"0"}
-                // justifySelf={"center"}
-                textAlign="center"
-                bg={"#eee"}
-                p={{ md: "1rem 2rem", sm: " 1rem .5rem" }}
-                h="100%"
-                fontSize={{ md: "0.6vw", sm: "0.4rem" }}
-                // minW="13rem"
-                // fontSize={{ md: "0.6rem", sm: "0.4rem" }}
-                // marginInlineStart={"unset"}
-              >
-                <Flex
-                  justifyContent={"center"}
-                  wrap={"wrap"}
-                  mb={"0.5rem"}
-                  color={"originGold"}
-                >
-                  <Text>東京都内のクリニックから</Text>
-                  <Text>プランを分析</Text>
-                </Flex>
-                <HStack
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                  spacing={{ md: "2rem", sm: "1.5em" }}
-                >
-                  <Text fontSize={{ md: "1.2vw", sm: "0.7rem" }}>現在</Text>
-                  <Box>
-                    <Text>クリニック数</Text>
-                    <Text fontSize={{ md: "1.6vw", sm: "1rem" }} mx={"3px"}>
-                      {clinicDefoultNum}
-                      <Text as="span" fontSize={"0.6rem"} ml={"5px"}>
-                        件
-                      </Text>
-                    </Text>
-                  </Box>
-                  <Box>
-                    <Text>プラン数</Text>
-                    <Text fontSize={{ md: "1.6vw", sm: "1rem" }} mx={"3px"}>
-                      {planDefoultNum}
-                      <Text as="span" fontSize={"0.6rem"} ml={"5px"}>
-                        件
-                      </Text>
-                    </Text>
-                  </Box>
-                </HStack>
-              </Box>
+              <NumOfDatasBox />
             </Flex>
           </Flex>
           <Box h="7px" w="100%" bg="originBlack"></Box>
