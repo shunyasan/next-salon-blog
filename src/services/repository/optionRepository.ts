@@ -29,8 +29,8 @@ export const optionRepository = () => {
 
   const numOfOptions = (orderPlan: OrderPlanQuery) => {
     const nums: number[] = Object.entries(OptionKind).map(([key, val]) => {
-      const res = checkEmptyData(orderPlan[val]) ? 1 : 0;
-      return res;
+      const data: any = orderPlan;
+      return checkEmptyData(data[val]) ? 1 : 0;
     });
     const sum = nums.reduce((pre, next) => pre + next);
     return sum;

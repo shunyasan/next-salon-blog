@@ -135,20 +135,9 @@ model  Clinic_Machine {
 
 model Clinic {
   id String @id
-  interior String?  //内装
-  address String //住所
-  cardPay String?
-  medhicalLoan String?
-  campaign String?  //キャンペーン
-  studentDiscount String?   //学割
   name String
   nearestStation String
-  reserve String?
-  review Int?
-  roomType String?
-  staffGender Gender @default(both)
-  doctorGender Gender? /// 医師の性別 
-  restriction Gender? /// 女性専用 | 男性専用
+  address String //住所
   tax String?
   tel String?
   url String
@@ -156,6 +145,18 @@ model Clinic {
   area Area @relation(fields: [areaId], references: [id])
   clinicGroupId String?
   clinicGroup ClinicGroup? @relation(fields: [clinicGroupId], references: [id])
+  interior String?  //内装
+  cardPay String?
+  medhicalLoan String?
+  campaign String?  //キャンペーン
+  studentDiscount String?   //学割
+  reserve Boolean @default(false)
+  review Int?
+  roomType String?
+  staffGender Gender @default(both)
+  doctorGender Gender? /// 医師の性別 
+  restriction Gender? /// 女性専用 | 男性専用
+  knowHow DateTime ? @db.Date /// ノウハウの年数(開院の日を記載)
   machine Clinic_Machine[] 
   clinicOpeningHours ClinicOpeningHours[] 
   // clinicOption ClinicOption?  
@@ -293,9 +294,9 @@ enum OptionKind {
   revisitFees
   shaving
   skinTrouble
-  // sameDayTreatment
-  // counseling
-  // cancel
+  sameDayTreatment
+  counseling
+  cancel
 }
 
 //同スキーマ
@@ -307,7 +308,7 @@ model Price {
   price Int //総額料金
   oncePrice Int //1回料金
   terms String? //備考
-  expiration Int @default(0) //有効期限 単位は月 0は期限なし
+  expiration Int @default(0) //有効期限 単位は月 0は期限なし/1000は期限ありのみ
   firstLimited Boolean @default(false) // 初回限定のコースか否か
   afterCourse Boolean @default(false) //コース終了後の価格か否か
   onlyWeekday Boolean @default(false) //平日のみか否か

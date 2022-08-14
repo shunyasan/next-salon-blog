@@ -34,12 +34,12 @@ export const NoticeClinicDetail: FC<Props> = (props) => {
         />,
         <PlanConditionBox
           key={clinic.name}
-          title={"予約"}
+          title={"予約システム"}
           icon={MdOutlineBookmarkAdded}
-          text={clinic.reserve || "ー"}
-          first={"優良"}
-          second={"良好"}
-          other={"ー"}
+          text={clinic.reserve ? "あり" : "ー"}
+          first={"あり"}
+          // second={""}
+          // other={"ー"}
           fontSize={fontSize}
           fontWeight={fontWeigth === undefined ? true : fontWeigth}
         />,
