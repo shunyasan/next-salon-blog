@@ -1,10 +1,5 @@
 import { Box, Button, Flex, HStack, Link, Stack, Text } from "@chakra-ui/react";
-import {
-  AboutCategory,
-  Clinic,
-  ClinicOpeningHours,
-  Picture,
-} from "@prisma/client";
+import { Picture } from "@prisma/client";
 import { UnderLineItemBox } from "components/molecules/box/UnderLineItemBox";
 import { OpeningHoursTable } from "components/molecules/table/OpeningHoursTable";
 import { FC, memo, useCallback, useEffect, useState, VFC } from "react";
