@@ -156,7 +156,9 @@ model Clinic {
   staffGender Gender @default(both)
   doctorGender Gender? /// 医師の性別 
   restriction Gender? /// 女性専用 | 男性専用
-  knowHow DateTime ? @db.Date /// ノウハウの年数(開院の日を記載)
+  openingDate DateTime ? @db.Date /// 開院日=ノウハウ年数 グループ院で脱毛症例があればOK （月日不明の場合は1月1日)
+  numOfCases Int? @default(0) /// 対応した症例数
+  noSoliciting Int @default(0) ///無理な勧誘の評価 数値が高いほど優良 なし: 1 
   machine Clinic_Machine[] 
   clinicOpeningHours ClinicOpeningHours[] 
   // clinicOption ClinicOption?  
@@ -167,6 +169,7 @@ model Clinic {
   google Google[]
   picture Picture[]
   options Option[]
+  discount Discount[]
   creditPay CreditPay?
   qrPay QRPay?
 }
@@ -275,28 +278,57 @@ model ClinicOpeningHours {
 //   clinic Clinic @relation(fields: [clinicId], references: [id])
 // }
 
+model Discount {
+  id String @id
+  kind DiscountKind
+  terms String?
+  clinicId String
+  clinic Clinic @relation(fields: [clinicId], references: [id])
+}
+
+enum DiscountKind {
+  student //学割・学生料金
+  pair //ペア割
+  override //乗り換え割
+  firstVisit //初回割
+  referral //紹介割
+}
+
 model Option {
   id String @id
   price Int
-  terms String?
+  terms String? //条件
+  detail String? //詳細
   moreCharge Boolean @default(false)
   kind OptionKind
+  // moreCounseling： termsに回数指定 NULLは無制限
   clinicId String
   clinic Clinic @relation(fields: [clinicId], references: [id])
 }
 
 enum OptionKind {
-  leakage
-  aftercare
-  anesthesia
-  contract
-  firstVisitFees
-  revisitFees
-  shaving
-  skinTrouble
-  sameDayTreatment
-  counseling
-  cancel
+  leakage //照射もれ
+  aftercare //アフターケア
+  //麻酔
+  anesthesia // 種類不明
+  tapeAnesth  //テープ麻酔
+  surfaceAnesth //表面麻酔
+  gasAnesth //笑気麻酔
+  //
+  contract //解約での返金
+  firstVisitFees //初診料
+  revisitFees //再診料
+  //剃毛
+  shaving //剃り残しのみ
+  fullShaving //剃毛
+   //
+  skinTrouble //肌トラブル対応
+  //カウンセリング
+  sameDayTreatment //カウンセリング同日に施術
+  counseling //初回無料のカウンセリング
+  moreCounseling //無料のカウンセリング
+  //
+  cancel //キャンセル
 }
 
 //同スキーマ
@@ -314,7 +346,7 @@ model Price {
   onlyWeekday Boolean @default(false) //平日のみか否か
   fluctuate Boolean @default(false) //掲載の料金から異なる可能性（範囲の違いなどによる）
   treatmentTime Int @default(0) //施術にかかる時間 単位/分
-  daysRequired Int @default(1) //所要日数 (全身は2日間かかるとこもあるらしい)
+  daysRequired Int @default(0) //所要日数 (全身は2日間かかるとこもあるらしい) 0：不明
   machineId String? //脱毛器の指定がある場合に記載 外部キー戻す↓
   machine Machine?  @relation(fields: [machineId], references: [id])
   partsId String

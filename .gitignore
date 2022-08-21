@@ -40,4 +40,4 @@ sendgrid
 sendgrid.env
 
 # SQl
-.test.sql
+/test.sql
