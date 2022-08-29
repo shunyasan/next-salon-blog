@@ -153,12 +153,10 @@ model Clinic {
   reserve Boolean @default(false)
   review Int?
   roomType String?
-  staffGender Gender @default(both)
-  doctorGender Gender? /// 医師の性別 
+  staffGender Gender @default(both) /// 施術スタッフの性別 
   restriction Gender? /// 女性専用 | 男性専用
   openingDate DateTime ? @db.Date /// 開院日=ノウハウ年数 グループ院で脱毛症例があればOK （月日不明の場合は1月1日)
   numOfCases Int? @default(0) /// 対応した症例数
-  noSoliciting Int @default(0) ///無理な勧誘の評価 数値が高いほど優良 なし: 1 
   machine Clinic_Machine[] 
   clinicOpeningHours ClinicOpeningHours[] 
   // clinicOption ClinicOption?  
@@ -171,6 +169,9 @@ model Clinic {
   options Option[]
   discount Discount[]
   creditPay CreditPay?
+  clinicFeature ClinicFeature?
+  staff Staff?
+  facility Facility?
   qrPay QRPay?
 }
 
@@ -178,6 +179,71 @@ enum Gender {
   men
   lady
   both
+}
+
+//クリニックの特徴
+model ClinicFeature {
+  id String @id
+  celebAttend Boolean @default(false) ///有名人が通っている(いた)
+  epiOther Boolean @default(false)  //脱毛以外の施術があるか（美容皮膚科全般のノウハウ）
+  appearTV Boolean @default(false)  //TV出演の有無
+  popularMenu Boolean @default(false)  //クリニックの人気メニューが脱毛か
+  machineImprove Boolean @default(false)  //脱毛器の開発に貢献（フィードバックを積極的にしている）
+  drsCosme Boolean @default(false)  //ドクターズコスメが無料で使える
+  noSoliciting Int @default(0) ///無理な勧誘の評価 数値が高いほど優良 なし: 1 
+  onlyEachPay Boolean @default(false)  //都度払いのみの取り扱い
+  clinicId String @unique
+  clinic Clinic @relation(fields: [clinicId], references: [id])
+}
+
+model Staff {
+  id String @id
+  doctor Gender @default(both) //医師の性別
+  nurse Gender @default(lady) //看護師・カウンセラーの性別
+  treatment Position?  //施術する人の役職
+  counseling Position? //カウンセリングする人の役職
+  counselingNomi NominateEnum? //カウンセリングの指名
+  treatmentNomi NominateEnum? //施術の指名
+  examineNomi NominateEnum? //診察の指名
+  training Int @default(0)  //初期研修の期間 単位/週 1ヶ月は４週
+  internalStudy Boolean @default(false) //院内での定期勉強会の実施
+  outsideStudy Boolean @default(false) //外部での定期勉強会、医学会、研究活動などの実施（外部の方を呼ぶもOK）
+  clinicId String @unique
+  clinic Clinic @relation(fields: [clinicId], references: [id])
+}
+
+//施術する人の役職
+enum Position { 
+  doctor
+  nurse //看護師・カウンセラー
+  doctorAndNurse
+}
+
+enum NominateEnum { 
+  no //指名できない
+  gender /// 性別で指名ができる
+  byName /// 人物での指名ができる
+}
+
+//院内施設
+model Facility { 
+  id String @id
+  beauty Int @default(0) // 1: 標準 2:綺麗 3:豪華 4:贅沢 0:不明
+  examination RoomType? // //診察室
+  waiting RoomType? //待合室
+  counseling RoomType? //カウンセリングルーム
+  treatment RoomType? // //施術室
+  powder RoomType? //化粧室
+  clinicId String @unique
+  clinic Clinic @relation(fields: [clinicId], references: [id])
+}
+
+ enum RoomType { 
+  open // 仕切り等なし
+  partition //パーティションで仕切り（カーテン含む）
+  entPartition //入口のみパーティションで仕切り（カーテン含む）
+  private //個室
+  completePrivate //完全個室
 }
 
 model Youtube {
@@ -292,13 +358,14 @@ enum DiscountKind {
   override //乗り換え割
   firstVisit //初回割
   referral //紹介割
+  sameDayContr //即日契約割
 }
 
 model Option {
   id String @id
   price Int
+  unit Int @default(1) //単位があれば。0は無制限
   terms String? //条件
-  detail String? //詳細
   moreCharge Boolean @default(false)
   kind OptionKind
   // moreCounseling： termsに回数指定 NULLは無制限
@@ -307,31 +374,30 @@ model Option {
 }
 
 enum OptionKind {
-  leakage //照射もれ
-  aftercare //アフターケア
   //麻酔
   anesthesia // 種類不明
   tapeAnesth  //テープ麻酔
   surfaceAnesth //表面麻酔
   gasAnesth //笑気麻酔
   //
-  contract //解約での返金
-  firstVisitFees //初診料
-  revisitFees //再診料
+  //カウンセリング
+  sameDayTreatment //カウンセリング同日に施術
+  counseling //カウンセリング
+  //
   //剃毛
   shaving //剃り残しのみ
   fullShaving //剃毛
    //
+  leakage //照射もれ
+  curing //硬化毛の対応
+  aftercare //アフターケア
+  contract //解約での返金
+  firstVisitFees //初診料
+  revisitFees //再診料
   skinTrouble //肌トラブル対応
-  //カウンセリング
-  sameDayTreatment //カウンセリング同日に施術
-  counseling //初回無料のカウンセリング
-  moreCounseling //無料のカウンセリング
-  //
-  cancel //キャンセル
+  cancel //キャンセル料
 }
 
-//同スキーマ
 model Price {
   id String @id
   name String  //部位名
