@@ -37,18 +37,21 @@ import { resourcesData } from "services/common/resourcesData";
 import { RelationClinic } from "types/RelationClinic";
 import { TopResource } from "../../../../resorces/TopResource";
 import { Gender } from "types/Gender";
+import { ActionService } from "services/actionSearvice";
 
 type Props = {
   clinic: RelationClinic;
   genderParam: Gender;
   children?: ReactNode;
+  planName?: string;
 };
 
 const img = TopResource.clinicImg1;
 const { getRandomImg } = resourcesData();
+const { createActionApi } = ActionService();
 
 export const PlanCard: FC<Props> = (props) => {
-  const { clinic, children, genderParam } = props;
+  const { clinic, children, genderParam, planName } = props;
   const router = useRouter();
 
   // 画像準備期間のみ
@@ -239,6 +242,7 @@ export const PlanCard: FC<Props> = (props) => {
                 _hover={{ textDecoration: "none" }}
                 _focus={{ outline: "none" }}
                 isExternal
+                onClick={() => createActionApi(clinic.name, planName)}
               >
                 <Button my={"1rem"} mx={"1.5rem"} size={"lg"} variant="base">
                   公式サイト

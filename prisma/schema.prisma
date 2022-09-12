@@ -443,6 +443,10 @@ model QRPay {
   aliPay Boolean
   clinicId String @unique
   clinic Clinic  @relation(fields: [clinicId], references: [id])
-
 }
 
+model Action {
+ id Int @id @default(autoincrement())
+ time DateTime 
+ data String
+}

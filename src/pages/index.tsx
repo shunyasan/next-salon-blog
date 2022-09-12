@@ -87,7 +87,7 @@ const Home: NextPage<Props> = ({
             textShadow={"1px 1px 2px #000"}
           >
             {/* <Text>決して安くはない経験だからこそ、</Text> */}
-            <Text>あなたのための脱毛プランをご提案。</Text>
+            <Text>あなたのための脱毛プランをご紹介。</Text>
           </Stack>
         </Box>
         <Box

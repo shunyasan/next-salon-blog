@@ -13,7 +13,11 @@ export const PricePlanCard: FC<Props> = (props) => {
   const { price, orderDataIdName } = props;
 
   return (
-    <PlanCard clinic={price.clinic} genderParam={orderDataIdName.gender.id}>
+    <PlanCard
+      clinic={price.clinic}
+      genderParam={orderDataIdName.gender.id}
+      planName={price.name}
+    >
       <PriceDataBox price={price} orderDataIdName={orderDataIdName} />
     </PlanCard>
   );

@@ -18,6 +18,7 @@ import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
 import { ChangeBgTab } from "components/atoms/tab/ChangeBgTab";
 import { RelationClinic } from "types/RelationClinic";
 import { clinicRepository } from "services/common/repository";
+import { ActionService } from "services/actionSearvice";
 
 type Props = {
   clinicData: RelationClinic;
@@ -62,6 +63,7 @@ const ClinicDetail: NextPage<Props> = ({
   // prices,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { createActionApi } = ActionService();
 
   const [selectTab, setSelectTab] = useState<string>("TOP");
   // const [originId, setOriginId] = useState<string>(OriginCategiryId.face);
@@ -132,6 +134,7 @@ const ClinicDetail: NextPage<Props> = ({
               _hover={{ textDecoration: "none" }}
               _focus={{ outline: "none" }}
               isExternal
+              onClick={() => createActionApi(clinicData.name)}
             >
               <Button
                 size={"lg"}

@@ -12,7 +12,7 @@ export const HomeSearchBoxList: FC = () => {
 
   const plan: HomeFeatureText = {
     img: TopResource.planImg,
-    text: "プランを探す",
+    text: "プラン検索",
     description:
       "自身の特徴や施術に求めることを選択し、あなたのための脱毛プランを検索します",
     path: `/${gender}/plan`,
@@ -33,7 +33,7 @@ export const HomeSearchBoxList: FC = () => {
   const clinicList: HomeFeatureText = {
     img: TopResource.clinicImg,
     text: "クリニック一覧",
-    description: "東京都の中でも、激戦区である主要５区ほぼ全てのクリニック一覧",
+    description: "掲載されているクリニックの一覧",
     path: `/${gender}/clinic/1`,
   };
   const datas: HomeFeatureText[] = [plan, partsList, clinicList];

@@ -16,11 +16,10 @@ import { Gender } from "types/Gender";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  onClick: (path: string) => void;
 };
 
 export const HeaderDrawer: FC<Props> = (props) => {
-  const { isOpen, onClose, onClick } = props;
+  const { isOpen, onClose } = props;
   const router = useRouter();
   const gender = (router.query.gender as Gender) || "lady";
 

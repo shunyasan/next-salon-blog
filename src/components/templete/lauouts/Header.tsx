@@ -52,7 +52,7 @@ export const Header: FC<Props> = (props) => {
     },
     {
       path: "plan",
-      text: "プランを探す",
+      text: "プラン検索",
     },
     {
       path: "treatment-parts",
@@ -83,10 +83,10 @@ export const Header: FC<Props> = (props) => {
     },
   ];
 
-  const onClickTransition = (path: string) => {
-    onClose();
-    router.push(`/${gender}/${path}`);
-  };
+  // const onClickTransition = (path: string) => {
+  //   onClose();
+  //   router.push(`/${gender}/${path}`);
+  // };
 
   return (
     <Box as="header">
@@ -216,11 +216,7 @@ export const Header: FC<Props> = (props) => {
 
         {/* <DropHeader anime={dropHeader} /> */}
       </Box>
-      <HeaderDrawer
-        isOpen={isOpen}
-        onClose={onClose}
-        onClick={(path: string) => onClickTransition(path)}
-      />
+      <HeaderDrawer isOpen={isOpen} onClose={onClose} />
     </Box>
   );
 };
