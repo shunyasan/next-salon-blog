@@ -106,7 +106,7 @@ const Home: NextPage<Props> = ({
             spacing={"5px"}
             w={{ md: "100%", sm: "80%" }}
             // bg={"rgba(170,170,170,0.5)"}
-            textShadow={"1px 1px 2px #000"}
+            textShadow={"1px 1px 3px #000"}
           >
             {/* <Text>決して安くはない経験だからこそ、</Text> */}
             <Text>あなたのための脱毛プランをご提案。</Text>
@@ -114,7 +114,7 @@ const Home: NextPage<Props> = ({
         </Box>
         <Box
           w={{ md: "100%", sm: "90rem" }}
-          h={{ md: "25rem", sm: "12rem" }}
+          h={{ md: "26rem", sm: "16rem" }}
           boxShadow="2xl"
         >
           <Image
@@ -161,7 +161,7 @@ const Home: NextPage<Props> = ({
           <UnderLineText
             fontSize={{ md: "1.5rem", sm: "1.2rem" }}
             as="h2"
-            title={"リアルタイム情報"}
+            title={"クリニック最新情報"}
           />
           <Flex justifyContent={"center"} wrap={{ md: "nowrap", sm: "wrap" }}>
             {twitter.map((data, i) => (
@@ -193,7 +193,7 @@ const Home: NextPage<Props> = ({
         mx="auto"
         mt={{ md: "2em", sm: "1.5em" }}
       >
-        {feature.map((feature, i) => (
+        {feature.map((feature, ma_i) => (
           <Box key={feature.path}>
             <Box>
               <Box mb={"0.2em"} ml="1rem" alignItems={"center"}>
@@ -230,7 +230,7 @@ const Home: NextPage<Props> = ({
                     <CopyrightImageBox
                       width={"15rem"}
                       height={"10rem"}
-                      src={imgs[i]}
+                      src={imgs[ma_i]}
                       picture={data.picture[0]}
                       // src={TopResource.clinicImg}
                       fontSize={{ md: "0.4em", sm: ".7em" }}
@@ -250,7 +250,7 @@ const Home: NextPage<Props> = ({
                 ))}
               </Flex>
             </Box>
-            {i === 2 && (
+            {/* {i === 2 && (
               <Flex justifyContent={"space-around"} wrap="wrap">
                 <Box w={{ md: "45%", sm: "95%" }}>
                   <InstagramBox instagram={instagram[0]} />
@@ -259,17 +259,17 @@ const Home: NextPage<Props> = ({
                   <InstagramBox instagram={instagram[1]} />
                 </Box>
               </Flex>
-            )}
+            )} */}
           </Box>
         ))}
-        <Flex justifyContent={"space-around"} wrap="wrap">
+        {/* <Flex justifyContent={"space-around"} wrap="wrap">
           <Box w={{ md: "45%", sm: "95%" }}>
             <InstagramBox instagram={instagram[2]} />
           </Box>
           <Box w={{ md: "45%", sm: "95%" }}>
             <InstagramBox instagram={instagram[3]} />
           </Box>
-        </Flex>
+        </Flex> */}
       </Stack>
       {/* <Adsense /> */}
     </Box>

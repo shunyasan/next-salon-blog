@@ -24,7 +24,7 @@ const TwitterBox: FC<Props> = ({ twitter, width, height }) => {
   }, []);
 
   return (
-    <Box>
+    <>
       <Box mb=".5em" textAlign={"left"}>
         <Link
           ml="1em"
@@ -43,7 +43,7 @@ const TwitterBox: FC<Props> = ({ twitter, width, height }) => {
       >
         Tweets by {twitter.code}
       </Link>
-    </Box>
+    </>
   );
 };
 export default TwitterBox;

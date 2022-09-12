@@ -63,6 +63,9 @@ export class ClinicRepository {
       },
       take: take,
       skip: skip,
+      orderBy: {
+        id: "asc",
+      },
     });
     return query;
   }
@@ -113,6 +116,9 @@ export class ClinicRepository {
       },
       take: take,
       skip: skip,
+      orderBy: {
+        id: "desc",
+      },
     });
     return query;
   }
@@ -160,6 +166,9 @@ export class ClinicRepository {
       },
       take: take,
       skip: skip,
+      orderBy: {
+        name: "desc",
+      },
     });
     return query;
   }
@@ -198,6 +207,9 @@ export class ClinicRepository {
       },
       take: take,
       skip: skip,
+      orderBy: {
+        url: "asc",
+      },
     });
     return query;
   }
@@ -236,6 +248,9 @@ export class ClinicRepository {
       },
       take: take,
       skip: skip,
+      orderBy: {
+        url: "desc",
+      },
     });
     return query;
   }
@@ -289,6 +304,9 @@ export class ClinicRepository {
       },
       take: take,
       skip: skip,
+      orderBy: {
+        address: "asc",
+      },
     });
     return query;
   }

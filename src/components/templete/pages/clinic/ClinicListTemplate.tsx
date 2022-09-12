@@ -126,7 +126,7 @@ const ClinicListTemplate: FC<Props> = ({
             <UnderLineItemBox title="最新情報" fontSize="1em">
               <Stack spacing={"3rem"}>
                 {twitter.map((account, i) => (
-                  <TwitterBox key={i} twitter={account} height="30em" />
+                  <TwitterBox key={i} twitter={account} height="400px" />
                 ))}
               </Stack>
             </UnderLineItemBox>

@@ -123,7 +123,7 @@ const Home: NextPage<Props> = ({
           <UnderLineText
             fontSize={{ md: "1.5rem", sm: "1.2rem" }}
             as="h2"
-            title={"リアルタイム情報"}
+            title={"最新情報"}
           />
           <Flex justifyContent={"center"} wrap={{ md: "nowrap", sm: "wrap" }}>
             {twitter.map((data, i) => (
@@ -148,29 +148,6 @@ const Home: NextPage<Props> = ({
             title={"特集"}
           />
         </Box>
-      </Stack>
-      <Stack
-        spacing={{ md: "2em", sm: "1.5em" }}
-        w={{ md: "70%", sm: "100%" }}
-        mx="auto"
-        mt={{ md: "2em", sm: "1.5em" }}
-      >
-        <Flex justifyContent={"space-around"} wrap="wrap">
-          <Box w={{ md: "45%", sm: "95%" }}>
-            <InstagramBox instagram={instagram[0]} />
-          </Box>
-          <Box w={{ md: "45%", sm: "95%" }}>
-            <InstagramBox instagram={instagram[1]} />
-          </Box>
-        </Flex>
-        <Flex justifyContent={"space-around"} wrap="wrap">
-          <Box w={{ md: "45%", sm: "95%" }}>
-            <InstagramBox instagram={instagram[2]} />
-          </Box>
-          <Box w={{ md: "45%", sm: "95%" }}>
-            <InstagramBox instagram={instagram[3]} />
-          </Box>
-        </Flex>
       </Stack>
       <Box
         width="100%"

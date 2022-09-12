@@ -141,6 +141,7 @@ model Clinic {
   tax String?
   tel String?
   url String
+  priority Int @unique
   areaId String
   area Area @relation(fields: [areaId], references: [id])
   clinicGroupId String?

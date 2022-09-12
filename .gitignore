@@ -17,6 +17,10 @@ package-lock.json
 /build
 /prisma/migrations/*
 
+#site-map
+/public/sitemap.xml
+/public/sitemap-0.xml
+
 # misc
 .DS_Store
 *.pem
