@@ -75,24 +75,25 @@ const Home: NextPage<Props> = ({
           pos="absolute"
           top={{ md: "25%", sm: "15%" }}
           left={{ md: "10%", sm: "5%" }}
-          fontSize={{ md: "1.5rem", sm: "1rem" }}
+          fontSize={{ md: "1.5rem", sm: "1.2rem" }}
           fontWeight="bold"
           zIndex={"100"}
           color={"#fff"}
+          textShadow={"1px 1px 3px #000"}
+          display={{ md: "flex", sm: "block" }}
         >
-          <Stack
-            spacing={"5px"}
+          {/* <Flex
             w={{ md: "100%", sm: "80%" }}
-            // bg={"rgba(170,170,170,0.5)"}
-            textShadow={"1px 1px 2px #000"}
-          >
-            {/* <Text>決して安くはない経験だからこそ、</Text> */}
-            <Text>あなたのための脱毛プランをご紹介。</Text>
-          </Stack>
+            bg={"rgba(170,170,170,0.5)"}
+          > */}
+          {/* <Text>決して安くはない経験だからこそ、</Text> */}
+          <Text>あなたのための</Text>
+          <Text>脱毛プランをご紹介。</Text>
+          {/* </Flex> */}
         </Box>
         <Box
           w={{ md: "100%", sm: "90rem" }}
-          h={{ md: "25rem", sm: "12rem" }}
+          h={{ md: "26rem", sm: "16rem" }}
           boxShadow="2xl"
         >
           <Image

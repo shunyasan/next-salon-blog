@@ -30,6 +30,7 @@ import { Gender } from "types/Gender";
 
 type Props = {
   // data: FeatureViewData[];
+  gender: Gender;
   imgs: string[];
   feature: FeatureViewData[];
   topImg: string;
@@ -54,7 +55,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths: paths, fallback: false };
 };
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
+export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
+  const gender = params ? (params.gender as Gender) : "lady";
+
   const feature = await getAllFeatureFunc();
   // const imgs = getRandomImg();
   const imgs = [...Array(10)].map((_, i) => getRandomImg());
@@ -63,6 +66,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   const instagram = await getInstagramRamdom(4);
   return {
     props: {
+      gender,
       feature,
       imgs,
       topImg,
@@ -73,6 +77,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 };
 
 const Home: NextPage<Props> = ({
+  gender,
   imgs,
   feature,
   topImg,
@@ -80,16 +85,17 @@ const Home: NextPage<Props> = ({
   instagram,
 }) => {
   const router = useRouter();
-  const gender = (router.query.gender as Gender) || "lady";
 
   return (
     <Box>
       <LoadingModalIcon />
       <Head>
-        <title>脱毛コンサルタント</title>
+        <title>
+          脱毛コンサルタント（{gender === "men" ? "男性" : "女性"}）
+        </title>
         <meta
           name="description"
-          content="自分に合った脱毛プランを検索できるサイトです。東京都内の医療脱毛激戦区である「渋谷・表参道・原宿」などの首都圏大手から優良小規模まで、ほぼ全てのクリニックから分析したプランをおすすめします。"
+          content="脱毛の選び方に迷っている方のための、自分に合った脱毛を検索できるサイトです。東京都内の医療脱毛激戦区である「渋谷・表参道・原宿」などの首都圏大手から優良小規模まで、ほぼ全てのクリニックから分析したプランをおすすめします。"
         />
       </Head>
       <Flex pos="relative">
@@ -97,20 +103,21 @@ const Home: NextPage<Props> = ({
           pos="absolute"
           top={{ md: "25%", sm: "15%" }}
           left={{ md: "10%", sm: "5%" }}
-          fontSize={{ md: "1.5rem", sm: "1rem" }}
+          fontSize={{ md: "1.5rem", sm: "1.2rem" }}
           fontWeight="bold"
           zIndex={"100"}
           color={"#fff"}
+          textShadow={"1px 1px 3px #000"}
+          display={{ md: "flex", sm: "block" }}
         >
-          <Stack
-            spacing={"5px"}
+          {/* <Flex
             w={{ md: "100%", sm: "80%" }}
-            // bg={"rgba(170,170,170,0.5)"}
-            textShadow={"1px 1px 3px #000"}
-          >
-            {/* <Text>決して安くはない経験だからこそ、</Text> */}
-            <Text>あなたのための脱毛プランをご提案。</Text>
-          </Stack>
+            bg={"rgba(170,170,170,0.5)"}
+          > */}
+          {/* <Text>決して安くはない経験だからこそ、</Text> */}
+          <Text>あなたのための</Text>
+          <Text>脱毛プランをご紹介。</Text>
+          {/* </Flex> */}
         </Box>
         <Box
           w={{ md: "100%", sm: "90rem" }}
