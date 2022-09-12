@@ -1,5 +1,5 @@
 export const TopResource = {
-  topImg: "https://d4lnyw05kel00.cloudfront.net/image/top/top-img.webp",
+  topImg: "https://d4lnyw05kel00.cloudfront.net/image/top/top.webp",
   planImg: "https://d4lnyw05kel00.cloudfront.net/image/top/plan-icon.webp",
   partsImg:
     "https://d4lnyw05kel00.cloudfront.net/image/lady/about_category/lady-vio.webp",
