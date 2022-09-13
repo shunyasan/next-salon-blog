@@ -38,6 +38,7 @@ import { RelationClinic } from "types/RelationClinic";
 import { TopResource } from "../../../../resorces/TopResource";
 import { Gender } from "types/Gender";
 import { ActionService } from "services/actionSearvice";
+import { ActionEnum } from "@prisma/client";
 
 type Props = {
   clinic: RelationClinic;
@@ -242,7 +243,12 @@ export const PlanCard: FC<Props> = (props) => {
                 _hover={{ textDecoration: "none" }}
                 _focus={{ outline: "none" }}
                 isExternal
-                onClick={() => createActionApi(clinic.name, planName)}
+                onClick={() =>
+                  createActionApi(
+                    ActionEnum.external,
+                    JSON.stringify({ clinic: clinic.name, plan: planName })
+                  )
+                }
               >
                 <Button my={"1rem"} mx={"1.5rem"} size={"lg"} variant="base">
                   公式サイト

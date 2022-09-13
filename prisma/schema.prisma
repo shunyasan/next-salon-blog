@@ -450,4 +450,10 @@ model Action {
  id Int @id @default(autoincrement())
  time DateTime 
  data String
+ kind ActionEnum
+}
+
+enum ActionEnum {
+  external //外部リンク
+  search //プラン検索
 }

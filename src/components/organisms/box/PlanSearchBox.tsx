@@ -14,6 +14,8 @@ import { PlanSortSelect } from "components/atoms/select/PlanSortSelect";
 import { OptionConditionBox } from "./OptionConditionBox";
 import { Gender } from "types/Gender";
 import { AreaCheckBox } from "components/molecules/checkBox/AreaCheckBox";
+import { ActionService } from "services/actionSearvice";
+import { ActionEnum } from "@prisma/client";
 
 type Props = {
   orderPlan: OrderPlanIdName;
@@ -24,6 +26,7 @@ type Props = {
 };
 
 const { createParameter } = OrderPlanQueryService();
+const { createActionApi } = ActionService();
 
 export const PlanSearchBox: FC<Props> = (props) => {
   const { orderPlan, onClose } = props;
@@ -34,6 +37,7 @@ export const PlanSearchBox: FC<Props> = (props) => {
   const onClickSearchPlan = async () => {
     if (orderData) {
       const query = createParameter(orderData);
+      await createActionApi(ActionEnum.search, JSON.stringify(query));
       // resetPages();
       onClose && onClose();
       router.push({

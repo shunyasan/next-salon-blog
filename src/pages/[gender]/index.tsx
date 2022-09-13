@@ -116,7 +116,7 @@ const Home: NextPage<Props> = ({
           > */}
           {/* <Text>決して安くはない経験だからこそ、</Text> */}
           <Text>あなたのための</Text>
-          <Text>脱毛プランをご紹介。</Text>
+          <Text>脱毛プランをご提案。</Text>
           {/* </Flex> */}
         </Box>
         <Box

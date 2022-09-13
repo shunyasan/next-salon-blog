@@ -1,16 +1,16 @@
-import { Action } from "@prisma/client";
+import { Action, ActionEnum } from "@prisma/client";
 import { prisma } from "services/common/prisma";
+import { ActionParam } from "types/ActionParam";
 
 export const ActionRepository = () => {
-  const createAction = async (data: string): Promise<Action> => {
+  const createAction = async (params: ActionParam): Promise<Action> => {
     return await prisma.action.create({
       data: {
         time: new Date(),
-        data: data,
+        data: params.json,
+        kind: params.kind,
       },
     });
-    // const a = { id: 1, time: new Date(), data: data };
-    // return a;
   };
 
   return {

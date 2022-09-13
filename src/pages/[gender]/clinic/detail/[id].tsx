@@ -9,7 +9,7 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Clinic } from "@prisma/client";
+import { ActionEnum, Clinic } from "@prisma/client";
 import { ClinicDetailCard } from "components/organisms/board/ClinicDetailCard";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useState } from "react";
@@ -134,7 +134,12 @@ const ClinicDetail: NextPage<Props> = ({
               _hover={{ textDecoration: "none" }}
               _focus={{ outline: "none" }}
               isExternal
-              onClick={() => createActionApi(clinicData.name)}
+              onClick={() =>
+                createActionApi(
+                  ActionEnum.external,
+                  JSON.stringify({ clinic: clinicData.name })
+                )
+              }
             >
               <Button
                 size={"lg"}
