@@ -14,8 +14,10 @@ export const HamburgerIcon: FC<Props> = (props) => {
       justifyContent={"center"}
       // onClick={onClick}
       spacing={"7px"}
-      p={"3vw 4vw"}
+      // p={"3vw 4vw"}
+      px={".5em"}
       w={width}
+      minW={"2em"}
       cursor={"pointer"}
       onClick={onClick}
     >

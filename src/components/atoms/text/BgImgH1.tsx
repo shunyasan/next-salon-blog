@@ -26,7 +26,7 @@ export const BgImgH1: FC<Props> = (props) => {
         backdropBlur="5px"
         color={"originWhite"}
         fontSize={"1.6rem"}
-        textShadow={"1px 1px 2px #000"}
+        textShadow={"1px 1px 3px #000"}
       >
         {title}
       </Flex>

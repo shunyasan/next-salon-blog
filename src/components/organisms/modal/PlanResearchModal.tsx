@@ -80,6 +80,7 @@ export const PlanResearchModal: FC<Props> = (props) => {
           as={MdClose}
           onClick={onClose}
           bg="originWhite"
+          zIndex={500}
         />
         <PlanSearchBox
           orderPlan={orderPlan}

@@ -34,26 +34,6 @@ export const PriceDataBox: FC<Props> = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [complete, setComplete] = useState<boolean>(false);
 
-  const onSubmit = async (text: string) => {
-    // values.preventDefault()
-    try {
-      const res = await fetch("/api/send", {
-        body: JSON.stringify({
-          text: text,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      });
-
-      setComplete(true);
-      return res.json();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const selectFee = (sortId: string): TitleValue => {
     switch (sortId) {
       case defaultSort.oncePrice_asc.id:

@@ -37,7 +37,7 @@ export const PlanSearchBox: FC<Props> = (props) => {
   const onClickSearchPlan = async () => {
     if (orderData) {
       const query = createParameter(orderData);
-      await createActionApi(ActionEnum.search, JSON.stringify(query));
+      createActionApi(ActionEnum.search, JSON.stringify(query));
       // resetPages();
       onClose && onClose();
       router.push({
