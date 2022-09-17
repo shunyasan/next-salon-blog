@@ -53,9 +53,15 @@ const FirstTime: NextPage<Props> = ({ orderPlanIdName, prices }) => {
   return (
     <Box id={"top"}>
       <Head>
-        <title>初めての医療脱毛の探し方 | 脱毛コンサルタント</title>
+        <title>
+          【調査100院以上】おすすめの医療脱毛の探し方 | 脱毛コンサルタント
+        </title>
+        <meta
+          name="description"
+          content="初めて医療脱毛する方にとっては、何を基準に選べば良いのか不安を感じる方は少なくありません。どんな点に注意した選び方だと満足度の高い脱毛ができるのか紹介します"
+        />
       </Head>
-      <H1 title="初めての医療脱毛の探し方" />
+      <H1 title="【調査100院以上】おすすめの医療脱毛の探し方" />
       <Flex my="2rem">
         <Box w={{ md: "70%", sm: "100%" }}>
           <ImageInColumn src={ArticleResource.firstTime_Top} alt={"探し方"} />
@@ -79,7 +85,7 @@ const FirstTime: NextPage<Props> = ({ orderPlanIdName, prices }) => {
               選べていたとしても、本当にこのクリニックで大丈夫なのか不安を感じる方も少なくありません。
             </Sentence>
             <Sentence>
-              今回は、80院以上の脱毛プランを調査してきた中で、どんな点に注意して探すと満足度の高い脱毛ができるのかを、簡潔に紹介していきます。
+              今回は、80院以上の脱毛プランを調査してきた中で、どんな点に注意して探すと満足度の高い脱毛ができるのかを紹介していきます。
             </Sentence>
             <H2 title="探し方の前提は..." />
             <Sentence>
