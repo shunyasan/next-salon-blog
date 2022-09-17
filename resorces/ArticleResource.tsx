@@ -13,4 +13,6 @@ export const ArticleResource = {
     "https://d4lnyw05kel00.cloudfront.net/image/column/first.004.webp",
   firstTimeBook2:
     "https://d4lnyw05kel00.cloudfront.net/image/column/first.005.webp",
+  firstTime:
+    "https://d4lnyw05kel00.cloudfront.net/image/column/first.search.webp",
 };

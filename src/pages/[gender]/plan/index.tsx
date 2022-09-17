@@ -1,4 +1,4 @@
-import { Button, Flex, Box } from "@chakra-ui/react";
+import { Button, Flex, Box, Text } from "@chakra-ui/react";
 import { Instagram } from "@prisma/client";
 import { BgImgH1 } from "components/atoms/text/BgImgH1";
 import InstagramBox from "components/InstagramBox";
@@ -11,6 +11,8 @@ import { defaultData } from "services/common/defaultData";
 import { InstagramRepository } from "services/repository/InstagramRepository";
 import { OrderPlanIdName } from "types/OrderPlanIdName";
 import { Gender } from "types/Gender";
+import { ArticleResource } from "../../../../resorces/ArticleResource";
+import { ImageBannerCard } from "components/molecules/box/ImageBannerCard";
 
 type Props = {
   // originCategories: OriginCategory[];
@@ -75,6 +77,14 @@ const SearchSalon: NextPage<Props> = (props) => {
       <BgImgH1 title="プランを探す" />
       {/* <LoadingModalIcon /> */}
       <Box mx="auto" w={{ md: "60%", sm: "95%" }} my="3em">
+        <Text>初めての方がいましたら、こちらもご参考ください</Text>
+        <ImageBannerCard
+          src={ArticleResource.firstTime}
+          alt={"探し方"}
+          url={"/column/first-time"}
+          title={"【初めての方】おすすめする脱毛の探し方"}
+          margin={"1.5em 0 4em"}
+        />
         <PlanSearchBox
           orderPlan={defaultOrderData}
           // originCategories={originCategories}

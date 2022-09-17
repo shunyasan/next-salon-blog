@@ -54,14 +54,14 @@ const FirstTime: NextPage<Props> = ({ orderPlanIdName, prices }) => {
     <Box id={"top"}>
       <Head>
         <title>
-          【調査100院以上】おすすめの医療脱毛の探し方 | 脱毛コンサルタント
+          【調査100院以上】おすすめする脱毛の探し方 | 脱毛コンサルタント
         </title>
         <meta
           name="description"
           content="初めて医療脱毛する方にとっては、何を基準に選べば良いのか不安を感じる方は少なくありません。どんな点に注意した選び方だと満足度の高い脱毛ができるのか紹介します"
         />
       </Head>
-      <H1 title="【調査100院以上】おすすめの医療脱毛の探し方" />
+      <H1 title="【調査100院以上】おすすめする脱毛の探し方" />
       <Flex my="2rem">
         <Box w={{ md: "70%", sm: "100%" }}>
           <ImageInColumn src={ArticleResource.firstTime_Top} alt={"探し方"} />
