@@ -15,16 +15,6 @@ export default async function getAboutCategories(
     aboutCategoryId
   );
 
-  // const url =
-  //   "about-category/id-and-name/sort-selected?" +
-  //   `originCategoryId=${originCategoryId}&`;
-
-  // const checkedUrl =
-  //   !aboutCategoryId || aboutCategoryId === "none"
-  //     ? url
-  //     : url + `aboutCategoryId=${aboutCategoryId}`;
-
-  // const data: IdAndNameDto[] = await getAxios(checkedUrl);
   res.json(data);
   return data;
 }

@@ -2,10 +2,12 @@ import { prisma } from "services/common/prisma";
 import {
   aboutCategoryRepository,
   basePartsRepository,
-  machineRepository,
   originCategoryRepository,
 } from "services/common/repository";
 import { IdAndNameDto } from "types/IdAndNameDto";
+import { MachineRepository } from "./machineRepository";
+
+const { getMachineIdBySkinAndHair } = MachineRepository();
 
 export const IdAndNameRepository = () => {
   const sortBySelectData = (
@@ -56,38 +58,36 @@ export const IdAndNameRepository = () => {
     skinColor?: string,
     hair?: string
   ): Promise<IdAndNameDto[]> => {
-    const skin = skinColor ? selectSkinColor(skinColor) : 0;
-    const hairType = hair && selectHairType(hair);
-    const machines = await machineRepository.getIdfindBySkinColorAndHairType(
-      skin,
-      hairType
-    );
+    // const hairType = hair && selectHairType(hair);
+    const num = Number(skinColor);
+    const skin = isNaN(num) ? 0 : num;
+    const machines = await getMachineIdBySkinAndHair(skin, hair);
     return machines;
   };
 
-  const selectSkinColor = (skiColor: string) => {
-    const func: any = {};
-    func["白色"] = 1;
-    func["薄茶色"] = 2;
-    func["色黒"] = 3;
-    const skinNumber = func[skiColor];
-    if (!skinNumber) {
-      throw new Error("対応不可の肌色です");
-    }
-    return skinNumber as number;
-  };
+  // const selectSkinColor = (skiColor: string) => {
+  //   const func: any = {};
+  //   func["白色"] = 1;
+  //   func["薄茶色"] = 2;
+  //   func["色黒"] = 3;
+  //   const skinNumber = func[skiColor];
+  //   if (!skinNumber) {
+  //     throw new Error("対応不可の肌色です");
+  //   }
+  //   return skinNumber as number;
+  // };
 
-  const selectHairType = (hair: string) => {
-    const func: any = {};
-    func["産毛"] = "soft";
-    func["標準"] = "standard";
-    func["太い"] = "hard";
-    const changedHair = func[hair];
-    if (!changedHair) {
-      throw new Error("対応不可の毛の状態です");
-    }
-    return changedHair as string;
-  };
+  // const selectHairType = (hair: string) => {
+  //   const func: any = {};
+  //   func["産毛"] = "soft";
+  //   func["標準"] = "standard";
+  //   func["太い"] = "hard";
+  //   const changedHair = func[hair];
+  //   if (!changedHair) {
+  //     throw new Error("対応不可の毛の状態です");
+  //   }
+  //   return changedHair as string;
+  // };
 
   // const getBySortSelected = async (
   const getOriginBySortSelected = async (

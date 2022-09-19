@@ -12,10 +12,5 @@ export default async function getOriginCategories(
   const originCategoryId = req.query.id as string;
   const data = await getOriginBySortSelected(originCategoryId);
 
-  // const url =
-  //   "origin-category/id-and-name/sort-selected?" +
-  //   `originCategoryId=${originCategoryId}&`;
-
-  // const data: IdAndNameDto[] = await getAxios(url);
   res.json(data);
 }

@@ -11,7 +11,7 @@ const { getBasicCategoryName } = BasicCategoryRepository();
 export const orderPlanIdNameRepository = () => {
   const checkNoneString = (val: string) => {
     if (val === "none") {
-      return "こだわらない";
+      return "指定なし";
     }
     return val;
   };
@@ -45,7 +45,7 @@ export const orderPlanIdNameRepository = () => {
       case "oncePrice_desc":
         return "高い順（１回分）";
       default:
-        return "こだわらない";
+        return "指定なし";
     }
   };
 

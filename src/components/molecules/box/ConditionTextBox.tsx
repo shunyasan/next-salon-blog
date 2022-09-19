@@ -1,11 +1,13 @@
 import { Box, Center, Flex, Link, Text } from "@chakra-ui/react";
 import { FC, memo, VFC } from "react";
+import { IdAndNameDto } from "types/IdAndNameDto";
 
 type Props = {
   title: string;
   orderData: string;
-  texts: { id: string; text: string }[];
-  onClick: (val: string, id: string) => void;
+  texts: IdAndNameDto[];
+  onClick: (idAndName: IdAndNameDto) => void;
+  // onClick: (val: string, id: string) => void;
 };
 export const ConditionText: FC<Props> = (props) => {
   const { title, orderData, texts, onClick } = props;
@@ -40,9 +42,9 @@ export const ConditionText: FC<Props> = (props) => {
             p={orderData === data.id ? "2px 5px" : ""}
             color={orderData === data.id ? "originWhite" : "originBlack"}
             bg={orderData === data.id ? "originBlack" : ""}
-            onClick={() => onClick(data.text, data.id)}
+            onClick={() => onClick({ id: data.id, name: data.name })}
           >
-            {data.text}
+            {data.name}
           </Text>
         ))}
       </Flex>

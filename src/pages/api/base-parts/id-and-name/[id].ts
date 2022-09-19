@@ -9,7 +9,6 @@ export default async function getBasePartsIdAndName(
   const id = req.query.id as string;
   const data = await basePartsRepository.getIdAndName(id);
 
-  // const data: IdAndNameDto = await getAxios("base-parts/id-and-name/" + id);
   res.json(data);
   return data;
 }

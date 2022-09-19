@@ -13,7 +13,7 @@ type Props = {
 export const PlanContractSelect: FC<Props> = ({ idName, onChange }) => {
   const datas = [
     { id: "OK", name: "可能" },
-    { id: "none", name: "こだわらない" },
+    { id: "none", name: "指定なし" },
   ];
   const onChangeValue = (value: string) => {
     switch (value) {

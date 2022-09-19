@@ -119,6 +119,7 @@ model  Machine_Irradiation {
 model Machine {
   id String @id
   name String @default("クリニック名") //機器名
+  display Boolean //表示させるか否か
   clinic Clinic_Machine[] 
   irradiations Machine_Irradiation[]
   prices Price[]

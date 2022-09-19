@@ -53,7 +53,7 @@ const TreatmentPartsBox: FC<Props> = (props) => {
   });
 
   const { data: originCategoryData, error: err_ori } = useSWR<IdAndNameDto[]>(
-    `/api/id-and-name/origin-category/`,
+    `/api/origin-category/id-and-name/`,
     fetcher
   );
 
@@ -115,17 +115,18 @@ const TreatmentPartsBox: FC<Props> = (props) => {
         {(!originCategoryData || !aboutCategoryData || !basicCategory) && (
           <LoadingModalIcon />
         )}
-        <Box textAlign={"right"} pt="1em" pos="sticky" top="0">
-          <Icon
-            cursor={"pointer"}
-            fontSize={"2.3em"}
-            textAlign={"right"}
-            as={MdClose}
-            onClick={onClose}
-            bg="originWhite"
-          />
-        </Box>
-        <Box mb={"2em"} textAlign="center">
+        <Icon
+          pos="sticky"
+          top=".5em"
+          float={"right"}
+          cursor={"pointer"}
+          fontSize={"2.3em"}
+          textAlign={"right"}
+          as={MdClose}
+          onClick={onClose}
+          bg="originWhite"
+        />
+        <Box my={"3em"} textAlign="center">
           <Text mb="2em">希望する部位を選択してください</Text>
           {/* <Box>
             <GenderPlateBox

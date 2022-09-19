@@ -1,10 +1,15 @@
 import { prisma } from "services/common/prisma";
+import { idAndNameService } from "services/idAndNameService";
 import { IdAndNameDto } from "types/IdAndNameDto";
 
-export class MachineRepository {
+const { serializeIdAndName } = idAndNameService();
+
+export const MachineRepository = () => {
   // constructor(private readonly prisma = prisma.machine) {}
 
-  async getAllBySkinColor(skinColor: number): Promise<IdAndNameDto[]> {
+  const getAllBySkinColor = async (
+    skinColor: number
+  ): Promise<IdAndNameDto[]> => {
     const data = await prisma.irradiation.findMany({
       select: {
         id: true,
@@ -13,11 +18,14 @@ export class MachineRepository {
       where: {
         skinColor: skinColor,
       },
+      orderBy: {
+        name: "desc",
+      },
     });
     return data;
-  }
+  };
 
-  async getAllByHairType(hair: string): Promise<IdAndNameDto[]> {
+  const getAllByHairType = async (hair: string): Promise<IdAndNameDto[]> => {
     const hairs = await prisma.hair.findMany({
       select: {
         id: true,
@@ -36,16 +44,82 @@ export class MachineRepository {
       return idName;
     });
     return ans;
-  }
-  async getIdfindBySkinColorAndHairType(
+  };
+
+  const getMachineIdBySkinAndHair = async (
     skinColor?: number,
     hair?: string
-  ): Promise<IdAndNameDto[]> {
-    const getSkinColor = skinColor
-      ? await this.getAllBySkinColor(skinColor)
-      : [];
-    const getHair = hair ? await this.getAllByHairType(hair) : [];
+  ): Promise<IdAndNameDto[]> => {
+    const getSkinColor = skinColor ? await getAllBySkinColor(skinColor) : [];
+    const getHair = hair ? await getAllByHairType(hair) : [];
     const allData = getSkinColor.concat(getHair);
     return allData;
-  }
-}
+  };
+
+  const getMachineIdsDisplay = async () => {
+    const machines = await prisma.machine.findMany({
+      select: {
+        id: true,
+        name: true,
+      },
+      where: {
+        display: true,
+      },
+      orderBy: {
+        name: "asc",
+      },
+    });
+
+    const res = machines.map((machine) => {
+      return serializeIdAndName(machine.id, machine.name);
+    });
+
+    return res;
+  };
+
+  const getMachineIdsOwnType = async (
+    skin: number,
+    hair: string
+  ): Promise<IdAndNameDto[]> => {
+    const machines = await prisma.machine.findMany({
+      select: {
+        id: true,
+        name: true,
+      },
+      where: {
+        display: true,
+        irradiations: {
+          some: {
+            irradiation: {
+              skinColor: {
+                gte: skin,
+              },
+              hairs: {
+                some: {
+                  hair: {
+                    kind: hair,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        name: "asc",
+      },
+    });
+
+    const res = machines.map((machine) => {
+      return serializeIdAndName(machine.id, machine.name);
+    });
+
+    return res;
+  };
+
+  return {
+    getMachineIdBySkinAndHair,
+    getMachineIdsDisplay,
+    getMachineIdsOwnType,
+  };
+};

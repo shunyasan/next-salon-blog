@@ -77,7 +77,7 @@ const SearchSalon: NextPage<Props> = (props) => {
       <BgImgH1 title="プランを探す" />
       {/* <LoadingModalIcon /> */}
       <Box mx="auto" w={{ md: "60%", sm: "95%" }} my="3em">
-        <Text>初めての方がいましたら、こちらもご参考ください</Text>
+        <Text>初めての方へ</Text>
         <ImageBannerCard
           src={ArticleResource.firstTime}
           alt={"探し方"}

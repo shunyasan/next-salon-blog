@@ -4,7 +4,7 @@ import { FC } from "react";
 type Props = {
   selectTab: string;
   value: string;
-  url: string;
+  url?: string;
   onClick: () => void;
 };
 export const ChangeBgTab: FC<Props> = (props) => {
@@ -21,9 +21,9 @@ export const ChangeBgTab: FC<Props> = (props) => {
       cursor={"pointer"}
       href={url}
       onClick={onClick}
-      fontWeight={"bold"}
-      color={selectTab !== value ? "#555" : "originGold"}
-      bg={selectTab !== value ? "#ccc" : "originWhite"}
+      fontWeight={selectTab !== value ? "light" : "bold"}
+      color={selectTab !== value ? "#777" : "originGold"}
+      bg={selectTab !== value ? "#bbb" : "originWhite"}
       _hover={{
         bg: selectTab !== value ? "#eee" : "",
         transition: "0.5s",

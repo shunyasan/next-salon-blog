@@ -9,8 +9,5 @@ export default async function getOriginCategoryIdAndName(
   const id = req.query.id as string;
   const data = await originCategoryRepository.getIdAndName(id);
 
-  // const data: IdAndNameDto = await getAxios(
-  //   "origin-category/id-and-name/" + id
-  // );
   res.json(data);
 }
