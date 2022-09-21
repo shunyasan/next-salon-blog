@@ -49,14 +49,14 @@ export const SearchResultCard: FC<Props> = (props) => {
       title: OrderPlanTitle.parts,
       value: orderPlan.parts.name,
     },
-    {
-      title: OrderPlanTitle.skinCollor,
-      value: orderPlan.skinCollor.name,
-    },
-    {
-      title: OrderPlanTitle.hair,
-      value: orderPlan.hair.name,
-    },
+    // {
+    //   title: OrderPlanTitle.skinCollor,
+    //   value: orderPlan.skinCollor.name,
+    // },
+    // {
+    //   title: OrderPlanTitle.hair,
+    //   value: orderPlan.hair.name,
+    // },
   ];
   const clinic: TitleValue[] = [
     {

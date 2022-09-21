@@ -19,17 +19,17 @@ import SelectMachineBox from "components/organisms/box/SelectMachineBox";
 type Props = {
   title: string;
   orderPlan: OrderPlanIdName;
-  onClick: (machine: IdAndNameDto) => void;
+  onClick: (machineIds: IdAndNameDto[]) => void;
 };
 export const ConditionMachineBox: FC<Props> = (props) => {
   const { title, onClick, orderPlan } = props;
   // const [partsModal, setPartsModal] = useState<boolean>(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [machineName, setMachineName] = useState<IdAndNameDto>({
-    id: "test",
-    name: "test",
-  });
+  // const [machineName, setMachineName] = useState<IdAndNameDto>({
+  //   id: "test",
+  //   name: "test",
+  // });
 
   return (
     <>
@@ -53,7 +53,11 @@ export const ConditionMachineBox: FC<Props> = (props) => {
           borderColor={"#ddd"}
           ml="-1px"
         >
-          <Text w="75%">{machineName.name}</Text>
+          <Text w="75%">
+            {orderPlan.machineIds.length > 0
+              ? orderPlan.machineIds.map((machine) => machine.name + "｜")
+              : "指定なし"}
+          </Text>
           <Text color={"originGold"} onClick={onOpen} cursor="pointer">
             変更
           </Text>
@@ -61,7 +65,7 @@ export const ConditionMachineBox: FC<Props> = (props) => {
         {/* </Flex> */}
       </Flex>
       <SelectMachineBox
-        onClick={(machine) => onClick(machine)}
+        onClick={(machineIds) => onClick(machineIds)}
         isOpen={isOpen}
         onClose={onClose}
       />

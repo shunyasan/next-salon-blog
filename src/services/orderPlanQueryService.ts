@@ -17,8 +17,8 @@ export const OrderPlanQueryService = () => {
       aboutCategory:
         checkEmptyData(query.aboutCategory) || data.aboutCategory.id,
       parts: checkEmptyData(query.parts) || data.parts.id,
-      skinCollor: checkEmptyData(query.skinCollor) || data.skinCollor.id,
-      hair: checkEmptyData(query.hair) || data.hair.id,
+      // skinCollor: checkEmptyData(query.skinCollor) || data.skinCollor.id,
+      // hair: checkEmptyData(query.hair) || data.hair.id,
       roomType: checkEmptyData(query.roomType) || data.roomType.id,
       interior: checkEmptyData(query.interior) || data.interior.id,
       staff: checkEmptyData(query.staff) || data.staff.id,
@@ -35,6 +35,7 @@ export const OrderPlanQueryService = () => {
       revisitFees: checkEmptyData(query.revisitFees) || data.revisitFees.id,
       shaving: checkEmptyData(query.shaving) || data.shaving.id,
       skinTrouble: checkEmptyData(query.skinTrouble) || data.skinTrouble.id,
+      machineIds: (query.machineIds as string[]) || [],
     };
     return orderPlan;
   };
@@ -64,14 +65,15 @@ export const OrderPlanQueryService = () => {
   };
 
   const createParameter = (idName: OrderPlanIdName) => {
+    const machines = idName.machineIds.map((data) => data.id);
     const data: OrderPlanQuery = {
       gender: idName.gender.id,
       area: idName.area.id,
       originParts: idName.originParts.id,
       aboutCategory: idName.aboutCategory.id,
       parts: idName.parts.id,
-      skinCollor: idName.skinCollor.id,
-      hair: idName.hair.id,
+      // skinCollor: idName.skinCollor.id,
+      // hair: idName.hair.id,
       roomType: idName.roomType.id,
       interior: idName.interior.id,
       staff: idName.staff.id,
@@ -87,6 +89,7 @@ export const OrderPlanQueryService = () => {
       revisitFees: idName.revisitFees.id,
       shaving: idName.shaving.id,
       skinTrouble: idName.skinTrouble.id,
+      machineIds: machines,
     };
     return data;
   };

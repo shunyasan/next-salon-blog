@@ -9,8 +9,8 @@ export type OrderPlanIdName = {
   originParts: IdAndNameDto;
   aboutCategory: IdAndNameDto;
   parts: IdAndNameDto;
-  skinCollor: IdAndNameDto;
-  hair: IdAndNameDto;
+  // skinCollor: IdAndNameDto;
+  // hair: IdAndNameDto;
   roomType: IdAndNameDto;
   interior: IdAndNameDto;
   staff: IdAndNameDto;
@@ -26,4 +26,5 @@ export type OrderPlanIdName = {
   revisitFees: IdAndNameDto;
   shaving: IdAndNameDto;
   skinTrouble: IdAndNameDto;
+  machineIds: IdAndNameDto[];
 };

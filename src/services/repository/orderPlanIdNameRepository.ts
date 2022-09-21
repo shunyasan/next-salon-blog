@@ -4,9 +4,11 @@ import { getOriginCategoryNameById } from "services/repository/originCategoryRep
 import { OrderPlanIdName } from "types/OrderPlanIdName";
 import { OrderPlanQuery } from "types/OrderPlanQuery";
 import { BasicCategoryRepository } from "./basicCategoryRepository";
+import { MachineRepository } from "./machineRepository";
 
 const { defaultOption } = defaultData();
 const { getBasicCategoryName } = BasicCategoryRepository();
+const { getMachineInIds } = MachineRepository();
 
 export const orderPlanIdNameRepository = () => {
   const checkNoneString = (val: string) => {
@@ -76,6 +78,8 @@ export const orderPlanIdNameRepository = () => {
       );
     const basicCategory = await getBasicCategoryName(orderParams.parts);
 
+    const machines = await getMachineInIds(orderParams.machineIds);
+
     const data: OrderPlanIdName = {
       gender: {
         id: orderParams.gender,
@@ -94,14 +98,14 @@ export const orderPlanIdNameRepository = () => {
         name: aboutCategory || "",
       },
       parts: { id: orderParams.parts, name: basicCategory || "" },
-      skinCollor: {
-        id: orderParams.skinCollor,
-        name: checkNoneString(orderParams.skinCollor),
-      },
-      hair: {
-        id: orderParams.hair,
-        name: checkNoneString(orderParams.hair),
-      },
+      // skinCollor: {
+      //   id: orderParams.skinCollor,
+      //   name: checkNoneString(orderParams.skinCollor),
+      // },
+      // hair: {
+      //   id: orderParams.hair,
+      //   name: checkNoneString(orderParams.hair),
+      // },
       roomType: {
         id: orderParams.roomType,
         name: checkNoneString(orderParams.roomType),
@@ -141,6 +145,7 @@ export const orderPlanIdNameRepository = () => {
       revisitFees: chackOptionValue(orderParams.revisitFees),
       shaving: chackOptionValue(orderParams.shaving),
       skinTrouble: chackOptionValue(orderParams.skinTrouble),
+      machineIds: machines,
     };
     return data;
   };

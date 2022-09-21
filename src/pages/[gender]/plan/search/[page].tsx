@@ -65,7 +65,11 @@ const { getModalSearchConditionBoxData } = titleValueService();
 
 const createTitle = (idName: OrderPlanIdName) => {
   const data = Object.entries(idName).map(([key, value]) => {
-    return value ? value.name : undefined;
+    if (Array.isArray(value)) {
+      return value.length > 0 ? value[0].name : undefined;
+    } else {
+      return value ? value.name : undefined;
+    }
   });
   const res = data.reduce((a, b) => (b ? a + "," + b : ""));
   return res;

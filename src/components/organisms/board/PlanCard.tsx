@@ -25,8 +25,6 @@ import {
   useState,
   VFC,
 } from "react";
-import { ClinicNestPriceDto } from "types/ClinicNestPriceDto";
-import { OrderPlanIdName } from "types/OrderPlanIdName";
 import { NoticeClinicDetail } from "../box/NoticeClinicDetail";
 import { FreeServiceBoxList } from "../lists/FreeServiceBoxList";
 import { PayRerationsBoxList } from "../lists/PayRerationsBoxList";

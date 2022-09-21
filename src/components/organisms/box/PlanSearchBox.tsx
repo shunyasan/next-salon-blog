@@ -134,9 +134,11 @@ export const PlanSearchBox: FC<Props> = (props) => {
             <ConditionMachineBox
               title={"機器"}
               orderPlan={orderData}
-              onClick={() => alert("test")}
+              onClick={(machineIds: IdAndNameDto[]) =>
+                setOrderData({ ...orderData, machineIds: machineIds })
+              }
             />
-            <ConditionText
+            {/* <ConditionText
               title={OrderPlanTitle.skinCollor}
               orderData={orderData.skinCollor.id || "未選択"}
               texts={[
@@ -161,7 +163,7 @@ export const PlanSearchBox: FC<Props> = (props) => {
               onClick={(idName: IdAndNameDto) =>
                 setOrderData({ ...orderData, hair: idName })
               }
-            />
+            /> */}
             <OptionConditionBox
               orderData={orderData}
               onChange={(orderData: OrderPlanIdName) => setOrderData(orderData)}

@@ -11,7 +11,7 @@ export const titleValueService = () => {
     const conditions: TitleValue[] = [];
     for (const [key, value] of Object.entries(orderPlanData)) {
       const data = findOrderPlanTitle(key);
-      if (data && value.id !== "none") {
+      if (data && !Array.isArray(value) && value.id !== "none") {
         const ans: TitleValue = {
           title: data,
           value: value.name.toString(),

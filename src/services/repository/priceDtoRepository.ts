@@ -22,12 +22,12 @@ export const priceDtoRepository = () => {
   };
 
   const beforeGetPrices = async (orderPlan: OrderPlanQuery) => {
-    const machines = await getIdfindBySkinColorAndHairType(
-      orderPlan.skinCollor,
-      orderPlan.hair
-    );
-    const targetMachine =
-      machines.length > 0 ? machines.map((data) => data.id) : [];
+    // // const machines = await getIdfindBySkinColorAndHairType(
+    // //   orderPlan.skinCollor,
+    // //   orderPlan.hair
+    // // );
+    // const targetMachine =
+    //   machines.length > 0 ? machines.map((data) => data.id) : [];
 
     const sort = chackSort(orderPlan.sort);
     const numOfOpt = numOfOptions(orderPlan);
@@ -35,7 +35,6 @@ export const priceDtoRepository = () => {
       numOfOpt > 0 ? await getOptionClinicIds(orderPlan) : undefined;
 
     return {
-      targetMachine,
       sort,
       options,
     };
@@ -47,7 +46,7 @@ export const priceDtoRepository = () => {
     take?: number,
     skip?: number
   ): Promise<PriceDto[]> => {
-    const { options, targetMachine, sort } = await beforeGetPrices(orderPlan);
+    const { options, sort } = await beforeGetPrices(orderPlan);
 
     const ans = await prisma.price.findMany({
       // const ans = {
@@ -89,6 +88,13 @@ export const priceDtoRepository = () => {
           interior: checkEmptyData(orderPlan.interior),
           cardPay: checkEmptyData(orderPlan.card),
           medhicalLoan: checkEmptyData(orderPlan.loan),
+          machine: {
+            some: {
+              machineId: {
+                in: orderPlan.machineIds,
+              },
+            },
+          },
         },
       },
       take: take,
@@ -104,11 +110,20 @@ export const priceDtoRepository = () => {
   const getCountMaxPlan = async (
     orderPlan: OrderPlanQuery
   ): Promise<number> => {
-    const { options, targetMachine } = await beforeGetPrices(orderPlan);
+    const { options } = await beforeGetPrices(orderPlan);
 
     const ans = await prisma.price.count({
       where: {
         OR: [{ gender: orderPlan.gender }, { gender: "both" }],
+        parts: {
+          baseParts: {
+            some: {
+              baseParts: {
+                basicCategoryId: checkEmptyData(orderPlan.parts),
+              },
+            },
+          },
+        },
         clinic: {
           id: {
             in: options,
@@ -118,22 +133,10 @@ export const priceDtoRepository = () => {
           interior: checkEmptyData(orderPlan.interior),
           cardPay: checkEmptyData(orderPlan.card),
           medhicalLoan: checkEmptyData(orderPlan.loan),
-          options: checkEmptyData(orderPlan.contract)
-            ? {
-                some: {
-                  kind: "contract",
-                  price: {
-                    gte: 0,
-                  },
-                },
-              }
-            : undefined,
-        },
-        parts: {
-          baseParts: {
+          machine: {
             some: {
-              baseParts: {
-                basicCategoryId: checkEmptyData(orderPlan.parts),
+              machineId: {
+                in: orderPlan.machineIds,
               },
             },
           },

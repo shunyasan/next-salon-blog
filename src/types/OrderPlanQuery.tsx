@@ -6,8 +6,8 @@ export type OrderPlanQuery = {
   originParts: string;
   aboutCategory: string;
   parts: string;
-  skinCollor: string;
-  hair: string;
+  // skinCollor: string;
+  // hair: string;
   roomType: string;
   interior: string;
   staff: string;
@@ -23,4 +23,5 @@ export type OrderPlanQuery = {
   revisitFees: string;
   shaving: string;
   skinTrouble: string;
+  machineIds: string[];
 };

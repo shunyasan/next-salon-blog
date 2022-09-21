@@ -98,7 +98,7 @@ const TreatmentPartsBox: FC<Props> = (props) => {
       top="0"
       left="0"
       visibility={isOpen ? "visible" : "hidden"}
-      zIndex="100"
+      zIndex="1000"
       bg="rgba(30,30,30,0.5)"
     >
       {/* クリニック情報は重複するから入れない  

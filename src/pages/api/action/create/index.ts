@@ -13,4 +13,5 @@ export default async function getBaseParts(
   await createAction(body);
 
   res.status(201);
+  res.end();
 }

@@ -1,5 +1,6 @@
 import { Box, Center, Flex, HStack, Text, Stack } from "@chakra-ui/layout";
 import { Button, Checkbox, Icon } from "@chakra-ui/react";
+import { Machine } from "@prisma/client";
 import { LoadingModalIcon } from "components/atoms/icons/LoadingModalIcon";
 import { ChangeBgTab } from "components/atoms/tab/ChangeBgTab";
 import { ConditionText } from "components/molecules/box/ConditionTextBox";
@@ -9,13 +10,14 @@ import Image from "next/image";
 import React, { FC, useCallback, useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
 import fetcher from "services/common/fetcher";
+import { idAndNameService } from "services/idAndNameService";
 import useSWR from "swr";
 import { IdAndNameDto } from "types/IdAndNameDto";
 import { TopResource } from "../../../../resorces/TopResource";
 
 type Props = {
   // partsクリック時にデータを受け取る
-  onClick: (idName: IdAndNameDto) => void;
+  onClick: (machineIds: IdAndNameDto[]) => void;
   isOpen: boolean;
   onClose: () => void;
 };
@@ -34,6 +36,8 @@ const hair = [
   { id: "hard", name: "濃くしっかりと生えた毛" },
 ];
 
+const { serializeIdAndName } = idAndNameService();
+
 const SelectMachineBox: FC<Props> = (props) => {
   const { onClick, isOpen, onClose } = props;
 
@@ -44,12 +48,12 @@ const SelectMachineBox: FC<Props> = (props) => {
     hair: IdAndNameDto;
   }>({ skin: skin[1], hair: hair[1] });
 
-  const { data: machines, error: err_mac } = useSWR<IdAndNameDto[]>(
+  const { data: machines, error: err_mac } = useSWR<Machine[]>(
     `/api/machine/id-and-name`,
     fetcher
   );
 
-  const { data: machinesByOwn, error: err_own_mac } = useSWR<IdAndNameDto[]>(
+  const { data: machinesByOwn, error: err_own_mac } = useSWR<Machine[]>(
     `/api/machine/id-and-name/own-type?skinId=${selectOwn.skin.id}&hairId=${selectOwn.hair.id}`,
     fetcher
   );
@@ -72,8 +76,13 @@ const SelectMachineBox: FC<Props> = (props) => {
       const index = selectMachines.indexOf(machine.id);
       return machines[index];
     });
-    alert(JSON.stringify(result));
-  }, [machines, selectMachines]);
+    const idName: IdAndNameDto[] | undefined = result?.map((data) => {
+      return serializeIdAndName(data.id, data.name);
+    });
+
+    onClick(idName || []);
+    onClose();
+  }, [machines, selectMachines, onClick, onClose]);
 
   if (!machines || !machinesByOwn) return <LoadingModalIcon />;
   return (
@@ -84,7 +93,7 @@ const SelectMachineBox: FC<Props> = (props) => {
       top="0"
       left="0"
       visibility={isOpen ? "visible" : "hidden"}
-      zIndex="100"
+      zIndex="1000"
       bg="rgba(30,30,30,0.5)"
     >
       <Box
@@ -123,36 +132,31 @@ const SelectMachineBox: FC<Props> = (props) => {
               />
             ))}
           </Flex>
-          <Box py="2rem" display={selectTab === tab[0] ? "block" : "none"}>
-            <Flex mb="2rem" wrap={"wrap"} justifyContent={"center"}>
-              {machines.map((value) => (
-                <MachineCheckBox
-                  key={value.id}
-                  image={TopResource.clinicImg}
-                  alt={value.name}
-                  data={value}
-                  onClick={(machineId) => onClickeMachine(machineId)}
-                />
-              ))}
-            </Flex>
-            <Button
-              pos={"sticky"}
-              bottom={"2rem"}
-              variant={"base"}
-              onClick={onClickSelected}
-            >
-              選択する（{selectMachines.length}件）
-            </Button>
-          </Box>
+          <Flex
+            py="2rem"
+            wrap={"wrap"}
+            justifyContent={"center"}
+            display={selectTab === tab[0] ? "flex" : "none"}
+          >
+            {machines.map((value) => (
+              <MachineCheckBox
+                key={value.id}
+                image={value.picture}
+                alt={value.name}
+                data={value}
+                onClick={(machineId) => onClickeMachine(machineId)}
+              />
+            ))}
+          </Flex>
           <Box
             py="2rem"
             justifyContent={"center"}
             display={selectTab === tab[1] ? "block" : "none"}
           >
-            <Box w={"95%"}>
+            <Box w={"95%"} mx="auto">
               <Text my="1rem">肌の特徴を選択してください</Text>
               <ConditionText
-                title={OrderPlanTitle.skinCollor}
+                title={"肌の色"}
                 orderData={selectOwn.skin.id}
                 texts={skin}
                 onClick={(idName: IdAndNameDto) => {
@@ -161,7 +165,7 @@ const SelectMachineBox: FC<Props> = (props) => {
                 }}
               />
               <ConditionText
-                title={OrderPlanTitle.hair}
+                title={"毛量"}
                 orderData={selectOwn.hair.id}
                 texts={hair}
                 onClick={(idName: IdAndNameDto) => {
@@ -178,23 +182,26 @@ const SelectMachineBox: FC<Props> = (props) => {
               {machinesByOwn.map((value) => (
                 <MachineCheckBox
                   key={value.id}
-                  image={TopResource.clinicImg}
+                  image={value.picture}
                   alt={value.name}
                   data={value}
                   onClick={(machineId) => onClickeMachine(machineId)}
                 />
               ))}
             </Flex>
-            <Button
-              pos={"sticky"}
-              bottom={"2rem"}
-              variant={"base"}
-              onClick={onClickSelected}
-            >
-              選択する（{selectMachines.length}件）
-            </Button>
           </Box>
         </Box>
+        <Button
+          mt="2em"
+          pos={"sticky"}
+          bottom={"2rem"}
+          variant={"base"}
+          onClick={onClickSelected}
+        >
+          {selectMachines.length > 0
+            ? `選択する（${selectMachines.length}件）`
+            : "指定なし"}
+        </Button>
       </Box>
     </Box>
   );

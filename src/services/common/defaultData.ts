@@ -7,8 +7,8 @@ export const defaultData = () => {
     originParts: { id: "ORC000001", name: "顔・首" },
     aboutCategory: { id: "ABC000002", name: "セット（顔）" },
     parts: { id: "BSC000012", name: "顔全体" },
-    skinCollor: { id: "薄茶色", name: "平均的な肌色" },
-    hair: { id: "標準", name: "どちらとも言えない毛" },
+    // skinCollor: { id: "薄茶色", name: "平均的な肌色" },
+    // hair: { id: "標準", name: "どちらとも言えない毛" },
     roomType: { id: "none", name: "指定なし" },
     interior: { id: "none", name: "指定なし" },
     staff: { id: "none", name: "指定なし" },
@@ -24,6 +24,7 @@ export const defaultData = () => {
     revisitFees: { id: "none", name: "指定なし" },
     shaving: { id: "none", name: "指定なし" },
     skinTrouble: { id: "none", name: "指定なし" },
+    machineIds: [],
   };
 
   const defaultSort = {
