@@ -21,10 +21,12 @@ type Props = {
   alt: string;
   data: IdAndNameDto;
   onClick: (machineId: string) => void;
+  width: string | { md: string; sm: string };
+  height: string | { md: string; sm: string };
 };
 
 export const MachineCheckBox: FC<Props> = (props) => {
-  const { onClick, image, data, alt } = props;
+  const { onClick, image, data, alt, width, height } = props;
 
   const [selected, setSelected] = useState<boolean>(false);
 
@@ -35,6 +37,7 @@ export const MachineCheckBox: FC<Props> = (props) => {
 
   return (
     <Box
+      w={width}
       shadow={"lg"}
       m={".5em"}
       filter={selected ? "brightness(100%)" : "brightness(30%)"}
@@ -43,8 +46,8 @@ export const MachineCheckBox: FC<Props> = (props) => {
     >
       <Box
         mx={"auto"}
-        width={{ md: "13em", sm: "100%" }}
-        height={{ md: "10em", sm: "70vw" }}
+        width={{ md: "100%", sm: "100%" }}
+        height={height}
         pos="relative"
       >
         <Image layout="fill" objectFit={"contain"} src={image} alt={alt} />

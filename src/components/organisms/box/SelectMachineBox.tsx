@@ -140,6 +140,8 @@ const SelectMachineBox: FC<Props> = (props) => {
           >
             {machines.map((value) => (
               <MachineCheckBox
+                width={{ md: "13em", sm: "9em" }}
+                height={{ md: "10em", sm: "7em" }}
                 key={value.id}
                 image={value.picture}
                 alt={value.name}
@@ -182,6 +184,8 @@ const SelectMachineBox: FC<Props> = (props) => {
               {machinesByOwn.map((value) => (
                 <MachineCheckBox
                   key={value.id}
+                  width={{ md: "13em", sm: "9em" }}
+                  height={{ md: "10em", sm: "7em" }}
                   image={value.picture}
                   alt={value.name}
                   data={value}
@@ -197,6 +201,7 @@ const SelectMachineBox: FC<Props> = (props) => {
           bottom={"2rem"}
           variant={"base"}
           onClick={onClickSelected}
+          outline={"solid 1px #888"}
         >
           {selectMachines.length > 0
             ? `選択する（${selectMachines.length}件）`
