@@ -14,4 +14,5 @@ export enum OrderPlanTitle {
   contract = "コースの解約",
   option = "",
   sort = "並び替え",
+  machine = "機器",
 }

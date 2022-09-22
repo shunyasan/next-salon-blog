@@ -5,10 +5,27 @@ import { OrderPlanQuery } from "types/OrderPlanQuery";
 import { defaultData } from "./common/defaultData";
 
 const { defaultOrderPlanIdName } = defaultData();
+const data = defaultOrderPlanIdName;
 
 export const OrderPlanQueryService = () => {
+  const checkNumber = (def: number[], val?: string | string[]) => {
+    if (Array.isArray(val)) {
+      return val.map((data, i) => {
+        const num = Number(data);
+        return isNaN(num) ? def[i] : num;
+      });
+    } else {
+      return def;
+    }
+  };
+
   const getOrderPlanQuery = (query: ParsedUrlQuery): OrderPlanQuery => {
-    const data = defaultOrderPlanIdName;
+    // const data = defaultOrderPlanIdName;
+    const time = checkNumber([data.times.min, data.times.max], query.times);
+    const prices = checkNumber(
+      [data.prices.min, data.prices.max],
+      query.prices
+    );
 
     const orderPlan: OrderPlanQuery = {
       gender: checkGenderData(query.gender) || data.gender.id,
@@ -35,7 +52,9 @@ export const OrderPlanQueryService = () => {
       revisitFees: checkEmptyData(query.revisitFees) || data.revisitFees.id,
       shaving: checkEmptyData(query.shaving) || data.shaving.id,
       skinTrouble: checkEmptyData(query.skinTrouble) || data.skinTrouble.id,
-      machineIds: (query.machineIds as string[]) || [],
+      machineIds: (query.machineIds as string[]) || data.machineIds,
+      times: time,
+      prices: prices,
     };
     return orderPlan;
   };
@@ -45,14 +64,14 @@ export const OrderPlanQueryService = () => {
    * noneも全て返す。
    * ormでnoneを判定する
    */
-  const createOrderPlanQueryString = (query: ParsedUrlQuery) => {
-    if (!query || !Object.keys(query).length) {
-      return "";
-    }
-    const changed = Object.entries(query).map(([key, val]) => `${key}=${val}&`);
-    const queryToString = changed.reduce((a, b) => a + b);
-    return queryToString;
-  };
+  // const createOrderPlanQueryString = (query: ParsedUrlQuery) => {
+  //   if (!query || !Object.keys(query).length) {
+  //     return "";
+  //   }
+  //   const changed = Object.entries(query).map(([key, val]) => `${key}=${val}&`);
+  //   const queryToString = changed.reduce((a, b) => a + b);
+  //   return queryToString;
+  // };
 
   const checkEmptyData = (val?: string | string[]) => {
     const data = val as string;
@@ -66,6 +85,9 @@ export const OrderPlanQueryService = () => {
 
   const createParameter = (idName: OrderPlanIdName) => {
     const machines = idName.machineIds.map((data) => data.id);
+    const times = [idName.times.min, idName.times.max];
+    const prices = [idName.prices.min, idName.prices.max];
+
     const data: OrderPlanQuery = {
       gender: idName.gender.id,
       area: idName.area.id,
@@ -90,13 +112,14 @@ export const OrderPlanQueryService = () => {
       shaving: idName.shaving.id,
       skinTrouble: idName.skinTrouble.id,
       machineIds: machines,
+      times: times,
+      prices: prices,
     };
     return data;
   };
 
   return {
     getOrderPlanQuery,
-    createOrderPlanQueryString,
     createParameter,
   };
 };

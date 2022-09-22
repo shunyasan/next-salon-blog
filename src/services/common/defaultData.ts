@@ -25,6 +25,8 @@ export const defaultData = () => {
     shaving: { id: "none", name: "指定なし" },
     skinTrouble: { id: "none", name: "指定なし" },
     machineIds: [],
+    times: { min: 0, max: 15 },
+    prices: { min: 0, max: 20 },
   };
 
   const defaultSort = {
@@ -48,10 +50,17 @@ export const defaultData = () => {
     shibuya: { id: "AC000003", name: "渋谷区" },
   };
 
+  const defaultNumOf = {
+    none: { id: "0", name: "指定なし" },
+    once: { id: "1", name: "1回（都度払い）" },
+    many: { id: "2", name: "2回以上（コース払い）" },
+  };
+
   return {
     defaultOrderPlanIdName,
     defaultSort,
     defaultOption,
     defaultArea,
+    defaultNumOf,
   };
 };

@@ -1,5 +1,6 @@
 import { Gender } from "./Gender";
 import { IdAndNameDto } from "./IdAndNameDto";
+import { RangeUnit } from "./RangeUnit";
 
 // id: ABC0000011など検索に使う文字列
 // name: 表示用の文字列
@@ -27,4 +28,6 @@ export type OrderPlanIdName = {
   shaving: IdAndNameDto;
   skinTrouble: IdAndNameDto;
   machineIds: IdAndNameDto[];
+  times: RangeUnit;
+  prices: RangeUnit;
 };

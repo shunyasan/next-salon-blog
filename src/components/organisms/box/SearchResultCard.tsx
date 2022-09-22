@@ -41,14 +41,14 @@ export const SearchResultCard: FC<Props> = (props) => {
       title: OrderPlanTitle.gender,
       value: orderPlan.gender.name,
     },
-    {
-      title: OrderPlanTitle.aboutCategory,
-      value: orderPlan.aboutCategory.name,
-    },
-    {
-      title: OrderPlanTitle.parts,
-      value: orderPlan.parts.name,
-    },
+    // {
+    //   title: OrderPlanTitle.aboutCategory,
+    //   value: orderPlan.aboutCategory.name,
+    // },
+    // {
+    //   title: OrderPlanTitle.parts,
+    //   value: orderPlan.parts.name,
+    // },
     // {
     //   title: OrderPlanTitle.skinCollor,
     //   value: orderPlan.skinCollor.name,
@@ -59,6 +59,10 @@ export const SearchResultCard: FC<Props> = (props) => {
     // },
   ];
   const clinic: TitleValue[] = [
+    {
+      title: OrderPlanTitle.area,
+      value: orderPlan.area.name,
+    },
     {
       title: OrderPlanTitle.roomType,
       value: orderPlan.roomType.name,
@@ -71,9 +75,6 @@ export const SearchResultCard: FC<Props> = (props) => {
       title: OrderPlanTitle.staff,
       value: orderPlan.staff.name,
     },
-  ];
-
-  const plan: TitleValue[] = [
     {
       title: OrderPlanTitle.card,
       value: orderPlan.card.name,
@@ -82,9 +83,23 @@ export const SearchResultCard: FC<Props> = (props) => {
       title: OrderPlanTitle.loan,
       value: orderPlan.loan.name,
     },
+  ];
+
+  const plan: TitleValue[] = [
     {
-      title: OrderPlanTitle.contract,
-      value: orderPlan.contract.name,
+      title: OrderPlanTitle.aboutCategory,
+      value: orderPlan.aboutCategory.name,
+    },
+    {
+      title: OrderPlanTitle.parts,
+      value: orderPlan.parts.name,
+    },
+    {
+      title: OrderPlanTitle.machine,
+      value:
+        orderPlan.machineIds.length > 0
+          ? orderPlan.machineIds[0].name + "..."
+          : "指定なし",
     },
   ];
 
@@ -151,19 +166,6 @@ export const SearchResultCard: FC<Props> = (props) => {
               <ResultCardBox key={i} title={data.title} value={data.value} />
             ))}
           </Box>
-          <Box>
-            <Text
-              maxW={"9em"}
-              bg={"originLiteGray"}
-              border={"1px"}
-              borderColor={"originBlack"}
-            >
-              クリニック
-            </Text>
-            {clinic.map((data, i) => (
-              <ResultCardBox key={i} title={data.title} value={data.value} />
-            ))}
-          </Box>
           <Box
           // h={"7rem"}
           >
@@ -176,6 +178,19 @@ export const SearchResultCard: FC<Props> = (props) => {
               プラン
             </Text>
             {plan.map((data, i) => (
+              <ResultCardBox key={i} title={data.title} value={data.value} />
+            ))}
+          </Box>
+          <Box>
+            <Text
+              maxW={"9em"}
+              bg={"originLiteGray"}
+              border={"1px"}
+              borderColor={"originBlack"}
+            >
+              クリニック
+            </Text>
+            {clinic.map((data, i) => (
               <ResultCardBox key={i} title={data.title} value={data.value} />
             ))}
           </Box>

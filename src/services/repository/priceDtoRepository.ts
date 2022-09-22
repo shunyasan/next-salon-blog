@@ -1,4 +1,5 @@
 import { Gender, OptionKind } from "@prisma/client";
+import { defaultData } from "services/common/defaultData";
 import { prisma } from "services/common/prisma";
 import { OrderPlanQuery } from "types/OrderPlanQuery";
 import { PagenationParameter } from "types/PagenationParameterDto";
@@ -10,6 +11,7 @@ import { optionRepository } from "./optionRepository";
 const { getOptionClinicIds, numOfOptions } = optionRepository();
 const { getIdfindBySkinColorAndHairType } = IdAndNameRepository();
 const { chackSort } = sortPlanService();
+const { defaultOrderPlanIdName } = defaultData();
 
 export const priceDtoRepository = () => {
   // constructor(private readonly prisma = prisma.clinicArea) {}
@@ -21,6 +23,21 @@ export const priceDtoRepository = () => {
     }
   };
 
+  /**
+   *
+   * @param val
+   * @param max
+   * @param coef かける係数
+   * @returns
+   */
+
+  const checkMaxDataMulti = (val: number, max: number, coef?: number) => {
+    if (val < max) {
+      return coef ? val * coef : val;
+    }
+    return undefined;
+  };
+
   const beforeGetPrices = async (orderPlan: OrderPlanQuery) => {
     // // const machines = await getIdfindBySkinColorAndHairType(
     // //   orderPlan.skinCollor,
@@ -28,15 +45,34 @@ export const priceDtoRepository = () => {
     // // );
     // const targetMachine =
     //   machines.length > 0 ? machines.map((data) => data.id) : [];
+    const priceCoef = 10000;
 
     const sort = chackSort(orderPlan.sort);
     const numOfOpt = numOfOptions(orderPlan);
     const options =
       numOfOpt > 0 ? await getOptionClinicIds(orderPlan) : undefined;
 
+    const times = {
+      min: orderPlan.times[0],
+      max: checkMaxDataMulti(
+        orderPlan.times[1],
+        defaultOrderPlanIdName.times.max
+      ),
+    };
+    const once = {
+      min: orderPlan.prices[0] * priceCoef,
+      max: checkMaxDataMulti(
+        orderPlan.prices[1],
+        defaultOrderPlanIdName.prices.max,
+        priceCoef
+      ),
+    };
+
     return {
       sort,
       options,
+      times,
+      once,
     };
   };
 
@@ -46,10 +82,9 @@ export const priceDtoRepository = () => {
     take?: number,
     skip?: number
   ): Promise<PriceDto[]> => {
-    const { options, sort } = await beforeGetPrices(orderPlan);
+    const { options, sort, times, once } = await beforeGetPrices(orderPlan);
 
     const ans = await prisma.price.findMany({
-      // const ans = {
       include: {
         clinic: {
           include: {
@@ -70,6 +105,14 @@ export const priceDtoRepository = () => {
       },
       where: {
         OR: [{ gender: orderPlan.gender }, { gender: "both" }],
+        oncePrice: {
+          gte: once.min,
+          lte: once.max,
+        },
+        times: {
+          gte: times.min,
+          lte: times.max,
+        },
         parts: {
           baseParts: {
             some: {
@@ -88,13 +131,16 @@ export const priceDtoRepository = () => {
           interior: checkEmptyData(orderPlan.interior),
           cardPay: checkEmptyData(orderPlan.card),
           medhicalLoan: checkEmptyData(orderPlan.loan),
-          machine: {
-            some: {
-              machineId: {
-                in: orderPlan.machineIds,
-              },
-            },
-          },
+          machine:
+            orderPlan.machineIds.length > 0
+              ? {
+                  some: {
+                    machineId: {
+                      in: orderPlan.machineIds,
+                    },
+                  },
+                }
+              : undefined,
         },
       },
       take: take,
@@ -110,11 +156,19 @@ export const priceDtoRepository = () => {
   const getCountMaxPlan = async (
     orderPlan: OrderPlanQuery
   ): Promise<number> => {
-    const { options } = await beforeGetPrices(orderPlan);
+    const { options, times, once } = await beforeGetPrices(orderPlan);
 
     const ans = await prisma.price.count({
       where: {
         OR: [{ gender: orderPlan.gender }, { gender: "both" }],
+        oncePrice: {
+          gte: once.min,
+          lte: once.max,
+        },
+        times: {
+          gte: times.min,
+          lte: times.max,
+        },
         parts: {
           baseParts: {
             some: {
@@ -133,13 +187,16 @@ export const priceDtoRepository = () => {
           interior: checkEmptyData(orderPlan.interior),
           cardPay: checkEmptyData(orderPlan.card),
           medhicalLoan: checkEmptyData(orderPlan.loan),
-          machine: {
-            some: {
-              machineId: {
-                in: orderPlan.machineIds,
-              },
-            },
-          },
+          machine:
+            orderPlan.machineIds.length > 0
+              ? {
+                  some: {
+                    machineId: {
+                      in: orderPlan.machineIds,
+                    },
+                  },
+                }
+              : undefined,
         },
       },
     });

@@ -19,7 +19,8 @@ import { PlanResearchModal } from "../modal/PlanResearchModal";
 type Props = {
   orderPlan: OrderPlanIdName;
   // resetPages: () => void;
-  condition: TitleValue[];
+  condition: string[];
+  // condition: TitleValue[];
   partsName: string;
   // originCategories: OriginCategory[];
   // aboutCategories: AboutCategory[];
@@ -88,7 +89,7 @@ export const MobileSearchCondotionBox: FC<Props> = ({
                 overflow={"hidden"}
                 textOverflow={"ellipsis"}
               >
-                {condition.map((data) => `【${data.title}】${data.value}  |`)}
+                {condition.map((data) => `${data}  |`)}
               </Text>
             </Flex>
             <Text

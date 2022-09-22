@@ -1,73 +1,25 @@
 import { defaultData } from "services/common/defaultData";
 import { aboutCategoryRepository } from "services/common/repository";
+import { orderPlanIdNameService } from "services/orderPlanIdNameService";
 import { getOriginCategoryNameById } from "services/repository/originCategoryRepository";
 import { OrderPlanIdName } from "types/OrderPlanIdName";
 import { OrderPlanQuery } from "types/OrderPlanQuery";
 import { BasicCategoryRepository } from "./basicCategoryRepository";
 import { MachineRepository } from "./machineRepository";
 
-const { defaultOption } = defaultData();
+const { defaultOption, defaultOrderPlanIdName } = defaultData();
 const { getBasicCategoryName } = BasicCategoryRepository();
 const { getMachineInIds } = MachineRepository();
+const {
+  checkNoneString,
+  checkGenderString,
+  checkAreaString,
+  checkSortString,
+  chackOptionValue,
+  checkNumber,
+} = orderPlanIdNameService();
 
 export const orderPlanIdNameRepository = () => {
-  const checkNoneString = (val: string) => {
-    if (val === "none") {
-      return "指定なし";
-    }
-    return val;
-  };
-
-  const checkGenderString = (value: string) => {
-    switch (value) {
-      case "men":
-        return "男性";
-      default:
-        return "女性";
-    }
-  };
-
-  const checkAreaString = (value: string) => {
-    switch (value) {
-      case "AC000003":
-        return "渋谷区";
-      default:
-        return "渋谷区";
-    }
-  };
-
-  const checkSortString = (value: string) => {
-    switch (value) {
-      case "price_asc":
-        return "安い順（総額）";
-      case "price_desc":
-        return "高い順（総額）";
-      case "oncePrice_asc":
-        return "安い順（１回分）";
-      case "oncePrice_desc":
-        return "高い順（１回分）";
-      default:
-        return "指定なし";
-    }
-  };
-
-  const chackOptionValue = (value: string) => {
-    switch (value) {
-      case defaultOption.free.id:
-        return defaultOption.free;
-      case defaultOption.one.id:
-        return defaultOption.one;
-      case defaultOption.two.id:
-        return defaultOption.two;
-      case defaultOption.thr.id:
-        return defaultOption.thr;
-      case defaultOption.for.id:
-        return defaultOption.for;
-      default:
-        return defaultOption.none;
-    }
-  };
-
   const changeQueryToOrderPlanIdName = async (orderParams: OrderPlanQuery) => {
     const originCategory = await getOriginCategoryNameById(
       orderParams.originParts
@@ -79,6 +31,22 @@ export const orderPlanIdNameRepository = () => {
     const basicCategory = await getBasicCategoryName(orderParams.parts);
 
     const machines = await getMachineInIds(orderParams.machineIds);
+
+    const times = {
+      min: checkNumber(orderParams.times[0], defaultOrderPlanIdName.times.min),
+      max: checkNumber(orderParams.times[1], defaultOrderPlanIdName.times.max),
+    };
+
+    const prices = {
+      min: checkNumber(
+        orderParams.prices[0],
+        defaultOrderPlanIdName.prices.min
+      ),
+      max: checkNumber(
+        orderParams.prices[1],
+        defaultOrderPlanIdName.prices.max
+      ),
+    };
 
     const data: OrderPlanIdName = {
       gender: {
@@ -146,6 +114,8 @@ export const orderPlanIdNameRepository = () => {
       shaving: chackOptionValue(orderParams.shaving),
       skinTrouble: chackOptionValue(orderParams.skinTrouble),
       machineIds: machines,
+      times: times,
+      prices: prices,
     };
     return data;
   };

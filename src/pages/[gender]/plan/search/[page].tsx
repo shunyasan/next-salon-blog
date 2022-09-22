@@ -45,7 +45,7 @@ type Props = {
   title: string;
   price: PriceDto[];
   maxValue: number;
-  condition: TitleValue[];
+  condition: string[];
   twitter: Twitter[];
   instagram: Instagram[];
   gender: Gender;
@@ -61,16 +61,20 @@ const { createParameter, getOrderPlanQuery } = OrderPlanQueryService();
 const { getTwittersRamdom } = twitterRepository();
 const { getInstagramRamdom } = InstagramRepository();
 const { getCountMaxPlan, getPriceOrderPlan } = priceDtoRepository();
-const { getModalSearchConditionBoxData } = titleValueService();
+// const { getModalSearchConditionBoxData } = titleValueService();
 
 const createTitle = (idName: OrderPlanIdName) => {
-  const data = Object.entries(idName).map(([key, value]) => {
-    if (Array.isArray(value)) {
-      return value.length > 0 ? value[0].name : undefined;
-    } else {
-      return value ? value.name : undefined;
-    }
-  });
+  //新しい
+  const data = [idName.area.name, idName.aboutCategory.name, idName.parts.name];
+
+  // 以前のコード
+  // const data = Object.entries(idName).map(([key, value]) => {
+  //   if (Array.isArray(value)) {
+  //     return value.length > 0 ? value[0].name : undefined;
+  //   } else {
+  //     return value ? value.name : undefined;
+  //   }
+  // });
   const res = data.reduce((a, b) => (b ? a + "," + b : ""));
   return res;
 };
@@ -96,7 +100,12 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
   const orderDataIdName = await changeQueryToOrderPlanIdName(orderPlanQuery);
   // タイトル作成・条件結果の文字列
   const title = createTitle(orderDataIdName) || "";
-  const condition = getModalSearchConditionBoxData(orderDataIdName);
+  // const condition = getModalSearchConditionBoxData(orderDataIdName);
+  const condition = [
+    orderDataIdName.area.name,
+    orderDataIdName.aboutCategory.name,
+    orderDataIdName.parts.name,
+  ];
   const twitter = await getTwittersRamdom(3);
   const instagram = await getInstagramRamdom(4);
 

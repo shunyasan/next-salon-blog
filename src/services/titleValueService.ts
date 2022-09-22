@@ -7,20 +7,20 @@ import { optionService } from "./optionService";
 const { checkOptionPrice, optionPriceToString } = optionService();
 
 export const titleValueService = () => {
-  const getModalSearchConditionBoxData = (orderPlanData: OrderPlanIdName) => {
-    const conditions: TitleValue[] = [];
-    for (const [key, value] of Object.entries(orderPlanData)) {
-      const data = findOrderPlanTitle(key);
-      if (data && !Array.isArray(value) && value.id !== "none") {
-        const ans: TitleValue = {
-          title: data,
-          value: value.name.toString(),
-        };
-        conditions.push(ans);
-      }
-    }
-    return conditions;
-  };
+  // const getModalSearchConditionBoxData = (orderPlanData: OrderPlanIdName) => {
+  //   const conditions: TitleValue[] = [];
+  //   for (const [key, value] of Object.entries(orderPlanData)) {
+  //     const data = findOrderPlanTitle(key);
+  //     if (data && !Array.isArray(value) && value.id !== "none") {
+  //       const ans: TitleValue = {
+  //         title: data,
+  //         value: value.name.toString(),
+  //       };
+  //       conditions.push(ans);
+  //     }
+  //   }
+  //   return conditions;
+  // };
 
   const findOrderPlanTitle = (key: string) => {
     const title: any = OrderPlanTitle;
@@ -141,7 +141,7 @@ export const titleValueService = () => {
   // };
 
   return {
-    getModalSearchConditionBoxData,
+    // getModalSearchConditionBoxData,
     findOrderPlanTitle,
     ClinicOptionTitleValue,
     ClinicOtherTitleValue,

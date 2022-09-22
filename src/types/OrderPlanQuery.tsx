@@ -24,4 +24,6 @@ export type OrderPlanQuery = {
   shaving: string;
   skinTrouble: string;
   machineIds: string[];
+  times: number[];
+  prices: number[];
 };
