@@ -19,12 +19,16 @@ export const PlanHeadingBox: FC<Props> = ({ title, children }) => {
   // );
 
   return (
-    <Flex justifyContent={"space-evenly"} mt="-1px">
+    <Flex
+      justifyContent={"left"}
+      mt="-1px"
+      display={{ md: "flex", sm: "block" }}
+    >
       <Center
-        minH="6em"
-        // py="1em"
-        w={{ md: "30%", sm: "28%" }}
+        py=".3em"
+        w={{ md: "30%", sm: "100%" }}
         fontWeight={"bold"}
+        fontSize={".9em"}
         bg="#eee"
         border="1px"
         borderColor={"#ddd"}
@@ -32,14 +36,16 @@ export const PlanHeadingBox: FC<Props> = ({ title, children }) => {
         {title}
       </Center>
       <Flex
-        p=".5em"
+        // minH="6em"
+        p="1em"
         justifyContent={"space-evenly"}
-        w={{ md: "70%", sm: "72%" }}
+        w={{ md: "70%", sm: "100%" }}
         alignItems={"center"}
         border="1px"
         borderColor={"#ddd"}
-        ml="-1px"
         wrap={"wrap"}
+        ml={{ md: "-1px", sm: "0" }}
+        mt={{ md: "0", sm: "-1px" }}
       >
         {children}
       </Flex>

@@ -41,11 +41,16 @@ export const ConditionPartsBox: FC<Props> = (props) => {
 
   return (
     <>
-      <Flex justifyContent={!title ? "space-evenly" : ""} mt="-1px">
+      <Flex
+        justifyContent={"left"}
+        mt="-1px"
+        display={{ md: "flex", sm: "block" }}
+      >
         <Center
-          minH="8em"
-          w={{ md: "30%", sm: "28%" }}
+          py=".3em"
+          w={{ md: "30%", sm: "100%" }}
           fontWeight={"bold"}
+          fontSize={".9em"}
           bg="#eee"
           border="1px"
           borderColor={"#ddd"}
@@ -53,13 +58,15 @@ export const ConditionPartsBox: FC<Props> = (props) => {
           {title}
         </Center>
         <Flex
-          p=".5em"
+          // minH="8em"
+          p="1em"
           justifyContent={"space-evenly"}
-          w={{ md: "70%", sm: "72%" }}
+          w={{ md: "70%", sm: "100%" }}
           alignItems={"center"}
           border="1px"
           borderColor={"#ddd"}
-          ml="-1px"
+          ml={{ md: "-1px", sm: "0" }}
+          mt={{ md: "0", sm: "-1px" }}
         >
           <Stack w="75%">
             {/* <Flex>

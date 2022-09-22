@@ -50,8 +50,11 @@ export const PlanSearchBox: FC<Props> = (props) => {
   // 全ての要素をchildrenにしてコンポーネントをまとめる
   return (
     <Stack m={"auto"} textAlign={"center"} spacing={"3em"} fontSize={"0.9em"}>
+      <Text mb="-1em" fontWeight={"bold"} fontSize={"1.3em"}>
+        条件を選択
+      </Text>
       <UnderLineItemBox title="プラン" fontSize="1.5em">
-        <Text fontSize={"1.2em"}>プランについて選択してください</Text>
+        {/* <Text fontSize={"1.2em"}>プランについて選択してください</Text> */}
         <Box mt=".7em" w="100%">
           <ConditionPartsBox
             title="部位"
@@ -139,7 +142,7 @@ export const PlanSearchBox: FC<Props> = (props) => {
         </Box>
       </UnderLineItemBox>
       <UnderLineItemBox title="クリニック" fontSize="1.5em">
-        <Text fontSize={"1.2em"}>クリニックについて選択してください</Text>
+        {/* <Text fontSize={"1.2em"}>クリニックについて選択してください</Text> */}
         <Box mt=".7em">
           <PlanHeadingBox title="地域">
             <AreaCheckBox
@@ -219,9 +222,9 @@ export const PlanSearchBox: FC<Props> = (props) => {
         </UnderLineItemBox>
       </Box> */}
       <UnderLineItemBox title="表示" fontSize="1.5em">
-        <Text mb=".7em" fontSize={"1.2em"}>
+        {/* <Text mb=".7em" fontSize={"1.2em"}>
           表示形式を選択してください
-        </Text>
+        </Text> */}
         {/* <ConditionText
               title={OrderPlanTitle.paySystem}
               orderData={orderData.paySystem.id}
