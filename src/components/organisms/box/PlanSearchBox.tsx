@@ -89,8 +89,8 @@ export const PlanSearchBox: FC<Props> = (props) => {
               </Flex>
               <Flex alignItems={"center"} justifyContent="space-between">
                 <Flex w="40%" wrap={"wrap"} justifyContent="center">
+                  <Text>１回分の</Text>
                   <Text>予算</Text>
-                  <Text>(１回分)</Text>
                 </Flex>
                 <Box w="60%">
                   <PriceSlider
