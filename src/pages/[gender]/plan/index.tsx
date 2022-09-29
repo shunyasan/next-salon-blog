@@ -68,13 +68,13 @@ const SearchSalon: NextPage<Props> = (props) => {
   return (
     <>
       <Head>
-        <title>プランを探す | 脱毛コンサルタント</title>
+        <title>脱毛プランを探す | 脱毛コンサルタント</title>
         <meta
           name="description"
           content="「渋谷・表参道・原宿」などの首都圏からおすすめのプランを検索します。安い/痛くないと言った要望や、顔/全身/VIOの中でも、クリニックにごとの施術範囲の違いを指定して検索できます。"
         />
       </Head>
-      <BgImgH1 title="プランを探す" />
+      <BgImgH1 title="脱毛プランを探す" />
       {/* <LoadingModalIcon /> */}
       <Box mx="auto" w={{ md: "60%", sm: "95%" }} my="3em">
         <Text>初めての方へ</Text>

@@ -19,7 +19,7 @@ type Props = ClinicPageProps & {
 
 const numOfTake = 10;
 const feature = Feature.visitFee;
-const title = "初診・再診料無料のクリニック";
+const title = "初診・再診料無料の医療脱毛";
 
 const { getClinicPagesDataForFeature } = clinicPagePropsRepository();
 const { checkCountFeatureFunc } = relationClinicRepository();
@@ -66,10 +66,10 @@ const VisitFeeFeature: NextPage<Props> = ({
   return (
     <>
       <Head>
-        <title>初診料が無料のクリニック | 脱毛コンサルタント</title>
+        <title>初診料が無料の医療脱毛 | 脱毛コンサルタント</title>
         <meta
           name="description"
-          content="「渋谷・表参道・原宿」などの首都圏からおすすめする初診料が無料のクリニックです。少しでも安いプランをご希望の方にておすすめです。"
+          content="「渋谷・表参道・原宿」などの首都圏からおすすめする初診料が無料の医療脱毛です。少しでも安いプランをご希望の方にておすすめです。"
         />
       </Head>
       <ClinicListTemplate

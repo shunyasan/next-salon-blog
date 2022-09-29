@@ -14,7 +14,7 @@ type Props = ClinicPageProps & {
 
 const numOfTake = 10;
 const feature = Feature.interior;
-const title = "内装が豪華なクリニック";
+const title = "内装が豪華な医療脱毛";
 
 const { getClinicPagesDataForFeature } = clinicPagePropsRepository();
 const { checkCountFeatureFunc } = relationClinicRepository();
@@ -61,10 +61,10 @@ const InteriorFeature: NextPage<Props> = ({
   return (
     <>
       <Head>
-        <title>内装の豪華なクリニック | 脱毛コンサルタント</title>
+        <title>内装の豪華な医療脱毛 | 脱毛コンサルタント</title>
         <meta
           name="description"
-          content="「渋谷・表参道・原宿」などの首都圏からおすすめする内装が豪華なクリニックです"
+          content="「渋谷・表参道・原宿」などの首都圏からおすすめする内装が豪華な医療脱毛です"
         />
       </Head>
       <ClinicListTemplate

@@ -19,7 +19,7 @@ type Props = ClinicPageProps & {
 
 const numOfTake = 10;
 const feature = Feature.sutudentDiscount;
-const title = "学生料金（学割）のあるクリニック";
+const title = "学生料金（学割）のある医療脱毛";
 
 const { getClinicPagesDataForFeature } = clinicPagePropsRepository();
 const { checkCountFeatureFunc } = relationClinicRepository();
@@ -66,10 +66,10 @@ const SutudentDiscountFeature: NextPage<Props> = ({
   return (
     <>
       <Head>
-        <title>学生料金のあるクリニック | 脱毛コンサルタント</title>
+        <title>学生料金のある医療脱毛 | 脱毛コンサルタント</title>
         <meta
           name="description"
-          content="「渋谷・表参道・原宿」などの首都圏からおすすめする学生料金のあるクリニックです。学割などをご希望の方にておすすめです。"
+          content="「渋谷・表参道・原宿」などの首都圏からおすすめする学生料金のある医療脱毛です。学割などをご希望の方にておすすめです。"
         />
       </Head>
       <ClinicListTemplate

@@ -60,14 +60,14 @@ const AnesthesiaFeature: NextPage<Props> = ({
   return (
     <>
       <Head>
-        <title>麻酔が無料のクリニック | 脱毛コンサルタント</title>
+        <title>麻酔が無料の医療脱毛 | 脱毛コンサルタント</title>
         <meta
           name="description"
-          content="「渋谷・表参道・原宿」などの首都圏からおすすめする麻酔が無料のクリニックです。痛いのが苦手な方で少しでも安いプランをご希望の方にておすすめです。"
+          content="「渋谷・表参道・原宿」などの首都圏からおすすめする麻酔が無料の医療脱毛です。痛いのが苦手な方で少しでも安いプランをご希望の方にておすすめです。"
         />
       </Head>
       <ClinicListTemplate
-        title="麻酔無料のクリニック"
+        title="麻酔無料の医療脱毛"
         maxData={maxData}
         area={[]}
         clinics={clinics}

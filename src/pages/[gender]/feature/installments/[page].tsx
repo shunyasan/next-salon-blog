@@ -14,7 +14,7 @@ type Props = ClinicPageProps & {
 
 const numOfTake = 10;
 const feature = Feature.installments;
-const title = "分割払い可能なクリニック";
+const title = "分割払い可能な医療脱毛";
 
 const { getClinicPagesDataForFeature } = clinicPagePropsRepository();
 const { checkCountFeatureFunc } = relationClinicRepository();
@@ -61,10 +61,10 @@ const InstallmentsFeature: NextPage<Props> = ({
   return (
     <>
       <Head>
-        <title>分割払い可能なクリニック | 脱毛コンサルタント</title>
+        <title>分割払い可能な医療脱毛 | 脱毛コンサルタント</title>
         <meta
           name="description"
-          content="「渋谷・表参道・原宿」などの首都圏からおすすめする分割払い可能なクリニックです。カード、ローンが利用できます。"
+          content="「渋谷・表参道・原宿」などの首都圏からおすすめする分割払い可能な医療脱毛です。カード、ローンが利用できます。"
         />
       </Head>
       <ClinicListTemplate

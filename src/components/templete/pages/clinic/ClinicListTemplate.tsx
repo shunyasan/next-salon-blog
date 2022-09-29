@@ -92,7 +92,6 @@ const ClinicListTemplate: FC<Props> = ({
             />
           ))}
       </Flex>
-      {/* <Adsense /> */}
       <Pagenation
         max={maxData}
         take={numOfTakeData}
@@ -109,15 +108,7 @@ const ClinicListTemplate: FC<Props> = ({
           alignItems={"flex-start"}
           justifyContent={"space-evenly"}
         >
-          <Stack
-            w={{ md: "55rem", sm: "100%" }}
-            // maxW={{
-            //   md: "80%",
-            //   // "60rem",
-            //   sm: "100%",
-            // }}
-            spacing={"3rem"}
-          >
+          <Stack w={{ md: "55rem", sm: "100%" }} spacing={"3rem"}>
             {clinics.map((data, int) => (
               <PlanCard clinic={data} key={int} genderParam={gender} />
             ))}
@@ -142,7 +133,6 @@ const ClinicListTemplate: FC<Props> = ({
           </Box>
         </HStack>
       </Pagenation>
-      {/* <Adsense /> */}
     </Box>
   );
 };

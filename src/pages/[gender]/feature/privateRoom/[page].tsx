@@ -19,7 +19,7 @@ type Props = ClinicPageProps & {
 
 const numOfTake = 10;
 const feature = Feature.privateRoom;
-const title = "完全個室のクリニック";
+const title = "完全個室の医療脱毛";
 
 const { getClinicPagesDataForFeature } = clinicPagePropsRepository();
 const { checkCountFeatureFunc } = relationClinicRepository();
@@ -66,10 +66,10 @@ const PrivateRoomFeature: NextPage<Props> = ({
   return (
     <>
       <Head>
-        <title>完全個室のあるクリニック | 脱毛コンサルタント</title>
+        <title>完全個室のある医療脱毛 | 脱毛コンサルタント</title>
         <meta
           name="description"
-          content="「渋谷・表参道・原宿」などの首都圏からおすすめする完全個室のあるクリニックです。VIOなどで気にされる方におすすめです。"
+          content="「渋谷・表参道・原宿」などの首都圏からおすすめする完全個室のある医療脱毛です。VIOなどで気にされる方におすすめです。"
         />
       </Head>
       <ClinicListTemplate

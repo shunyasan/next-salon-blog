@@ -65,14 +65,14 @@ const ClinicsShibuya: NextPage<Props> = ({
   return (
     <>
       <Head>
-        <title>渋谷区の医療脱毛クリニック一覧 | 脱毛コンサルタント</title>
+        <title>渋谷区の一覧 | 脱毛コンサルタント</title>
         <meta
           name="description"
-          content="「渋谷・表参道・原宿」などの首都圏にあるクリニック一覧です"
+          content="「渋谷・表参道・原宿」などの首都圏にある医療脱毛クリニック一覧です"
         />
       </Head>
       <ClinicListTemplate
-        title="渋谷区の医療脱毛クリニック一覧"
+        title="渋谷区の一覧"
         areaId={areaId}
         maxData={numOfClinicMax}
         area={area?.data || []}
